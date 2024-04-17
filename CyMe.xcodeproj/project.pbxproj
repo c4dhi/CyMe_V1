@@ -1,0 +1,1041 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4C1354512BCFC6060078A84B /* CyMeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354502BCFC6060078A84B /* CyMeApp.swift */; };
+		4C1354532BCFC6060078A84B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354522BCFC6060078A84B /* ContentView.swift */; };
+		4C1354552BCFC6060078A84B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C1354542BCFC6060078A84B /* Assets.xcassets */; };
+		4C1354582BCFC6060078A84B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C1354572BCFC6060078A84B /* Preview Assets.xcassets */; };
+		4C1354622BCFC6070078A84B /* CyMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354612BCFC6070078A84B /* CyMeTests.swift */; };
+		4C13546C2BCFC6070078A84B /* CyMeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C13546B2BCFC6070078A84B /* CyMeUITests.swift */; };
+		4C13546E2BCFC6070078A84B /* CyMeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C13546D2BCFC6070078A84B /* CyMeUITestsLaunchTests.swift */; };
+		4C1354AF2BCFC6A40078A84B /* CyMe_WatchOsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354AE2BCFC6A40078A84B /* CyMe_WatchOsApp.swift */; };
+		4C1354B12BCFC6A40078A84B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354B02BCFC6A40078A84B /* ContentView.swift */; };
+		4C1354B32BCFC6A50078A84B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C1354B22BCFC6A50078A84B /* Assets.xcassets */; };
+		4C1354B62BCFC6A50078A84B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C1354B52BCFC6A50078A84B /* Preview Assets.xcassets */; };
+		4C1354C02BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354BF2BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppTests.swift */; };
+		4C1354CA2BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354C92BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITests.swift */; };
+		4C1354CC2BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354CB2BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITestsLaunchTests.swift */; };
+		4C1354DE2BCFC7E10078A84B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354DD2BCFC7E10078A84B /* HomeViewModel.swift */; };
+		4C1354E32BCFCE320078A84B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354E22BCFCE320078A84B /* HomeView.swift */; };
+		4C1354E52BCFCE440078A84B /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354E42BCFCE440078A84B /* DiscoverView.swift */; };
+		4C1354E72BCFCE550078A84B /* KnowledgeBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354E62BCFCE550078A84B /* KnowledgeBaseView.swift */; };
+		4C1354E92BCFCEC60078A84B /* VisualisationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354E82BCFCEC60078A84B /* VisualisationView.swift */; };
+		4C1354EB2BCFD4300078A84B /* HealthDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354EA2BCFD4300078A84B /* HealthDataModel.swift */; };
+		4C1354EE2BCFD52A0078A84B /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */; };
+		4C1354F12BCFD6560078A84B /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4C13545E2BCFC6070078A84B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1354452BCFC6060078A84B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C13544C2BCFC6060078A84B;
+			remoteInfo = CyMe;
+		};
+		4C1354682BCFC6070078A84B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1354452BCFC6060078A84B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C13544C2BCFC6060078A84B;
+			remoteInfo = CyMe;
+		};
+		4C1354BC2BCFC6A50078A84B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1354452BCFC6060078A84B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C1354AB2BCFC6A40078A84B;
+			remoteInfo = "CyMe_WatchOs Watch App";
+		};
+		4C1354C62BCFC6A50078A84B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1354452BCFC6060078A84B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C1354AB2BCFC6A40078A84B;
+			remoteInfo = "CyMe_WatchOs Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4C13544D2BCFC6060078A84B /* CyMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CyMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C1354502BCFC6060078A84B /* CyMeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyMeApp.swift; sourceTree = "<group>"; };
+		4C1354522BCFC6060078A84B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		4C1354542BCFC6060078A84B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4C1354572BCFC6060078A84B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		4C13545D2BCFC6070078A84B /* CyMeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CyMeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C1354612BCFC6070078A84B /* CyMeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyMeTests.swift; sourceTree = "<group>"; };
+		4C1354672BCFC6070078A84B /* CyMeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CyMeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C13546B2BCFC6070078A84B /* CyMeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyMeUITests.swift; sourceTree = "<group>"; };
+		4C13546D2BCFC6070078A84B /* CyMeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyMeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4C1354AC2BCFC6A40078A84B /* CyMe_WatchOs Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CyMe_WatchOs Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C1354AE2BCFC6A40078A84B /* CyMe_WatchOsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyMe_WatchOsApp.swift; sourceTree = "<group>"; };
+		4C1354B02BCFC6A40078A84B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		4C1354B22BCFC6A50078A84B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4C1354B52BCFC6A50078A84B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		4C1354BB2BCFC6A50078A84B /* CyMe_WatchOs Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CyMe_WatchOs Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C1354BF2BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyMe_WatchOs_Watch_AppTests.swift; sourceTree = "<group>"; };
+		4C1354C52BCFC6A50078A84B /* CyMe_WatchOs Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CyMe_WatchOs Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C1354C92BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyMe_WatchOs_Watch_AppUITests.swift; sourceTree = "<group>"; };
+		4C1354CB2BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyMe_WatchOs_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4C1354DD2BCFC7E10078A84B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		4C1354E22BCFCE320078A84B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		4C1354E42BCFCE440078A84B /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
+		4C1354E62BCFCE550078A84B /* KnowledgeBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnowledgeBaseView.swift; sourceTree = "<group>"; };
+		4C1354E82BCFCEC60078A84B /* VisualisationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualisationView.swift; sourceTree = "<group>"; };
+		4C1354EA2BCFD4300078A84B /* HealthDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataModel.swift; sourceTree = "<group>"; };
+		4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
+		4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4C13544A2BCFC6060078A84B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C13545A2BCFC6070078A84B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C1354642BCFC6070078A84B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C1354A92BCFC6A40078A84B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C1354B82BCFC6A50078A84B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C1354C22BCFC6A50078A84B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4C1354442BCFC6060078A84B = {
+			isa = PBXGroup;
+			children = (
+				4C13544F2BCFC6060078A84B /* CyMe */,
+				4C1354602BCFC6070078A84B /* CyMeTests */,
+				4C13546A2BCFC6070078A84B /* CyMeUITests */,
+				4C1354AD2BCFC6A40078A84B /* CyMe_WatchOs Watch App */,
+				4C1354BE2BCFC6A50078A84B /* CyMe_WatchOs Watch AppTests */,
+				4C1354C82BCFC6A50078A84B /* CyMe_WatchOs Watch AppUITests */,
+				4C13544E2BCFC6060078A84B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4C13544E2BCFC6060078A84B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4C13544D2BCFC6060078A84B /* CyMe.app */,
+				4C13545D2BCFC6070078A84B /* CyMeTests.xctest */,
+				4C1354672BCFC6070078A84B /* CyMeUITests.xctest */,
+				4C1354AC2BCFC6A40078A84B /* CyMe_WatchOs Watch App.app */,
+				4C1354BB2BCFC6A50078A84B /* CyMe_WatchOs Watch AppTests.xctest */,
+				4C1354C52BCFC6A50078A84B /* CyMe_WatchOs Watch AppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4C13544F2BCFC6060078A84B /* CyMe */ = {
+			isa = PBXGroup;
+			children = (
+				4C1354D72BCFC7600078A84B /* Views */,
+				4C1354F22BCFD6730078A84B /* ViewModels */,
+				4C1354D62BCFC73E0078A84B /* Models */,
+				4C1354EC2BCFD4F40078A84B /* Services */,
+				4C1354502BCFC6060078A84B /* CyMeApp.swift */,
+				4C1354522BCFC6060078A84B /* ContentView.swift */,
+				4C1354542BCFC6060078A84B /* Assets.xcassets */,
+				4C1354562BCFC6060078A84B /* Preview Content */,
+			);
+			path = CyMe;
+			sourceTree = "<group>";
+		};
+		4C1354562BCFC6060078A84B /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				4C1354572BCFC6060078A84B /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		4C1354602BCFC6070078A84B /* CyMeTests */ = {
+			isa = PBXGroup;
+			children = (
+				4C1354612BCFC6070078A84B /* CyMeTests.swift */,
+			);
+			path = CyMeTests;
+			sourceTree = "<group>";
+		};
+		4C13546A2BCFC6070078A84B /* CyMeUITests */ = {
+			isa = PBXGroup;
+			children = (
+				4C13546B2BCFC6070078A84B /* CyMeUITests.swift */,
+				4C13546D2BCFC6070078A84B /* CyMeUITestsLaunchTests.swift */,
+			);
+			path = CyMeUITests;
+			sourceTree = "<group>";
+		};
+		4C1354AD2BCFC6A40078A84B /* CyMe_WatchOs Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				4C1354AE2BCFC6A40078A84B /* CyMe_WatchOsApp.swift */,
+				4C1354B02BCFC6A40078A84B /* ContentView.swift */,
+				4C1354B22BCFC6A50078A84B /* Assets.xcassets */,
+				4C1354B42BCFC6A50078A84B /* Preview Content */,
+			);
+			path = "CyMe_WatchOs Watch App";
+			sourceTree = "<group>";
+		};
+		4C1354B42BCFC6A50078A84B /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				4C1354B52BCFC6A50078A84B /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		4C1354BE2BCFC6A50078A84B /* CyMe_WatchOs Watch AppTests */ = {
+			isa = PBXGroup;
+			children = (
+				4C1354BF2BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppTests.swift */,
+			);
+			path = "CyMe_WatchOs Watch AppTests";
+			sourceTree = "<group>";
+		};
+		4C1354C82BCFC6A50078A84B /* CyMe_WatchOs Watch AppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				4C1354C92BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITests.swift */,
+				4C1354CB2BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITestsLaunchTests.swift */,
+			);
+			path = "CyMe_WatchOs Watch AppUITests";
+			sourceTree = "<group>";
+		};
+		4C1354D62BCFC73E0078A84B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4C1354DD2BCFC7E10078A84B /* HomeViewModel.swift */,
+				4C1354EA2BCFD4300078A84B /* HealthDataModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		4C1354D72BCFC7600078A84B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4C1354E22BCFCE320078A84B /* HomeView.swift */,
+				4C1354E42BCFCE440078A84B /* DiscoverView.swift */,
+				4C1354E82BCFCEC60078A84B /* VisualisationView.swift */,
+				4C1354E62BCFCE550078A84B /* KnowledgeBaseView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4C1354EC2BCFD4F40078A84B /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		4C1354F22BCFD6730078A84B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4C13544C2BCFC6060078A84B /* CyMe */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C1354712BCFC6070078A84B /* Build configuration list for PBXNativeTarget "CyMe" */;
+			buildPhases = (
+				4C1354492BCFC6060078A84B /* Sources */,
+				4C13544A2BCFC6060078A84B /* Frameworks */,
+				4C13544B2BCFC6060078A84B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CyMe;
+			productName = CyMe;
+			productReference = 4C13544D2BCFC6060078A84B /* CyMe.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4C13545C2BCFC6070078A84B /* CyMeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C1354742BCFC6070078A84B /* Build configuration list for PBXNativeTarget "CyMeTests" */;
+			buildPhases = (
+				4C1354592BCFC6070078A84B /* Sources */,
+				4C13545A2BCFC6070078A84B /* Frameworks */,
+				4C13545B2BCFC6070078A84B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4C13545F2BCFC6070078A84B /* PBXTargetDependency */,
+			);
+			name = CyMeTests;
+			productName = CyMeTests;
+			productReference = 4C13545D2BCFC6070078A84B /* CyMeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		4C1354662BCFC6070078A84B /* CyMeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C1354772BCFC6070078A84B /* Build configuration list for PBXNativeTarget "CyMeUITests" */;
+			buildPhases = (
+				4C1354632BCFC6070078A84B /* Sources */,
+				4C1354642BCFC6070078A84B /* Frameworks */,
+				4C1354652BCFC6070078A84B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4C1354692BCFC6070078A84B /* PBXTargetDependency */,
+			);
+			name = CyMeUITests;
+			productName = CyMeUITests;
+			productReference = 4C1354672BCFC6070078A84B /* CyMeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		4C1354AB2BCFC6A40078A84B /* CyMe_WatchOs Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C1354CD2BCFC6A50078A84B /* Build configuration list for PBXNativeTarget "CyMe_WatchOs Watch App" */;
+			buildPhases = (
+				4C1354A82BCFC6A40078A84B /* Sources */,
+				4C1354A92BCFC6A40078A84B /* Frameworks */,
+				4C1354AA2BCFC6A40078A84B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CyMe_WatchOs Watch App";
+			productName = "CyMe_WatchOs Watch App";
+			productReference = 4C1354AC2BCFC6A40078A84B /* CyMe_WatchOs Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4C1354BA2BCFC6A50078A84B /* CyMe_WatchOs Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C1354D02BCFC6A50078A84B /* Build configuration list for PBXNativeTarget "CyMe_WatchOs Watch AppTests" */;
+			buildPhases = (
+				4C1354B72BCFC6A50078A84B /* Sources */,
+				4C1354B82BCFC6A50078A84B /* Frameworks */,
+				4C1354B92BCFC6A50078A84B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4C1354BD2BCFC6A50078A84B /* PBXTargetDependency */,
+			);
+			name = "CyMe_WatchOs Watch AppTests";
+			productName = "CyMe_WatchOs Watch AppTests";
+			productReference = 4C1354BB2BCFC6A50078A84B /* CyMe_WatchOs Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		4C1354C42BCFC6A50078A84B /* CyMe_WatchOs Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C1354D32BCFC6A50078A84B /* Build configuration list for PBXNativeTarget "CyMe_WatchOs Watch AppUITests" */;
+			buildPhases = (
+				4C1354C12BCFC6A50078A84B /* Sources */,
+				4C1354C22BCFC6A50078A84B /* Frameworks */,
+				4C1354C32BCFC6A50078A84B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4C1354C72BCFC6A50078A84B /* PBXTargetDependency */,
+			);
+			name = "CyMe_WatchOs Watch AppUITests";
+			productName = "CyMe_WatchOs Watch AppUITests";
+			productReference = 4C1354C52BCFC6A50078A84B /* CyMe_WatchOs Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4C1354452BCFC6060078A84B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					4C13544C2BCFC6060078A84B = {
+						CreatedOnToolsVersion = 14.2;
+					};
+					4C13545C2BCFC6070078A84B = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 4C13544C2BCFC6060078A84B;
+					};
+					4C1354662BCFC6070078A84B = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 4C13544C2BCFC6060078A84B;
+					};
+					4C1354AB2BCFC6A40078A84B = {
+						CreatedOnToolsVersion = 14.2;
+					};
+					4C1354BA2BCFC6A50078A84B = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 4C1354AB2BCFC6A40078A84B;
+					};
+					4C1354C42BCFC6A50078A84B = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 4C1354AB2BCFC6A40078A84B;
+					};
+				};
+			};
+			buildConfigurationList = 4C1354482BCFC6060078A84B /* Build configuration list for PBXProject "CyMe" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4C1354442BCFC6060078A84B;
+			productRefGroup = 4C13544E2BCFC6060078A84B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4C13544C2BCFC6060078A84B /* CyMe */,
+				4C13545C2BCFC6070078A84B /* CyMeTests */,
+				4C1354662BCFC6070078A84B /* CyMeUITests */,
+				4C1354AB2BCFC6A40078A84B /* CyMe_WatchOs Watch App */,
+				4C1354BA2BCFC6A50078A84B /* CyMe_WatchOs Watch AppTests */,
+				4C1354C42BCFC6A50078A84B /* CyMe_WatchOs Watch AppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4C13544B2BCFC6060078A84B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C1354582BCFC6060078A84B /* Preview Assets.xcassets in Resources */,
+				4C1354552BCFC6060078A84B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C13545B2BCFC6070078A84B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C1354652BCFC6070078A84B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C1354AA2BCFC6A40078A84B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C1354B62BCFC6A50078A84B /* Preview Assets.xcassets in Resources */,
+				4C1354B32BCFC6A50078A84B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C1354B92BCFC6A50078A84B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C1354C32BCFC6A50078A84B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4C1354492BCFC6060078A84B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C1354E72BCFCE550078A84B /* KnowledgeBaseView.swift in Sources */,
+				4C1354532BCFC6060078A84B /* ContentView.swift in Sources */,
+				4C1354512BCFC6060078A84B /* CyMeApp.swift in Sources */,
+				4C1354EB2BCFD4300078A84B /* HealthDataModel.swift in Sources */,
+				4C1354DE2BCFC7E10078A84B /* HomeViewModel.swift in Sources */,
+				4C1354E32BCFCE320078A84B /* HomeView.swift in Sources */,
+				4C1354E52BCFCE440078A84B /* DiscoverView.swift in Sources */,
+				4C1354EE2BCFD52A0078A84B /* HealthKitService.swift in Sources */,
+				4C1354F12BCFD6560078A84B /* DiscoverViewModel.swift in Sources */,
+				4C1354E92BCFCEC60078A84B /* VisualisationView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C1354592BCFC6070078A84B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C1354622BCFC6070078A84B /* CyMeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C1354632BCFC6070078A84B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C13546E2BCFC6070078A84B /* CyMeUITestsLaunchTests.swift in Sources */,
+				4C13546C2BCFC6070078A84B /* CyMeUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C1354A82BCFC6A40078A84B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C1354B12BCFC6A40078A84B /* ContentView.swift in Sources */,
+				4C1354AF2BCFC6A40078A84B /* CyMe_WatchOsApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C1354B72BCFC6A50078A84B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C1354C02BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C1354C12BCFC6A50078A84B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C1354CC2BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITestsLaunchTests.swift in Sources */,
+				4C1354CA2BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4C13545F2BCFC6070078A84B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C13544C2BCFC6060078A84B /* CyMe */;
+			targetProxy = 4C13545E2BCFC6070078A84B /* PBXContainerItemProxy */;
+		};
+		4C1354692BCFC6070078A84B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C13544C2BCFC6060078A84B /* CyMe */;
+			targetProxy = 4C1354682BCFC6070078A84B /* PBXContainerItemProxy */;
+		};
+		4C1354BD2BCFC6A50078A84B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C1354AB2BCFC6A40078A84B /* CyMe_WatchOs Watch App */;
+			targetProxy = 4C1354BC2BCFC6A50078A84B /* PBXContainerItemProxy */;
+		};
+		4C1354C72BCFC6A50078A84B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C1354AB2BCFC6A40078A84B /* CyMe_WatchOs Watch App */;
+			targetProxy = 4C1354C62BCFC6A50078A84B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		4C13546F2BCFC6070078A84B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		4C1354702BCFC6070078A84B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4C1354722BCFC6070078A84B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CyMe/Preview Content\"";
+				DEVELOPMENT_TEAM = TRH8K396GJ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = MP.CyMe;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4C1354732BCFC6070078A84B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CyMe/Preview Content\"";
+				DEVELOPMENT_TEAM = TRH8K396GJ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = MP.CyMe;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4C1354752BCFC6070078A84B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TRH8K396GJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = MP.CyMeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CyMe.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CyMe";
+			};
+			name = Debug;
+		};
+		4C1354762BCFC6070078A84B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TRH8K396GJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = MP.CyMeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CyMe.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CyMe";
+			};
+			name = Release;
+		};
+		4C1354782BCFC6070078A84B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TRH8K396GJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = MP.CyMeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CyMe;
+			};
+			name = Debug;
+		};
+		4C1354792BCFC6070078A84B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TRH8K396GJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = MP.CyMeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CyMe;
+			};
+			name = Release;
+		};
+		4C1354CE2BCFC6A50078A84B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CyMe_WatchOs Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = TRH8K396GJ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = CyMe_WatchOs;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = .watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Debug;
+		};
+		4C1354CF2BCFC6A50078A84B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CyMe_WatchOs Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = TRH8K396GJ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = CyMe_WatchOs;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = .watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Release;
+		};
+		4C1354D12BCFC6A50078A84B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TRH8K396GJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "MP.CyMe-WatchOs-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CyMe_WatchOs Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CyMe_WatchOs Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Debug;
+		};
+		4C1354D22BCFC6A50078A84B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TRH8K396GJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "MP.CyMe-WatchOs-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CyMe_WatchOs Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CyMe_WatchOs Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Release;
+		};
+		4C1354D42BCFC6A50078A84B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TRH8K396GJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "MP.CyMe-WatchOs-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "CyMe_WatchOs Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Debug;
+		};
+		4C1354D52BCFC6A50078A84B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TRH8K396GJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "MP.CyMe-WatchOs-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "CyMe_WatchOs Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4C1354482BCFC6060078A84B /* Build configuration list for PBXProject "CyMe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C13546F2BCFC6070078A84B /* Debug */,
+				4C1354702BCFC6070078A84B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C1354712BCFC6070078A84B /* Build configuration list for PBXNativeTarget "CyMe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C1354722BCFC6070078A84B /* Debug */,
+				4C1354732BCFC6070078A84B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C1354742BCFC6070078A84B /* Build configuration list for PBXNativeTarget "CyMeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C1354752BCFC6070078A84B /* Debug */,
+				4C1354762BCFC6070078A84B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C1354772BCFC6070078A84B /* Build configuration list for PBXNativeTarget "CyMeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C1354782BCFC6070078A84B /* Debug */,
+				4C1354792BCFC6070078A84B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C1354CD2BCFC6A50078A84B /* Build configuration list for PBXNativeTarget "CyMe_WatchOs Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C1354CE2BCFC6A50078A84B /* Debug */,
+				4C1354CF2BCFC6A50078A84B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C1354D02BCFC6A50078A84B /* Build configuration list for PBXNativeTarget "CyMe_WatchOs Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C1354D12BCFC6A50078A84B /* Debug */,
+				4C1354D22BCFC6A50078A84B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C1354D32BCFC6A50078A84B /* Build configuration list for PBXNativeTarget "CyMe_WatchOs Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C1354D42BCFC6A50078A84B /* Debug */,
+				4C1354D52BCFC6A50078A84B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4C1354452BCFC6060078A84B /* Project object */;
+}
