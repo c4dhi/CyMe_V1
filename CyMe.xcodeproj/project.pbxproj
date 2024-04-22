@@ -29,6 +29,7 @@
 		4C1354EB2BCFD4300078A84B /* HealthDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354EA2BCFD4300078A84B /* HealthDataModel.swift */; };
 		4C1354EE2BCFD52A0078A84B /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */; };
 		4C1354F12BCFD6560078A84B /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */; };
+		50DC147E2BD1207200A280CE /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 50DC147D2BD1207200A280CE /* SigmaSwiftStatistics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50DC147E2BD1207200A280CE /* SigmaSwiftStatistics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,6 +295,9 @@
 			dependencies = (
 			);
 			name = CyMe;
+			packageProductDependencies = (
+				50DC147D2BD1207200A280CE /* SigmaSwiftStatistics */,
+			);
 			productName = CyMe;
 			productReference = 4C13544D2BCFC6060078A84B /* CyMe.app */;
 			productType = "com.apple.product-type.application";
@@ -429,6 +434,9 @@
 				Base,
 			);
 			mainGroup = 4C1354442BCFC6060078A84B;
+			packageReferences = (
+				50DC147C2BD11F8100A280CE /* XCRemoteSwiftPackageReference "SigmaSwiftStatistics" */,
+			);
 			productRefGroup = 4C13544E2BCFC6060078A84B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1036,6 +1044,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		50DC147C2BD11F8100A280CE /* XCRemoteSwiftPackageReference "SigmaSwiftStatistics" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/evgenyneu/SigmaSwiftStatistics.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		50DC147D2BD1207200A280CE /* SigmaSwiftStatistics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 50DC147C2BD11F8100A280CE /* XCRemoteSwiftPackageReference "SigmaSwiftStatistics" */;
+			productName = SigmaSwiftStatistics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4C1354452BCFC6060078A84B /* Project object */;
 }

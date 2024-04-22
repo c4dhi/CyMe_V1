@@ -1,0 +1,15 @@
+{
+  "originHash" : "7afa6f53143e0845309e9fc4410a2b90497403c5843177e16a8fca2ca9c04fa6",
+  "pins" : [
+    {
+      "identity" : "sigmaswiftstatistics",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/evgenyneu/SigmaSwiftStatistics.git",
+      "state" : {
+        "revision" : "d36db09f97a1739edc8c63897220c7ecbb5de684",
+        "version" : "9.0.2"
+      }
+    }
+  ],
+  "version" : 3
+}

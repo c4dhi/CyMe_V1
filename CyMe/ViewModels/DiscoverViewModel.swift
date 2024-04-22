@@ -6,6 +6,7 @@
 //  TODO add here all you need to prepare for the view
 
 import Combine
+import SigmaSwiftStatistics
 
 class DiscoverViewModel: ObservableObject {
     private let healthKitService = HealthKitService()

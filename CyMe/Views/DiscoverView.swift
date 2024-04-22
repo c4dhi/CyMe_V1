@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import SigmaSwiftStatistics
+
+let x = Sigma.average([1, 3, 8])
+// Result: 4
 
 struct DiscoverView: View {
     @ObservedObject var viewModel: DiscoverViewModel
     
     var body: some View {
-        Text("This is the descover page")
+        Text("This is the descover page \(x)")
     }
 }
 
