@@ -1,5 +1,4 @@
 {
-  "originHash" : "7afa6f53143e0845309e9fc4410a2b90497403c5843177e16a8fca2ca9c04fa6",
   "pins" : [
     {
       "identity" : "sigmaswiftstatistics",
@@ -11,5 +10,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }

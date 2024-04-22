@@ -8,14 +8,15 @@
 import SwiftUI
 import SigmaSwiftStatistics
 
-let x = Sigma.average([1, 3, 8])
-// Result: 4
-
 struct DiscoverView: View {
     @ObservedObject var viewModel: DiscoverViewModel
     
     var body: some View {
-        Text("This is the descover page \(x)")
+        let x = Sigma.average([1, 3, 8])
+        // Convert Double to String
+        let averageString = String(format: "%.2f", x!)
+        // Result: 4.00 (formatted to two decimal places)
+        Text("This is the discover page \(averageString)")
     }
 }
 
