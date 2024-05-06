@@ -8,13 +8,22 @@
 import SwiftUI
 
 struct VisualisationView: View {
+    @ObservedObject var watchConnector = WatchConnector()
+    
     var body: some View {
-        Text("This is the visualisation screen")
+        VStack {
+            Text("This is the visualisation screen")
+            Text("HasPeriod: \(String(watchConnector.hasPeriod))")
+            Text("HasHeadache: \(String(watchConnector.hasHeadache))")
+            
+        }
     }
 }
+
 
 struct VisualisationView_Previews: PreviewProvider {
     static var previews: some View {
         VisualisationView()
     }
 }
+

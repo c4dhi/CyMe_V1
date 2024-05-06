@@ -1,0 +1,50 @@
+//
+//  InterfaceController.swift
+//  CyMe_WatchOs Watch App
+//
+//  Created by Marinja Principe on 06.05.24.
+//
+
+import WatchConnectivity
+
+class iOSConnector: NSObject, WCSessionDelegate, ObservableObject{
+    
+    var session: WCSession
+    
+    
+    init(session: WCSession = .default) {
+        self.session = session
+        super.init()
+        session.delegate = self
+        session.activate()
+    }
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        
+    }
+    
+    func sendSelfReportDataToiOS(selfReport: SelfReportModel) {
+        guard session.isReachable else {
+            print("iOS app is not reachable.")
+            return
+        }
+        
+        do {
+            print("in send loop")
+            // Encode selfReport to JSON data
+            let jsonData = try JSONEncoder().encode(selfReport)
+            
+            
+            // Send data to iOS app
+            session.sendMessage(["selfReportData": jsonData], replyHandler: nil, errorHandler: { error in
+                print("Error sending self-report data: \(error.localizedDescription)")
+            })
+            print("sending successfull")
+        } catch {
+            print("Error encoding self-report data: \(error.localizedDescription)")
+        }
+    }
+
+}
+
+

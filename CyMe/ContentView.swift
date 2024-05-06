@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var connector = WatchConnector()
     var body: some View {
         TabView {
             HomeView()
