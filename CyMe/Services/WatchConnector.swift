@@ -10,6 +10,7 @@ import WatchConnectivity
 class WatchConnector: NSObject, WCSessionDelegate, ObservableObject{
     @Published var hasHeadache: Bool = false
     @Published var hasPeriod: Bool = false
+
     var session: WCSession
     
     
@@ -19,7 +20,6 @@ class WatchConnector: NSObject, WCSessionDelegate, ObservableObject{
         session.delegate = self
         session.activate()
     }
-
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print(activationState)

@@ -795,7 +795,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = MP.CyMe;
+				PRODUCT_BUNDLE_IDENTIFIER = uzh.MP.CyMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -824,7 +824,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = MP.CyMe;
+				PRODUCT_BUNDLE_IDENTIFIER = uzh.MP.CyMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -921,14 +921,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = CyMe_WatchOs;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
-				"INFOPLIST_KEY_WKCompanionAppBundleIdentifier[sdk=*]" = MP.CyMe;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = uzh.MP.CyMe;
+				"INFOPLIST_KEY_WKCompanionAppBundleIdentifier[sdk=*]" = uzh.MP.CyMe;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = MP.CyMe.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = uzh.MP.CyMe.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -952,14 +952,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = CyMe_WatchOs;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
-				"INFOPLIST_KEY_WKCompanionAppBundleIdentifier[sdk=*]" = MP.CyMe;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = uzh.MP.CyMe;
+				"INFOPLIST_KEY_WKCompanionAppBundleIdentifier[sdk=*]" = uzh.MP.CyMe;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = MP.CyMe.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = uzh.MP.CyMe.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
