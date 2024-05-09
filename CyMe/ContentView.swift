@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var connector = WatchConnector()
+    @State private var isSettingsPresented = false
     var body: some View {
         TabView {
             HomeView()
@@ -45,8 +46,33 @@ struct ContentView: View {
                         .frame(width: 60, height: 60)
                         .foregroundColor(.blue)
                 }
-                .padding(.bottom, 40) // Adjust bottom padding as needed
+                .padding(.bottom, 40)
             }
+        )
+        .overlay(
+            // Settings Button overlay
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        // Action for the settings button
+                        isSettingsPresented = true
+                    }) {
+                        Image(systemName: "gearshape.fill")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.blue)
+                    }
+                    .padding(.bottom, 1500) // TODO make better
+                    .padding(.trailing, 20)
+                    .sheet(isPresented: $isSettingsPresented) {
+                        // Present settings view here
+                        SettingsView(isPresented: $isSettingsPresented)
+                    }
+                }
+            }
+            , alignment: .topTrailing
         )
     }
 }

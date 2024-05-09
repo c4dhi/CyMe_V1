@@ -51,5 +51,25 @@ class WatchConnector: NSObject, WCSessionDelegate, ObservableObject{
                 }
             }
     }
+    
+    func sendReportOptionsToWatch(reportOptions: ReportOptionsModel) {
+            guard session.isReachable else {
+                print("Watch app is not reachable.")
+                return
+            }
+            
+            do {
+                // Encode report options to JSON data
+                let jsonData = try JSONEncoder().encode(reportOptions)
+                
+                // Send data to Watch app
+                session.sendMessage(["reportOptions": jsonData], replyHandler: nil, errorHandler: { error in
+                    print("Error sending report options data: \(error.localizedDescription)")
+                })
+                print("sending successfull")
+            } catch {
+                print("Error encoding report options data: \(error.localizedDescription)")
+            }
+        }
 }
 
