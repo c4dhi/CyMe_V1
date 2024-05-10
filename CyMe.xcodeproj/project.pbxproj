@@ -30,6 +30,16 @@
 		4C1354EE2BCFD52A0078A84B /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */; };
 		4C1354F12BCFD6560078A84B /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */; };
 		4CB6BBDF2BD6E5BF008A32CA /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB6BBDE2BD6E5BF008A32CA /* DatabaseService.swift */; };
+		4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */; };
+		4CDD2FC82BEB722F005995B5 /* ReportOptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */; };
+		4CDD2FCA2BEB747A005995B5 /* ReportOptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC92BEB747A005995B5 /* ReportOptionsModel.swift */; };
+		4CDD2FCD2BEB792B005995B5 /* SelfReportingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FCC2BEB792B005995B5 /* SelfReportingView.swift */; };
+		4CDD2FCF2BEB7CD9005995B5 /* UserReportingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FCE2BEB7CD9005995B5 /* UserReportingOptions.swift */; };
+		4CF015522BE9556000BE8DF0 /* SelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */; };
+		4CF015542BE955B300BE8DF0 /* WatchConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015532BE955B300BE8DF0 /* WatchConnector.swift */; };
+		4CF015572BE955E200BE8DF0 /* SelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015562BE955E200BE8DF0 /* SelfReportModel.swift */; };
+		4CF0155A2BE9560E00BE8DF0 /* iOSConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015592BE9560E00BE8DF0 /* iOSConnector.swift */; };
+		4CF0155C2BEB479000BE8DF0 /* CyMe_WatchOs Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4C1354AC2BCFC6A40078A84B /* CyMe_WatchOs Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		50DC147E2BD1207200A280CE /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 50DC147D2BD1207200A280CE /* SigmaSwiftStatistics */; };
 /* End PBXBuildFile section */
 
@@ -62,7 +72,28 @@
 			remoteGlobalIDString = 4C1354AB2BCFC6A40078A84B;
 			remoteInfo = "CyMe_WatchOs Watch App";
 		};
+		4CF0155D2BEB479000BE8DF0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1354452BCFC6060078A84B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C1354AB2BCFC6A40078A84B;
+			remoteInfo = "CyMe_WatchOs Watch App";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4CF0155F2BEB479000BE8DF0 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				4CF0155C2BEB479000BE8DF0 /* CyMe_WatchOs Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		4C13544D2BCFC6060078A84B /* CyMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CyMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,6 +125,15 @@
 		4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
 		4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
 		4CB6BBDE2BD6E5BF008A32CA /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
+		4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportOptionsModel.swift; sourceTree = "<group>"; };
+		4CDD2FC92BEB747A005995B5 /* ReportOptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportOptionsModel.swift; sourceTree = "<group>"; };
+		4CDD2FCC2BEB792B005995B5 /* SelfReportingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportingView.swift; sourceTree = "<group>"; };
+		4CDD2FCE2BEB7CD9005995B5 /* UserReportingOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReportingOptions.swift; sourceTree = "<group>"; };
+		4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportModel.swift; sourceTree = "<group>"; };
+		4CF015532BE955B300BE8DF0 /* WatchConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnector.swift; sourceTree = "<group>"; };
+		4CF015562BE955E200BE8DF0 /* SelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportModel.swift; sourceTree = "<group>"; };
+		4CF015592BE9560E00BE8DF0 /* iOSConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSConnector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +193,7 @@
 				4C1354BE2BCFC6A50078A84B /* CyMe_WatchOs Watch AppTests */,
 				4C1354C82BCFC6A50078A84B /* CyMe_WatchOs Watch AppUITests */,
 				4C13544E2BCFC6060078A84B /* Products */,
+				4CF0155B2BEB479000BE8DF0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -212,6 +253,9 @@
 		4C1354AD2BCFC6A40078A84B /* CyMe_WatchOs Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				4CDD2FCB2BEB786D005995B5 /* Views */,
+				4CF015582BE955FD00BE8DF0 /* Services */,
+				4CF015552BE955CD00BE8DF0 /* Models */,
 				4C1354AE2BCFC6A40078A84B /* CyMe_WatchOsApp.swift */,
 				4C1354B02BCFC6A40078A84B /* ContentView.swift */,
 				4C1354B22BCFC6A50078A84B /* Assets.xcassets */,
@@ -250,6 +294,8 @@
 			children = (
 				4C1354DD2BCFC7E10078A84B /* HomeViewModel.swift */,
 				4C1354EA2BCFD4300078A84B /* HealthDataModel.swift */,
+				4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */,
+				4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -261,6 +307,7 @@
 				4C1354E42BCFCE440078A84B /* DiscoverView.swift */,
 				4C1354E82BCFCEC60078A84B /* VisualisationView.swift */,
 				4C1354E62BCFCE550078A84B /* KnowledgeBaseView.swift */,
+				4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -270,6 +317,7 @@
 			children = (
 				4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */,
 				4CB6BBDE2BD6E5BF008A32CA /* DatabaseService.swift */,
+				4CF015532BE955B300BE8DF0 /* WatchConnector.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -282,6 +330,39 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		4CDD2FCB2BEB786D005995B5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4CDD2FCC2BEB792B005995B5 /* SelfReportingView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4CF015552BE955CD00BE8DF0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4CF015562BE955E200BE8DF0 /* SelfReportModel.swift */,
+				4CDD2FC92BEB747A005995B5 /* ReportOptionsModel.swift */,
+				4CDD2FCE2BEB7CD9005995B5 /* UserReportingOptions.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		4CF015582BE955FD00BE8DF0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				4CF015592BE9560E00BE8DF0 /* iOSConnector.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		4CF0155B2BEB479000BE8DF0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -292,10 +373,12 @@
 				4C1354492BCFC6060078A84B /* Sources */,
 				4C13544A2BCFC6060078A84B /* Frameworks */,
 				4C13544B2BCFC6060078A84B /* Resources */,
+				4CF0155F2BEB479000BE8DF0 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4CF0155E2BEB479000BE8DF0 /* PBXTargetDependency */,
 			);
 			name = CyMe;
 			packageProductDependencies = (
@@ -508,11 +591,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CDD2FC82BEB722F005995B5 /* ReportOptionsModel.swift in Sources */,
 				4C1354E72BCFCE550078A84B /* KnowledgeBaseView.swift in Sources */,
 				4C1354532BCFC6060078A84B /* ContentView.swift in Sources */,
 				4CB6BBDF2BD6E5BF008A32CA /* DatabaseService.swift in Sources */,
+				4CF015522BE9556000BE8DF0 /* SelfReportModel.swift in Sources */,
 				4C1354512BCFC6060078A84B /* CyMeApp.swift in Sources */,
 				4C1354EB2BCFD4300078A84B /* HealthDataModel.swift in Sources */,
+				4CF015542BE955B300BE8DF0 /* WatchConnector.swift in Sources */,
+				4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */,
 				4C1354DE2BCFC7E10078A84B /* HomeViewModel.swift in Sources */,
 				4C1354E32BCFCE320078A84B /* HomeView.swift in Sources */,
 				4C1354E52BCFCE440078A84B /* DiscoverView.swift in Sources */,
@@ -543,8 +630,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CDD2FCA2BEB747A005995B5 /* ReportOptionsModel.swift in Sources */,
+				4CDD2FCF2BEB7CD9005995B5 /* UserReportingOptions.swift in Sources */,
+				4CF015572BE955E200BE8DF0 /* SelfReportModel.swift in Sources */,
 				4C1354B12BCFC6A40078A84B /* ContentView.swift in Sources */,
+				4CDD2FCD2BEB792B005995B5 /* SelfReportingView.swift in Sources */,
 				4C1354AF2BCFC6A40078A84B /* CyMe_WatchOsApp.swift in Sources */,
+				4CF0155A2BE9560E00BE8DF0 /* iOSConnector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -587,6 +679,11 @@
 			isa = PBXTargetDependency;
 			target = 4C1354AB2BCFC6A40078A84B /* CyMe_WatchOs Watch App */;
 			targetProxy = 4C1354C62BCFC6A50078A84B /* PBXContainerItemProxy */;
+		};
+		4CF0155E2BEB479000BE8DF0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C1354AB2BCFC6A40078A84B /* CyMe_WatchOs Watch App */;
+			targetProxy = 4CF0155D2BEB479000BE8DF0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -713,7 +810,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CyMe/Preview Content\"";
-				DEVELOPMENT_TEAM = TRH8K396GJ;
+				DEVELOPMENT_TEAM = 24XM2HJTPL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -726,7 +823,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = MP.CyMe;
+				PRODUCT_BUNDLE_IDENTIFIER = uzh.MP.CyMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -742,7 +839,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CyMe/Preview Content\"";
-				DEVELOPMENT_TEAM = TRH8K396GJ;
+				DEVELOPMENT_TEAM = 24XM2HJTPL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -755,7 +852,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = MP.CyMe;
+				PRODUCT_BUNDLE_IDENTIFIER = uzh.MP.CyMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -852,13 +949,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = CyMe_WatchOs;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = uzh.MP.CyMe;
+				"INFOPLIST_KEY_WKCompanionAppBundleIdentifier[sdk=*]" = uzh.MP.CyMe;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = .watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = uzh.MP.CyMe.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -882,13 +980,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = CyMe_WatchOs;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = uzh.MP.CyMe;
+				"INFOPLIST_KEY_WKCompanionAppBundleIdentifier[sdk=*]" = uzh.MP.CyMe;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = .watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = uzh.MP.CyMe.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
