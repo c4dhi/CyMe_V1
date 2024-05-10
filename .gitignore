@@ -1,0 +1,61 @@
+# Xcode
+.build/
+DerivedData/
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+*.xcworkspace/*
+!*.xcworkspace/contents.xcworkspacedata
+!*.xcworkspace/xcshareddata/
+*.xcuserdata/
+
+# Swift Package Manager
+.swiftpm/
+Package.resolved
+/Pods/
+/Podfile.lock
+/Carthage/
+/Cartfile.resolved
+
+# App specific
+/your-app-name.xcuserdatad/
+/your-app-name.xcodeproj/xcuserdata/
+
+# macOS
+.DS_Store
+
+# Miscellaneous
+.idea/
+.vscode/
+
+# Build files
+*.o
+*.lo
+*.la
+*.lai
+*.so
+*.dll
+*.exe
+*.out
+*.app
+*.ipa
+*.dSYM.zip
+*.dSYM/
+.*.swp
+.*.swo
+*.xcuserstate
+
+# Code Injection
+iOSInjectionProject/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# CocoaPods
+# Pods/
+
+# Carthage
+Carthage/Build/
