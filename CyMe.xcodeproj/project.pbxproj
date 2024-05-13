@@ -35,6 +35,8 @@
 		4CDD2FCA2BEB747A005995B5 /* ReportOptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC92BEB747A005995B5 /* ReportOptionsModel.swift */; };
 		4CDD2FCD2BEB792B005995B5 /* SelfReportingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FCC2BEB792B005995B5 /* SelfReportingView.swift */; };
 		4CDD2FCF2BEB7CD9005995B5 /* UserReportingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FCE2BEB7CD9005995B5 /* UserReportingOptions.swift */; };
+		4CDD2FD22BECAAA5005995B5 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FD12BECAAA5005995B5 /* WelcomeView.swift */; };
+		4CDD2FD52BECB52E005995B5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FD42BECB52E005995B5 /* ProfileView.swift */; };
 		4CF015522BE9556000BE8DF0 /* SelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */; };
 		4CF015542BE955B300BE8DF0 /* WatchConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015532BE955B300BE8DF0 /* WatchConnector.swift */; };
 		4CF015572BE955E200BE8DF0 /* SelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015562BE955E200BE8DF0 /* SelfReportModel.swift */; };
@@ -130,6 +132,8 @@
 		4CDD2FC92BEB747A005995B5 /* ReportOptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportOptionsModel.swift; sourceTree = "<group>"; };
 		4CDD2FCC2BEB792B005995B5 /* SelfReportingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportingView.swift; sourceTree = "<group>"; };
 		4CDD2FCE2BEB7CD9005995B5 /* UserReportingOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReportingOptions.swift; sourceTree = "<group>"; };
+		4CDD2FD12BECAAA5005995B5 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		4CDD2FD42BECB52E005995B5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportModel.swift; sourceTree = "<group>"; };
 		4CF015532BE955B300BE8DF0 /* WatchConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnector.swift; sourceTree = "<group>"; };
 		4CF015562BE955E200BE8DF0 /* SelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportModel.swift; sourceTree = "<group>"; };
@@ -303,6 +307,8 @@
 		4C1354D72BCFC7600078A84B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4CDD2FD32BECAD72005995B5 /* Images */,
+				4CDD2FD02BECAA6F005995B5 /* Personalisation */,
 				4C1354E22BCFCE320078A84B /* HomeView.swift */,
 				4C1354E42BCFCE440078A84B /* DiscoverView.swift */,
 				4C1354E82BCFCEC60078A84B /* VisualisationView.swift */,
@@ -336,6 +342,22 @@
 				4CDD2FCC2BEB792B005995B5 /* SelfReportingView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		4CDD2FD02BECAA6F005995B5 /* Personalisation */ = {
+			isa = PBXGroup;
+			children = (
+				4CDD2FD12BECAAA5005995B5 /* WelcomeView.swift */,
+				4CDD2FD42BECB52E005995B5 /* ProfileView.swift */,
+			);
+			path = Personalisation;
+			sourceTree = "<group>";
+		};
+		4CDD2FD32BECAD72005995B5 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Images;
 			sourceTree = "<group>";
 		};
 		4CF015552BE955CD00BE8DF0 /* Models */ = {
@@ -594,11 +616,13 @@
 				4CDD2FC82BEB722F005995B5 /* ReportOptionsModel.swift in Sources */,
 				4C1354E72BCFCE550078A84B /* KnowledgeBaseView.swift in Sources */,
 				4C1354532BCFC6060078A84B /* ContentView.swift in Sources */,
+				4CDD2FD22BECAAA5005995B5 /* WelcomeView.swift in Sources */,
 				4CB6BBDF2BD6E5BF008A32CA /* DatabaseService.swift in Sources */,
 				4CF015522BE9556000BE8DF0 /* SelfReportModel.swift in Sources */,
 				4C1354512BCFC6060078A84B /* CyMeApp.swift in Sources */,
 				4C1354EB2BCFD4300078A84B /* HealthDataModel.swift in Sources */,
 				4CF015542BE955B300BE8DF0 /* WatchConnector.swift in Sources */,
+				4CDD2FD52BECB52E005995B5 /* ProfileView.swift in Sources */,
 				4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */,
 				4C1354DE2BCFC7E10078A84B /* HomeViewModel.swift in Sources */,
 				4C1354E32BCFCE320078A84B /* HomeView.swift in Sources */,
