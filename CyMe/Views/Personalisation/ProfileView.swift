@@ -7,75 +7,87 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct ProfileView: View {
+    var nextPage: () -> Void
     @State private var name = ""
     @State private var age = ""
-    @State private var lifePhase = ""
+    @State private var lifePhase = "Premenopause"
     @State private var isRegularCycle = false
-    @State private var fertilityGoal = ""
+    @State private var fertilityGoal = "Avoiding pregnancy"
     @State private var contraceptionOptions: [String] = []
     @State private var cycleLength = ""
 
     let lifePhaseOptions = ["Premenopause", "Menopause", "Postmenopause"]
-    let fertilityGoalOptions = ["Pregnancy", "Avoiding Pregnancy", "Exploring Options"]
+    let fertilityGoalOptions = ["Avoiding pregnancy", "Pregnancy",  "Exploring options"]
 
     var body: some View {
         Form {
-            Section(header: Text("Personal Information")) {
+            Section(header: Text("Personal information")) {
                 TextField("Name", text: $name)
                 TextField("Age", text: $age)
+            }
+            
+            Section(header: Text("Menstrual health")) {
                 Picker("Life Phase", selection: $lifePhase) {
                     ForEach(lifePhaseOptions, id: \.self) {
                         Text($0)
                     }
                 }
-            }
-
-            Section(header: Text("Menstrual Health")) {
-                Toggle("Regular Menstrual Cycle", isOn: $isRegularCycle)
+                Toggle("Regular menstrual cycle", isOn: $isRegularCycle)
                 if isRegularCycle {
                     TextField("Cycle Length", text: $cycleLength)
                 }
             }
-
-            Section(header: Text("Fertility and Contraception")) {
-                Picker("Fertility Goal", selection: $fertilityGoal) {
+            
+            Section(header: Text("Fertility and contraception")) {
+                Picker("Fertility goal", selection: $fertilityGoal) {
                     ForEach(fertilityGoalOptions, id: \.self) {
                         Text($0)
                     }
                 }
-
-                MultipleSelectionPicker(
-                    title: "Contraception",
-                    options: ["Pill", "Condom", "IUD", "Sterilization"],
-                    selectedOptions: $contraceptionOptions
-                )
-            }
-
-            Section {
-                Button(action: {
-                    // Action to start the journey
-                }) {
-                    Text("Continue")
-                        .font(.headline)
-                        .foregroundColor(.blue)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color("Primary"))
-                        .cornerRadius(10)
+                if fertilityGoal != "Pregnancy" {
+                    MultipleSelectionPicker(
+                        title: "Contraception",
+                        options: ["None", "Pill", "Condom", "IUD", "Sterilization"],
+                        selectedOptions: $contraceptionOptions
+                    )
                 }
-                .padding(.horizontal)
+
             }
+            
+            Button(action: {
+                if isInputValid() {
+                    nextPage()
+                } else {
+                    // Show an alert or message indicating that all fields are required
+                    // You can also highlight the fields that are missing
+                }
+            }) {
+                Text("Continue")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(isInputValid() ? Color.blue : Color.gray)
+                    .cornerRadius(10)
+            }
+            .disabled(!isInputValid())
+
+            
         }
         .navigationTitle("Profile")
     }
+    
+    func isInputValid() -> Bool {
+        // Check if all required fields are filled
+        return !name.isEmpty && !lifePhase.isEmpty && !fertilityGoal.isEmpty && ( fertilityGoal == "Pregnancy" || !$contraceptionOptions.isEmpty )
+    }
+
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        ProfileView(nextPage: {})
     }
 }
 

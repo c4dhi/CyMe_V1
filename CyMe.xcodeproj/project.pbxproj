@@ -37,6 +37,10 @@
 		4CDD2FCF2BEB7CD9005995B5 /* UserReportingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FCE2BEB7CD9005995B5 /* UserReportingOptions.swift */; };
 		4CDD2FD22BECAAA5005995B5 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FD12BECAAA5005995B5 /* WelcomeView.swift */; };
 		4CDD2FD52BECB52E005995B5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FD42BECB52E005995B5 /* ProfileView.swift */; };
+		4CDD2FD92BF24E9A005995B5 /* PersonalizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FD82BF24E9A005995B5 /* PersonalizationView.swift */; };
+		4CDD2FDB2BF25023005995B5 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FDA2BF25023005995B5 /* OnboardingView.swift */; };
+		4CDD2FDD2BF25825005995B5 /* PersonalizationSelfReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FDC2BF25825005995B5 /* PersonalizationSelfReportView.swift */; };
+		4CDD2FDF2BF2585A005995B5 /* PersonalizationThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FDE2BF2585A005995B5 /* PersonalizationThemeView.swift */; };
 		4CF015522BE9556000BE8DF0 /* SelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */; };
 		4CF015542BE955B300BE8DF0 /* WatchConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015532BE955B300BE8DF0 /* WatchConnector.swift */; };
 		4CF015572BE955E200BE8DF0 /* SelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015562BE955E200BE8DF0 /* SelfReportModel.swift */; };
@@ -134,6 +138,10 @@
 		4CDD2FCE2BEB7CD9005995B5 /* UserReportingOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReportingOptions.swift; sourceTree = "<group>"; };
 		4CDD2FD12BECAAA5005995B5 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		4CDD2FD42BECB52E005995B5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		4CDD2FD82BF24E9A005995B5 /* PersonalizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationView.swift; sourceTree = "<group>"; };
+		4CDD2FDA2BF25023005995B5 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		4CDD2FDC2BF25825005995B5 /* PersonalizationSelfReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationSelfReportView.swift; sourceTree = "<group>"; };
+		4CDD2FDE2BF2585A005995B5 /* PersonalizationThemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationThemeView.swift; sourceTree = "<group>"; };
 		4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportModel.swift; sourceTree = "<group>"; };
 		4CF015532BE955B300BE8DF0 /* WatchConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnector.swift; sourceTree = "<group>"; };
 		4CF015562BE955E200BE8DF0 /* SelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportModel.swift; sourceTree = "<group>"; };
@@ -349,6 +357,10 @@
 			children = (
 				4CDD2FD12BECAAA5005995B5 /* WelcomeView.swift */,
 				4CDD2FD42BECB52E005995B5 /* ProfileView.swift */,
+				4CDD2FD82BF24E9A005995B5 /* PersonalizationView.swift */,
+				4CDD2FDA2BF25023005995B5 /* OnboardingView.swift */,
+				4CDD2FDC2BF25825005995B5 /* PersonalizationSelfReportView.swift */,
+				4CDD2FDE2BF2585A005995B5 /* PersonalizationThemeView.swift */,
 			);
 			path = Personalisation;
 			sourceTree = "<group>";
@@ -614,6 +626,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CDD2FC82BEB722F005995B5 /* ReportOptionsModel.swift in Sources */,
+				4CDD2FD92BF24E9A005995B5 /* PersonalizationView.swift in Sources */,
 				4C1354E72BCFCE550078A84B /* KnowledgeBaseView.swift in Sources */,
 				4C1354532BCFC6060078A84B /* ContentView.swift in Sources */,
 				4CDD2FD22BECAAA5005995B5 /* WelcomeView.swift in Sources */,
@@ -621,13 +634,16 @@
 				4CF015522BE9556000BE8DF0 /* SelfReportModel.swift in Sources */,
 				4C1354512BCFC6060078A84B /* CyMeApp.swift in Sources */,
 				4C1354EB2BCFD4300078A84B /* HealthDataModel.swift in Sources */,
+				4CDD2FDF2BF2585A005995B5 /* PersonalizationThemeView.swift in Sources */,
 				4CF015542BE955B300BE8DF0 /* WatchConnector.swift in Sources */,
 				4CDD2FD52BECB52E005995B5 /* ProfileView.swift in Sources */,
+				4CDD2FDB2BF25023005995B5 /* OnboardingView.swift in Sources */,
 				4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */,
 				4C1354DE2BCFC7E10078A84B /* HomeViewModel.swift in Sources */,
 				4C1354E32BCFCE320078A84B /* HomeView.swift in Sources */,
 				4C1354E52BCFCE440078A84B /* DiscoverView.swift in Sources */,
 				4C1354EE2BCFD52A0078A84B /* HealthKitService.swift in Sources */,
+				4CDD2FDD2BF25825005995B5 /* PersonalizationSelfReportView.swift in Sources */,
 				4C1354F12BCFD6560078A84B /* DiscoverViewModel.swift in Sources */,
 				4C1354E92BCFCEC60078A84B /* VisualisationView.swift in Sources */,
 			);

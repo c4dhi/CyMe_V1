@@ -8,43 +8,37 @@
 import SwiftUI
 
 struct WelcomeView: View {
+    var nextPage: () -> Void
     var body: some View {
-        ZStack {
-            Color("Background")
-                .ignoresSafeArea()
+        VStack(spacing: 20) {
+            Text("Welcome to CyMe")
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(.black)
             
-            VStack(spacing: 20) {
-                
-                Text("Welcome to CyMe")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color("Primary"))
-                
-                Text("Are you ready to start this journey with us?")
+            Text("Are you ready to start this journey with us?")
+                .font(.headline)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.black)
+            
+            Button(action: nextPage) {
+                Text("Start my journey")
                     .font(.headline)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(Color("Text"))
-                
-                Button(action: {
-                    // Action to start the journey
-                }) {
-                    Text("Start My Journey")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color("Primary"))
-                        .cornerRadius(10)
-                }
-                .padding(.horizontal)
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue)
+                    .cornerRadius(10)
             }
-            .padding()
+            .padding(.horizontal)
         }
+        .navigationTitle("Welcome")
     }
 }
 
+
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView()
+        WelcomeView(nextPage: {})
     }
 }
