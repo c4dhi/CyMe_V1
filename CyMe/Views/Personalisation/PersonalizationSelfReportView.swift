@@ -84,6 +84,7 @@ struct TimePicker: View {
 
 struct PersonalizationSelfReportView: View {
     var nextPage: () -> Void
+    @State private var enableWatchReporting = false
     
     @State private var startPeriodEnabled = false
     @State private var startPeriodFrequency = 0
@@ -106,12 +107,19 @@ struct PersonalizationSelfReportView: View {
                 .font(.title)
                 .fontWeight(.bold)
                 .padding()
+            // Enable self-reporting on Apple Watch
+            Toggle("Enable self-reporting on Apple watch", isOn: $enableWatchReporting)
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(10)
+                .padding(.horizontal)
             
             ReminderOptionView(title: "Start period", isEnabled: $startPeriodEnabled, frequencyIndex: $startPeriodFrequency, timesPerDay: $startPeriodTimes, startDate: $startPeriodStartDate)
             
             ReminderOptionView(title: "Time to self-report", isEnabled: $selfReportEnabled, frequencyIndex: $selfReportFrequency, timesPerDay: $selfReportTimes, startDate: $selfReportStartDate)
             
             ReminderOptionView(title: "Daily summary", isEnabled: $dailySummaryEnabled, frequencyIndex: $dailySummaryFrequency, timesPerDay: $dailySummaryTimes, startDate: $dailySummaryStartDate)
+            
             
             Button(action: nextPage) {
                 Text("Continue")

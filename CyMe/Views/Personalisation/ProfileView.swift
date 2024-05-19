@@ -25,6 +25,7 @@ struct ProfileView: View {
             Section(header: Text("Personal information")) {
                 TextField("Name", text: $name)
                 TextField("Age", text: $age)
+                    .keyboardType(.numberPad)
             }
             
             Section(header: Text("Menstrual health")) {
@@ -36,6 +37,7 @@ struct ProfileView: View {
                 Toggle("Regular menstrual cycle", isOn: $isRegularCycle)
                 if isRegularCycle {
                     TextField("Cycle Length", text: $cycleLength)
+                        .keyboardType(.numberPad)
                 }
             }
             
@@ -52,11 +54,11 @@ struct ProfileView: View {
                         selectedOptions: $contraceptionOptions
                     )
                 }
-
             }
             
             Button(action: {
                 if isInputValid() {
+                    saveUserData()
                     nextPage()
                 } else {
                     // Show an alert or message indicating that all fields are required
@@ -72,17 +74,35 @@ struct ProfileView: View {
                     .cornerRadius(10)
             }
             .disabled(!isInputValid())
-
-            
         }
         .navigationTitle("Profile")
     }
     
     func isInputValid() -> Bool {
         // Check if all required fields are filled
-        return !name.isEmpty && !lifePhase.isEmpty && !fertilityGoal.isEmpty && ( fertilityGoal == "Pregnancy" || !$contraceptionOptions.isEmpty )
+        return !name.isEmpty && !age.isEmpty && !lifePhase.isEmpty && !fertilityGoal.isEmpty && (fertilityGoal == "Pregnancy" || !contraceptionOptions.isEmpty)
     }
-
+    
+    func saveUserData() {
+        let ageInt = Int(age) ?? 0
+        let contraceptions = contraceptionOptions.joined(separator: ", ")
+        let regularCycle = isRegularCycle ? "Yes" : "No"
+        
+        let success = DatabaseService.shared.insertUser(
+            name: name,
+            age: ageInt,
+            lifePhase: lifePhase,
+            regularCycle: regularCycle,
+            contraceptions: contraceptions,
+            fertilityGoal: fertilityGoal
+        )
+        
+        if success {
+            print("User data saved successfully")
+        } else {
+            print("Failed to save user data")
+        }
+    }
 }
 
 struct ProfileView_Previews: PreviewProvider {
@@ -169,7 +189,5 @@ struct MultipleSelectionRow: View {
         .onTapGesture {
             action()
         }
-
     }
 }
-

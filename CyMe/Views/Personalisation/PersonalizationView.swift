@@ -10,6 +10,7 @@ import SwiftUI
 struct PersonalizationView: View {
     var nextPage: () -> Void
     @State private var isHealthKitEnabled = false
+    @State private var isWatchConnected = false
     @State private var measureSleep = true
     @State private var selfReportSleep = false
     @State private var measureLength = true
@@ -26,6 +27,9 @@ struct PersonalizationView: View {
                 .padding()
             
             Toggle("Allow access to HealthKit", isOn: $isHealthKitEnabled)
+                .padding()
+            
+            Toggle("Do you have apple watch to measure health data?", isOn: $isWatchConnected)
                 .padding()
             
             Text("Measurements")

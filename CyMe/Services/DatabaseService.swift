@@ -49,7 +49,7 @@ class DatabaseService {
         let createTableQuery = """
             CREATE TABLE IF NOT EXISTS health_data (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                utcSeconds TEXT
+                utcSeconds TEXT,
                 steps TEXT
             );
             """
@@ -61,11 +61,17 @@ class DatabaseService {
         }
     }
     
+    // Create, Get and Adjust user table
     private func createUserTableIfNeeded() {
         let createTableQuery = """
             CREATE TABLE IF NOT EXISTS user (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT
+                name TEXT,
+                age INTEGER,
+                lifePhase TEXT,
+                regularCycle TEXT,
+                contraceptions TEXT,
+                fertilityGoal TEXT
             );
             """
         
@@ -75,6 +81,116 @@ class DatabaseService {
             print("Error creating user table")
         }
     }
+    
+    func insertUser(name: String, age: Int, lifePhase: String, regularCycle: String, contraceptions: String, fertilityGoal: String) -> Bool {
+        let insertQuery = """
+            INSERT INTO user (name, age, lifePhase, regularCycle, contraceptions, fertilityGoal)
+            VALUES (?, ?, ?, ?, ?, ?);
+            """
+        
+        var statement: OpaquePointer?
+        guard sqlite3_prepare_v2(db, insertQuery, -1, &statement, nil) == SQLITE_OK else {
+            print("Error preparing insert statement")
+            return false
+        }
+        
+        defer {
+            sqlite3_finalize(statement)
+        }
+        
+        sqlite3_bind_text(statement, 1, (name as NSString).utf8String, -1, nil)
+        sqlite3_bind_int(statement, 2, Int32(age))
+        sqlite3_bind_text(statement, 3, (lifePhase as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 4, (regularCycle as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 5, (contraceptions as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 6, (fertilityGoal as NSString).utf8String, -1, nil)
+        
+        if sqlite3_step(statement) == SQLITE_DONE {
+            print("Successfully inserted user")
+            return true
+        } else {
+            if let error = sqlite3_errmsg(db) {
+                print("Failed to insert user: \(String(cString: error))")
+            }
+            return false
+        }
+    }
+    
+    // Create, Get and Adjust settings table
+    private func createSettingsTableIfNeeded() {
+        let createTableQuery = """
+            CREATE TABLE IF NOT EXISTS settings (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                enableHealthKit TEXT,
+                connectWatch TEXT,
+                enableSleepQualityMeasuring TEXT,
+                enableSleepQualitySelfReporting TEXT,
+                enableMenstrualCycleLengthMeasuring TEXT,
+                enableMenstrualCycleLengthReporting TEXT,
+                enableHeartRateMeasuring TEXT,
+                enableHeartRateReporting TEXT,
+                selfReportingReminder TEXT,
+                dailySummaryReminder TEXT,
+                startPeriodReminder TEXT,
+                enableSelfReportingOnWatch TEXT,
+                primaryColor TEXT,
+                secondaryColor TEXT,
+                tertiaryColor TEXT,
+                enableWidgets TEXT
+            );
+            """
+        
+        if executeQuery(createTableQuery) {
+            print("Settings table created successfully or already exists")
+        } else {
+            print("Error creating settings table")
+        }
+    }
+    
+    func insertSettings(enableHealthKit: String, connectWatch: String, enableSleepQualityMeasuring: String, enableSleepQualitySelfReporting: String, enableMenstrualCycleLengthMeasuring: String, enableMenstrualCycleLengthReporting: String, enableHeartRateMeasuring: String, enableHeartRateReporting: String, selfReportingReminder: String, dailySummaryReminder: String, startPeriodReminder: String, enableSelfReportingOnWatch: String, primaryColor: String, secondaryColor: String, tertiaryColor: String, enableWidgets: String) -> Bool {
+        let insertQuery = """
+            INSERT INTO settings (enableHealthKit, connectWatch, enableSleepQualityMeasuring, enableSleepQualitySelfReporting, enableMenstrualCycleLengthMeasuring, enableMenstrualCycleLengthReporting, enableHeartRateMeasuring, enableHeartRateReporting, selfReportingReminder, dailySummaryReminder, startPeriodReminder, enableSelfReportingOnWatch, primaryColor, secondaryColor, tertiaryColor, enableWidgets)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            """
+        
+        var statement: OpaquePointer?
+        guard sqlite3_prepare_v2(db, insertQuery, -1, &statement, nil) == SQLITE_OK else {
+            print("Error preparing insert statement")
+            return false
+        }
+        
+        defer {
+            sqlite3_finalize(statement)
+        }
+        
+        sqlite3_bind_text(statement, 1, (enableHealthKit as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 2, (connectWatch as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 3, (enableSleepQualityMeasuring as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 4, (enableSleepQualitySelfReporting as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 5, (enableMenstrualCycleLengthMeasuring as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 6, (enableMenstrualCycleLengthReporting as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 7, (enableHeartRateMeasuring as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 8, (enableHeartRateReporting as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 9, (selfReportingReminder as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 10, (dailySummaryReminder as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 11, (startPeriodReminder as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 12, (enableSelfReportingOnWatch as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 13, (primaryColor as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 14, (secondaryColor as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 15, (tertiaryColor as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 16, (enableWidgets as NSString).utf8String, -1, nil)
+        
+        if sqlite3_step(statement) == SQLITE_DONE {
+            print("Successfully inserted settings")
+            return true
+        } else {
+            if let error = sqlite3_errmsg(db) {
+                print("Failed to insert settings: \(String(cString: error))")
+            }
+            return false
+        }
+    }
+
     
     func getUserName() -> String? {
         let query = "SELECT name FROM user LIMIT 1;"

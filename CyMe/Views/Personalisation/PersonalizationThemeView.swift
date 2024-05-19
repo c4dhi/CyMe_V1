@@ -80,12 +80,7 @@ struct PersonalizationThemeView: View {
                 .cornerRadius(10)
                 .padding(.horizontal)
             
-            // Enable self-reporting on Apple Watch
-            Toggle("Enable self-reporting on Apple watch", isOn: $enableWatchReporting)
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(10)
-                .padding(.horizontal)
+            
             
             Button(action: nextPage) {
                 Text("Finished")

@@ -41,6 +41,7 @@
 		4CDD2FDB2BF25023005995B5 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FDA2BF25023005995B5 /* OnboardingView.swift */; };
 		4CDD2FDD2BF25825005995B5 /* PersonalizationSelfReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FDC2BF25825005995B5 /* PersonalizationSelfReportView.swift */; };
 		4CDD2FDF2BF2585A005995B5 /* PersonalizationThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FDE2BF2585A005995B5 /* PersonalizationThemeView.swift */; };
+		4CDD2FE12BF4F2B9005995B5 /* SelfReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FE02BF4F2B9005995B5 /* SelfReportView.swift */; };
 		4CF015522BE9556000BE8DF0 /* SelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */; };
 		4CF015542BE955B300BE8DF0 /* WatchConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015532BE955B300BE8DF0 /* WatchConnector.swift */; };
 		4CF015572BE955E200BE8DF0 /* SelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015562BE955E200BE8DF0 /* SelfReportModel.swift */; };
@@ -142,6 +143,7 @@
 		4CDD2FDA2BF25023005995B5 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		4CDD2FDC2BF25825005995B5 /* PersonalizationSelfReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationSelfReportView.swift; sourceTree = "<group>"; };
 		4CDD2FDE2BF2585A005995B5 /* PersonalizationThemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationThemeView.swift; sourceTree = "<group>"; };
+		4CDD2FE02BF4F2B9005995B5 /* SelfReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportView.swift; sourceTree = "<group>"; };
 		4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportModel.swift; sourceTree = "<group>"; };
 		4CF015532BE955B300BE8DF0 /* WatchConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnector.swift; sourceTree = "<group>"; };
 		4CF015562BE955E200BE8DF0 /* SelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportModel.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 				4C1354E42BCFCE440078A84B /* DiscoverView.swift */,
 				4C1354E82BCFCEC60078A84B /* VisualisationView.swift */,
 				4C1354E62BCFCE550078A84B /* KnowledgeBaseView.swift */,
+				4CDD2FE02BF4F2B9005995B5 /* SelfReportView.swift */,
 				4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */,
 			);
 			path = Views;
@@ -630,6 +633,7 @@
 				4C1354E72BCFCE550078A84B /* KnowledgeBaseView.swift in Sources */,
 				4C1354532BCFC6060078A84B /* ContentView.swift in Sources */,
 				4CDD2FD22BECAAA5005995B5 /* WelcomeView.swift in Sources */,
+				4CDD2FE12BF4F2B9005995B5 /* SelfReportView.swift in Sources */,
 				4CB6BBDF2BD6E5BF008A32CA /* DatabaseService.swift in Sources */,
 				4CF015522BE9556000BE8DF0 /* SelfReportModel.swift in Sources */,
 				4C1354512BCFC6060078A84B /* CyMeApp.swift in Sources */,
