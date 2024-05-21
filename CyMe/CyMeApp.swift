@@ -11,7 +11,7 @@ import SwiftUI
 struct CyMeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            OnboardingView()
                 .onAppear {
                     // Check if the user table exists
                     let userName = DatabaseService.shared.getUserName()

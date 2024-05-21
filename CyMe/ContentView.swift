@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var connector = WatchConnector()
     @State private var isSettingsPresented = false
+    @State private var isSelfReportPresented = false
     var body: some View {
         TabView {
             HomeView()
@@ -39,12 +40,16 @@ struct ContentView: View {
                 Spacer()
                 Button(action: {
                     // Action for the plus button
-                    // Add your button action here
+                    isSelfReportPresented = true
                 }) {
                     Image(systemName: "plus.circle.fill")
                         .resizable()
                         .frame(width: 60, height: 60)
                         .foregroundColor(.blue)
+                }
+                .sheet(isPresented: $isSelfReportPresented) {
+                    // Present settings view here
+                    SelfReportView(isPresented: $isSelfReportPresented)
                 }
                 .padding(.bottom, 40)
             }
