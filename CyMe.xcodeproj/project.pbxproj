@@ -148,6 +148,8 @@
 		4CF015532BE955B300BE8DF0 /* WatchConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnector.swift; sourceTree = "<group>"; };
 		4CF015562BE955E200BE8DF0 /* SelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportModel.swift; sourceTree = "<group>"; };
 		4CF015592BE9560E00BE8DF0 /* iOSConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSConnector.swift; sourceTree = "<group>"; };
+		50D4A8CE2BFE2E2F008FDE58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		50D4A8CF2BFE3060008FDE58 /* CyMe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CyMe.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +229,8 @@
 		4C13544F2BCFC6060078A84B /* CyMe */ = {
 			isa = PBXGroup;
 			children = (
+				50D4A8CF2BFE3060008FDE58 /* CyMe.entitlements */,
+				50D4A8CE2BFE2E2F008FDE58 /* Info.plist */,
 				4C1354D72BCFC7600078A84B /* Views */,
 				4C1354F22BCFD6730078A84B /* ViewModels */,
 				4C1354D62BCFC73E0078A84B /* Models */,
@@ -851,12 +855,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CyMe/CyMe.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CyMe/Preview Content\"";
 				DEVELOPMENT_TEAM = 24XM2HJTPL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CyMe/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "CyMe uses your data to display correlations and information about your current cycle";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "If you use CyMe's Selfreport Feature you can choose to share this information with Apple Health.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -880,12 +888,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CyMe/CyMe.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CyMe/Preview Content\"";
 				DEVELOPMENT_TEAM = 24XM2HJTPL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CyMe/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "CyMe uses your data to display correlations and information about your current cycle";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "If you use CyMe's Selfreport Feature you can choose to share this information with Apple Health.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
