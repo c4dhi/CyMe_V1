@@ -9,56 +9,63 @@ import SwiftUI
 
 struct ProfileView: View {
     var nextPage: () -> Void
-    @State private var name = ""
-    @State private var age = ""
-    @State private var lifePhase = "Premenopause"
-    @State private var isRegularCycle = false
-    @State private var fertilityGoal = "Avoiding pregnancy"
-    @State private var contraceptionOptions: [String] = []
-    @State private var cycleLength = ""
+    @ObservedObject var settingsViewModel: SettingsViewModel
+    @ObservedObject var userViewModel: ProfileViewModel
 
     let lifePhaseOptions = ["Premenopause", "Menopause", "Postmenopause"]
-    let fertilityGoalOptions = ["Avoiding pregnancy", "Pregnancy",  "Exploring options"]
+    let fertilityGoalOptions = ["Avoiding pregnancy", "Pregnancy", "Exploring options"]
 
     var body: some View {
-        Form {
-            Section(header: Text("Personal information")) {
-                TextField("Name", text: $name)
-                TextField("Age", text: $age)
-                    .keyboardType(.numberPad)
-            }
+            Text("Profile")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(settingsViewModel.settings.selectedTheme.primaryColor)
             
-            Section(header: Text("Menstrual health")) {
-                Picker("Life Phase", selection: $lifePhase) {
-                    ForEach(lifePhaseOptions, id: \.self) {
-                        Text($0)
+            Form {
+                Section(header: Text("Personal information")) {
+                    TextField("Name", text: $userViewModel.user.name)
+                    TextField("Age", text: Binding(
+                        get: { String(userViewModel.user.age) },
+                        set: { userViewModel.user.age = Int($0) ?? 0 }
+                    ))
+                }
+                
+                
+                Section(header: Text("Menstrual health")) {
+                    Picker("Life Phase", selection: $userViewModel.user.lifePhase) {
+                        ForEach(lifePhaseOptions, id: \.self) { phase in
+                            Text(phase)
+                        }
+                    }
+                    Toggle("Regular menstrual cycle", isOn: $userViewModel.user.regularCycle)
+                    if userViewModel.user.regularCycle {
+                        TextField("Cycle Length", text: Binding(
+                            get: { String(userViewModel.user.cycleLength) },
+                            set: { userViewModel.user.cycleLength = Int($0) ?? 0 }
+                        ))
                     }
                 }
-                Toggle("Regular menstrual cycle", isOn: $isRegularCycle)
-                if isRegularCycle {
-                    TextField("Cycle Length", text: $cycleLength)
-                        .keyboardType(.numberPad)
-                }
-            }
-            
-            Section(header: Text("Fertility and contraception")) {
-                Picker("Fertility goal", selection: $fertilityGoal) {
-                    ForEach(fertilityGoalOptions, id: \.self) {
-                        Text($0)
+                Section(header: Text("Fertility and contraception")) {
+                    Picker("Fertility goal", selection: $userViewModel.user.fertilityGoal) {
+                        ForEach(fertilityGoalOptions, id: \.self) { goal in
+                            Text(goal)
+                        }
                     }
-                }
-                if fertilityGoal != "Pregnancy" {
-                    MultipleSelectionPicker(
-                        title: "Contraception",
-                        options: ["None", "Pill", "Condom", "IUD", "Sterilization"],
-                        selectedOptions: $contraceptionOptions
-                    )
+                    if userViewModel.user.fertilityGoal != "Pregnancy" {
+                        MultipleSelectionPicker(
+                            title: "Contraception",
+                            options: ["None", "Pill", "Condom", "IUD", "Sterilization"],
+                            selectedOptions: $userViewModel.user.contraceptions
+                        )
+                    }
                 }
             }
             
             Button(action: {
                 if isInputValid() {
-                    saveUserData()
+                    userViewModel.saveUser()
                     nextPage()
                 } else {
                     // Show an alert or message indicating that all fields are required
@@ -70,44 +77,22 @@ struct ProfileView: View {
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(isInputValid() ? Color.blue : Color.gray)
+                    .background(isInputValid() ? settingsViewModel.settings.selectedTheme.accentColor : Color.gray)
                     .cornerRadius(10)
             }
             .disabled(!isInputValid())
-        }
-        .navigationTitle("Profile")
+            .padding()
     }
-    
+
     func isInputValid() -> Bool {
-        // Check if all required fields are filled
-        return !name.isEmpty && !age.isEmpty && !lifePhase.isEmpty && !fertilityGoal.isEmpty && (fertilityGoal == "Pregnancy" || !contraceptionOptions.isEmpty)
-    }
-    
-    func saveUserData() {
-        let ageInt = Int(age) ?? 0
-        let contraceptions = contraceptionOptions.joined(separator: ", ")
-        let regularCycle = isRegularCycle ? "Yes" : "No"
-        
-        let success = DatabaseService.shared.insertUser(
-            name: name,
-            age: ageInt,
-            lifePhase: lifePhase,
-            regularCycle: regularCycle,
-            contraceptions: contraceptions,
-            fertilityGoal: fertilityGoal
-        )
-        
-        if success {
-            print("User data saved successfully")
-        } else {
-            print("Failed to save user data")
-        }
+        return !userViewModel.user.name.isEmpty && userViewModel.user.age > 0 && !userViewModel.user.lifePhase.isEmpty && !userViewModel.user.fertilityGoal.isEmpty && (userViewModel.user.fertilityGoal == "Pregnancy" || !userViewModel.user.contraceptions.isEmpty)
     }
 }
 
+
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(nextPage: {})
+        ProfileView(nextPage: {}, settingsViewModel: SettingsViewModel(), userViewModel: ProfileViewModel())
     }
 }
 

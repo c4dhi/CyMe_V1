@@ -9,87 +9,76 @@ import SwiftUI
 
 struct PersonalizationView: View {
     var nextPage: () -> Void
-    @State private var isHealthKitEnabled = false
-    @State private var isWatchConnected = false
-    @State private var measureSleep = true
-    @State private var selfReportSleep = false
-    @State private var measureLength = true
-    @State private var selfReportLength = false
-    @State private var measureHeartRate = false
-    @State private var selfReportHeartRate = true
-    // Add more variables for other measurements as needed
-    
+    @ObservedObject var settingsViewModel: SettingsViewModel
+
     var body: some View {
-        VStack {
-            Text("Personalize CyMe self-reporting")
-                .font(.title)
-                .fontWeight(.bold)
-                .padding()
-            
-            Toggle("Allow access to HealthKit", isOn: $isHealthKitEnabled)
-                .padding()
-            
-            Toggle("Do you have apple watch to measure health data?", isOn: $isWatchConnected)
-                .padding()
-            
-            Text("Measurements")
-                .font(.headline)
-                .padding(.bottom)
-            
-            VStack(alignment: .trailing) {
-                HStack {
-                    Text("                    ")
-                        .font(.headline)
-                    Spacer()
-                    Text("Measure")
-                        .font(.headline)
-                    Spacer()
-                    Text("Self-Report")
-                        .font(.headline)
-                    Spacer()
-                }
-                
-                measurementRow(label: "Sleep quality", measure: $measureSleep, selfReport: $selfReportSleep)
-                measurementRow(label: "Menstrual cycle length", measure: $measureLength, selfReport: $selfReportLength)
-                measurementRow(label: "Heart rate", measure: $measureHeartRate, selfReport: $selfReportHeartRate)
-                // Add more measurement rows as needed
+        Text("Personalize CyMe measuring and reporting")
+       .font(.title)
+       .fontWeight(.bold)
+       .padding()
+       .frame(maxWidth: .infinity, alignment: .leading)
+       .background(settingsViewModel.settings.selectedTheme.primaryColor)
+    
+        Form {
+            Section(header: Text("Health Data Access")) {
+                Toggle("Allow access to HealthKit", isOn: $settingsViewModel.settings.enableHealthKit)
+                Toggle("Do you have Apple Watch to measure health data?", isOn: $settingsViewModel.settings.measuringWithWatch)
             }
-            .padding()
-            
-            Spacer()
-            Button(action: nextPage) {
-                Text("Continue")
+
+            Section(header: Text("Measurements and reporting")) {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("")
+                            .frame(width: 120, alignment: .leading)
+                        Spacer()
+                        Text("Measure")
+                            .frame(width: 100, alignment: .center)
+                        Spacer()
+                        Text("Self-Report")
+                            .frame(width: 100, alignment: .center)
+                    }
                     .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .cornerRadius(10)
+                    
+                    measurementRow(label: "Sleep quality", measure: $settingsViewModel.settings.enableSleepQualityMeasuring, selfReport: $settingsViewModel.settings.enableSleepQualitySelfReporting)
+                    measurementRow(label: "Menstrual cycle length", measure: $settingsViewModel.settings.enableSleepLengthMeasuring, selfReport: $settingsViewModel.settings.enableSleepLengthSelfReporting)
+                    measurementRow(label: "Heart rate", measure: $settingsViewModel.settings.enableHeartRateMeasuring, selfReport: $settingsViewModel.settings.enableHeartRateReporting)
+                    // Add more measurement rows as needed
+                }
             }
         }
-        .padding()
+        Button(action: nextPage) {
+            Text("Continue")
+                .font(.headline)
+                .foregroundColor(.white)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(Color.blue)
+                .cornerRadius(10)
+        }
     }
-    
+
     func measurementRow(label: String, measure: Binding<Bool>, selfReport: Binding<Bool>) -> some View {
         HStack {
             Text(label)
-                .font(.headline)
+                .frame(width: 120, alignment: .leading)
             
             Spacer()
             
             Toggle("", isOn: measure)
+                .labelsHidden()
+                .frame(width: 100, alignment: .center)
             
             Spacer()
             
             Toggle("", isOn: selfReport)
-            
-            Spacer()
+                .labelsHidden()
+                .frame(width: 100, alignment: .center)
         }
     }
 }
 
 struct PersonalizationView_Previews: PreviewProvider {
     static var previews: some View {
-        PersonalizationView(nextPage: {})
+        PersonalizationView(nextPage: {}, settingsViewModel: SettingsViewModel())
     }
 }

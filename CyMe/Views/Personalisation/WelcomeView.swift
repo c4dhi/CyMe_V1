@@ -9,6 +9,8 @@ import SwiftUI
 
 struct WelcomeView: View {
     var nextPage: () -> Void
+    @ObservedObject var settingsViewModel: SettingsViewModel
+    
     var body: some View {
         VStack(spacing: 20) {
             Text("Welcome to CyMe")
@@ -27,7 +29,7 @@ struct WelcomeView: View {
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.blue)
+                    .background(settingsViewModel.settings.selectedTheme.accentColor)
                     .cornerRadius(10)
             }
             .padding(.horizontal)
@@ -39,6 +41,6 @@ struct WelcomeView: View {
 
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView(nextPage: {})
+        WelcomeView(nextPage: {}, settingsViewModel: SettingsViewModel())
     }
 }

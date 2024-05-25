@@ -21,7 +21,6 @@
 		4C1354C02BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354BF2BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppTests.swift */; };
 		4C1354CA2BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354C92BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITests.swift */; };
 		4C1354CC2BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354CB2BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITestsLaunchTests.swift */; };
-		4C1354DE2BCFC7E10078A84B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354DD2BCFC7E10078A84B /* HomeViewModel.swift */; };
 		4C1354E32BCFCE320078A84B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354E22BCFCE320078A84B /* HomeView.swift */; };
 		4C1354E52BCFCE440078A84B /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354E42BCFCE440078A84B /* DiscoverView.swift */; };
 		4C1354E72BCFCE550078A84B /* KnowledgeBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354E62BCFCE550078A84B /* KnowledgeBaseView.swift */; };
@@ -29,6 +28,15 @@
 		4C1354EB2BCFD4300078A84B /* HealthDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354EA2BCFD4300078A84B /* HealthDataModel.swift */; };
 		4C1354EE2BCFD52A0078A84B /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */; };
 		4C1354F12BCFD6560078A84B /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */; };
+		4C5605242C01CF7700B9114D /* SettingsDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605232C01CF7700B9114D /* SettingsDatabaseService.swift */; };
+		4C5605272C01D26600B9114D /* UserDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605262C01D26600B9114D /* UserDatabaseService.swift */; };
+		4C5605292C01D29500B9114D /* ReportingDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605282C01D29500B9114D /* ReportingDatabaseService.swift */; };
+		4C5A49B22BFDEF49008253FD /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A49B12BFDEF49008253FD /* SettingsModel.swift */; };
+		4C5A49B42BFDEFF6008253FD /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A49B32BFDEFF6008253FD /* SettingsViewModel.swift */; };
+		4C5A49B62BFDF4A9008253FD /* ReminderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A49B52BFDF4A9008253FD /* ReminderModel.swift */; };
+		4C5A49B82BFE1A79008253FD /* ThemeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A49B72BFE1A79008253FD /* ThemeModel.swift */; };
+		4C5A49BA2BFFD07C008253FD /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A49B92BFFD07C008253FD /* ProfileViewModel.swift */; };
+		4C5A49BC2BFFD184008253FD /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A49BB2BFFD184008253FD /* UserModel.swift */; };
 		4CB6BBDF2BD6E5BF008A32CA /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB6BBDE2BD6E5BF008A32CA /* DatabaseService.swift */; };
 		4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */; };
 		4CDD2FC82BEB722F005995B5 /* ReportOptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */; };
@@ -125,7 +133,6 @@
 		4C1354C52BCFC6A50078A84B /* CyMe_WatchOs Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CyMe_WatchOs Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C1354C92BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyMe_WatchOs_Watch_AppUITests.swift; sourceTree = "<group>"; };
 		4C1354CB2BCFC6A50078A84B /* CyMe_WatchOs_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyMe_WatchOs_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		4C1354DD2BCFC7E10078A84B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		4C1354E22BCFCE320078A84B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		4C1354E42BCFCE440078A84B /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		4C1354E62BCFCE550078A84B /* KnowledgeBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnowledgeBaseView.swift; sourceTree = "<group>"; };
@@ -133,6 +140,15 @@
 		4C1354EA2BCFD4300078A84B /* HealthDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataModel.swift; sourceTree = "<group>"; };
 		4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
 		4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
+		4C5605232C01CF7700B9114D /* SettingsDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDatabaseService.swift; sourceTree = "<group>"; };
+		4C5605262C01D26600B9114D /* UserDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDatabaseService.swift; sourceTree = "<group>"; };
+		4C5605282C01D29500B9114D /* ReportingDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingDatabaseService.swift; sourceTree = "<group>"; };
+		4C5A49B12BFDEF49008253FD /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		4C5A49B32BFDEFF6008253FD /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		4C5A49B52BFDF4A9008253FD /* ReminderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderModel.swift; sourceTree = "<group>"; };
+		4C5A49B72BFE1A79008253FD /* ThemeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeModel.swift; sourceTree = "<group>"; };
+		4C5A49B92BFFD07C008253FD /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		4C5A49BB2BFFD184008253FD /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		4CB6BBDE2BD6E5BF008A32CA /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportOptionsModel.swift; sourceTree = "<group>"; };
@@ -314,12 +330,15 @@
 		4C1354D62BCFC73E0078A84B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4C1354DD2BCFC7E10078A84B /* HomeViewModel.swift */,
 				4C1354EA2BCFD4300078A84B /* HealthDataModel.swift */,
 				4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */,
 				50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */,
 				4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */,
 				50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */,
+				4C5A49B12BFDEF49008253FD /* SettingsModel.swift */,
+				4C5A49B52BFDF4A9008253FD /* ReminderModel.swift */,
+				4C5A49B72BFE1A79008253FD /* ThemeModel.swift */,
+				4C5A49BB2BFFD184008253FD /* UserModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -342,6 +361,7 @@
 		4C1354EC2BCFD4F40078A84B /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				4C5605252C01D0AE00B9114D /* DB */,
 				4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */,
 				4CB6BBDE2BD6E5BF008A32CA /* DatabaseService.swift */,
 				4CF015532BE955B300BE8DF0 /* WatchConnector.swift */,
@@ -353,8 +373,20 @@
 			isa = PBXGroup;
 			children = (
 				4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */,
+				4C5A49B32BFDEFF6008253FD /* SettingsViewModel.swift */,
+				4C5A49B92BFFD07C008253FD /* ProfileViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		4C5605252C01D0AE00B9114D /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				4C5605232C01CF7700B9114D /* SettingsDatabaseService.swift */,
+				4C5605262C01D26600B9114D /* UserDatabaseService.swift */,
+				4C5605282C01D29500B9114D /* ReportingDatabaseService.swift */,
+			);
+			path = DB;
 			sourceTree = "<group>";
 		};
 		4CDD2FCB2BEB786D005995B5 /* Views */ = {
@@ -641,9 +673,12 @@
 				50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */,
 				4CDD2FC82BEB722F005995B5 /* ReportOptionsModel.swift in Sources */,
 				4CDD2FD92BF24E9A005995B5 /* PersonalizationView.swift in Sources */,
+				4C5605272C01D26600B9114D /* UserDatabaseService.swift in Sources */,
 				4C1354E72BCFCE550078A84B /* KnowledgeBaseView.swift in Sources */,
+				4C5A49BA2BFFD07C008253FD /* ProfileViewModel.swift in Sources */,
 				4C1354532BCFC6060078A84B /* ContentView.swift in Sources */,
 				4CDD2FD22BECAAA5005995B5 /* WelcomeView.swift in Sources */,
+				4C5A49B82BFE1A79008253FD /* ThemeModel.swift in Sources */,
 				4CDD2FE12BF4F2B9005995B5 /* SelfReportView.swift in Sources */,
 				4CB6BBDF2BD6E5BF008A32CA /* DatabaseService.swift in Sources */,
 				50E26B1A2C04C7FF00726C5C /* PeriodSampleModel.swift in Sources */,
@@ -652,16 +687,21 @@
 				4C1354EB2BCFD4300078A84B /* HealthDataModel.swift in Sources */,
 				4CDD2FDF2BF2585A005995B5 /* PersonalizationThemeView.swift in Sources */,
 				4CF015542BE955B300BE8DF0 /* WatchConnector.swift in Sources */,
+				4C5A49B62BFDF4A9008253FD /* ReminderModel.swift in Sources */,
+				4C5A49B22BFDEF49008253FD /* SettingsModel.swift in Sources */,
+				4C5A49BC2BFFD184008253FD /* UserModel.swift in Sources */,
+				4C5A49B42BFDEFF6008253FD /* SettingsViewModel.swift in Sources */,
+				4C5605292C01D29500B9114D /* ReportingDatabaseService.swift in Sources */,
 				4CDD2FD52BECB52E005995B5 /* ProfileView.swift in Sources */,
 				4CDD2FDB2BF25023005995B5 /* OnboardingView.swift in Sources */,
 				4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */,
-				4C1354DE2BCFC7E10078A84B /* HomeViewModel.swift in Sources */,
 				4C1354E32BCFCE320078A84B /* HomeView.swift in Sources */,
 				4C1354E52BCFCE440078A84B /* DiscoverView.swift in Sources */,
 				4C1354EE2BCFD52A0078A84B /* HealthKitService.swift in Sources */,
 				4CDD2FDD2BF25825005995B5 /* PersonalizationSelfReportView.swift in Sources */,
 				4C1354F12BCFD6560078A84B /* DiscoverViewModel.swift in Sources */,
 				4C1354E92BCFCEC60078A84B /* VisualisationView.swift in Sources */,
+				4C5605242C01CF7700B9114D /* SettingsDatabaseService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,113 +7,147 @@
 
 import SwiftUI
 
-let lightBlue = Color(red: 0.5, green: 0.5, blue: 1.0)
+let lightBlue = Color(red: 0.2, green: 0.7, blue: 1.0)
 let lightGreen = Color(red: 0.5, green: 1.0, blue: 0.5)
 let deepGreen = Color(red: 0.0, green: 0.5, blue: 0.0)
 
+enum ColorType {
+    case background, primary, accent
+}
+
 struct PersonalizationThemeView: View {
-    @State private var selectedThemeIndex = 0
-    @State private var selectedColorIndex = 0
-    @State private var customColor = Color.white // Initial custom color
-    @State private var enableWidget = false
-    @State private var enableWatchReporting = false
-    @State private var isCustomColorPickerShown = false // Track if custom color picker is shown
-    
-    var themes = ["Girly Girl", "Deep Blue", "Plant Green", "Blood Red", "Custom"] // Added "Custom" theme
-    
-    @State private var  colors: [[Color]] = [
-        [.pink, .purple, .white],    // Girly Girl
-        [.blue, lightBlue, .white],  // Deep Blue
-        [deepGreen, lightGreen, .white],    // Plant Green
-        [.red, .orange, .yellow],    // Blood Red
-        [.white, .white, .white]     // Custom (initially white)
-    ]
-    
     var nextPage: () -> Void
-    
+    @ObservedObject var settingsViewModel: SettingsViewModel
+    @State private var selectedThemeIndex = 0
+    @State private var selectedColorType: ColorType? = nil
+    @State private var isCustomColorPickerShown = false
+
+    @State private var themes: [ThemeModel] = [
+        ThemeModel(name: "Deep blue", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue),  // Deep blue
+        ThemeModel(name: "Girly girl", backgroundColor: .white, primaryColor: .purple, accentColor: .pink),    // Girly girl
+        ThemeModel(name: "Plant green", backgroundColor: .white, primaryColor: deepGreen, accentColor: lightGreen),    // Plant green
+        ThemeModel(name: "Blood red", backgroundColor: .white, primaryColor: .red, accentColor: .orange),    // Blood red
+        ThemeModel(name: "Custom", backgroundColor: .white, primaryColor: .white, accentColor: .white)    // Custom (initially white)
+    ]
+
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Personalize CyMe look and feel")
-                .font(.title)
-                .fontWeight(.bold)
-                .padding()
-            
-            // Theme selection
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Select Theme:")
-                Picker("Theme", selection: $selectedThemeIndex) {
-                    ForEach(0..<themes.count, id: \.self) { index in
-                        Text(themes[index])
-                        
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .frame(minWidth: 20)
-            }
-            .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(10)
-            .padding(.horizontal)
-            
-            // Color boxes
-            HStack(spacing: 8) {
-                ForEach(0..<colors[selectedThemeIndex].count, id: \.self) { index in
-                    Rectangle()
-                        .fill(colors[selectedThemeIndex][index])
-                        .frame(width: 50, height: 50)
-                        .border(Color.black, width: 1) // Add black border
-                        .cornerRadius(8)
-                        .onTapGesture {
-                            if selectedThemeIndex == themes.count - 1 { // If "Custom" theme is selected
-                                selectedColorIndex = index
-                                isCustomColorPickerShown = true // Show custom color picker
-                            }
+        Text("Personalize CyMe look and feel")
+       .font(.title)
+       .fontWeight(.bold)
+       .padding()
+       .frame(maxWidth: .infinity, alignment: .leading)
+       .background(settingsViewModel.settings.selectedTheme.primaryColor)
+            Form {
+                Section(header: Text("Personalize CyMe theme")) {
+                    Text("Select your prefered theme:")
+                    Picker("Theme", selection: $selectedThemeIndex) {
+                        ForEach(0..<$themes.count, id: \.self) { index in
+                            Text(themes[index].name)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.center)
                         }
+                    }
+                    .pickerStyle(WheelPickerStyle())
+                    .frame(height: 100)
+                    .padding()
+                    // Color boxes
+                    HStack(spacing: 8) {
+                        Rectangle()
+                            .fill(themes[selectedThemeIndex].primaryColor)
+                            .frame(width: 50, height: 50)
+                            .border(Color.black, width: 1)
+                            .cornerRadius(8)
+                            .onTapGesture {
+                                if selectedThemeIndex == themes.count - 1 { // If "Custom" theme is selected
+                                    selectedColorType = .primary
+                                    isCustomColorPickerShown = true
+                                }
+                            }
+                        Rectangle()
+                            .fill(themes[selectedThemeIndex].accentColor)
+                            .frame(width: 50, height: 50)
+                            .border(Color.black, width: 1)
+                            .cornerRadius(8)
+                            .onTapGesture {
+                                if selectedThemeIndex == themes.count - 1 { // If "Custom" theme is selected
+                                    selectedColorType = .accent
+                                    isCustomColorPickerShown = true
+                                }
+                            }
+                        Rectangle()
+                            .fill(themes[selectedThemeIndex].backgroundColor)
+                            .frame(width: 50, height: 50)
+                            .border(Color.black, width: 1)
+                            .cornerRadius(8)
+                            .onTapGesture {
+                                if selectedThemeIndex == themes.count - 1 { // If "Custom" theme is selected
+                                    selectedColorType = .background
+                                    isCustomColorPickerShown = true
+                                }
+                            }
+                    }
+                    .padding(.horizontal)
+                }
+
+                Section(header: Text("Extend user experience")) {
+                    Toggle("Enable self-reporting widget on iPhone", isOn: $settingsViewModel.settings.enableWidget)
+                        .padding(.horizontal)
                 }
             }
-            .padding(.horizontal)
-            
-            // Enable self-reporting widget on iPhone
-            Toggle("Enable self-reporting widget on iPhone", isOn: $enableWidget)
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(10)
-                .padding(.horizontal)
-            
-            
-            
-            Button(action: nextPage) {
+            .onChange(of: selectedThemeIndex) { newValue in
+                settingsViewModel.settings.selectedTheme = themes[newValue]
+            }
+
+            Button(action: {
+                // TODO add validation
+                settingsViewModel.saveSettings()
+                nextPage()
+            }) {
                 Text("Finished")
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.blue)
+                    .background(settingsViewModel.settings.selectedTheme.accentColor)
                     .cornerRadius(10)
             }
-            .padding(.horizontal)
-        }
-        .padding()
-        .popover(isPresented: $isCustomColorPickerShown) {
-            VStack {
-                ColorPicker("Custom Color", selection: $colors[selectedThemeIndex][selectedColorIndex], supportsOpacity: false)
-                                    .padding()
+            .popover(isPresented: $isCustomColorPickerShown) {
+                VStack {
+                    ColorPicker("Select your custom color", selection: Binding<Color>(
+                        get: {
+                            switch selectedColorType {
+                            case .background: return themes[selectedThemeIndex].backgroundColor
+                            case .primary: return themes[selectedThemeIndex].primaryColor
+                            case .accent: return themes[selectedThemeIndex].accentColor
+                            case .none: return .white
+                            }
+                        },
+                        set: { newValue in
+                            switch selectedColorType {
+                            case .background: themes[selectedThemeIndex].backgroundColor = newValue
+                            case .primary: themes[selectedThemeIndex].primaryColor = newValue
+                            case .accent: themes[selectedThemeIndex].accentColor = newValue
+                            case .none: break
+                            }
+                        }
+                    ))
                     .padding()
-                
-                Button(action: {
-                    isCustomColorPickerShown = false // Dismiss color picker
-                }) {
-                    Text("Done")
-                        .foregroundColor(.blue)
+
+                    Button(action: {
+                        isCustomColorPickerShown = false
+                    }) {
+                        Text("Done")
+                            .foregroundColor(.blue)
+                    }
+                    .padding()
                 }
-                .padding()
-            }
         }
     }
 }
 
+
 struct PersonalizationThemeView_Previews: PreviewProvider {
     static var previews: some View {
-        PersonalizationThemeView(nextPage: {})
+        PersonalizationThemeView(nextPage: {}, settingsViewModel: SettingsViewModel())
     }
 }
