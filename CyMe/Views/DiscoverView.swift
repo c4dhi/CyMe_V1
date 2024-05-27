@@ -8,7 +8,6 @@
 import SwiftUI
 import SigmaSwiftStatistics
 
-let dvm = DiscoverViewModel()
 
 struct DiscoverView: View {
     @ObservedObject var viewModel: DiscoverViewModel
@@ -24,9 +23,7 @@ struct DiscoverView: View {
                    Text("This is the discover page \(averageString)")
           
                    Button(action: {
-                           // Add your action here
-                           print("Button tapped!")
-                           dvm.requestAuthorization()
+                       viewModel.healthKitService.requestAuthorization()
                            
                        }) {
                            Text("Tap Me")

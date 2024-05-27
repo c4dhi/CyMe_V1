@@ -48,6 +48,7 @@
 		4CF0155A2BE9560E00BE8DF0 /* iOSConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015592BE9560E00BE8DF0 /* iOSConnector.swift */; };
 		4CF0155C2BEB479000BE8DF0 /* CyMe_WatchOs Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4C1354AC2BCFC6A40078A84B /* CyMe_WatchOs Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		50DC147E2BD1207200A280CE /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 50DC147D2BD1207200A280CE /* SigmaSwiftStatistics */; };
+		50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,6 +151,7 @@
 		4CF015592BE9560E00BE8DF0 /* iOSConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSConnector.swift; sourceTree = "<group>"; };
 		50D4A8CE2BFE2E2F008FDE58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		50D4A8CF2BFE3060008FDE58 /* CyMe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CyMe.entitlements; sourceTree = "<group>"; };
+		50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSelfReportModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -313,6 +315,7 @@
 				4C1354DD2BCFC7E10078A84B /* HomeViewModel.swift */,
 				4C1354EA2BCFD4300078A84B /* HealthDataModel.swift */,
 				4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */,
+				50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */,
 				4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */,
 			);
 			path = Models;
@@ -632,6 +635,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */,
 				4CDD2FC82BEB722F005995B5 /* ReportOptionsModel.swift in Sources */,
 				4CDD2FD92BF24E9A005995B5 /* PersonalizationView.swift in Sources */,
 				4C1354E72BCFCE550078A84B /* KnowledgeBaseView.swift in Sources */,
@@ -864,7 +868,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CyMe/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "CyMe uses your data to display correlations and information about your current cycle";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "If you use CyMe's Selfreport Feature you can choose to share this information with Apple Health.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "If you use CyMe's selfreport feature you can choose to share this information with Apple Health.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -897,7 +901,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CyMe/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "CyMe uses your data to display correlations and information about your current cycle";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "If you use CyMe's Selfreport Feature you can choose to share this information with Apple Health.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "If you use CyMe's selfreport feature you can choose to share this information with Apple Health.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
