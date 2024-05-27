@@ -65,6 +65,8 @@ class HealthKitService {
         fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.memoryLapse)
         // We write some data
         writeSelfreportedSamples(dataName: HKCategoryTypeIdentifier.memoryLapse)
+        // We fetch the period data
+        fetchPeriodData()
     }
     
     
@@ -128,6 +130,46 @@ class HealthKitService {
         healthStore.execute(query)
     }
     
+    
+    func fetchPeriodData() {
+         guard let menstrualFlowType = HKObjectType.categoryType(forIdentifier: .menstrualFlow) else {
+             print("Menstrual Flow type not available")
+             return
+         }
+        
+         var periodDataList: [PeriodSampleModel] = []
+        
+         let sortDescriptorChronological = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
+
+         let query = HKSampleQuery(sampleType: menstrualFlowType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptorChronological]) { (query, samples, error) in
+             guard let samples = samples else {
+                 if let error = error {
+                     print("Error fetching menstrual flow data: \(error.localizedDescription)")
+                 }
+                 return
+             }
+             
+             for sample in samples {
+                 
+                 if let mensSample = sample as? HKCategorySample {
+                     let startDate = mensSample.startDate
+                     let intensity = mensSample.value
+                     let startOfPeriod = mensSample.metadata?["HKMenstrualCycleStart"]!
+                    
+                     let periodSampleModel = PeriodSampleModel(startdate: startDate, intensity: intensity, startofPeriod: startOfPeriod as! Int)
+                     
+                     if self.enablePrintStatement{
+                         periodSampleModel.print()}
+                     
+                     periodDataList.append(periodSampleModel)
+                    
+                 }
+             }
+         }
+         healthStore.execute(query)
+        
+        
+     }
     
     func fetchStepCount(amountOfDays: Int) {
         guard let stepCountType = HKObjectType.quantityType(forIdentifier: .stepCount) else {
