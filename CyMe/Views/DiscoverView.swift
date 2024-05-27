@@ -8,6 +8,7 @@
 import SwiftUI
 import SigmaSwiftStatistics
 
+
 struct DiscoverView: View {
     @ObservedObject var viewModel: DiscoverViewModel
     
@@ -16,7 +17,23 @@ struct DiscoverView: View {
         // Convert Double to String
         let averageString = String(format: "%.2f", x!)
         // Result: 4.00 (formatted to two decimal places)
-        Text("This is the discover page \(averageString)")
+        
+        VStack {
+               
+                   Text("This is the discover page \(averageString)")
+          
+                   Button(action: {
+                       viewModel.healthKitService.requestAuthorization()
+                           
+                       }) {
+                           Text("Tap Me")
+                               .font(.headline)
+                               .foregroundColor(.white)
+                               .padding()
+                               .background(Color.blue)
+                               .cornerRadius(10)
+                       }
+               }
     }
 }
 

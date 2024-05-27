@@ -7,21 +7,13 @@
 
 import Combine
 import SigmaSwiftStatistics
+import HealthKit
+import Foundation
+
 
 class DiscoverViewModel: ObservableObject {
-    private let healthKitService = HealthKitService()
-    @Published var healthData: [HealthDataModel] = []
-    private var cancellables = Set<AnyCancellable>()
     
-    func fetchHealthData() {
-        healthKitService.fetchHealthData { [weak self] data, error in
-            guard let self = self else { return }
-            if let data = data {
-                self.healthData = data
-            } else if let error = error {
-                print("Error fetching health data: \(error.localizedDescription)")
-            }
-        }
-    }
+    let healthKitService = HealthKitService() //TODO can we do this private soon?
+    
 }
 
