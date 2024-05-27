@@ -10,28 +10,51 @@ class SettingsDatabaseService {
     init() {
         self.db = DatabaseService.shared.db
         createSettingsTableIfNeeded()
+        createHealthDataSettingsTableIfNeeded()
     }
-
+    
+    public func getDefaultSettings() -> SettingsModel {
+            return SettingsModel(
+                enableHealthKit: false,
+                HealthDataSettings: getDefaultHealthDataSettings(),
+                selfReportWithWatch: true,
+                enableWidget: true,
+                startPeriodReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
+                selfReportReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
+                summaryReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
+                selectedTheme: ThemeModel(name: "Deep blue", backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
+            )
+    }
+    
+    private func getDefaultHealthDataSettings() -> [HealthDataSettingsModel] {
+        let defaultValues: [HealthDataSettingsModel] = [
+            HealthDataSettingsModel(title: "Menstrual data", enableDataSync: true, enableSelfReportingCyMe: true, dataLocation: DataLocation.sync),
+            HealthDataSettingsModel(title: "Sleep quality", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.onlyCyMe),
+            HealthDataSettingsModel(title: "Sleep length",enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
+            HealthDataSettingsModel(title:"Headache", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
+            HealthDataSettingsModel(title: "Stress", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.onlyCyMe),
+            HealthDataSettingsModel(title: "Abdominal cramps", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
+            HealthDataSettingsModel(title: "Lower back pain", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
+            HealthDataSettingsModel(title: "Pelvic pain", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
+            HealthDataSettingsModel(title: "Acne", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
+            HealthDataSettingsModel(title: "Appetite changes", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
+            HealthDataSettingsModel(title: "Tightness or pain in the chest", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
+            HealthDataSettingsModel(title: "Step data", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.onlyAppleHealth)
+        ]
+        return defaultValues
+    }
+    
     private func createSettingsTableIfNeeded() {
         let createTableQuery = """
             CREATE TABLE IF NOT EXISTS settings (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 enableHealthKit TEXT,
-                measuringWithWatch TEXT,
-                enableSleepQualityMeasuring TEXT,
-                enableSleepQualitySelfReporting TEXT,
-                enableSleepLengthMeasuring TEXT,
-                enableSleepLengthSelfReporting TEXT,
-                enableMenstrualCycleLengthMeasuring TEXT,
-                enableMenstrualCycleLengthReporting TEXT,
-                enableHeartRateMeasuring TEXT,
-                enableHeartRateReporting TEXT,
                 selfReportWithWatch TEXT,
+                enableWidget TEXT,
                 startPeriodReminder TEXT,
                 selfReportReminder TEXT,
                 summaryReminder TEXT,
-                selectedThemeName TEXT,
-                enableWidget TEXT
+                selectedTheme TEXT
             );
             """
         
@@ -41,7 +64,26 @@ class SettingsDatabaseService {
             print("Error creating settings table")
         }
     }
-
+    
+    private func createHealthDataSettingsTableIfNeeded() {
+        let createTableQuery = """
+            CREATE TABLE IF NOT EXISTS HealthDataSettings (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT,
+                enableDataSync TEXT,
+                enableSelfReportingCyMe TEXT
+            );
+            """
+        
+        if DatabaseService.shared.executeQuery(createTableQuery) {
+            print("Health data Settings table created successfully or already exists")
+        } else {
+            print("Error creating health data settings table")
+        }
+    }
+    
+    
+    // Saved the whole model in the respective database
     func saveSettings(settings: SettingsModel) {
         let fetchQuery = "SELECT COUNT(*) FROM settings WHERE id = 1;"
         var statement: OpaquePointer?
@@ -58,25 +100,74 @@ class SettingsDatabaseService {
         }
         
         if count > 0 {
-            _ = updateSettings(settings: settings)
+            _ = updateMainSettings(settings: settings)
+            _ = updateHealthDataSettings(healthDataSettings: settings.HealthDataSettings)
         } else {
-            _ = insertSettings(settings: settings)
+            _ = insertMainSettings(settings: settings)
+            insertHealthDataSettings(healthDataSettings: settings.HealthDataSettings)
         }
     }
-
-    private func insertSettings(settings: SettingsModel) -> Bool {
+    
+    // Get the whole Settings model
+    private func getSettings() -> SettingsModel? {
+        let query = "SELECT * FROM settings LIMIT 1;"
+        var statement: OpaquePointer?
+        
+        guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
+            print("Error preparing select statement")
+            return nil
+        }
+        
+        defer { sqlite3_finalize(statement) }
+        
+        if sqlite3_step(statement) == SQLITE_ROW {
+            let enableHealthKit = String(cString: sqlite3_column_text(statement, 1)) == "true"
+            let selfReportWithWatch = String(cString: sqlite3_column_text(statement, 2)) == "true"
+            let enableWidget = String(cString: sqlite3_column_text(statement, 3)) == "true"
+            let startPeriodReminderData = Data(base64Encoded: String(cString: sqlite3_column_text(statement, 4))) ?? Data()
+            let selfReportReminderData = Data(base64Encoded: String(cString: sqlite3_column_text(statement, 5))) ?? Data()
+            let summaryReminderData = Data(base64Encoded: String(cString: sqlite3_column_text(statement, 6))) ?? Data()
+            let selectedThemeName = String(cString: sqlite3_column_text(statement, 7))
+            
+            //TODO parse them correctly
+            let startPeriodReminder = ReminderModel(isEnabled: false, frequency: "", times: [], startDate: Date())
+            let selfReportReminder = ReminderModel(isEnabled: false, frequency: "", times: [], startDate: Date())
+            let summaryReminder = ReminderModel(isEnabled: false, frequency: "", times: [], startDate: Date())
+            
+            let selectedTheme = ThemeModel(name: selectedThemeName, backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
+            
+            var healthDataSettings = getHealthDataSettings()
+            
+            return SettingsModel(
+                enableHealthKit: enableHealthKit,
+                HealthDataSettings: healthDataSettings,
+                selfReportWithWatch: selfReportWithWatch,
+                enableWidget: enableWidget,
+                startPeriodReminder: startPeriodReminder,
+                selfReportReminder: selfReportReminder,
+                summaryReminder: summaryReminder,
+                selectedTheme: selectedTheme
+            )
+        } else {
+            print("Settings not found")
+            return nil
+        }
+    }
+    
+// ---------------------------------------------------- Main Settings -----------------------------------------
+    
+    private func insertMainSettings(settings: SettingsModel) -> Bool {
         let insertQuery = """
             INSERT INTO settings (
-                enableHealthKit, connectWatch, enableSleepQualityMeasuring,
-                enableSleepQualitySelfReporting, enableSleepLengthMeasuring,
-                enableSleepLengthSelfReporting, enableMenstrualCycleLengthMeasuring,
-                enableMenstrualCycleLengthReporting, enableHeartRateMeasuring,
-                enableHeartRateReporting, selfReportWithWatch TEXT,
-                startPeriodReminder TEXT,
-                selfReportReminder TEXT,
-                summaryReminder TEXT,
-                selectedTheme TEXT, enableWidget)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                enableHealthKit,
+                selfReportWithWatch,
+                enableWidget,
+                startPeriodReminder,
+                selfReportReminder,
+                summaryReminder,
+                selectedTheme
+                )
+            VALUES (?, ?, ?, ?, ?, ?, ?);
             """
         
         var statement: OpaquePointer?
@@ -87,19 +178,14 @@ class SettingsDatabaseService {
         
         defer { sqlite3_finalize(statement) }
         
-        sqlite3_bind_text(statement, 1, (settings.enableHealthKit ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 2, (settings.measuringWithWatch ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 3, (settings.enableSleepQualityMeasuring ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 4, (settings.enableSleepQualitySelfReporting ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 5, (settings.enableSleepLengthMeasuring ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 6, (settings.enableSleepLengthSelfReporting ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 7, (settings.enableMenstrualCycleLengthMeasuring ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 8, (settings.enableMenstrualCycleLengthReporting ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 9, (settings.enableHeartRateMeasuring ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 10, (settings.enableHeartRateReporting ? "true" : "false"), -1, nil)
-        //TODO add Models as string to db
-        sqlite3_bind_text(statement, 14, (settings.selfReportWithWatch ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 15, (settings.enableWidget ? "true" : "false"), -1, nil)
+        sqlite3_bind_text(statement, 1, boolToNSStringUTF8String(settings.enableHealthKit), -1, nil)
+        sqlite3_bind_text(statement, 2, boolToNSStringUTF8String(settings.selfReportWithWatch), -1, nil)
+        sqlite3_bind_text(statement, 3, boolToNSStringUTF8String(settings.enableWidget), -1, nil)
+        sqlite3_bind_text(statement, 4, modelToJSONStringUTF8(settings.startPeriodReminder), -1, nil)
+        sqlite3_bind_text(statement, 5, modelToJSONStringUTF8(settings.selfReportReminder), -1, nil)
+        sqlite3_bind_text(statement, 6, modelToJSONStringUTF8(settings.summaryReminder), -1, nil)
+        sqlite3_bind_text(statement, 7, (settings.selectedTheme.name as NSString).utf8String, -1, nil)
+        
         
         if sqlite3_step(statement) == SQLITE_DONE {
             print("Successfully inserted settings")
@@ -112,17 +198,17 @@ class SettingsDatabaseService {
         }
     }
 
-    private func updateSettings(settings: SettingsModel) -> Bool {
+    private func updateMainSettings(settings: SettingsModel) -> Bool {
         let updateQuery = """
             UPDATE settings SET
-                enableHealthKit = ?, connectWatch = ?, enableSleepQualityMeasuring = ?,
-                enableSleepQualitySelfReporting = ?, enableSleepLengthMeasuring = ?,
-                enableSleepLengthSelfReporting = ?, enableMenstrualCycleLengthMeasuring = ?,
-                enableMenstrualCycleLengthReporting = ?, enableHeartRateMeasuring = ?,
-                enableHeartRateReporting = ?, selfReportingReminderFrequency = ?,
-                summaryReminderFrequency = ?, startPeriodReminderFrequency = ?,
-                enableSelfReportingOnWatch = ?, enableWidgets = ?
-            WHERE id = 1;
+                enableHealthKit = ?,
+                selfReportWithWatch = ?,
+                enableWidget = ?,
+                startPeriodReminder = ?,
+                selfReportReminder = ?,
+                summaryReminder = ?,
+                selectedTheme = ?,
+                WHERE id = 1;
             """
         
         var statement: OpaquePointer?
@@ -133,19 +219,13 @@ class SettingsDatabaseService {
         
         defer { sqlite3_finalize(statement) }
         
-        sqlite3_bind_text(statement, 1, (settings.enableHealthKit ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 2, (settings.measuringWithWatch ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 3, (settings.enableSleepQualityMeasuring ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 4, (settings.enableSleepQualitySelfReporting ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 5, (settings.enableSleepLengthMeasuring ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 6, (settings.enableSleepLengthSelfReporting ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 7, (settings.enableMenstrualCycleLengthMeasuring ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 8, (settings.enableMenstrualCycleLengthReporting ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 9, (settings.enableHeartRateMeasuring ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 10, (settings.enableHeartRateReporting ? "true" : "false"), -1, nil)
-        sqlite3_bind_text(statement, 11, settings.selfReportReminder.frequency, -1, nil)
-        sqlite3_bind_text(statement, 12, settings.summaryReminder.frequency, -1, nil)
-        sqlite3_bind_text(statement, 13, settings.startPeriodReminder.frequency, -1, nil)
+        sqlite3_bind_text(statement, 1, boolToNSStringUTF8String(settings.enableHealthKit), -1, nil)
+        sqlite3_bind_text(statement, 2, boolToNSStringUTF8String(settings.selfReportWithWatch), -1, nil)
+        sqlite3_bind_text(statement, 3, boolToNSStringUTF8String(settings.enableWidget), -1, nil)
+        sqlite3_bind_text(statement, 4, modelToJSONStringUTF8(settings.startPeriodReminder), -1, nil)
+        sqlite3_bind_text(statement, 5, modelToJSONStringUTF8(settings.selfReportReminder), -1, nil)
+        sqlite3_bind_text(statement, 6, modelToJSONStringUTF8(settings.summaryReminder), -1, nil)
+        sqlite3_bind_text(statement, 7, (settings.selectedTheme.name as NSString).utf8String, -1, nil)
         
         if sqlite3_step(statement) == SQLITE_DONE {
             print("Successfully updated settings")
@@ -157,78 +237,107 @@ class SettingsDatabaseService {
             return false
         }
     }
-    private func defaultSettings() -> SettingsModel {
-            return SettingsModel(
-                enableHealthKit: false,
-                measuringWithWatch: true,
-                enableSleepQualityMeasuring: true,
-                enableSleepQualitySelfReporting: false,
-                enableSleepLengthMeasuring: true,
-                enableSleepLengthSelfReporting: false,
-                enableMenstrualCycleLengthMeasuring: true,
-                enableMenstrualCycleLengthReporting: false,
-                enableHeartRateMeasuring: false,
-                enableHeartRateReporting: true,
-                selfReportWithWatch: true,
-                startPeriodReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
-                selfReportReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
-                summaryReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
-                selectedTheme: ThemeModel(name: "Deep blue", backgroundColor: .white, primaryColor: .blue, accentColor: .blue),
-                enableWidget: true
-            )
-        }
     
-    func getSettings() -> SettingsModel {
-        let query = "SELECT * FROM settings WHERE id = 1;"
-        var statement: OpaquePointer?
-        
-        guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
-            print("Error preparing select statement")
-            return defaultSettings()
+// --------------------------------------- HealthData Settings ------------------------------------------------
+    private func insertHealthDataSettings(healthDataSettings: [HealthDataSettingsModel]) {
+        let selectQuery = "SELECT COUNT(*) FROM HealthDataSettings;"
+        var stmt: OpaquePointer?
+        var count: Int = 0
+
+        if sqlite3_prepare_v2(db, selectQuery, -1, &stmt, nil) == SQLITE_OK {
+            if sqlite3_step(stmt) == SQLITE_ROW {
+                count = Int(sqlite3_column_int(stmt, 0))
+            }
+            sqlite3_finalize(stmt)
         }
-        
-        defer { sqlite3_finalize(statement) }
-        
-        if sqlite3_step(statement) == SQLITE_ROW {
-            let enableHealthKit = String(cString: sqlite3_column_text(statement, 1)) == "true"
-            let measuringWithWatch = String(cString: sqlite3_column_text(statement, 2)) == "true"
-            let enableSleepQualityMeasuring = String(cString: sqlite3_column_text(statement, 3)) == "true"
-            let enableSleepQualitySelfReporting = String(cString: sqlite3_column_text(statement, 4)) == "true"
-            let enableMenstrualCycleLengthMeasuring = String(cString: sqlite3_column_text(statement, 5)) == "true"
-            let enableMenstrualCycleLengthReporting = String(cString: sqlite3_column_text(statement, 6)) == "true"
-            let enableHeartRateMeasuring = String(cString: sqlite3_column_text(statement, 7)) == "true"
-            let enableHeartRateReporting = String(cString: sqlite3_column_text(statement, 8)) == "true"
-            let selfReportReminderData = Data(base64Encoded: String(cString: sqlite3_column_text(statement, 9))) ?? Data()
-            let summaryReminderData = Data(base64Encoded: String(cString: sqlite3_column_text(statement, 10))) ?? Data()
-            let startPeriodReminderData = Data(base64Encoded: String(cString: sqlite3_column_text(statement, 11))) ?? Data()
-            //TODO get the models
-            let selfReportReminder = ReminderModel(isEnabled: false, frequency: "", times: [], startDate: Date())
-            let summaryReminder = ReminderModel(isEnabled: false, frequency: "", times: [], startDate: Date())
-            let startPeriodReminder = ReminderModel(isEnabled: false, frequency: "", times: [], startDate: Date())
-            
-            return SettingsModel(
-                enableHealthKit: enableHealthKit,
-                measuringWithWatch: measuringWithWatch,
-                enableSleepQualityMeasuring: enableSleepQualityMeasuring,
-                enableSleepQualitySelfReporting: enableSleepQualitySelfReporting,
-                enableSleepLengthMeasuring: enableSleepQualityMeasuring,
-                enableSleepLengthSelfReporting: enableSleepQualitySelfReporting,
-                enableMenstrualCycleLengthMeasuring: enableMenstrualCycleLengthMeasuring,
-                enableMenstrualCycleLengthReporting: enableMenstrualCycleLengthReporting,
-                enableHeartRateMeasuring: enableHeartRateMeasuring,
-                enableHeartRateReporting: enableHeartRateReporting,
-                selfReportWithWatch: true,
-                startPeriodReminder: selfReportReminder ?? ReminderModel(isEnabled: false, frequency: "", times: [], startDate: Date()),
-                selfReportReminder: summaryReminder ?? ReminderModel(isEnabled: false, frequency: "", times: [], startDate: Date()),
-                summaryReminder: startPeriodReminder ?? ReminderModel(isEnabled: false, frequency: "", times: [], startDate: Date()),
-                selectedTheme: ThemeModel(name: "Deep blue", backgroundColor: .white, primaryColor: .blue, accentColor: .blue),
-                enableWidget: true
-            )
+
+        if count == 0 {
+            for healthData in healthDataSettings {
+                let insertQuery = """
+                    INSERT INTO HealthDataSettings (title, enableDataSync, enableSelfReportingCyMe)
+                    VALUES ('\(healthData.title)', '\(healthData.enableDataSync)', '\(healthData.enableSelfReportingCyMe)');
+                    """
+                if DatabaseService.shared.executeQuery(insertQuery) {
+                    print("Default value inserted successfully: \(healthData.title)")
+                } else {
+                    print("Error inserting default value: \(healthData.title)")
+                }
+            }
+            print("Default values inserted successfully")
         } else {
-            print("Settings not found, returning default settings")
-            return defaultSettings()
+            print("Default values already exist")
         }
     }
 
+    
+    private func updateHealthDataSettings(healthDataSettings: [HealthDataSettingsModel]) -> [HealthDataSettingsModel]?  {
+        let updateQuery = """
+            UPDATE HealthDataSettings SET
+            enableDataSync = ?,
+            enableSelfReportingCyMe = ?
+            WHERE title = ?;
+            """
+        
+        var success = true
+        
+        for healthDataSetting in healthDataSettings {
+            var statement: OpaquePointer?
+            guard sqlite3_prepare_v2(db, updateQuery, -1, &statement, nil) == SQLITE_OK else {
+                print("Error preparing update statement")
+                success = false
+                continue
+            }
+            
+            defer { sqlite3_finalize(statement) }
+            
+            sqlite3_bind_text(statement, 1, boolToNSStringUTF8String(healthDataSetting.enableDataSync), -1, nil)
+            sqlite3_bind_text(statement, 2, boolToNSStringUTF8String(healthDataSetting.enableSelfReportingCyMe), -1, nil)
+            sqlite3_bind_text(statement, 3, (healthDataSetting.title as NSString).utf8String, -1, nil)
+            
+            if sqlite3_step(statement) != SQLITE_DONE {
+                success = false
+                if let error = sqlite3_errmsg(db) {
+                    print("Failed to update health data setting with title \(healthDataSetting.title): \(String(cString: error))")
+                }
+            }
+        }
+        
+        if success {
+            print("Successfully updated health data settings")
+            return healthDataSettings
+        }
+        
+        return nil
+    }
+
+
+    
+    private func getHealthDataSettings() -> [HealthDataSettingsModel] {
+        var settings: [HealthDataSettingsModel] = []
+        let selectQuery = "SELECT title, enableDataSync, enableSelfReportingCyMe, dataLocation FROM HealthDataSettings;"
+        var stmt: OpaquePointer?
+
+        if sqlite3_prepare_v2(db, selectQuery, -1, &stmt, nil) == SQLITE_OK {
+            while sqlite3_step(stmt) == SQLITE_ROW {
+                let title = String(cString: sqlite3_column_text(stmt, 0))
+                let enableDataSyncText = String(cString: sqlite3_column_text(stmt, 1))
+                let enableSelfReportingCyMeText = String(cString: sqlite3_column_text(stmt, 2))
+                let dataLocation = String(cString: sqlite3_column_text(stmt, 3))
+                
+                settings.append(HealthDataSettingsModel(title: title, enableDataSync: stringToBool(enableDataSyncText), enableSelfReportingCyMe: stringToBool(enableSelfReportingCyMeText), dataLocation: stringToDataLocation(dataLocation) ?? DataLocation.onlyCyMe))
+            }
+            sqlite3_finalize(stmt)
+        } else {
+            print("Error preparing select statement")
+        }
+
+        return settings
+    }
+
+
+    
+    
+    
+    
 
 }

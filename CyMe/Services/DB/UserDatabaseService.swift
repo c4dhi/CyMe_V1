@@ -21,6 +21,7 @@ class UserDatabaseService {
                     age INTEGER,
                     lifePhase TEXT,
                     regularCycle TEXT,
+                    cycleLength INTEGER,
                     contraceptions TEXT,
                     fertilityGoal TEXT
                 );
@@ -30,6 +31,31 @@ class UserDatabaseService {
                 print("User table created successfully or already exists")
             } else {
                 print("Error creating user table")
+            }
+        }
+    
+        func isUserPresent() -> Bool {
+            // Implement the logic to check if the user is present in the database
+            let query = "SELECT COUNT(*) FROM user;"
+            var statement: OpaquePointer?
+            
+            guard sqlite3_prepare_v2(DatabaseService.shared.db, query, -1, &statement, nil) == SQLITE_OK else {
+                if let error = sqlite3_errmsg(DatabaseService.shared.db) {
+                    print("Error preparing statement: \(String(cString: error))")
+                }
+                return false
+            }
+            
+            defer { sqlite3_finalize(statement) }
+            
+            if sqlite3_step(statement) == SQLITE_ROW {
+                let count = sqlite3_column_int(statement, 0)
+                return count > 0
+            } else {
+                if let error = sqlite3_errmsg(DatabaseService.shared.db) {
+                    print("Error executing query: \(String(cString: error))")
+                }
+                return false
             }
         }
     
@@ -107,14 +133,14 @@ class UserDatabaseService {
         }
 
         func defaultUser() -> UserModel {
-            return UserModel(name: "", age: 0, lifePhase: "Premenopause", regularCycle: false, cycleLength: 28, contraceptions: [], fertilityGoal: "Avoiding pregnancy")
+            return UserModel(name: "", age: nil, lifePhase: "Premenopause", regularCycle: false, cycleLength: nil, contraceptions: [], fertilityGoal: "Avoiding pregnancy")
         }
 
 
         private func insertUser(user: UserModel) -> Bool {
             let insertQuery = """
-                INSERT INTO user (name, age, lifePhase, regularCycle, contraceptions, fertilityGoal)
-                VALUES (?, ?, ?, ?, ?, ?);
+                INSERT INTO user (name, age, lifePhase, regularCycle, cycleLength, contraceptions, fertilityGoal)
+                VALUES (?, ?, ?, ?, ?, ?, ?);
                 """
             
             var statement: OpaquePointer?
@@ -130,12 +156,20 @@ class UserDatabaseService {
             let contraceptionsString = user.contraceptions.joined(separator: ",")
             
             sqlite3_bind_text(statement, 1, (user.name as NSString).utf8String, -1, nil)
-            sqlite3_bind_int(statement, 2, Int32(user.age))
+            if let age = user.age {
+                    sqlite3_bind_int(statement, 2, Int32(age))
+                } else {
+                    sqlite3_bind_null(statement, 2)
+                }
             sqlite3_bind_text(statement, 3, (user.lifePhase as NSString).utf8String, -1, nil)
             sqlite3_bind_text(statement, 4, (user.regularCycle ? "true" : "false" as NSString).utf8String, -1, nil)
-            sqlite3_bind_int(statement, 5, Int32(user.cycleLength))
-            sqlite3_bind_text(statement, 5, (contraceptionsString as NSString).utf8String, -1, nil)
-            sqlite3_bind_text(statement, 6, (user.fertilityGoal as NSString).utf8String, -1, nil)
+            if let cycleLength = user.cycleLength {
+                    sqlite3_bind_int(statement, 5, Int32(cycleLength))
+                } else {
+                    sqlite3_bind_null(statement, 5)
+                }
+            sqlite3_bind_text(statement, 6, (contraceptionsString as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 7, (user.fertilityGoal as NSString).utf8String, -1, nil)
             
             if sqlite3_step(statement) == SQLITE_DONE {
                 print("Successfully inserted user")
@@ -165,13 +199,21 @@ class UserDatabaseService {
             defer { sqlite3_finalize(statement) }
 
             sqlite3_bind_text(statement, 1, (user.name as NSString).utf8String, -1, nil)
-            sqlite3_bind_int(statement, 2, Int32(user.age))
+            if let age = user.age {
+                    sqlite3_bind_int(statement, 2, Int32(age))
+                } else {
+                    sqlite3_bind_null(statement, 2)
+                }
             sqlite3_bind_text(statement, 3, (user.lifePhase as NSString).utf8String, -1, nil)
             sqlite3_bind_text(statement, 4, (user.regularCycle ? "true" : "false" as NSString).utf8String, -1, nil)
-            sqlite3_bind_int(statement, 5, Int32(user.cycleLength))
+            if let cycleLength = user.cycleLength {
+                    sqlite3_bind_int(statement, 5, Int32(cycleLength))
+                } else {
+                    sqlite3_bind_null(statement, 5)
+                }
             let contraceptionsString = user.contraceptions.joined(separator: ",")
-            sqlite3_bind_text(statement, 5, (contraceptionsString as NSString).utf8String, -1, nil)
-            sqlite3_bind_text(statement, 6, (user.fertilityGoal as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 6, (contraceptionsString as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 7, (user.fertilityGoal as NSString).utf8String, -1, nil)
 
             if sqlite3_step(statement) == SQLITE_DONE {
                 print("Successfully updated user")

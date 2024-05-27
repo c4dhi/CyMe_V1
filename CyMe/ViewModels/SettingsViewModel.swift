@@ -6,45 +6,20 @@
 //
 
 import Foundation
+import SwiftUI
 
 class SettingsViewModel: ObservableObject {
-    @Published var settings = SettingsModel(
-        // measuring and reporting settings
-        enableHealthKit: false,
-        measuringWithWatch: true,
-        enableSleepQualityMeasuring: true,
-        enableSleepQualitySelfReporting: false,
-        enableSleepLengthMeasuring: true,
-        enableSleepLengthSelfReporting: false,
-        enableMenstrualCycleLengthMeasuring: true,
-        enableMenstrualCycleLengthReporting: false,
-        enableHeartRateMeasuring: false,
-        enableHeartRateReporting: true,
-        
-        // reminder settings
-        selfReportWithWatch: true,
-        startPeriodReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
-        selfReportReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
-        summaryReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
-
-        // theme settings
-        selectedTheme: ThemeModel(name: "Deep blue", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue),
-        enableWidget: true
-    )
+    @Published var settings: SettingsModel
     
     private var settingsDatabaseService: SettingsDatabaseService
         
     init() {
         settingsDatabaseService = SettingsDatabaseService()
-        loadSettings()
+        self.settings = settingsDatabaseService.getDefaultSettings()
     }
     
     func saveSettings() {
         settingsDatabaseService.saveSettings(settings: settings)
-    }
-    
-    func loadSettings() {
-        self.settings = settingsDatabaseService.getSettings()
     }
     
 }

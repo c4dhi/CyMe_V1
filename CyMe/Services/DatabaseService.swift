@@ -12,18 +12,24 @@ import Foundation
 import SQLite3
 
 class DatabaseService {
-    static let shared = DatabaseService()
+    static let shared: DatabaseService = DatabaseService()
+    
     internal var db: OpaquePointer?
     
-    let settingsService: SettingsDatabaseService
-    let userDatabaseService: UserDatabaseService
-    let reportingDatabaseService: ReportingDatabaseService
+    lazy var settingsService: SettingsDatabaseService = {
+        return SettingsDatabaseService()
+    }()
+    
+    lazy var userDatabaseService: UserDatabaseService = {
+        return UserDatabaseService()
+    }()
+    
+    lazy var reportingDatabaseService: ReportingDatabaseService = {
+        return ReportingDatabaseService()
+    }()
 
     private init() {
-        settingsService = SettingsDatabaseService()
-        userDatabaseService = UserDatabaseService()
-        reportingDatabaseService = ReportingDatabaseService()
-        db = openDatabase()
+        self.db = self.openDatabase()
     }
 
     private func openDatabase() -> OpaquePointer? {

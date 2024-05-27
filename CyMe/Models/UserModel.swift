@@ -9,10 +9,10 @@ import Foundation
 
 struct UserModel {
     var name: String
-    var age: Int
+    var age: Int?
     var lifePhase: String
     var regularCycle: Bool
-    var cycleLength: Int
+    var cycleLength: Int?
     var contraceptions: [String]
     var fertilityGoal: String
 }

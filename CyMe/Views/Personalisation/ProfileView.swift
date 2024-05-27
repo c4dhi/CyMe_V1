@@ -27,8 +27,20 @@ struct ProfileView: View {
                 Section(header: Text("Personal information")) {
                     TextField("Name", text: $userViewModel.user.name)
                     TextField("Age", text: Binding(
-                        get: { String(userViewModel.user.age) },
-                        set: { userViewModel.user.age = Int($0) ?? 0 }
+                        get: {
+                                if let age = userViewModel.user.age {
+                                    return String(age)
+                                } else {
+                                    return ""
+                                }
+                            },
+                            set: {
+                                if let value = Int($0) {
+                                    userViewModel.user.age = value
+                                } else {
+                                    userViewModel.user.age = nil
+                                }
+                            }
                     ))
                 }
                 
@@ -42,8 +54,20 @@ struct ProfileView: View {
                     Toggle("Regular menstrual cycle", isOn: $userViewModel.user.regularCycle)
                     if userViewModel.user.regularCycle {
                         TextField("Cycle Length", text: Binding(
-                            get: { String(userViewModel.user.cycleLength) },
-                            set: { userViewModel.user.cycleLength = Int($0) ?? 0 }
+                            get: {
+                                if let cycleLength = userViewModel.user.cycleLength {
+                                    return String(cycleLength)
+                                } else {
+                                    return ""
+                                }
+                            },
+                            set: {
+                                if let value = Int($0) {
+                                    userViewModel.user.cycleLength = value
+                                } else {
+                                    userViewModel.user.cycleLength = nil
+                                }
+                            }
                         ))
                     }
                 }
@@ -85,7 +109,7 @@ struct ProfileView: View {
     }
 
     func isInputValid() -> Bool {
-        return !userViewModel.user.name.isEmpty && userViewModel.user.age > 0 && !userViewModel.user.lifePhase.isEmpty && !userViewModel.user.fertilityGoal.isEmpty && (userViewModel.user.fertilityGoal == "Pregnancy" || !userViewModel.user.contraceptions.isEmpty)
+        return !userViewModel.user.name.isEmpty && (userViewModel.user.age != nil && userViewModel.user.age! >= 18) && !userViewModel.user.lifePhase.isEmpty && !userViewModel.user.fertilityGoal.isEmpty && (userViewModel.user.fertilityGoal == "Pregnancy" || !userViewModel.user.contraceptions.isEmpty)
     }
 }
 

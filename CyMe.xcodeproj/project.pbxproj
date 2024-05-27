@@ -55,6 +55,8 @@
 		4CF015572BE955E200BE8DF0 /* SelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015562BE955E200BE8DF0 /* SelfReportModel.swift */; };
 		4CF0155A2BE9560E00BE8DF0 /* iOSConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015592BE9560E00BE8DF0 /* iOSConnector.swift */; };
 		4CF0155C2BEB479000BE8DF0 /* CyMe_WatchOs Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4C1354AC2BCFC6A40078A84B /* CyMe_WatchOs Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4CFDC37F2C04F24500DD3295 /* DatabaseUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC37E2C04F24500DD3295 /* DatabaseUtils.swift */; };
+		4CFDC3812C072D6400DD3295 /* HealthDataSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3802C072D6400DD3295 /* HealthDataSettingsModel.swift */; };
 		50DC147E2BD1207200A280CE /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 50DC147D2BD1207200A280CE /* SigmaSwiftStatistics */; };
 		50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */; };
 		50E26B1A2C04C7FF00726C5C /* PeriodSampleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */; };
@@ -149,6 +151,7 @@
 		4C5A49B72BFE1A79008253FD /* ThemeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeModel.swift; sourceTree = "<group>"; };
 		4C5A49B92BFFD07C008253FD /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		4C5A49BB2BFFD184008253FD /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		4C84BA3E2C046D7400A865AC /* CyMe-WatchOs-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "CyMe-WatchOs-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		4CB6BBDE2BD6E5BF008A32CA /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportOptionsModel.swift; sourceTree = "<group>"; };
@@ -166,6 +169,8 @@
 		4CF015532BE955B300BE8DF0 /* WatchConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnector.swift; sourceTree = "<group>"; };
 		4CF015562BE955E200BE8DF0 /* SelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportModel.swift; sourceTree = "<group>"; };
 		4CF015592BE9560E00BE8DF0 /* iOSConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSConnector.swift; sourceTree = "<group>"; };
+		4CFDC37E2C04F24500DD3295 /* DatabaseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseUtils.swift; sourceTree = "<group>"; };
+		4CFDC3802C072D6400DD3295 /* HealthDataSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataSettingsModel.swift; sourceTree = "<group>"; };
 		50D4A8CE2BFE2E2F008FDE58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		50D4A8CF2BFE3060008FDE58 /* CyMe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CyMe.entitlements; sourceTree = "<group>"; };
 		50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSelfReportModel.swift; sourceTree = "<group>"; };
@@ -291,6 +296,7 @@
 		4C1354AD2BCFC6A40078A84B /* CyMe_WatchOs Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				4C84BA3E2C046D7400A865AC /* CyMe-WatchOs-Watch-App-Info.plist */,
 				4CDD2FCB2BEB786D005995B5 /* Views */,
 				4CF015582BE955FD00BE8DF0 /* Services */,
 				4CF015552BE955CD00BE8DF0 /* Models */,
@@ -330,14 +336,12 @@
 		4C1354D62BCFC73E0078A84B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				4CFDC3822C072DCE00DD3295 /* Settings */,
 				4C1354EA2BCFD4300078A84B /* HealthDataModel.swift */,
 				4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */,
 				50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */,
 				4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */,
 				50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */,
-				4C5A49B12BFDEF49008253FD /* SettingsModel.swift */,
-				4C5A49B52BFDF4A9008253FD /* ReminderModel.swift */,
-				4C5A49B72BFE1A79008253FD /* ThemeModel.swift */,
 				4C5A49BB2BFFD184008253FD /* UserModel.swift */,
 			);
 			path = Models;
@@ -361,6 +365,7 @@
 		4C1354EC2BCFD4F40078A84B /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				4CFDC37D2C04F22C00DD3295 /* Utils */,
 				4C5605252C01D0AE00B9114D /* DB */,
 				4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */,
 				4CB6BBDE2BD6E5BF008A32CA /* DatabaseService.swift */,
@@ -440,6 +445,25 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4CFDC37D2C04F22C00DD3295 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				4CFDC37E2C04F24500DD3295 /* DatabaseUtils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		4CFDC3822C072DCE00DD3295 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				4C5A49B12BFDEF49008253FD /* SettingsModel.swift */,
+				4CFDC3802C072D6400DD3295 /* HealthDataSettingsModel.swift */,
+				4C5A49B72BFE1A79008253FD /* ThemeModel.swift */,
+				4C5A49B52BFDF4A9008253FD /* ReminderModel.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -678,6 +702,7 @@
 				4C5A49BA2BFFD07C008253FD /* ProfileViewModel.swift in Sources */,
 				4C1354532BCFC6060078A84B /* ContentView.swift in Sources */,
 				4CDD2FD22BECAAA5005995B5 /* WelcomeView.swift in Sources */,
+				4CFDC3812C072D6400DD3295 /* HealthDataSettingsModel.swift in Sources */,
 				4C5A49B82BFE1A79008253FD /* ThemeModel.swift in Sources */,
 				4CDD2FE12BF4F2B9005995B5 /* SelfReportView.swift in Sources */,
 				4CB6BBDF2BD6E5BF008A32CA /* DatabaseService.swift in Sources */,
@@ -695,6 +720,7 @@
 				4CDD2FD52BECB52E005995B5 /* ProfileView.swift in Sources */,
 				4CDD2FDB2BF25023005995B5 /* OnboardingView.swift in Sources */,
 				4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */,
+				4CFDC37F2C04F24500DD3295 /* DatabaseUtils.swift in Sources */,
 				4C1354E32BCFCE320078A84B /* HomeView.swift in Sources */,
 				4C1354E52BCFCE440078A84B /* DiscoverView.swift in Sources */,
 				4C1354EE2BCFD52A0078A84B /* HealthKitService.swift in Sources */,
@@ -1051,6 +1077,7 @@
 				DEVELOPMENT_TEAM = TRH8K396GJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "CyMe-WatchOs-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = CyMe_WatchOs;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = uzh.MP.CyMe;
@@ -1067,7 +1094,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+				WATCHOS_DEPLOYMENT_TARGET = 8.7;
 			};
 			name = Debug;
 		};
@@ -1082,6 +1109,7 @@
 				DEVELOPMENT_TEAM = TRH8K396GJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "CyMe-WatchOs-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = CyMe_WatchOs;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = uzh.MP.CyMe;
@@ -1098,7 +1126,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+				WATCHOS_DEPLOYMENT_TARGET = 8.7;
 			};
 			name = Release;
 		};

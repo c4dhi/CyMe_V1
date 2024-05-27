@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ReminderModel {
+struct ReminderModel: Codable {
     var isEnabled: Bool
     var frequency: String
     var times: [Date]

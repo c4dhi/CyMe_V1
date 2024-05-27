@@ -10,6 +10,7 @@ import SwiftUI
 struct PersonalizationView: View {
     var nextPage: () -> Void
     @ObservedObject var settingsViewModel: SettingsViewModel
+    var healthkit = HealthKitService()
 
     var body: some View {
         Text("Personalize CyMe measuring and reporting")
@@ -21,8 +22,12 @@ struct PersonalizationView: View {
     
         Form {
             Section(header: Text("Health Data Access")) {
-                Toggle("Allow access to HealthKit", isOn: $settingsViewModel.settings.enableHealthKit)
-                Toggle("Do you have Apple Watch to measure health data?", isOn: $settingsViewModel.settings.measuringWithWatch)
+                Toggle("Allow access to Apple Health", isOn: $settingsViewModel.settings.enableHealthKit)
+                    .onChange(of: settingsViewModel.settings.enableHealthKit) { newValue in
+                                if newValue {
+                                    healthkit.requestAuthorization();
+                                }
+                            }
             }
 
             Section(header: Text("Measurements and reporting")) {
@@ -31,21 +36,30 @@ struct PersonalizationView: View {
                         Text("")
                             .frame(width: 120, alignment: .leading)
                         Spacer()
-                        Text("Measure")
+                        Text("Sync with Apple Health")
                             .frame(width: 100, alignment: .center)
                         Spacer()
-                        Text("Self-Report")
+                        Text("Self-Report in CyMe")
                             .frame(width: 100, alignment: .center)
                     }
                     .font(.headline)
                     
-                    measurementRow(label: "Sleep quality", measure: $settingsViewModel.settings.enableSleepQualityMeasuring, selfReport: $settingsViewModel.settings.enableSleepQualitySelfReporting)
-                    measurementRow(label: "Menstrual cycle length", measure: $settingsViewModel.settings.enableSleepLengthMeasuring, selfReport: $settingsViewModel.settings.enableSleepLengthSelfReporting)
-                    measurementRow(label: "Heart rate", measure: $settingsViewModel.settings.enableHeartRateMeasuring, selfReport: $settingsViewModel.settings.enableHeartRateReporting)
-                    // Add more measurement rows as needed
+                    
+                    ForEach(settingsViewModel.settings.HealthDataSettings.indices, id: \.self) { index in
+                        let healthData = settingsViewModel.settings.HealthDataSettings[index]
+                        self.measurementRow(
+                            label: healthData.title,
+                            measure: $settingsViewModel.settings.HealthDataSettings[index].enableDataSync,
+                            selfReport: $settingsViewModel.settings.HealthDataSettings[index].enableSelfReportingCyMe,
+                            syncIsEnabled: true,
+                            cyMeSelfReportIsEnabled: true
+                        )
+                    }
+
                 }
             }
         }
+
         Button(action: nextPage) {
             Text("Continue")
                 .font(.headline)
@@ -57,7 +71,7 @@ struct PersonalizationView: View {
         }
     }
 
-    func measurementRow(label: String, measure: Binding<Bool>, selfReport: Binding<Bool>) -> some View {
+    func measurementRow(label: String, measure: Binding<Bool>, selfReport: Binding<Bool>, syncIsEnabled: Bool, cyMeSelfReportIsEnabled: Bool) -> some View {
         HStack {
             Text(label)
                 .frame(width: 120, alignment: .leading)
@@ -67,14 +81,18 @@ struct PersonalizationView: View {
             Toggle("", isOn: measure)
                 .labelsHidden()
                 .frame(width: 100, alignment: .center)
+                .disabled(!syncIsEnabled)
             
             Spacer()
             
             Toggle("", isOn: selfReport)
                 .labelsHidden()
                 .frame(width: 100, alignment: .center)
+                .disabled(!cyMeSelfReportIsEnabled)
         }
     }
+
+
 }
 
 struct PersonalizationView_Previews: PreviewProvider {
