@@ -13,18 +13,20 @@ struct SleepDataModel {
     var startDate: Date
     var endDate: Date
     var duration: Double   // in Seconds
-    var value: Int
-    var label: HKCategoryValueSleepAnalysis
+    var cathegory: HKCategoryValueSleepAnalysis
+    var label: String
     
     
     init(startDate: Date, endDate: Date, value: Int) {
         self.startDate = startDate
         self.endDate = endDate
-        self.value = value
         
         self.duration = endDate.timeIntervalSince(startDate)
         
-        let sleepValueLabels = [0: HKCategoryValueSleepAnalysis.inBed, 1: HKCategoryValueSleepAnalysis.asleepUnspecified, 2: HKCategoryValueSleepAnalysis.awake, 3: HKCategoryValueSleepAnalysis.asleepCore, 4: HKCategoryValueSleepAnalysis.asleepDeep , 5: HKCategoryValueSleepAnalysis.asleepREM ]
+        let sleepValueCathegories = [0: HKCategoryValueSleepAnalysis.inBed, 1: HKCategoryValueSleepAnalysis.asleepUnspecified, 2: HKCategoryValueSleepAnalysis.awake, 3: HKCategoryValueSleepAnalysis.asleepCore, 4: HKCategoryValueSleepAnalysis.asleepDeep , 5: HKCategoryValueSleepAnalysis.asleepREM]
+        self.cathegory = sleepValueCathegories[value]!
+        
+        let sleepValueLabels = [0: "in bed", 1: "asleep - unspecified", 2: "awake", 3: "asleep - core", 4: "asleep - deep" , 5: "asleep - REM"]
         self.label = sleepValueLabels[value]!
         }
      
@@ -52,7 +54,7 @@ struct SleepDataModel {
     
     func print() {
         let formatedDate = DateFormatter.localizedString(from: startDate, dateStyle: .short, timeStyle: .short)
-        Swift.print("(\(formatedDate), Duration: \(duration)s, \(formatDuration(duration:duration)), \(label),  \(value) )")
+        Swift.print("(\(formatedDate), Duration: \(duration)s, \(formatDuration(duration:duration)), \(label) )")
     }
 
     }
