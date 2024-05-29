@@ -15,14 +15,17 @@ class HealthKitService {
     
     // General Objects
     private let healthStore = HKHealthStore()
+    // Create a sort descriptor for a chronological sort
+    let sortDescriptorChronological = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
+    
     var stepCountOverTime: [Date: Int] = [:] // A dictionary with Date:Stepcount of that day, is updated whenever the fetchStepcount function is called
     
     // TODO Add all types we want to read and write
-    private let typesToRead: Set<HKSampleType> = [HKObjectType.quantityType(forIdentifier: .stepCount)!,HKObjectType.categoryType(forIdentifier: .headache)! ]
+    private let typesToRead: Set<HKSampleType> = [HKObjectType.quantityType(forIdentifier: .stepCount)!,HKObjectType.categoryType(forIdentifier: .headache)!, HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!, HKObjectType.quantityType(forIdentifier: .appleExerciseTime)!, HKObjectType.categoryType(forIdentifier: .menstrualFlow)!]
     private let typesToWrite: Set<HKSampleType> = [HKObjectType.categoryType(forIdentifier: .memoryLapse)!]
     
     // Variables for development
-    private let enablePrintStatement = false
+    private let enablePrintStatement = true
     
     
     
@@ -58,15 +61,17 @@ class HealthKitService {
     
     func get_health_data()  {
         // Fetch some automatically generated data
-        fetchStepCount(amountOfDays: 5)
+        //fetchStepCount(amountOfDays: 5)
         if self.enablePrintStatement {displayDateDictionary(dict: self.stepCountOverTime)} // Will need two times, but only updates with function
         // We fetch some data
-        fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.headache)
-        fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.memoryLapse)
+        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.headache)
+        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.memoryLapse)
         // We write some data
-        writeSelfreportedSamples(dataName: HKCategoryTypeIdentifier.memoryLapse)
+        //writeSelfreportedSamples(dataName: HKCategoryTypeIdentifier.memoryLapse)
         // We fetch the period data
-        fetchPeriodData()
+        //fetchPeriodData()
+        fetchSleepData()
+        //fetchTrainingMinutes(amountOfDays: 5)
     }
     
     func getSymptomes() -> [SymptomeModel]  {
@@ -102,10 +107,8 @@ class HealthKitService {
 
         var selfreportedDataList: [AppleHealthSefReportModel] = []
        
-        // Create a sort descriptor for a chronological sort
-        let sortDescriptorChronological = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
         
-        let query = HKSampleQuery(sampleType: dataType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptorChronological]) { (query, samples, error) in
+        let query = HKSampleQuery(sampleType: dataType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [self.sortDescriptorChronological]) { (query, samples, error) in
             guard let samples = samples else {
                 if let error = error {
                     print("Error fetching selfreported data: \(error.localizedDescription)")
@@ -119,16 +122,10 @@ class HealthKitService {
                 if let selfreportedSample = sample as? HKCategorySample {
                     let startDate = selfreportedSample.startDate
                     let intensity = selfreportedSample.value
-                    let sampleBool = (intensity != 1)
-                    let SRmodel = AppleHealthSefReportModel(startdate: startDate, symptomPresent: sampleBool, intensity: intensity)
+
+                    let SRmodel = AppleHealthSefReportModel(startdate: startDate, intensity: intensity)
                     selfreportedDataList.append(SRmodel)
-                }
-            }
-            
-            if self.enablePrintStatement {
-                print(dataName)
-                for item in selfreportedDataList{
-                    item.print()
+                    if self.enablePrintStatement {SRmodel.print()}
                 }
             }
         }
@@ -144,10 +141,8 @@ class HealthKitService {
          }
         
          var periodDataList: [PeriodSampleModel] = []
-        
-         let sortDescriptorChronological = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
 
-         let query = HKSampleQuery(sampleType: menstrualFlowType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptorChronological]) { (query, samples, error) in
+        let query = HKSampleQuery(sampleType: menstrualFlowType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [self.sortDescriptorChronological]) { (query, samples, error) in
              guard let samples = samples else {
                  if let error = error {
                      print("Error fetching menstrual flow data: \(error.localizedDescription)")
@@ -159,10 +154,10 @@ class HealthKitService {
                  
                  if let mensSample = sample as? HKCategorySample {
                      let startDate = mensSample.startDate
-                     let intensity = mensSample.value
+                     let value = mensSample.value
                      let startOfPeriod = mensSample.metadata?["HKMenstrualCycleStart"]!
                     
-                     let periodSampleModel = PeriodSampleModel(startdate: startDate, intensity: intensity, startofPeriod: startOfPeriod as! Int)
+                     let periodSampleModel = PeriodSampleModel(startdate: startDate, value: value, startofPeriod: startOfPeriod as! Int)
                      
                      if self.enablePrintStatement{
                          periodSampleModel.print()}
@@ -174,8 +169,44 @@ class HealthKitService {
          }
          healthStore.execute(query)
         
+     }
+    
+    
+    func fetchSleepData() {
+         guard let sleepAnalysisType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis) else {
+             print("Sleep Analysis type not available")
+             return
+         }
+        
+         //var periodDataList: [PeriodSampleModel] = []
+        
+         
+
+         let query = HKSampleQuery(sampleType: sleepAnalysisType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [self.sortDescriptorChronological]) { (query, samples, error) in
+             guard let samples = samples else {
+                 if let error = error {
+                     print("Error fetching sleep analysis data: \(error.localizedDescription)")
+                 }
+                 return
+             }
+             
+             for sample in samples {
+                 
+                 if let sleepSample = sample as? HKCategorySample {
+                     let startDate = sleepSample.startDate
+                     let endDate = sleepSample.endDate
+                     let value = sleepSample.value
+                     
+                     let sleepSampleModel = SleepDataModel(startDate: startDate, endDate: endDate, value: value)
+                     
+                     if self.enablePrintStatement{sleepSampleModel.print()}
+                 }
+             }
+         }
+         healthStore.execute(query)
         
      }
+    
     
     func fetchStepCount(amountOfDays: Int) {
         guard let stepCountType = HKObjectType.quantityType(forIdentifier: .stepCount) else {
@@ -223,5 +254,81 @@ class HealthKitService {
         }
     }
 
+    
+    func fetchTrainingMinutes(amountOfDays: Int) {
+        guard let stepCountType = HKObjectType.quantityType(forIdentifier: .appleExerciseTime) else {
+            print("Training minutes type not available")
+            return
+        }
+
+        let now = Date()
+        let startOfToday = Calendar.current.startOfDay(for: now)
+      
+        for i in 0...amountOfDays-1{
+            
+            var stepCount = 0
+            
+            if let startOfConsideredDay = Calendar.current.date(byAdding: .day, value: -i, to: startOfToday){
+                // To get from the beginning to the end of a day, there are 24 hours
+                if let endOfConsideredDay = Calendar.current.date(byAdding: .hour, value: 24, to: startOfConsideredDay){
+                    
+                    let predicate = HKQuery.predicateForSamples(withStart: startOfConsideredDay, end: endOfConsideredDay,  options: .strictEndDate)
+                    /*
+                    let query = HKStatisticsQuery(quantityType: stepCountType, quantitySamplePredicate: predicate, options: .cumulativeSum) { (query, result, error) in
+                        guard let result = result, let sum = result.sumQuantity() else {
+                            if let error = error {
+                                print("Error fetching step count: \(error.localizedDescription)")
+                                self.stepCountOverTime[startOfConsideredDay] =  0
+                            }
+                            return
+                        }
+                        
+                        stepCount = Int(sum.doubleValue(for: HKUnit.count()))
+                        if self.enablePrintStatement {print("Step count: \(stepCount), date: \(startOfConsideredDay)")} // Remember the day might be +1 since we are not in the same timezone
+                        self.stepCountOverTime[startOfConsideredDay] =  stepCount
+                        */
+
+                    let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
+                    
+                    let query = HKSampleQuery(sampleType: stepCountType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { (query, samples, error) in
+                        guard let samples = samples else {
+                            if let error = error {
+                                print("Error fetching sleep analysis data: \(error.localizedDescription)")
+                            }
+                            return
+                        }
+                        
+                        for sample in samples {
+                            
+                            let sleepSample = sample
+                            let startDate = sleepSample.startDate
+                            let endDate = sleepSample.endDate
+                            let value = sleepSample.sampleType
+                                
+                            print(startDate)
+                            print(endDate)
+                            print(value)
+                                
+                                
+                            }
+                    
+                    
+                    }
+                    healthStore.execute(query)
+                    
+                    
+                    
+                }
+                else{
+                    print("Computation of end of considered day failed critically")
+                }
+            }
+            else{
+                print("Computation of start of considered day failed critically")
+            }
+        }
+    }
+    
+    
 }
 
