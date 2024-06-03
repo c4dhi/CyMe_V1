@@ -10,11 +10,9 @@ import SwiftUI
 
 class iOSConnector: NSObject, WCSessionDelegate, ObservableObject{
     var session: WCSession
-    var userReporting: Binding<UserReportingOptions>
     
-    init(session: WCSession = .default, userReporting: Binding<UserReportingOptions>) {
+    init(session: WCSession = .default) {
         self.session = session
-        self.userReporting = userReporting
         super.init()
         session.delegate = self
         session.activate()
@@ -31,10 +29,10 @@ class iOSConnector: NSObject, WCSessionDelegate, ObservableObject{
                     let reportOptions = try JSONDecoder().decode(ReportOptionsModel.self, from: reportOptionsData)
                     
                     // Update userReportingOptions
-                    DispatchQueue.main.async {
+                    /*DispatchQueue.main.async {
                         self.userReporting.wrappedValue.periodTrackingEnabled = reportOptions.periodTrackingEnabled
                         self.userReporting.wrappedValue.headacheTrackingEnabled = reportOptions.headacheTrackingEnabled
-                    }
+                    }*/
 
                     print("Received report options: \(reportOptions)")
                 } catch {

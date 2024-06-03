@@ -11,6 +11,8 @@ struct ContentView: View {
     @StateObject var connector = WatchConnector()
     @State private var isSettingsPresented = false
     @State private var isSelfReportPresented = false
+    @StateObject var settingsViewModel = SettingsViewModel()
+    
     var body: some View {
         TabView {
             HomeView()
@@ -47,10 +49,6 @@ struct ContentView: View {
                         .frame(width: 60, height: 60)
                         .foregroundColor(.blue)
                 }
-                .sheet(isPresented: $isSelfReportPresented) {
-                    // Present settings view here
-                    SelfReportView(isPresented: $isSelfReportPresented)
-                }
                 .padding(.bottom, 40)
             }
         )
@@ -79,6 +77,9 @@ struct ContentView: View {
             }
             , alignment: .topTrailing
         )
+        .popup(isPresented: $isSelfReportPresented) {
+                    SelfReportView(settingsViewModel: settingsViewModel, isPresented: $isSelfReportPresented)
+                }
     }
 }
 

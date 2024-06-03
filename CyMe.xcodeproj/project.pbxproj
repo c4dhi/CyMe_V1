@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C0897152C0DA2970042A6D1 /* SharedModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CDF58482C0DA12B00C7E9F6 /* SharedModels.framework */; };
+		4C0897162C0DA2970042A6D1 /* SharedModels.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4CDF58482C0DA12B00C7E9F6 /* SharedModels.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4C08971B2C0DA2CD0042A6D1 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C08971A2C0DA2CD0042A6D1 /* SettingsViewModel.swift */; };
+		4C08971D2C0DBBD20042A6D1 /* SymptomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C08971C2C0DBBD20042A6D1 /* SymptomeModel.swift */; };
 		4C1354512BCFC6060078A84B /* CyMeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354502BCFC6060078A84B /* CyMeApp.swift */; };
 		4C1354532BCFC6060078A84B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354522BCFC6060078A84B /* ContentView.swift */; };
 		4C1354552BCFC6060078A84B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C1354542BCFC6060078A84B /* Assets.xcassets */; };
@@ -50,19 +54,47 @@
 		4CDD2FDD2BF25825005995B5 /* PersonalizationSelfReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FDC2BF25825005995B5 /* PersonalizationSelfReportView.swift */; };
 		4CDD2FDF2BF2585A005995B5 /* PersonalizationThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FDE2BF2585A005995B5 /* PersonalizationThemeView.swift */; };
 		4CDD2FE12BF4F2B9005995B5 /* SelfReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FE02BF4F2B9005995B5 /* SelfReportView.swift */; };
-		4CF015522BE9556000BE8DF0 /* SelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */; };
+		4CDF57F22C0CF8D700C7E9F6 /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF57F12C0CF8D700C7E9F6 /* PopupView.swift */; };
+		4CDF57F62C0D95B400C7E9F6 /* SelfReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF57F52C0D95B400C7E9F6 /* SelfReportViewModel.swift */; };
+		4CDF58152C0D9CF600C7E9F6 /* SelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */; };
+		4CDF58162C0D9CF900C7E9F6 /* SelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */; };
+		4CDF58172C0D9CFE00C7E9F6 /* HealthDataWithoutNilModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */; };
+		4CDF584C2C0DA12B00C7E9F6 /* SharedModels.docc in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF584B2C0DA12B00C7E9F6 /* SharedModels.docc */; };
+		4CDF58522C0DA12B00C7E9F6 /* SharedModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CDF58482C0DA12B00C7E9F6 /* SharedModels.framework */; };
+		4CDF58592C0DA12C00C7E9F6 /* SharedModelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF58582C0DA12C00C7E9F6 /* SharedModelsTests.swift */; };
+		4CDF585A2C0DA12C00C7E9F6 /* SharedModels.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CDF584A2C0DA12B00C7E9F6 /* SharedModels.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4CDF585D2C0DA12C00C7E9F6 /* SharedModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CDF58482C0DA12B00C7E9F6 /* SharedModels.framework */; };
+		4CDF585E2C0DA12C00C7E9F6 /* SharedModels.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4CDF58482C0DA12B00C7E9F6 /* SharedModels.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4CDF58652C0DA16F00C7E9F6 /* SelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */; };
+		4CDF58662C0DA17200C7E9F6 /* HealthDataWithoutNilModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */; };
+		4CDF58672C0DA1EA00C7E9F6 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A49B12BFDEF49008253FD /* SettingsModel.swift */; };
+		4CDF58682C0DA1EC00C7E9F6 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A49B12BFDEF49008253FD /* SettingsModel.swift */; };
+		4CDF58692C0DA1F000C7E9F6 /* HealthDataSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3802C072D6400DD3295 /* HealthDataSettingsModel.swift */; };
+		4CDF586A2C0DA1F000C7E9F6 /* HealthDataSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3802C072D6400DD3295 /* HealthDataSettingsModel.swift */; };
+		4CDF586B2C0DA1F400C7E9F6 /* ThemeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A49B72BFE1A79008253FD /* ThemeModel.swift */; };
+		4CDF586C2C0DA1F500C7E9F6 /* ThemeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A49B72BFE1A79008253FD /* ThemeModel.swift */; };
+		4CDF586D2C0DA1F900C7E9F6 /* ReminderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A49B52BFDF4A9008253FD /* ReminderModel.swift */; };
+		4CDF586E2C0DA1FA00C7E9F6 /* ReminderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A49B52BFDF4A9008253FD /* ReminderModel.swift */; };
 		4CF015542BE955B300BE8DF0 /* WatchConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015532BE955B300BE8DF0 /* WatchConnector.swift */; };
-		4CF015572BE955E200BE8DF0 /* SelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015562BE955E200BE8DF0 /* SelfReportModel.swift */; };
 		4CF0155A2BE9560E00BE8DF0 /* iOSConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF015592BE9560E00BE8DF0 /* iOSConnector.swift */; };
 		4CF0155C2BEB479000BE8DF0 /* CyMe_WatchOs Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4C1354AC2BCFC6A40078A84B /* CyMe_WatchOs Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4CFDC37F2C04F24500DD3295 /* DatabaseUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC37E2C04F24500DD3295 /* DatabaseUtils.swift */; };
 		4CFDC3812C072D6400DD3295 /* HealthDataSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3802C072D6400DD3295 /* HealthDataSettingsModel.swift */; };
+		4CFDC3862C0C49ED00DD3295 /* SelfReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */; };
+		4CFDC3892C0C66D000DD3295 /* HealthDataWithoutNilModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */; };
 		50DC147E2BD1207200A280CE /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 50DC147D2BD1207200A280CE /* SigmaSwiftStatistics */; };
 		50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */; };
 		50E26B1A2C04C7FF00726C5C /* PeriodSampleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4C0897172C0DA2970042A6D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1354452BCFC6060078A84B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4CDF58472C0DA12B00C7E9F6;
+			remoteInfo = SharedModels;
+		};
 		4C13545E2BCFC6070078A84B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4C1354452BCFC6060078A84B /* Project object */;
@@ -91,6 +123,27 @@
 			remoteGlobalIDString = 4C1354AB2BCFC6A40078A84B;
 			remoteInfo = "CyMe_WatchOs Watch App";
 		};
+		4CDF58532C0DA12B00C7E9F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1354452BCFC6060078A84B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4CDF58472C0DA12B00C7E9F6;
+			remoteInfo = SharedModels;
+		};
+		4CDF58552C0DA12C00C7E9F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1354452BCFC6060078A84B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C13544C2BCFC6060078A84B;
+			remoteInfo = CyMe;
+		};
+		4CDF585B2C0DA12C00C7E9F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1354452BCFC6060078A84B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4CDF58472C0DA12B00C7E9F6;
+			remoteInfo = SharedModels;
+		};
 		4CF0155D2BEB479000BE8DF0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4C1354452BCFC6060078A84B /* Project object */;
@@ -101,6 +154,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		4C0897192C0DA2970042A6D1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4C0897162C0DA2970042A6D1 /* SharedModels.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CDF58422C0DA01F00C7E9F6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4CDF585E2C0DA12C00C7E9F6 /* SharedModels.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4CF0155F2BEB479000BE8DF0 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +190,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4C08971A2C0DA2CD0042A6D1 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		4C08971C2C0DBBD20042A6D1 /* SymptomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomeModel.swift; sourceTree = "<group>"; };
 		4C13544D2BCFC6060078A84B /* CyMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CyMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C1354502BCFC6060078A84B /* CyMeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyMeApp.swift; sourceTree = "<group>"; };
 		4C1354522BCFC6060078A84B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -165,12 +242,20 @@
 		4CDD2FDC2BF25825005995B5 /* PersonalizationSelfReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationSelfReportView.swift; sourceTree = "<group>"; };
 		4CDD2FDE2BF2585A005995B5 /* PersonalizationThemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationThemeView.swift; sourceTree = "<group>"; };
 		4CDD2FE02BF4F2B9005995B5 /* SelfReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportView.swift; sourceTree = "<group>"; };
+		4CDF57F12C0CF8D700C7E9F6 /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
+		4CDF57F52C0D95B400C7E9F6 /* SelfReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportViewModel.swift; sourceTree = "<group>"; };
+		4CDF58482C0DA12B00C7E9F6 /* SharedModels.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SharedModels.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CDF584A2C0DA12B00C7E9F6 /* SharedModels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharedModels.h; sourceTree = "<group>"; };
+		4CDF584B2C0DA12B00C7E9F6 /* SharedModels.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = SharedModels.docc; sourceTree = "<group>"; };
+		4CDF58512C0DA12B00C7E9F6 /* SharedModelsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SharedModelsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CDF58582C0DA12C00C7E9F6 /* SharedModelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedModelsTests.swift; sourceTree = "<group>"; };
 		4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportModel.swift; sourceTree = "<group>"; };
 		4CF015532BE955B300BE8DF0 /* WatchConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnector.swift; sourceTree = "<group>"; };
-		4CF015562BE955E200BE8DF0 /* SelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportModel.swift; sourceTree = "<group>"; };
 		4CF015592BE9560E00BE8DF0 /* iOSConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSConnector.swift; sourceTree = "<group>"; };
 		4CFDC37E2C04F24500DD3295 /* DatabaseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseUtils.swift; sourceTree = "<group>"; };
 		4CFDC3802C072D6400DD3295 /* HealthDataSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataSettingsModel.swift; sourceTree = "<group>"; };
+		4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportViewModel.swift; sourceTree = "<group>"; };
+		4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataWithoutNilModel.swift; sourceTree = "<group>"; };
 		50D4A8CE2BFE2E2F008FDE58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		50D4A8CF2BFE3060008FDE58 /* CyMe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CyMe.entitlements; sourceTree = "<group>"; };
 		50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSelfReportModel.swift; sourceTree = "<group>"; };
@@ -183,6 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50DC147E2BD1207200A280CE /* SigmaSwiftStatistics in Frameworks */,
+				4CDF585D2C0DA12C00C7E9F6 /* SharedModels.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,6 +290,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C0897152C0DA2970042A6D1 /* SharedModels.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +308,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4CDF58452C0DA12B00C7E9F6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CDF584E2C0DA12B00C7E9F6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CDF58522C0DA12B00C7E9F6 /* SharedModels.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -233,6 +335,8 @@
 				4C1354AD2BCFC6A40078A84B /* CyMe_WatchOs Watch App */,
 				4C1354BE2BCFC6A50078A84B /* CyMe_WatchOs Watch AppTests */,
 				4C1354C82BCFC6A50078A84B /* CyMe_WatchOs Watch AppUITests */,
+				4CDF58492C0DA12B00C7E9F6 /* SharedModels */,
+				4CDF58572C0DA12C00C7E9F6 /* SharedModelsTests */,
 				4C13544E2BCFC6060078A84B /* Products */,
 				4CF0155B2BEB479000BE8DF0 /* Frameworks */,
 			);
@@ -247,6 +351,8 @@
 				4C1354AC2BCFC6A40078A84B /* CyMe_WatchOs Watch App.app */,
 				4C1354BB2BCFC6A50078A84B /* CyMe_WatchOs Watch AppTests.xctest */,
 				4C1354C52BCFC6A50078A84B /* CyMe_WatchOs Watch AppUITests.xctest */,
+				4CDF58482C0DA12B00C7E9F6 /* SharedModels.framework */,
+				4CDF58512C0DA12B00C7E9F6 /* SharedModelsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -298,6 +404,7 @@
 			children = (
 				4C84BA3E2C046D7400A865AC /* CyMe-WatchOs-Watch-App-Info.plist */,
 				4CDD2FCB2BEB786D005995B5 /* Views */,
+				4CDF57F42C0D958C00C7E9F6 /* ViewModels */,
 				4CF015582BE955FD00BE8DF0 /* Services */,
 				4CF015552BE955CD00BE8DF0 /* Models */,
 				4C1354AE2BCFC6A40078A84B /* CyMe_WatchOsApp.swift */,
@@ -336,13 +443,12 @@
 		4C1354D62BCFC73E0078A84B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4CFDC3822C072DCE00DD3295 /* Settings */,
 				4C1354EA2BCFD4300078A84B /* HealthDataModel.swift */,
-				4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */,
 				50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */,
 				4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */,
 				50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */,
 				4C5A49BB2BFFD184008253FD /* UserModel.swift */,
+				4C08971C2C0DBBD20042A6D1 /* SymptomeModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -350,13 +456,13 @@
 		4C1354D72BCFC7600078A84B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4CDF57F32C0CFEF700C7E9F6 /* SelfReporting */,
 				4CDD2FD32BECAD72005995B5 /* Images */,
 				4CDD2FD02BECAA6F005995B5 /* Personalisation */,
 				4C1354E22BCFCE320078A84B /* HomeView.swift */,
 				4C1354E42BCFCE440078A84B /* DiscoverView.swift */,
 				4C1354E82BCFCEC60078A84B /* VisualisationView.swift */,
 				4C1354E62BCFCE550078A84B /* KnowledgeBaseView.swift */,
-				4CDD2FE02BF4F2B9005995B5 /* SelfReportView.swift */,
 				4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */,
 			);
 			path = Views;
@@ -380,6 +486,7 @@
 				4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */,
 				4C5A49B32BFDEFF6008253FD /* SettingsViewModel.swift */,
 				4C5A49B92BFFD07C008253FD /* ProfileViewModel.swift */,
+				4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -422,10 +529,46 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		4CDF57F32C0CFEF700C7E9F6 /* SelfReporting */ = {
+			isa = PBXGroup;
+			children = (
+				4CDD2FE02BF4F2B9005995B5 /* SelfReportView.swift */,
+				4CDF57F12C0CF8D700C7E9F6 /* PopupView.swift */,
+			);
+			path = SelfReporting;
+			sourceTree = "<group>";
+		};
+		4CDF57F42C0D958C00C7E9F6 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				4CDF57F52C0D95B400C7E9F6 /* SelfReportViewModel.swift */,
+				4C08971A2C0DA2CD0042A6D1 /* SettingsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		4CDF58492C0DA12B00C7E9F6 /* SharedModels */ = {
+			isa = PBXGroup;
+			children = (
+				4CFDC3822C072DCE00DD3295 /* Settings */,
+				4CFDC3872C0C669B00DD3295 /* SelfReportingModel */,
+				4CDF584A2C0DA12B00C7E9F6 /* SharedModels.h */,
+				4CDF584B2C0DA12B00C7E9F6 /* SharedModels.docc */,
+			);
+			path = SharedModels;
+			sourceTree = "<group>";
+		};
+		4CDF58572C0DA12C00C7E9F6 /* SharedModelsTests */ = {
+			isa = PBXGroup;
+			children = (
+				4CDF58582C0DA12C00C7E9F6 /* SharedModelsTests.swift */,
+			);
+			path = SharedModelsTests;
+			sourceTree = "<group>";
+		};
 		4CF015552BE955CD00BE8DF0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4CF015562BE955E200BE8DF0 /* SelfReportModel.swift */,
 				4CDD2FC92BEB747A005995B5 /* ReportOptionsModel.swift */,
 				4CDD2FCE2BEB7CD9005995B5 /* UserReportingOptions.swift */,
 			);
@@ -466,7 +609,27 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		4CFDC3872C0C669B00DD3295 /* SelfReportingModel */ = {
+			isa = PBXGroup;
+			children = (
+				4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */,
+				4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */,
+			);
+			path = SelfReportingModel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		4CDF58432C0DA12B00C7E9F6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CDF585A2C0DA12C00C7E9F6 /* SharedModels.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		4C13544C2BCFC6060078A84B /* CyMe */ = {
@@ -477,11 +640,13 @@
 				4C13544A2BCFC6060078A84B /* Frameworks */,
 				4C13544B2BCFC6060078A84B /* Resources */,
 				4CF0155F2BEB479000BE8DF0 /* Embed Watch Content */,
+				4CDF58422C0DA01F00C7E9F6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				4CF0155E2BEB479000BE8DF0 /* PBXTargetDependency */,
+				4CDF585C2C0DA12C00C7E9F6 /* PBXTargetDependency */,
 			);
 			name = CyMe;
 			packageProductDependencies = (
@@ -534,10 +699,12 @@
 				4C1354A82BCFC6A40078A84B /* Sources */,
 				4C1354A92BCFC6A40078A84B /* Frameworks */,
 				4C1354AA2BCFC6A40078A84B /* Resources */,
+				4C0897192C0DA2970042A6D1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4C0897182C0DA2970042A6D1 /* PBXTargetDependency */,
 			);
 			name = "CyMe_WatchOs Watch App";
 			productName = "CyMe_WatchOs Watch App";
@@ -580,6 +747,43 @@
 			productReference = 4C1354C52BCFC6A50078A84B /* CyMe_WatchOs Watch AppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		4CDF58472C0DA12B00C7E9F6 /* SharedModels */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4CDF585F2C0DA12C00C7E9F6 /* Build configuration list for PBXNativeTarget "SharedModels" */;
+			buildPhases = (
+				4CDF58432C0DA12B00C7E9F6 /* Headers */,
+				4CDF58442C0DA12B00C7E9F6 /* Sources */,
+				4CDF58452C0DA12B00C7E9F6 /* Frameworks */,
+				4CDF58462C0DA12B00C7E9F6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SharedModels;
+			productName = SharedModels;
+			productReference = 4CDF58482C0DA12B00C7E9F6 /* SharedModels.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		4CDF58502C0DA12B00C7E9F6 /* SharedModelsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4CDF58622C0DA12C00C7E9F6 /* Build configuration list for PBXNativeTarget "SharedModelsTests" */;
+			buildPhases = (
+				4CDF584D2C0DA12B00C7E9F6 /* Sources */,
+				4CDF584E2C0DA12B00C7E9F6 /* Frameworks */,
+				4CDF584F2C0DA12B00C7E9F6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4CDF58542C0DA12B00C7E9F6 /* PBXTargetDependency */,
+				4CDF58562C0DA12C00C7E9F6 /* PBXTargetDependency */,
+			);
+			name = SharedModelsTests;
+			productName = SharedModelsTests;
+			productReference = 4CDF58512C0DA12B00C7E9F6 /* SharedModelsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -612,6 +816,13 @@
 						CreatedOnToolsVersion = 14.2;
 						TestTargetID = 4C1354AB2BCFC6A40078A84B;
 					};
+					4CDF58472C0DA12B00C7E9F6 = {
+						CreatedOnToolsVersion = 14.2;
+					};
+					4CDF58502C0DA12B00C7E9F6 = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 4C13544C2BCFC6060078A84B;
+					};
 				};
 			};
 			buildConfigurationList = 4C1354482BCFC6060078A84B /* Build configuration list for PBXProject "CyMe" */;
@@ -636,6 +847,8 @@
 				4C1354AB2BCFC6A40078A84B /* CyMe_WatchOs Watch App */,
 				4C1354BA2BCFC6A50078A84B /* CyMe_WatchOs Watch AppTests */,
 				4C1354C42BCFC6A50078A84B /* CyMe_WatchOs Watch AppUITests */,
+				4CDF58472C0DA12B00C7E9F6 /* SharedModels */,
+				4CDF58502C0DA12B00C7E9F6 /* SharedModelsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -687,6 +900,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4CDF58462C0DA12B00C7E9F6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CDF584F2C0DA12B00C7E9F6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -696,10 +923,12 @@
 			files = (
 				50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */,
 				4CDD2FC82BEB722F005995B5 /* ReportOptionsModel.swift in Sources */,
+				4CDF58162C0D9CF900C7E9F6 /* SelfReportModel.swift in Sources */,
 				4CDD2FD92BF24E9A005995B5 /* PersonalizationView.swift in Sources */,
 				4C5605272C01D26600B9114D /* UserDatabaseService.swift in Sources */,
 				4C1354E72BCFCE550078A84B /* KnowledgeBaseView.swift in Sources */,
 				4C5A49BA2BFFD07C008253FD /* ProfileViewModel.swift in Sources */,
+				4CFDC3892C0C66D000DD3295 /* HealthDataWithoutNilModel.swift in Sources */,
 				4C1354532BCFC6060078A84B /* ContentView.swift in Sources */,
 				4CDD2FD22BECAAA5005995B5 /* WelcomeView.swift in Sources */,
 				4CFDC3812C072D6400DD3295 /* HealthDataSettingsModel.swift in Sources */,
@@ -707,7 +936,6 @@
 				4CDD2FE12BF4F2B9005995B5 /* SelfReportView.swift in Sources */,
 				4CB6BBDF2BD6E5BF008A32CA /* DatabaseService.swift in Sources */,
 				50E26B1A2C04C7FF00726C5C /* PeriodSampleModel.swift in Sources */,
-				4CF015522BE9556000BE8DF0 /* SelfReportModel.swift in Sources */,
 				4C1354512BCFC6060078A84B /* CyMeApp.swift in Sources */,
 				4C1354EB2BCFD4300078A84B /* HealthDataModel.swift in Sources */,
 				4CDD2FDF2BF2585A005995B5 /* PersonalizationThemeView.swift in Sources */,
@@ -717,16 +945,19 @@
 				4C5A49BC2BFFD184008253FD /* UserModel.swift in Sources */,
 				4C5A49B42BFDEFF6008253FD /* SettingsViewModel.swift in Sources */,
 				4C5605292C01D29500B9114D /* ReportingDatabaseService.swift in Sources */,
+				4C08971D2C0DBBD20042A6D1 /* SymptomeModel.swift in Sources */,
 				4CDD2FD52BECB52E005995B5 /* ProfileView.swift in Sources */,
 				4CDD2FDB2BF25023005995B5 /* OnboardingView.swift in Sources */,
 				4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */,
 				4CFDC37F2C04F24500DD3295 /* DatabaseUtils.swift in Sources */,
 				4C1354E32BCFCE320078A84B /* HomeView.swift in Sources */,
+				4CDF57F22C0CF8D700C7E9F6 /* PopupView.swift in Sources */,
 				4C1354E52BCFCE440078A84B /* DiscoverView.swift in Sources */,
 				4C1354EE2BCFD52A0078A84B /* HealthKitService.swift in Sources */,
 				4CDD2FDD2BF25825005995B5 /* PersonalizationSelfReportView.swift in Sources */,
 				4C1354F12BCFD6560078A84B /* DiscoverViewModel.swift in Sources */,
 				4C1354E92BCFCEC60078A84B /* VisualisationView.swift in Sources */,
+				4CFDC3862C0C49ED00DD3295 /* SelfReportViewModel.swift in Sources */,
 				4C5605242C01CF7700B9114D /* SettingsDatabaseService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -754,11 +985,18 @@
 			files = (
 				4CDD2FCA2BEB747A005995B5 /* ReportOptionsModel.swift in Sources */,
 				4CDD2FCF2BEB7CD9005995B5 /* UserReportingOptions.swift in Sources */,
-				4CF015572BE955E200BE8DF0 /* SelfReportModel.swift in Sources */,
+				4CDF58692C0DA1F000C7E9F6 /* HealthDataSettingsModel.swift in Sources */,
+				4CDF58682C0DA1EC00C7E9F6 /* SettingsModel.swift in Sources */,
+				4CDF58172C0D9CFE00C7E9F6 /* HealthDataWithoutNilModel.swift in Sources */,
+				4CDF586D2C0DA1F900C7E9F6 /* ReminderModel.swift in Sources */,
+				4CDF586B2C0DA1F400C7E9F6 /* ThemeModel.swift in Sources */,
 				4C1354B12BCFC6A40078A84B /* ContentView.swift in Sources */,
 				4CDD2FCD2BEB792B005995B5 /* SelfReportingView.swift in Sources */,
 				4C1354AF2BCFC6A40078A84B /* CyMe_WatchOsApp.swift in Sources */,
+				4CDF58152C0D9CF600C7E9F6 /* SelfReportModel.swift in Sources */,
+				4CDF57F62C0D95B400C7E9F6 /* SelfReportViewModel.swift in Sources */,
 				4CF0155A2BE9560E00BE8DF0 /* iOSConnector.swift in Sources */,
+				4C08971B2C0DA2CD0042A6D1 /* SettingsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -779,9 +1017,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4CDF58442C0DA12B00C7E9F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CDF58672C0DA1EA00C7E9F6 /* SettingsModel.swift in Sources */,
+				4CDF58662C0DA17200C7E9F6 /* HealthDataWithoutNilModel.swift in Sources */,
+				4CDF586A2C0DA1F000C7E9F6 /* HealthDataSettingsModel.swift in Sources */,
+				4CDF586C2C0DA1F500C7E9F6 /* ThemeModel.swift in Sources */,
+				4CDF584C2C0DA12B00C7E9F6 /* SharedModels.docc in Sources */,
+				4CDF586E2C0DA1FA00C7E9F6 /* ReminderModel.swift in Sources */,
+				4CDF58652C0DA16F00C7E9F6 /* SelfReportModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CDF584D2C0DA12B00C7E9F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CDF58592C0DA12C00C7E9F6 /* SharedModelsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4C0897182C0DA2970042A6D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4CDF58472C0DA12B00C7E9F6 /* SharedModels */;
+			targetProxy = 4C0897172C0DA2970042A6D1 /* PBXContainerItemProxy */;
+		};
 		4C13545F2BCFC6070078A84B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4C13544C2BCFC6060078A84B /* CyMe */;
@@ -801,6 +1066,21 @@
 			isa = PBXTargetDependency;
 			target = 4C1354AB2BCFC6A40078A84B /* CyMe_WatchOs Watch App */;
 			targetProxy = 4C1354C62BCFC6A50078A84B /* PBXContainerItemProxy */;
+		};
+		4CDF58542C0DA12B00C7E9F6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4CDF58472C0DA12B00C7E9F6 /* SharedModels */;
+			targetProxy = 4CDF58532C0DA12B00C7E9F6 /* PBXContainerItemProxy */;
+		};
+		4CDF58562C0DA12C00C7E9F6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C13544C2BCFC6060078A84B /* CyMe */;
+			targetProxy = 4CDF58552C0DA12C00C7E9F6 /* PBXContainerItemProxy */;
+		};
+		4CDF585C2C0DA12C00C7E9F6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4CDF58472C0DA12B00C7E9F6 /* SharedModels */;
+			targetProxy = 4CDF585B2C0DA12C00C7E9F6 /* PBXContainerItemProxy */;
 		};
 		4CF0155E2BEB479000BE8DF0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -927,6 +1207,7 @@
 		4C1354722BCFC6070078A84B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CyMe/CyMe.entitlements;
@@ -960,6 +1241,7 @@
 		4C1354732BCFC6070078A84B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CyMe/CyMe.entitlements;
@@ -1212,6 +1494,130 @@
 			};
 			name = Release;
 		};
+		4CDF58602C0DA12C00C7E9F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 24XM2HJTPL;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = MP.SharedModels;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 8.7;
+			};
+			name = Debug;
+		};
+		4CDF58612C0DA12C00C7E9F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 24XM2HJTPL;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = MP.SharedModels;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 8.7;
+			};
+			name = Release;
+		};
+		4CDF58632C0DA12C00C7E9F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 24XM2HJTPL;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 12.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = MP.SharedModelsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CyMe.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CyMe";
+			};
+			name = Debug;
+		};
+		4CDF58642C0DA12C00C7E9F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 24XM2HJTPL;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 12.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = MP.SharedModelsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CyMe.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CyMe";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1274,6 +1680,24 @@
 			buildConfigurations = (
 				4C1354D42BCFC6A50078A84B /* Debug */,
 				4C1354D52BCFC6A50078A84B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4CDF585F2C0DA12C00C7E9F6 /* Build configuration list for PBXNativeTarget "SharedModels" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CDF58602C0DA12C00C7E9F6 /* Debug */,
+				4CDF58612C0DA12C00C7E9F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4CDF58622C0DA12C00C7E9F6 /* Build configuration list for PBXNativeTarget "SharedModelsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CDF58632C0DA12C00C7E9F6 /* Debug */,
+				4CDF58642C0DA12C00C7E9F6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
-import SharedModels
 
 struct SelfReportView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
+    @Binding var isPresented: Bool
 
     @State var selfReports: [SelfReportModel] = []
     @State var isLoading = false
@@ -62,8 +62,8 @@ struct SelfReportView: View {
                             }
                         }) {
                             Text("Back")
-                                .font(.caption)
                         }
+                        .padding()
                         .disabled(currentQuestionIndex == 0)
 
                         Spacer()
@@ -71,8 +71,8 @@ struct SelfReportView: View {
                             currentQuestionIndex += 1
                         }) {
                             Text("Skip")
-                                .font(.caption)
                         }
+                        .padding()
 
                         Button(action: {
                             if currentQuestionIndex < filteredHealthData.count - 1 {
@@ -82,8 +82,8 @@ struct SelfReportView: View {
                             }
                         }) {
                             Text(currentQuestionIndex < filteredHealthData.count - 1 ? "Next" : "Submit")
-                                .font(.caption)
                         }
+                        .padding()
                     }
 
                     ProgressView(value: Double(currentQuestionIndex + 1), total: Double(filteredHealthData.count))
@@ -92,7 +92,7 @@ struct SelfReportView: View {
                 }
                 .navigationTitle("CyMe Self-Reporting")
                 .navigationBarTitleDisplayMode(.inline)
-                .font(.title3)
+                .font(.title2)
             }
             
             if isLoading {
@@ -116,6 +116,7 @@ struct SelfReportView: View {
                 // Simulate a network request
                 try await Task.sleep(nanoseconds: 2_000_000_000) // 2 seconds delay
                 isLoading = false
+                isPresented = false
                 // Handle successful submission
             } catch {
                 isLoading = false
@@ -135,14 +136,12 @@ struct YesNoQuestionView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text(setting.question)
-                .font(.caption2)
-                .multilineTextAlignment(.center)
+                .padding(.top, 50)
             HStack {
                 Button(action: {
                     selectedOption = "Yes"
                 }) {
                     Text("Yes")
-                        .font(.caption2)
                         .padding()
                         .background(selectedOption == "Yes" ? Color.blue : Color.gray)
                         .foregroundColor(.white)
@@ -152,7 +151,6 @@ struct YesNoQuestionView: View {
                     selectedOption = "No"
                 }) {
                     Text("No")
-                        .font(.caption2)
                         .padding()
                         .background(selectedOption == "No" ? Color.red : Color.gray)
                         .foregroundColor(.white)
@@ -172,16 +170,14 @@ struct IntensityQuestionView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text(setting.question)
-                .font(.caption2)
-                .multilineTextAlignment(.center)
+                .padding(.top, 50)
             HStack {
-                ForEach(["No", "Yes", "A little", "A lot"], id: \.self) { option in
+                ForEach(["No", "Mild", "Moderate", "Severe"], id: \.self) { option in
                     Button(action: {
                         selectedOption = option
                         selfReport.append(SelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: option))
                     }) {
                         Text(option)
-                            .font(.caption2)
                             .padding()
                             .background(selectedOption == option ? Color.blue : Color.clear)
                             .foregroundColor(selectedOption == option ? .white : .blue)
@@ -210,8 +206,7 @@ struct EmoticonRatingQuestionView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text(setting.question)
-                .font(.caption2)
-                .multilineTextAlignment(.center)
+                .padding(.top, 50)
             ScrollView(.horizontal) {
                 HStack(spacing: 0) {
                     ForEach(emoticons, id: \.0) { (emoticon, description) in
@@ -221,7 +216,7 @@ struct EmoticonRatingQuestionView: View {
                         }) {
                             Text(emoticon)
                                 .padding()
-                                .font(.caption2)
+                                .font(.title)
                                 .background(selectedEmoticon == description ? Color.blue : Color.clear)
                                 .foregroundColor(selectedEmoticon == description ? .white : .blue)
                                 .cornerRadius(8)
@@ -242,10 +237,10 @@ struct FrequencyQuestionView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text(setting.question)
-                .font(.caption2)
-                .multilineTextAlignment(.center)
+                .padding(.top, 50)
             TextField("Enter frequency", text: $selectedFrequency)
                 .padding()
+                .textFieldStyle(RoundedBorderTextFieldStyle())
         }
     }
 }
@@ -258,10 +253,10 @@ struct AmountOfHourQuestionView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text(setting.question)
-                .font(.caption2)
-                .multilineTextAlignment(.center)
+                .padding(.top, 50)
             TextField("Enter hours", text: $selectedHours)
                 .padding()
+                .textFieldStyle(RoundedBorderTextFieldStyle())
         }
     }
 }
@@ -273,10 +268,10 @@ struct OpenTextQuestionView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text("Is there something else you would like to add?")
-                .font(.caption2)
-                .multilineTextAlignment(.center)
+                .padding(.top, 50)
             TextField("Enter text", text: $enteredText)
                 .padding()
+                .textFieldStyle(RoundedBorderTextFieldStyle())
         }
         .padding()
     }
@@ -285,6 +280,6 @@ struct OpenTextQuestionView: View {
 struct SelfReportView_Previews: PreviewProvider {
     static var previews: some View {
         let settingsViewModel = SettingsViewModel()
-        return SelfReportView(settingsViewModel: settingsViewModel)
+        return SelfReportView(settingsViewModel: settingsViewModel, isPresented: .constant(true))
     }
 }

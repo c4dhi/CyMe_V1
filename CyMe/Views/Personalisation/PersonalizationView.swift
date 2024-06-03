@@ -45,12 +45,12 @@ struct PersonalizationView: View {
                     .font(.headline)
                     
                     
-                    ForEach(settingsViewModel.settings.HealthDataSettings.indices, id: \.self) { index in
-                        let healthData = settingsViewModel.settings.HealthDataSettings[index]
+                    ForEach(settingsViewModel.settings.healthDataSettings.indices, id: \.self) { index in
+                        let healthData = settingsViewModel.settings.healthDataSettings[index]
                         self.measurementRow(
                             label: healthData.title,
-                            measure: $settingsViewModel.settings.HealthDataSettings[index].enableDataSync,
-                            selfReport: $settingsViewModel.settings.HealthDataSettings[index].enableSelfReportingCyMe,
+                            measure: $settingsViewModel.settings.healthDataSettings[index].enableDataSync,
+                            selfReport: $settingsViewModel.settings.healthDataSettings[index].enableSelfReportingCyMe,
                             syncIsEnabled: true,
                             cyMeSelfReportIsEnabled: true
                         )
