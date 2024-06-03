@@ -8,7 +8,7 @@
 import Foundation
 
 struct SelfReportModel: Codable {
-    let hasPeriod: Bool
-    let hasHeadache: Bool
-    // Add other relevant properties
+    let healthDataTitle: String
+    let questionType: QuestionType
+    var reportedValue: String
 }

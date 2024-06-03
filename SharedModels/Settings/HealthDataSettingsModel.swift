@@ -17,11 +17,22 @@ enum DataLocation: String {
 }
 
 
+enum QuestionType: String,  Codable {
+    case yesNo = "yesNo"
+    case intensity = "intensity"
+    case emoticonRating = "emoticonRating"
+    case amountOfhour = "amountOfhour"
+    case frequency = "frequency"
+    case open = "open"
+}
+
 struct HealthDataSettingsModel: Identifiable {
-    let title: String
+    var title: String
     var enableDataSync: Bool
     var enableSelfReportingCyMe: Bool
     let dataLocation: DataLocation
+    var question: String?
+    var questionType: QuestionType?
     
     var id: String { title }
 }

@@ -42,8 +42,6 @@ class WatchConnector: NSObject, WCSessionDelegate, ObservableObject{
                     print("In reseive part")
                     // Decode self-report data
                     let selfReport = try JSONDecoder().decode(SelfReportModel.self, from: selfReportData)
-                    hasHeadache = selfReport.hasHeadache
-                    hasPeriod = selfReport.hasPeriod
                     // Handle received self-report data
                     print("Received self-report data from Watch app: \(selfReport)")
                 } catch {

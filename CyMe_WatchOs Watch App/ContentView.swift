@@ -9,11 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject var userReporting = UserReportingOptions()
+    @StateObject var settingsViewModel = SettingsViewModel()
 
     
     var body: some View {
-        SelfReportingView(userReporting: userReporting)
+        SelfReportView(settingsViewModel: settingsViewModel)
     }
 }
 

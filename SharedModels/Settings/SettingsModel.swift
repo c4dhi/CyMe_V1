@@ -10,7 +10,7 @@ import Foundation
 struct SettingsModel {
     // measuring and reporting settings
     var enableHealthKit: Bool
-    var HealthDataSettings: [HealthDataSettingsModel]
+    var healthDataSettings: [HealthDataSettingsModel]
     
     // reminder settings
     var selfReportWithWatch: Bool

@@ -16,7 +16,7 @@ class SettingsDatabaseService {
     public func getDefaultSettings() -> SettingsModel {
             return SettingsModel(
                 enableHealthKit: false,
-                HealthDataSettings: getDefaultHealthDataSettings(),
+                healthDataSettings: getDefaultHealthDataSettings(),
                 selfReportWithWatch: true,
                 enableWidget: true,
                 startPeriodReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
@@ -28,21 +28,106 @@ class SettingsDatabaseService {
     
     private func getDefaultHealthDataSettings() -> [HealthDataSettingsModel] {
         let defaultValues: [HealthDataSettingsModel] = [
-            HealthDataSettingsModel(title: "Menstrual data", enableDataSync: true, enableSelfReportingCyMe: true, dataLocation: DataLocation.sync),
-            HealthDataSettingsModel(title: "Sleep quality", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.onlyCyMe),
-            HealthDataSettingsModel(title: "Sleep length",enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
-            HealthDataSettingsModel(title:"Headache", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
-            HealthDataSettingsModel(title: "Stress", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.onlyCyMe),
-            HealthDataSettingsModel(title: "Abdominal cramps", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
-            HealthDataSettingsModel(title: "Lower back pain", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
-            HealthDataSettingsModel(title: "Pelvic pain", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
-            HealthDataSettingsModel(title: "Acne", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
-            HealthDataSettingsModel(title: "Appetite changes", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
-            HealthDataSettingsModel(title: "Tightness or pain in the chest", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.sync),
-            HealthDataSettingsModel(title: "Step data", enableDataSync: false, enableSelfReportingCyMe: false, dataLocation: DataLocation.onlyAppleHealth)
+            HealthDataSettingsModel(
+                title: "Menstrual data",
+                enableDataSync: true,
+                enableSelfReportingCyMe: true,
+                dataLocation: .sync,
+                question: "Did you have your period today?",
+                questionType: .intensity
+            ),
+            HealthDataSettingsModel(
+                title: "Sleep quality",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .onlyCyMe,
+                question: "Rate your sleep quality last night",
+                questionType: .emoticonRating
+            ),
+            HealthDataSettingsModel(
+                title: "Sleep length",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .sync,
+                question: "How many hours did you sleep?",
+                questionType: .amountOfhour
+            ),
+            HealthDataSettingsModel(
+                title: "Headache",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .sync,
+                question: "Did you experience a headache today?",
+                questionType: .frequency
+            ),
+            HealthDataSettingsModel(
+                title: "Stress",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .onlyCyMe,
+                question: "Rate your stress level today",
+                questionType: .intensity
+            ),
+            HealthDataSettingsModel(
+                title: "Abdominal cramps",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .sync,
+                question: "Did you experience abdominal cramps today?",
+                questionType: .frequency
+            ),
+            HealthDataSettingsModel(
+                title: "Lower back pain",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .sync,
+                question: "Did you experience lower back pain today?",
+                questionType: .intensity
+            ),
+            HealthDataSettingsModel(
+                title: "Pelvic pain",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .sync,
+                question: "Did you experience pelvic pain today?",
+                questionType: .intensity
+            ),
+            HealthDataSettingsModel(
+                title: "Acne",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .sync,
+                question: "Did you have acne today?",
+                questionType: .yesNo
+            ),
+            HealthDataSettingsModel(
+                title: "Appetite changes",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .sync,
+                question: "Did you experience changes in appetite today?",
+                questionType: .intensity
+            ),
+            HealthDataSettingsModel(
+                title: "Tightness or pain in the chest",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .sync,
+                question: "Did you experience tightness or pain in the chest today?",
+                questionType: .yesNo
+            ),
+            HealthDataSettingsModel(
+                title: "Step data",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .onlyAppleHealth,
+                question: nil,
+                questionType: nil
+            )
         ]
         return defaultValues
     }
+
     
     private func createSettingsTableIfNeeded() {
         let createTableQuery = """
@@ -101,10 +186,10 @@ class SettingsDatabaseService {
         
         if count > 0 {
             _ = updateMainSettings(settings: settings)
-            _ = updateHealthDataSettings(healthDataSettings: settings.HealthDataSettings)
+            _ = updateHealthDataSettings(healthDataSettings: settings.healthDataSettings)
         } else {
             _ = insertMainSettings(settings: settings)
-            insertHealthDataSettings(healthDataSettings: settings.HealthDataSettings)
+            insertHealthDataSettings(healthDataSettings: settings.healthDataSettings)
         }
     }
     
@@ -140,7 +225,7 @@ class SettingsDatabaseService {
             
             return SettingsModel(
                 enableHealthKit: enableHealthKit,
-                HealthDataSettings: healthDataSettings,
+                healthDataSettings: healthDataSettings,
                 selfReportWithWatch: selfReportWithWatch,
                 enableWidget: enableWidget,
                 startPeriodReminder: startPeriodReminder,
