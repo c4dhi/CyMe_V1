@@ -18,11 +18,11 @@ enum DataLocation: String {
 
 
 enum QuestionType: String,  Codable {
-    case yesNo = "yesNo"
     case intensity = "intensity"
     case emoticonRating = "emoticonRating"
+    case menstruationEmoticonRating = "menstruationEmoticonRating"
+    case painEmoticonRating = "painEmoticonRating"
     case amountOfhour = "amountOfhour"
-    case frequency = "frequency"
     case open = "open"
 }
 
