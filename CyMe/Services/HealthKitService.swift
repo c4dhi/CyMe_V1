@@ -82,13 +82,16 @@ class HealthKitService {
     
     func get_health_data()  {
         // We fetch some selfreported data
-        fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.headache)
-        fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.pelvicPain)
-        // TODO not all of these are tested
+        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.headache)
+        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.abdominalCramps) // Bauchkrämpfe
+        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.lowerBackPain) // Kreuzschmerzen
+        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.pelvicPain) // Unterleibsschmerzen
+        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.acne)
+        fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.chestTightnessOrPain) // Engegefühl oder Schmerzen in der Brust
         
         // Fetch some automatically generated data
         fetchCollectedQuantityData(amountOfDays: 5, dataName: HKQuantityTypeIdentifier.stepCount)
-        fetchCollectedQuantityData(amountOfDays: 5, dataName: HKQuantityTypeIdentifier.appleExerciseTime)
+        //fetchCollectedQuantityData(amountOfDays: 5, dataName: HKQuantityTypeIdentifier.appleExerciseTime)
     
         
         // Write some data
@@ -96,10 +99,10 @@ class HealthKitService {
         // TODO not all of these are tested
         
         // We fetch period data
-        fetchPeriodData()
+        //fetchPeriodData()
         
         // We fetch sleep data
-        fetchSleepData()
+        //fetchSleepData()
         
     }
     
