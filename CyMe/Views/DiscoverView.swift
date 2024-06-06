@@ -1,39 +1,83 @@
+// DiscoverView.swift
+// CyMe
 //
-//  DiscoverView.swift
-//  CyMe
-//
-//  Created by Marinja Principe on 17.04.24.
+// Created by Marinja Principe on 17.04.24.
 //
 
 import SwiftUI
 import SigmaSwiftStatistics
 
-
 struct DiscoverView: View {
     @ObservedObject var viewModel: DiscoverViewModel
-    
+    @State private var selectedSymptom: SymptomModel?
+
     var body: some View {
-        let x = Sigma.average([1, 3, 8])
-        // Convert Double to String
-        let averageString = String(format: "%.2f", x!)
-        // Result: 4.00 (formatted to two decimal places)
+        VStack(spacing: 5) {
+            Text("Discover")
+                .font(.title)
+
+            Picker("Select a symptom", selection: $selectedSymptom) {
+                ForEach(viewModel.symptoms, id: \.title) { symptom in
+                    Text(symptom.title).tag(symptom as SymptomModel?)
+                }
+            }
+            .pickerStyle(MenuPickerStyle())
+
+            
+            if let symptom = selectedSymptom {
+                List {
+                    Section(header: Text("Symptom Graph").padding(.vertical, 8)) {
+                        SymptomGraph(symptom: symptom)
+                            .frame(height: 200)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(10)
+                    }
+
+
+                    Section(header: Text("Insights").padding(.vertical, 8)) {
+                        SymptomInsightsView(hints: symptom.hints)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(10)
+                    }
+
+
+                    Section(header: Text("Statistics").padding(.vertical, 8)) {
+                        SymptomStatisticsView(symptom: symptom)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(10)
+                    }
+                }
+            }
+
+            Spacer()
+        }
+        .padding()
+        .onAppear {
+            if viewModel.symptoms.isEmpty {
+                let exampleSymptoms = [
+                    SymptomModel(
+                        title: "Headache",
+                        cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
+                        hints: ["Most frequent in period phase"],
+                        min: 2,
+                        max: 10,
+                        average: 5,
+                        covariance: 2.5,
+                        covarianceOverview: [
+                            [2, 3, 4, 6, 5],
+                            [1, 2, 3, 4, 5]
+                        ],
+                        questionType: .painEmoticonRating
+                    )
+                ]
+                viewModel.symptoms = exampleSymptoms
+                selectedSymptom = exampleSymptoms.first
+            }
+        }
         
-        VStack {
-               
-                   Text("This is the discover page \(averageString)")
-          
-                   Button(action: {
-                       viewModel.healthKitService.requestAuthorization()
-                           
-                       }) {
-                           Text("Tap Me")
-                               .font(.headline)
-                               .foregroundColor(.white)
-                               .padding()
-                               .background(Color.blue)
-                               .cornerRadius(10)
-                       }
-               }
     }
 }
 

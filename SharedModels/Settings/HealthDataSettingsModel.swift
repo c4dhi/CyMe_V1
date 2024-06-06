@@ -22,6 +22,7 @@ enum QuestionType: String,  Codable {
     case emoticonRating = "emoticonRating"
     case menstruationEmoticonRating = "menstruationEmoticonRating"
     case painEmoticonRating = "painEmoticonRating"
+    case changeEmoticonRating = "changeEmoticonRating"
     case amountOfhour = "amountOfhour"
     case open = "open"
 }

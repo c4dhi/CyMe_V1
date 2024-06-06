@@ -54,6 +54,8 @@ struct SelfReportView: View {
                             MenstruationEmoticonRatingQuestionView(setting: healthData, selfReport: $selfReports)
                         case .painEmoticonRating:
                             PainEmoticonRatingQuestionView(setting: healthData, selfReport: $selfReports)
+                        case .changeEmoticonRating:
+                            ChangeEmoticonRatingQuestionView(setting: healthData, selfReport: $selfReports)
                         case .amountOfhour:
                             AmountOfHourQuestionView(setting: healthData, selfReport: $selfReports)
                         case .open:
@@ -181,20 +183,23 @@ struct EmoticonRatingQuestionView: View {
         VStack(alignment: .center) {
             Text(setting.question)
                 .padding(.top, 50)
-            ScrollView(.horizontal) {
-                HStack(spacing: 0) {
-                    ForEach(emoticons, id: \.0) { (emoticon, description) in
+            HStack(alignment: .center) {
+                ForEach(emoticons, id: \.0) { (emoticon, description) in
+                    VStack {
                         Button(action: {
                             selectedEmoticon = description
                             selfReport.append(SelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
                         }) {
                             Text(emoticon)
+                                .font(.title2)
                                 .padding()
-                                .font(.title)
                                 .background(selectedEmoticon == description ? Color.blue : Color.clear)
                                 .foregroundColor(selectedEmoticon == description ? .white : .blue)
                                 .cornerRadius(8)
                         }
+                        Text(description)
+                            .font(.footnote)
+                            .foregroundColor(.primary)
                     }
                 }
             }
@@ -219,20 +224,30 @@ struct MenstruationEmoticonRatingQuestionView: View {
         VStack(alignment: .center) {
             Text(setting.question)
                 .padding(.top, 50)
-            ScrollView(.horizontal) {
-                HStack(spacing: 0) {
-                    ForEach(emoticons, id: \.0) { (emoticon, description) in
+            HStack(alignment: .center) {
+                ForEach(emoticons, id: \.0) { (emoticon, description) in
+                    VStack {
                         Button(action: {
                             selectedEmoticon = description
                             selfReport.append(SelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
                         }) {
                             Text(emoticon)
-                                .padding()
                                 .font(.title2)
+                                .padding()
                                 .background(selectedEmoticon == description ? Color.blue : Color.clear)
                                 .foregroundColor(selectedEmoticon == description ? .white : .blue)
                                 .cornerRadius(8)
                         }
+                        if description != "No" {
+                            Text(description)
+                                .font(.footnote)
+                                .foregroundColor(.primary)
+                        }
+                    }
+                    if emoticon == "No" {
+                        Text("|")
+                            .font(.title)
+                            .foregroundColor(.primary)
                     }
                 }
             }
@@ -257,23 +272,82 @@ struct PainEmoticonRatingQuestionView: View {
         VStack(alignment: .center) {
             Text(setting.question)
                 .padding(.top, 50)
-            ScrollView(.horizontal) {
-                HStack(spacing: 0) {
+            HStack(alignment: .center) {
                     ForEach(emoticons, id: \.0) { (emoticon, description) in
-                        Button(action: {
-                            selectedEmoticon = description
-                            selfReport.append(SelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
-                        }) {
-                            Text(emoticon)
-                                .padding()
-                                .font(.title2)
-                                .background(selectedEmoticon == description ? Color.blue : Color.clear)
-                                .foregroundColor(selectedEmoticon == description ? .white : .blue)
-                                .cornerRadius(8)
+                        VStack {
+                            Button(action: {
+                                selectedEmoticon = description
+                                selfReport.append(SelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
+                            }) {
+                                Text(emoticon)
+                                    .font(.title2)
+                                    .padding()
+                                    .background(selectedEmoticon == description ? Color.blue : Color.clear)
+                                    .foregroundColor(selectedEmoticon == description ? .white : .blue)
+                                    .cornerRadius(8)
+                            }
+                            if description != "No" {
+                                Text(description)
+                                    .font(.footnote)
+                                    .foregroundColor(.primary)
+                            }
+                        }
+                        if emoticon == "No" {
+                            Text("|")
+                                .font(.title)
+                                .foregroundColor(.primary)
                         }
                     }
                 }
-            }
+            
+        }
+    }
+}
+
+struct ChangeEmoticonRatingQuestionView: View {
+    var setting: HealthDataWithoutNilModel
+    @Binding var selfReport: [SelfReportModel]
+
+    let emoticons: [(String, String)] = [
+        ("No", "No"),
+        ("⬇", "Less"),
+        ("⬆", "More")
+    ]
+
+    @State private var selectedEmoticon: String?
+
+    var body: some View {
+        VStack(alignment: .center) {
+            Text(setting.question)
+                .padding(.top, 50)
+            HStack(alignment: .center) {
+                    ForEach(emoticons, id: \.0) { (emoticon, description) in
+                        VStack {
+                            Button(action: {
+                                selectedEmoticon = description
+                                selfReport.append(SelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
+                            }) {
+                                Text(emoticon)
+                                    .font(.title2)
+                                    .padding()
+                                    .background(selectedEmoticon == description ? Color.blue : Color.clear)
+                                    .foregroundColor(selectedEmoticon == description ? .white : .blue)
+                                    .cornerRadius(8)
+                            }
+                            if description != "No" {
+                                Text(description)
+                                    .font(.footnote)
+                                    .foregroundColor(.primary)
+                            }
+                        }
+                        if emoticon == "No" {
+                            Text("|")
+                                .font(.title)
+                                .foregroundColor(.primary)
+                        }
+                    }
+                }
+            
         }
     }
 }
@@ -282,7 +356,7 @@ struct AmountOfHourQuestionView: View {
     var setting: HealthDataWithoutNilModel
     @Binding var selfReport: [SelfReportModel]
     
-    @State private var selectedHours = 0
+    @State private var selectedHours = 7
     @State private var selectedMinutes = 0
     
     var body: some View {

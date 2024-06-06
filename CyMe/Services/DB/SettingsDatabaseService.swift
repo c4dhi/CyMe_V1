@@ -98,7 +98,7 @@ class SettingsDatabaseService {
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
                 question: "Did you have acne today?",
-                questionType: .intensity
+                questionType: .painEmoticonRating
             ),
             HealthDataSettingsModel(
                 title: "Appetite changes",
@@ -106,7 +106,7 @@ class SettingsDatabaseService {
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
                 question: "Did you experience changes in appetite today?",
-                questionType: .intensity
+                questionType: .changeEmoticonRating
             ),
             HealthDataSettingsModel(
                 title: "Tightness or pain in the chest",
