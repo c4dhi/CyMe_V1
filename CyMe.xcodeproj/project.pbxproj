@@ -83,6 +83,7 @@
 		4CFDC3862C0C49ED00DD3295 /* SelfReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */; };
 		4CFDC3892C0C66D000DD3295 /* HealthDataWithoutNilModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */; };
 		50DC147E2BD1207200A280CE /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 50DC147D2BD1207200A280CE /* SigmaSwiftStatistics */; };
+		50E115312C072ECF002C1333 /* SleepDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E115302C072ECF002C1333 /* SleepDataModel.swift */; };
 		50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */; };
 		50E26B1A2C04C7FF00726C5C /* PeriodSampleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */; };
 /* End PBXBuildFile section */
@@ -258,6 +259,7 @@
 		4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataWithoutNilModel.swift; sourceTree = "<group>"; };
 		50D4A8CE2BFE2E2F008FDE58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		50D4A8CF2BFE3060008FDE58 /* CyMe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CyMe.entitlements; sourceTree = "<group>"; };
+		50E115302C072ECF002C1333 /* SleepDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepDataModel.swift; sourceTree = "<group>"; };
 		50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSelfReportModel.swift; sourceTree = "<group>"; };
 		50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodSampleModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -448,6 +450,7 @@
 				4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */,
 				50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */,
 				4C5A49BB2BFFD184008253FD /* UserModel.swift */,
+				50E115302C072ECF002C1333 /* SleepDataModel.swift */,
 				4C08971C2C0DBBD20042A6D1 /* SymptomeModel.swift */,
 			);
 			path = Models;
@@ -923,6 +926,7 @@
 			files = (
 				50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */,
 				4CDD2FC82BEB722F005995B5 /* ReportOptionsModel.swift in Sources */,
+				50E115312C072ECF002C1333 /* SleepDataModel.swift in Sources */,
 				4CDF58162C0D9CF900C7E9F6 /* SelfReportModel.swift in Sources */,
 				4CDD2FD92BF24E9A005995B5 /* PersonalizationView.swift in Sources */,
 				4C5605272C01D26600B9114D /* UserDatabaseService.swift in Sources */,
@@ -1318,7 +1322,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TRH8K396GJ;
+				DEVELOPMENT_TEAM = 24XM2HJTPL;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = MP.CyMeUITests;
@@ -1336,7 +1340,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TRH8K396GJ;
+				DEVELOPMENT_TEAM = 24XM2HJTPL;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = MP.CyMeUITests;
@@ -1356,7 +1360,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CyMe_WatchOs Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = TRH8K396GJ;
+				DEVELOPMENT_TEAM = 24XM2HJTPL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "CyMe-WatchOs-Watch-App-Info.plist";
@@ -1388,7 +1392,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CyMe_WatchOs Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = TRH8K396GJ;
+				DEVELOPMENT_TEAM = 24XM2HJTPL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "CyMe-WatchOs-Watch-App-Info.plist";
@@ -1419,7 +1423,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TRH8K396GJ;
+				DEVELOPMENT_TEAM = 24XM2HJTPL;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "MP.CyMe-WatchOs-Watch-AppTests";
@@ -1440,7 +1444,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TRH8K396GJ;
+				DEVELOPMENT_TEAM = 24XM2HJTPL;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "MP.CyMe-WatchOs-Watch-AppTests";
@@ -1460,7 +1464,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TRH8K396GJ;
+				DEVELOPMENT_TEAM = 24XM2HJTPL;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "MP.CyMe-WatchOs-Watch-AppUITests";
@@ -1480,7 +1484,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TRH8K396GJ;
+				DEVELOPMENT_TEAM = 24XM2HJTPL;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "MP.CyMe-WatchOs-Watch-AppUITests";
