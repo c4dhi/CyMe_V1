@@ -25,7 +25,7 @@ struct ContentView: View {
                     Image(systemName: "magnifyingglass")
                     Text("Discover")
                 }
-            VisualisationView()
+            VisualisationView(viewModel: DiscoverViewModel())
                 .tabItem() {
                     Image(systemName: "chart.bar")
                     Text("Visualisation")

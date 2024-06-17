@@ -16,9 +16,17 @@ struct SelfReportView: View {
     @State private var currentQuestionIndex: Int = 0
 
     var filteredHealthData: [HealthDataWithoutNilModel] {
-        let filteredSettings = settingsViewModel.settings.healthDataSettings.filter { setting in
+        var filteredSettings = settingsViewModel.settings.healthDataSettings.filter { setting in
             return setting.question != nil && setting.dataLocation != .onlyAppleHealth && setting.questionType != nil
         }
+        filteredSettings.append(HealthDataSettingsModel(
+            title: "Open Question",
+            enableDataSync: false,
+            enableSelfReportingCyMe: true,
+            dataLocation: .onlyCyMe,
+            question: nil,
+            questionType: .open
+        ))
         return filteredSettings.map { setting in
             HealthDataWithoutNilModel(
                 title: setting.title,
@@ -26,7 +34,7 @@ struct SelfReportView: View {
                 enableSelfReportingCyMe: setting.enableSelfReportingCyMe,
                 dataLocation: setting.dataLocation,
                 question: setting.question ?? "",
-                questionType: setting.questionType ?? .yesNo
+                questionType: setting.questionType ?? .intensity
             )
         }
     }
@@ -38,14 +46,16 @@ struct SelfReportView: View {
                     if currentQuestionIndex < filteredHealthData.count {
                         let healthData = filteredHealthData[currentQuestionIndex]
                         switch healthData.questionType {
-                        case .yesNo:
-                            YesNoQuestionView(setting: healthData, selfReport: $selfReports)
                         case .intensity:
                             IntensityQuestionView(setting: healthData, selfReport: $selfReports)
                         case .emoticonRating:
                             EmoticonRatingQuestionView(setting: healthData, selfReport: $selfReports)
-                        case .frequency:
-                            FrequencyQuestionView(setting: healthData, selfReport: $selfReports)
+                        case .menstruationEmoticonRating:
+                            MenstruationEmoticonRatingQuestionView(setting: healthData, selfReport: $selfReports)
+                        case .painEmoticonRating:
+                            PainEmoticonRatingQuestionView(setting: healthData, selfReport: $selfReports)
+                        case .changeEmoticonRating:
+                            ChangeEmoticonRatingQuestionView(setting: healthData, selfReport: $selfReports)
                         case .amountOfhour:
                             AmountOfHourQuestionView(setting: healthData, selfReport: $selfReports)
                         case .open:
@@ -126,43 +136,6 @@ struct SelfReportView: View {
 }
 
 
-struct YesNoQuestionView: View {
-    var setting: HealthDataWithoutNilModel
-    @Binding var selfReport: [SelfReportModel]
-
-    @State private var selectedOption: String?
-
-    var body: some View {
-        VStack(alignment: .center) {
-            Text(setting.question)
-                .font(.caption2)
-                .multilineTextAlignment(.center)
-            HStack {
-                Button(action: {
-                    selectedOption = "Yes"
-                }) {
-                    Text("Yes")
-                        .font(.caption2)
-                        .padding()
-                        .background(selectedOption == "Yes" ? Color.blue : Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }
-                Button(action: {
-                    selectedOption = "No"
-                }) {
-                    Text("No")
-                        .font(.caption2)
-                        .padding()
-                        .background(selectedOption == "No" ? Color.red : Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }
-            }
-        }
-    }
-}
-
 struct IntensityQuestionView: View {
     var setting: HealthDataWithoutNilModel
     @Binding var selfReport: [SelfReportModel]
@@ -172,10 +145,9 @@ struct IntensityQuestionView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text(setting.question)
-                .font(.caption2)
-                .multilineTextAlignment(.center)
+                .font(.caption)
             HStack {
-                ForEach(["No", "Yes", "A little", "A lot"], id: \.self) { option in
+                ForEach(["No", "Mild", "Moderate", "Severe"], id: \.self) { option in
                     Button(action: {
                         selectedOption = option
                         selfReport.append(SelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: option))
@@ -210,8 +182,7 @@ struct EmoticonRatingQuestionView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text(setting.question)
-                .font(.caption2)
-                .multilineTextAlignment(.center)
+                .font(.caption)
             ScrollView(.horizontal) {
                 HStack(spacing: 0) {
                     ForEach(emoticons, id: \.0) { (emoticon, description) in
@@ -233,19 +204,136 @@ struct EmoticonRatingQuestionView: View {
     }
 }
 
-struct FrequencyQuestionView: View {
+struct MenstruationEmoticonRatingQuestionView: View {
     var setting: HealthDataWithoutNilModel
     @Binding var selfReport: [SelfReportModel]
 
-    @State private var selectedFrequency: String = ""
+    let emoticons: [(String, String)] = [
+        ("No", "No"),
+        ("🩸", "Mild"),
+        ("🩸🩸", "Moderate"),
+        ("🩸🩸🩸", "Severe"),
+    ]
+
+    @State private var selectedEmoticon: String?
 
     var body: some View {
         VStack(alignment: .center) {
             Text(setting.question)
                 .font(.caption2)
-                .multilineTextAlignment(.center)
-            TextField("Enter frequency", text: $selectedFrequency)
-                .padding()
+                .lineLimit(nil) // Allow multiple lines
+                .multilineTextAlignment(.center) // Center align the text
+                .fixedSize(horizontal: false, vertical: true) // Ensure the text view grows vertically if needed
+                .padding(.top, 10)
+            ScrollView(.horizontal) {
+                HStack(spacing: 0) {
+                    ForEach(emoticons, id: \.0) { (emoticon, description) in
+                        Button(action: {
+                            selectedEmoticon = description
+                            selfReport.append(SelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
+                        }) {
+                            Text(emoticon)
+                                .padding()
+                                .font(.caption2)
+                                .background(selectedEmoticon == description ? Color.blue : Color.clear)
+                                .foregroundColor(selectedEmoticon == description ? .white : .blue)
+                                .cornerRadius(8)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct PainEmoticonRatingQuestionView: View {
+    var setting: HealthDataWithoutNilModel
+    @Binding var selfReport: [SelfReportModel]
+
+    let emoticons: [(String, String)] = [
+        ("No", "No"),
+        ("😐", "Mild"),
+        ("😣", "Moderate"),
+        ("😖", "Severe"),
+    ]
+
+    @State private var selectedEmoticon: String?
+
+    var body: some View {
+        VStack(alignment: .center) {
+            Text(setting.question)
+                .font(.caption2)
+                .lineLimit(nil) // Allow multiple lines
+                .multilineTextAlignment(.center) // Center align the text
+                .fixedSize(horizontal: false, vertical: true) // Ensure the text view grows vertically if needed
+                .padding(.top, 10)
+            ScrollView(.horizontal) {
+                HStack(spacing: 10) { // Increase the spacing between buttons
+                    ForEach(emoticons, id: \.0) { (emoticon, description) in
+                        VStack {
+                            Button(action: {
+                                selectedEmoticon = description
+                                selfReport.append(SelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
+                            }) {
+                                Text(emoticon)
+                                    .font(.caption2) // Smaller font size for the button
+                                    .padding(5) // Smaller padding
+                                    .background(selectedEmoticon == description ? Color.blue : Color.clear)
+                                    .foregroundColor(selectedEmoticon == description ? .white : .blue)
+                                    .cornerRadius(4) // Smaller corner radius
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct ChangeEmoticonRatingQuestionView: View {
+    var setting: HealthDataWithoutNilModel
+    @Binding var selfReport: [SelfReportModel]
+
+    let emoticons: [(String, String)] = [
+        ("No", "No"),
+        ("⬇", "Less"),
+        ("⬆", "More")
+    ]
+
+    @State private var selectedEmoticon: String?
+
+    var body: some View {
+        VStack(alignment: .center) {
+            Text(setting.question)
+                .padding(.top, 50)
+            HStack(alignment: .center) {
+                    ForEach(emoticons, id: \.0) { (emoticon, description) in
+                        VStack {
+                            Button(action: {
+                                selectedEmoticon = description
+                                selfReport.append(SelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
+                            }) {
+                                Text(emoticon)
+                                    .font(.title2)
+                                    .padding()
+                                    .background(selectedEmoticon == description ? Color.blue : Color.clear)
+                                    .foregroundColor(selectedEmoticon == description ? .white : .blue)
+                                    .cornerRadius(8)
+                            }
+                            if description != "No" {
+                                Text(description)
+                                    .font(.footnote)
+                                    .foregroundColor(.primary)
+                            }
+                        }
+                        if emoticon == "No" {
+                            Text("|")
+                                .font(.title)
+                                .foregroundColor(.primary)
+                        }
+                    }
+                }
+            
         }
     }
 }
@@ -253,15 +341,39 @@ struct FrequencyQuestionView: View {
 struct AmountOfHourQuestionView: View {
     var setting: HealthDataWithoutNilModel
     @Binding var selfReport: [SelfReportModel]
-    @State private var selectedHours: String = ""
-
+    
+    @State private var selectedHours = 0
+    @State private var selectedMinutes = 0
+    
     var body: some View {
         VStack(alignment: .center) {
             Text(setting.question)
-                .font(.caption2)
-                .multilineTextAlignment(.center)
-            TextField("Enter hours", text: $selectedHours)
-                .padding()
+                .font(.caption)
+            
+            HStack {
+                Picker("Hours", selection: $selectedHours) {
+                    ForEach(0..<24) { hour in
+                        Text("\(hour)")
+                    }
+                }
+                .pickerStyle(WheelPickerStyle())
+                .frame(width: 80)
+                
+                Text("hours")
+                    .font(.caption2)
+                
+                Picker("Minutes", selection: $selectedMinutes) {
+                    ForEach(Array(stride(from: 0, to: 60, by: 5)), id: \.self) { minute in
+                        Text("\(minute)").tag(minute)
+                    }
+                }
+                .pickerStyle(WheelPickerStyle())
+                .frame(width: 80)
+                
+                Text("minutes")
+                    .font(.caption2)
+            }
+            .padding()
         }
     }
 }
@@ -273,8 +385,7 @@ struct OpenTextQuestionView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text("Is there something else you would like to add?")
-                .font(.caption2)
-                .multilineTextAlignment(.center)
+                .font(.caption)
             TextField("Enter text", text: $enteredText)
                 .padding()
         }

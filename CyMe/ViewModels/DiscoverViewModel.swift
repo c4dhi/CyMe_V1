@@ -9,13 +9,13 @@ import Foundation
 
 
 class DiscoverViewModel: ObservableObject {
-    @Published var symptomes: [SymptomeModel]
+    @Published var symptoms: [SymptomModel]
     
     var healthKitService: HealthKitService
         
     init() {
         healthKitService = HealthKitService()
-        self.symptomes = healthKitService.getSymptomes()
+        self.symptoms = healthKitService.getSymptomes()
     }
     
 }

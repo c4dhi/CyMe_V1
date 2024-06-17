@@ -34,7 +34,7 @@ class SettingsDatabaseService {
                 enableSelfReportingCyMe: true,
                 dataLocation: .sync,
                 question: "Did you have your period today?",
-                questionType: .intensity
+                questionType: .menstruationEmoticonRating
             ),
             HealthDataSettingsModel(
                 title: "Sleep quality",
@@ -58,7 +58,7 @@ class SettingsDatabaseService {
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
                 question: "Did you experience a headache today?",
-                questionType: .frequency
+                questionType: .painEmoticonRating
             ),
             HealthDataSettingsModel(
                 title: "Stress",
@@ -66,7 +66,7 @@ class SettingsDatabaseService {
                 enableSelfReportingCyMe: false,
                 dataLocation: .onlyCyMe,
                 question: "Rate your stress level today",
-                questionType: .intensity
+                questionType: .emoticonRating
             ),
             HealthDataSettingsModel(
                 title: "Abdominal cramps",
@@ -74,7 +74,7 @@ class SettingsDatabaseService {
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
                 question: "Did you experience abdominal cramps today?",
-                questionType: .frequency
+                questionType: .painEmoticonRating
             ),
             HealthDataSettingsModel(
                 title: "Lower back pain",
@@ -82,7 +82,7 @@ class SettingsDatabaseService {
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
                 question: "Did you experience lower back pain today?",
-                questionType: .intensity
+                questionType: .painEmoticonRating
             ),
             HealthDataSettingsModel(
                 title: "Pelvic pain",
@@ -90,7 +90,7 @@ class SettingsDatabaseService {
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
                 question: "Did you experience pelvic pain today?",
-                questionType: .intensity
+                questionType: .painEmoticonRating
             ),
             HealthDataSettingsModel(
                 title: "Acne",
@@ -98,7 +98,7 @@ class SettingsDatabaseService {
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
                 question: "Did you have acne today?",
-                questionType: .yesNo
+                questionType: .painEmoticonRating
             ),
             HealthDataSettingsModel(
                 title: "Appetite changes",
@@ -106,7 +106,7 @@ class SettingsDatabaseService {
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
                 question: "Did you experience changes in appetite today?",
-                questionType: .intensity
+                questionType: .changeEmoticonRating
             ),
             HealthDataSettingsModel(
                 title: "Tightness or pain in the chest",
@@ -114,7 +114,7 @@ class SettingsDatabaseService {
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
                 question: "Did you experience tightness or pain in the chest today?",
-                questionType: .yesNo
+                questionType: .painEmoticonRating
             ),
             HealthDataSettingsModel(
                 title: "Step data",

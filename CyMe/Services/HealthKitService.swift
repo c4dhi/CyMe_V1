@@ -106,9 +106,65 @@ class HealthKitService {
         
     }
     
-    func getSymptomes() -> [SymptomeModel]  {
+    func getSymptomes() -> [SymptomModel]  {
         // TODO get symptomes
-        return [SymptomeModel(title: "example", cycleOverview: [[0, 1, 2, 3, 0]], hints: ["example"], min: 3, max: 7, average: 4, covariance: 0.8, coverianceOverview: [[0, 1, 2, 3, 0]])]
+        return [
+            SymptomModel(
+                title: "Headache",
+                cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
+                hints: ["Most frequent in period phase"],
+                min: 0,
+                max: 3,
+                average: 1,
+                covariance: 2.5,
+                covarianceOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
+                questionType: .painEmoticonRating
+            ),
+            SymptomModel(
+                title: "Fatigue",
+                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
+                hints: ["Most frequent in luteal phase"],
+                min: 1,
+                max: 4,
+                average: 2,
+                covariance: 1.8,
+                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                questionType: .intensity
+            ),
+            SymptomModel(
+                title: "Menstruation",
+                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
+                hints: ["Most frequent in luteal phase"],
+                min: 1,
+                max: 4,
+                average: 2,
+                covariance: 1.8,
+                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                questionType: .menstruationEmoticonRating
+            ),
+            SymptomModel(
+                title: "Mood",
+                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
+                hints: ["Most frequent in luteal phase"],
+                min: 1,
+                max: 4,
+                average: 2,
+                covariance: 1.8,
+                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                questionType: .emoticonRating
+            ),
+            SymptomModel(
+                title: "Sleep",
+                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
+                hints: ["Most frequent in luteal phase"],
+                min: 1,
+                max: 4,
+                average: 2,
+                covariance: 1.8,
+                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                questionType: .amountOfhour
+            )
+        ]
         
     }
     
