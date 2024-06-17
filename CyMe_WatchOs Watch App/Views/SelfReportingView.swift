@@ -11,7 +11,7 @@ import SharedModels
 struct SelfReportView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
 
-    @State var selfReports: [SelfReportModel] = []
+    @State var selfReports: [SymptomSelfReportModel] = []
     @State var isLoading = false
     @State private var currentQuestionIndex: Int = 0
 
@@ -34,7 +34,7 @@ struct SelfReportView: View {
                 enableSelfReportingCyMe: setting.enableSelfReportingCyMe,
                 dataLocation: setting.dataLocation,
                 question: setting.question ?? "",
-                questionType: setting.questionType ?? .intensity
+                questionType: setting.questionType ?? .painEmoticonRating
             )
         }
     }
@@ -46,8 +46,6 @@ struct SelfReportView: View {
                     if currentQuestionIndex < filteredHealthData.count {
                         let healthData = filteredHealthData[currentQuestionIndex]
                         switch healthData.questionType {
-                        case .intensity:
-                            IntensityQuestionView(setting: healthData, selfReport: $selfReports)
                         case .emoticonRating:
                             EmoticonRatingQuestionView(setting: healthData, selfReport: $selfReports)
                         case .menstruationEmoticonRating:
@@ -138,7 +136,7 @@ struct SelfReportView: View {
 
 struct IntensityQuestionView: View {
     var setting: HealthDataWithoutNilModel
-    @Binding var selfReport: [SelfReportModel]
+    @Binding var selfReport: [SymptomSelfReportModel]
 
     @State private var selectedOption: String?
 
@@ -150,7 +148,7 @@ struct IntensityQuestionView: View {
                 ForEach(["No", "Mild", "Moderate", "Severe"], id: \.self) { option in
                     Button(action: {
                         selectedOption = option
-                        selfReport.append(SelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: option))
+                        selfReport.append(SymptomSelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: option))
                     }) {
                         Text(option)
                             .font(.caption2)
@@ -167,7 +165,7 @@ struct IntensityQuestionView: View {
 
 struct EmoticonRatingQuestionView: View {
     var setting: HealthDataWithoutNilModel
-    @Binding var selfReport: [SelfReportModel]
+    @Binding var selfReport: [SymptomSelfReportModel]
 
     let emoticons: [(String, String)] = [
         ("😭", "Very Sad"),
@@ -188,7 +186,7 @@ struct EmoticonRatingQuestionView: View {
                     ForEach(emoticons, id: \.0) { (emoticon, description) in
                         Button(action: {
                             selectedEmoticon = description
-                            selfReport.append(SelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
+                            selfReport.append(SymptomSelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
                         }) {
                             Text(emoticon)
                                 .padding()
@@ -206,7 +204,7 @@ struct EmoticonRatingQuestionView: View {
 
 struct MenstruationEmoticonRatingQuestionView: View {
     var setting: HealthDataWithoutNilModel
-    @Binding var selfReport: [SelfReportModel]
+    @Binding var selfReport: [SymptomSelfReportModel]
 
     let emoticons: [(String, String)] = [
         ("No", "No"),
@@ -230,7 +228,7 @@ struct MenstruationEmoticonRatingQuestionView: View {
                     ForEach(emoticons, id: \.0) { (emoticon, description) in
                         Button(action: {
                             selectedEmoticon = description
-                            selfReport.append(SelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
+                            selfReport.append(SymptomSelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
                         }) {
                             Text(emoticon)
                                 .padding()
@@ -248,7 +246,7 @@ struct MenstruationEmoticonRatingQuestionView: View {
 
 struct PainEmoticonRatingQuestionView: View {
     var setting: HealthDataWithoutNilModel
-    @Binding var selfReport: [SelfReportModel]
+    @Binding var selfReport: [SymptomSelfReportModel]
 
     let emoticons: [(String, String)] = [
         ("No", "No"),
@@ -273,7 +271,7 @@ struct PainEmoticonRatingQuestionView: View {
                         VStack {
                             Button(action: {
                                 selectedEmoticon = description
-                                selfReport.append(SelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
+                                selfReport.append(SymptomSelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
                             }) {
                                 Text(emoticon)
                                     .font(.caption2) // Smaller font size for the button
@@ -292,7 +290,7 @@ struct PainEmoticonRatingQuestionView: View {
 
 struct ChangeEmoticonRatingQuestionView: View {
     var setting: HealthDataWithoutNilModel
-    @Binding var selfReport: [SelfReportModel]
+    @Binding var selfReport: [SymptomSelfReportModel]
 
     let emoticons: [(String, String)] = [
         ("No", "No"),
@@ -311,7 +309,7 @@ struct ChangeEmoticonRatingQuestionView: View {
                         VStack {
                             Button(action: {
                                 selectedEmoticon = description
-                                selfReport.append(SelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
+                                selfReport.append(SymptomSelfReportModel(healthDataTitle: setting.title, questionType: setting.questionType, reportedValue: description))
                             }) {
                                 Text(emoticon)
                                     .font(.title2)
@@ -340,7 +338,7 @@ struct ChangeEmoticonRatingQuestionView: View {
 
 struct AmountOfHourQuestionView: View {
     var setting: HealthDataWithoutNilModel
-    @Binding var selfReport: [SelfReportModel]
+    @Binding var selfReport: [SymptomSelfReportModel]
     
     @State private var selectedHours = 0
     @State private var selectedMinutes = 0
@@ -379,7 +377,7 @@ struct AmountOfHourQuestionView: View {
 }
 
 struct OpenTextQuestionView: View {
-    @Binding var selfReport: [SelfReportModel]
+    @Binding var selfReport: [SymptomSelfReportModel]
     @State private var enteredText: String = ""
 
     var body: some View {

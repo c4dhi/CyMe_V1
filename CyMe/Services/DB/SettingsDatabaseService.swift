@@ -29,7 +29,7 @@ class SettingsDatabaseService {
     private func getDefaultHealthDataSettings() -> [HealthDataSettingsModel] {
         let defaultValues: [HealthDataSettingsModel] = [
             HealthDataSettingsModel(
-                title: "Menstrual data",
+                title: "Menstruation date",
                 enableDataSync: true,
                 enableSelfReportingCyMe: true,
                 dataLocation: .sync,
@@ -109,7 +109,7 @@ class SettingsDatabaseService {
                 questionType: .changeEmoticonRating
             ),
             HealthDataSettingsModel(
-                title: "Tightness or pain in the chest",
+                title: "Chest pain",
                 enableDataSync: false,
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
@@ -123,6 +123,14 @@ class SettingsDatabaseService {
                 dataLocation: .onlyAppleHealth,
                 question: nil,
                 questionType: nil
+            ),
+            HealthDataSettingsModel(
+                title: "Mood",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .onlyCyMe,
+                question: "What mood do you currently have?",
+                questionType: .emoticonRating
             )
         ]
         return defaultValues

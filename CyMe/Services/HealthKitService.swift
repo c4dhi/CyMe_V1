@@ -66,6 +66,95 @@ class HealthKitService {
     }
     
     
+    func get_health_data()  {
+        // We fetch some selfreported data
+        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.headache)
+        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.abdominalCramps) // Bauchkrämpfe
+        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.lowerBackPain) // Kreuzschmerzen
+        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.pelvicPain) // Unterleibsschmerzen
+        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.acne)
+        fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.chestTightnessOrPain) // Engegefühl oder Schmerzen in der Brust
+        
+        // Fetch some automatically generated data
+        fetchCollectedQuantityData(amountOfDays: 5, dataName: HKQuantityTypeIdentifier.stepCount)
+        //fetchCollectedQuantityData(amountOfDays: 5, dataName: HKQuantityTypeIdentifier.appleExerciseTime)
+    
+        
+        // Write some data
+        //writeSelfreportedSamples(dataName: HKCategoryTypeIdentifier.memoryLapse)
+        // TODO not all of these are tested
+        
+        // We fetch period data
+        //fetchPeriodData()
+        
+        // We fetch sleep data
+        //fetchSleepData()
+        
+    }
+    
+    func getSymptomes() -> [SymptomModel]  {
+        // TODO get symptomes
+        return [
+            SymptomModel(
+                title: "Headache",
+                cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
+                hints: ["Most frequent in period phase"],
+                min: 0,
+                max: 3,
+                average: 1,
+                covariance: 2.5,
+                covarianceOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
+                questionType: .painEmoticonRating
+            ),
+            SymptomModel(
+                title: "Fatigue",
+                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
+                hints: ["Most frequent in luteal phase"],
+                min: 1,
+                max: 4,
+                average: 2,
+                covariance: 1.8,
+                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                questionType: .painEmoticonRating
+            ),
+            SymptomModel(
+                title: "Menstruation",
+                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
+                hints: ["Most frequent in luteal phase"],
+                min: 1,
+                max: 4,
+                average: 2,
+                covariance: 1.8,
+                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                questionType: .menstruationEmoticonRating
+            ),
+            SymptomModel(
+                title: "Mood",
+                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
+                hints: ["Most frequent in luteal phase"],
+                min: 1,
+                max: 4,
+                average: 2,
+                covariance: 1.8,
+                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                questionType: .emoticonRating
+            ),
+            SymptomModel(
+                title: "Sleep",
+                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
+                hints: ["Most frequent in luteal phase"],
+                min: 1,
+                max: 4,
+                average: 2,
+                covariance: 1.8,
+                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                questionType: .amountOfhour
+            )
+        ]
+        
+    }
+    
+    
     func writeSelfreportedSamples(dataName: HKCategoryTypeIdentifier){
         guard let dataType = HKObjectType.categoryType(forIdentifier: dataName) else {
             print("Data type of name (\(dataName) not available")

@@ -85,7 +85,7 @@ class SettingsViewModel: ObservableObject {
                         enableSelfReportingCyMe: false,
                         dataLocation: .sync,
                         question: "Did you have acne today?",
-                        questionType: .intensity
+                        questionType: .painEmoticonRating
                     ),
                     HealthDataSettingsModel(
                         title: "Appetite changes",
@@ -93,7 +93,7 @@ class SettingsViewModel: ObservableObject {
                         enableSelfReportingCyMe: false,
                         dataLocation: .sync,
                         question: "Did you experience changes in appetite today?",
-                        questionType: .intensity
+                        questionType: .painEmoticonRating
                     ),
                     HealthDataSettingsModel(
                         title: "Tightness or pain in the chest",

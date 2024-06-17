@@ -281,7 +281,7 @@ struct SymptomsMultiSelectView_Previews: PreviewProvider {
                 average: "2",
                 covariance: 1.8,
                 covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-                questionType: .intensity
+                questionType: .painEmoticonRating
             ),
             SymptomModel(
                 title: "Menstruation",
