@@ -13,6 +13,19 @@ struct DiscoverView: View {
 
     var body: some View {
         VStack(spacing: 5) {
+            Button(action: {
+                          
+                print("Button tapped!")
+                //await viewModel.healthKitService.requestAuthorization()
+                Task { await viewModel.healthKitService.get_health_data()}
+                }) {
+                   Text("Tap Me")
+                       .font(.headline)
+                       .foregroundColor(.white)
+                       .padding()
+                       .background(Color.blue)
+                       .cornerRadius(10)
+               }
             Text("Discover")
                 .font(.title)
 

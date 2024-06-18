@@ -87,10 +87,11 @@
 		4CFDC3812C072D6400DD3295 /* HealthDataSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3802C072D6400DD3295 /* HealthDataSettingsModel.swift */; };
 		4CFDC3862C0C49ED00DD3295 /* SelfReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */; };
 		4CFDC3892C0C66D000DD3295 /* HealthDataWithoutNilModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */; };
-		50DC147E2BD1207200A280CE /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 50DC147D2BD1207200A280CE /* SigmaSwiftStatistics */; };
 		50E115312C072ECF002C1333 /* SleepDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E115302C072ECF002C1333 /* SleepDataModel.swift */; };
 		50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */; };
 		50E26B1A2C04C7FF00726C5C /* PeriodSampleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */; };
+		50EED2D42C202AB00001BF5C /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 50EED2D32C202AB00001BF5C /* SigmaSwiftStatistics */; };
+		50EED2D62C2083420001BF5C /* AppetiteChangeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EED2D52C2083420001BF5C /* AppetiteChangeModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -272,6 +273,7 @@
 		50E115302C072ECF002C1333 /* SleepDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepDataModel.swift; sourceTree = "<group>"; };
 		50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSelfReportModel.swift; sourceTree = "<group>"; };
 		50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodSampleModel.swift; sourceTree = "<group>"; };
+		50EED2D52C2083420001BF5C /* AppetiteChangeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppetiteChangeModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,8 +281,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50DC147E2BD1207200A280CE /* SigmaSwiftStatistics in Frameworks */,
 				4CDF585D2C0DA12C00C7E9F6 /* SharedModels.framework in Frameworks */,
+				50EED2D42C202AB00001BF5C /* SigmaSwiftStatistics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,7 +473,8 @@
 				50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */,
 				4C5A49BB2BFFD184008253FD /* UserModel.swift */,
 				50E115302C072ECF002C1333 /* SleepDataModel.swift */,
-				4C08971C2C0DBBD20042A6D1 /* SymptomeModel.swift */,
+				4C08971C2C0DBBD20042A6D1 /* SymptomModel.swift */,
+				50EED2D52C2083420001BF5C /* AppetiteChangeModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -684,7 +687,7 @@
 			);
 			name = CyMe;
 			packageProductDependencies = (
-				50DC147D2BD1207200A280CE /* SigmaSwiftStatistics */,
+				50EED2D32C202AB00001BF5C /* SigmaSwiftStatistics */,
 			);
 			productName = CyMe;
 			productReference = 4C13544D2BCFC6060078A84B /* CyMe.app */;
@@ -991,6 +994,7 @@
 				4C1354E32BCFCE320078A84B /* HomeView.swift in Sources */,
 				4CDF57F22C0CF8D700C7E9F6 /* PopupView.swift in Sources */,
 				4C1A36DD2C104FD0006E50D8 /* SymptomsMultiSelectView.swift in Sources */,
+				50EED2D62C2083420001BF5C /* AppetiteChangeModel.swift in Sources */,
 				4C1354E52BCFCE440078A84B /* DiscoverView.swift in Sources */,
 				4C1354EE2BCFD52A0078A84B /* HealthKitService.swift in Sources */,
 				4C1A36DF2C105469006E50D8 /* SymptomFilterView.swift in Sources */,
@@ -1756,7 +1760,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		50DC147D2BD1207200A280CE /* SigmaSwiftStatistics */ = {
+		50EED2D32C202AB00001BF5C /* SigmaSwiftStatistics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 50DC147C2BD11F8100A280CE /* XCRemoteSwiftPackageReference "SigmaSwiftStatistics" */;
 			productName = SigmaSwiftStatistics;
