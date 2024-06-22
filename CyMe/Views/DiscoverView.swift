@@ -14,10 +14,10 @@ struct DiscoverView: View {
     var body: some View {
         VStack(spacing: 5) {
             Button(action: {
-                          
-                print("Button tapped!")
-                //await viewModel.healthKitService.requestAuthorization()
-                Task { await viewModel.healthKitService.get_health_data()}
+                Task {
+                    await viewModel.getSymptomes(relevantDataList: [.headache])
+                    //await viewModel.getSymptomes(relevantDataList: [.headache, .abdominalCramps, .lowerBackPain, .pelvicPain, .acne, .chestTightnessOrPain, .appetiteChange, .exerciseTime, .stepCount])
+                }
                 }) {
                    Text("Tap Me")
                        .font(.headline)
@@ -72,7 +72,8 @@ struct DiscoverView: View {
             if viewModel.symptoms.isEmpty {
                 let exampleSymptoms = [
                     SymptomModel(
-                        title: "Headache",
+                        title: "Example Symptom",
+                        dateRange: [],
                         cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
                         hints: ["Most frequent in period phase"],
                         min: 2,

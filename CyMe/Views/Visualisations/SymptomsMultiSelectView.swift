@@ -261,6 +261,7 @@ struct SymptomsMultiSelectView_Previews: PreviewProvider {
         SymptomsMultiSelectView(selectedSymptoms: [
             SymptomModel(
                 title: "Headache",
+                dateRange: [],
                 cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
                 hints: ["Most frequent in period phase"],
                 min: 0,
@@ -272,6 +273,7 @@ struct SymptomsMultiSelectView_Previews: PreviewProvider {
             ),
             SymptomModel(
                 title: "Fatigue",
+                dateRange: [],
                 cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
                 hints: ["Most frequent in luteal phase"],
                 min: 1,
@@ -283,6 +285,7 @@ struct SymptomsMultiSelectView_Previews: PreviewProvider {
             ),
             SymptomModel(
                 title: "Menstruation",
+                dateRange: [],
                 cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
                 hints: ["Most frequent in luteal phase"],
                 min: 1,
@@ -294,6 +297,7 @@ struct SymptomsMultiSelectView_Previews: PreviewProvider {
             ),
             SymptomModel(
                 title: "Mood",
+                dateRange: [],
                 cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
                 hints: ["Most frequent in luteal phase"],
                 min: 1,
@@ -305,6 +309,7 @@ struct SymptomsMultiSelectView_Previews: PreviewProvider {
             ),
             SymptomModel(
                 title: "Sleep",
+                dateRange: [],
                 cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
                 hints: ["Most frequent in luteal phase"],
                 min: 1,

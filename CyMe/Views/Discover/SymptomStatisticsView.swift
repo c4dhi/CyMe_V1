@@ -31,7 +31,8 @@ struct SymptomStatisticsView: View {
 struct SymptomStatisticsView_Previews: PreviewProvider {
     static var previews: some View {
         SymptomStatisticsView(symptom: SymptomModel(
-            title: "Headache",
+            title: "Example Statistics View",
+            dateRange: [],
             cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
             hints: ["Most frequent in period phase"],
             min: 2,

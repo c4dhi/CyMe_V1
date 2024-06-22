@@ -87,6 +87,7 @@
 		4CFDC3812C072D6400DD3295 /* HealthDataSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3802C072D6400DD3295 /* HealthDataSettingsModel.swift */; };
 		4CFDC3862C0C49ED00DD3295 /* SelfReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */; };
 		4CFDC3892C0C66D000DD3295 /* HealthDataWithoutNilModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */; };
+		500479C52C27293800882265 /* DataProtocoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500479C42C27293800882265 /* DataProtocoll.swift */; };
 		50E115312C072ECF002C1333 /* SleepDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E115302C072ECF002C1333 /* SleepDataModel.swift */; };
 		50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */; };
 		50E26B1A2C04C7FF00726C5C /* PeriodSampleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */; };
@@ -268,6 +269,7 @@
 		4CFDC3802C072D6400DD3295 /* HealthDataSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataSettingsModel.swift; sourceTree = "<group>"; };
 		4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportViewModel.swift; sourceTree = "<group>"; };
 		4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataWithoutNilModel.swift; sourceTree = "<group>"; };
+		500479C42C27293800882265 /* DataProtocoll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProtocoll.swift; sourceTree = "<group>"; };
 		50D4A8CE2BFE2E2F008FDE58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		50D4A8CF2BFE3060008FDE58 /* CyMe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CyMe.entitlements; sourceTree = "<group>"; };
 		50E115302C072ECF002C1333 /* SleepDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepDataModel.swift; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 				50E115302C072ECF002C1333 /* SleepDataModel.swift */,
 				4C08971C2C0DBBD20042A6D1 /* SymptomModel.swift */,
 				50EED2D52C2083420001BF5C /* AppetiteChangeModel.swift */,
+				500479C42C27293800882265 /* DataProtocoll.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -974,6 +977,7 @@
 				4C5A49B82BFE1A79008253FD /* ThemeModel.swift in Sources */,
 				4CDD2FE12BF4F2B9005995B5 /* SelfReportView.swift in Sources */,
 				4CB6BBDF2BD6E5BF008A32CA /* DatabaseService.swift in Sources */,
+				500479C52C27293800882265 /* DataProtocoll.swift in Sources */,
 				50E26B1A2C04C7FF00726C5C /* PeriodSampleModel.swift in Sources */,
 				4C1354512BCFC6060078A84B /* CyMeApp.swift in Sources */,
 				4C1354EB2BCFD4300078A84B /* HealthDataModel.swift in Sources */,

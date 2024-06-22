@@ -21,7 +21,8 @@ struct CyMeApp: App {
             if DatabaseService.shared.userDatabaseService.isUserPresent() {
                 ContentView()
             } else {
-                OnboardingView()
+                //OnboardingView()
+                ContentView()
             }
         }
     }

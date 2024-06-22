@@ -8,16 +8,17 @@
 import Foundation
 import HealthKit
 
-struct AppetiteChangeModel {
+struct AppetiteChangeModel : DataProtocoll {
     var startdate: Date
     var appetiteChangePresent: Bool
+    var intensity: Int
     var appetiteChangeCathegory: HKCategoryValueAppetiteChanges
     var label: String
     
     
     init(startdate: Date, intensity: Int) {
         self.startdate = startdate
-        
+        self.intensity = intensity
  
         let selfreportedAppetiteChangeCathegory = [1:  HKCategoryValueAppetiteChanges.noChange, 0:  HKCategoryValueAppetiteChanges.unspecified, 2:  HKCategoryValueAppetiteChanges.decreased, 3:  HKCategoryValueAppetiteChanges.increased ]
         self.appetiteChangeCathegory = selfreportedAppetiteChangeCathegory[intensity]!

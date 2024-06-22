@@ -11,7 +11,6 @@ import Combine
 
 class HealthKitService {
     
-    // TODO Make sure fetch will be asynch soon
     
     // General Objects
     private let healthStore = HKHealthStore()
@@ -54,19 +53,6 @@ class HealthKitService {
     // Variables for development
     private let enablePrintStatement = false
     
-    
-    
-    // Helper function - nice display with a dictionary which has date as a key
-    func displayDateDictionary(dict: [Date: Any]){
-        for consideredDate in dict.keys.sorted(){
-            print(DateFormatter.localizedString(from: consideredDate, dateStyle: .short, timeStyle: .none), terminator: "")
-            if let value = dict[consideredDate]{
-                print(": \(value) ")}
-            else {print("There is a problem with displaying dict objects")}
-        }
-    }
-    
-    
     func requestAuthorization() {
         healthStore.requestAuthorization(toShare: typesToWrite, read: typesToRead) { (success, error) in
             if success {
@@ -81,171 +67,7 @@ class HealthKitService {
             }
         }
     }
-    
-    
-    func get_health_data() async {
-        let amountOfDays = 5
-        let startOfToday = Calendar.current.startOfDay(for: Date()) // Start of today (has date of yesterday because of timezones)
-        let endDate = Calendar.current.date(byAdding: .day, value: +1, to: startOfToday)! // end of today
-        let startDate = Calendar.current.date(byAdding: .day, value: -amountOfDays, to: endDate)!
-        
-        
-        // We fetch some selfreported data
-        
-        var selfreportDataList : [AppleHealthSefReportModel] = []
-        do {
-            selfreportDataList = try await fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.headache)
-        } catch {
-            print("Error: \(error)")
-        }
-        for data in selfreportDataList{
-            data.print()
-        }
-         
-        // Possible Data names:
-            // HKCategoryTypeIdentifier.headache)
-            // HKCategoryTypeIdentifier.abdominalCramps) // Bauchkrämpfe
-            // HKCategoryTypeIdentifier.lowerBackPain) // Kreuzschmerzen
-            // HKCategoryTypeIdentifier.pelvicPain) // Unterleibsschmerzen
-            // HKCategoryTypeIdentifier.acne)
-            // HKCategoryTypeIdentifier.chestTightnessOrPain) // Engegefühl oder Schmerzen in der Brust
-        
-        // We fetch some appetite changes data - tested
-        /*
-        var appetiteChangeDataList : [AppetiteChangeModel] = []
-        do {
-            appetiteChangeDataList = try await fetchAppetiteChanges()
-        } catch {
-            print("Error: \(error)")
-        }
-        for data in appetiteChangeDataList{
-            data.print()
-        }
-         */
-       
 
-        
-        
-        
-        
-        // Write some data
-        //writeSelfreportedSamples(dataName: HKCategoryTypeIdentifier.memoryLapse)
-        // TODO not all of these are tested
-        
-        
-        
-        // We fetch sleep data - tested
-        /*
-         var sleepDataList : [SleepDataModel] = []
-         do {
-         sleepDataList = try await fetchSleepData()
-         } catch {
-         print("Error: \(error)")
-         }
-         for sleep in sleepDataList{
-         sleep.print()
-         }
-         */
-        
-        
-        
-        // We fetch period data - tested
-        /*
-         var periodDataList : [PeriodSampleModel] = []
-         do {
-         periodDataList = try await fetchPeriodData()
-         } catch {
-         print("Error: \(error)")
-         }
-         for period in periodDataList{
-         period.print()
-         }
-         */
-        
-        
-        
-        // Fetch some automatically generated data - tested
-        /*
-         var exerciseTime : [Date : Int]? = [:]
-         do {
-         exerciseTime = try await fetchCollectedQuantityData(startDate: startDate, endDate: endDate, dataName: HKQuantityTypeIdentifier.appleExerciseTime)
-         } catch {
-         print("Error: \(error)")
-         }
-         displayDateDictionary(dict: exerciseTime!)
-         
-         var stepCounts: [Date : Int]? = [:]
-         do {
-         stepCounts = try await fetchCollectedQuantityData(startDate: startDate, endDate: endDate, dataName: HKQuantityTypeIdentifier.stepCount)
-         } catch {
-         print("Error: \(error)")
-         }
-         displayDateDictionary(dict: stepCounts!)
-         */
-        
-    }
-    
-    func getSymptomes() -> [SymptomModel]  {
-        // TODO get symptomes
-        return [
-            SymptomModel(
-                title: "Headache",
-                cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
-                hints: ["Most frequent in period phase"],
-                min: 0,
-                max: 3,
-                average: 1,
-                covariance: 2.5,
-                covarianceOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
-                questionType: .painEmoticonRating
-            ),
-            SymptomModel(
-                title: "Fatigue",
-                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-                hints: ["Most frequent in luteal phase"],
-                min: 1,
-                max: 4,
-                average: 2,
-                covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-                questionType: .intensity
-            ),
-            SymptomModel(
-                title: "Menstruation",
-                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-                hints: ["Most frequent in luteal phase"],
-                min: 1,
-                max: 4,
-                average: 2,
-                covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-                questionType: .menstruationEmoticonRating
-            ),
-            SymptomModel(
-                title: "Mood",
-                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-                hints: ["Most frequent in luteal phase"],
-                min: 1,
-                max: 4,
-                average: 2,
-                covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-                questionType: .emoticonRating
-            ),
-            SymptomModel(
-                title: "Sleep",
-                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-                hints: ["Most frequent in luteal phase"],
-                min: 1,
-                max: 4,
-                average: 2,
-                covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-                questionType: .amountOfhour
-            )
-        ]
-        
-    }
     
     
     func writeSelfreportedSamples(dataName: HKCategoryTypeIdentifier){
@@ -266,14 +88,15 @@ class HealthKitService {
     }
     
     
-    func fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier) async throws -> [AppleHealthSefReportModel]{
+    func fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier, startDate: Date, endDate: Date) async throws -> [AppleHealthSefReportModel]{
         guard let dataType = HKObjectType.categoryType(forIdentifier: dataName) else {
             print("Data type of name (\(dataName) not available")
             return []
         }
         
         return try await withCheckedThrowingContinuation { continuation in
-            let query = HKSampleQuery(sampleType: dataType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [self.sortDescriptorChronological]) { (query, samples, error) in
+            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: [.strictStartDate, .strictEndDate])
+            let query = HKSampleQuery(sampleType: dataType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [self.sortDescriptorChronological]) { (query, samples, error) in
                 guard let samples = samples as? [HKCategorySample], error == nil else {
                     continuation.resume(throwing: error ?? NSError(domain: "HealthKitFetch", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unknown error"]))
                     return
@@ -289,14 +112,15 @@ class HealthKitService {
         }
     }
     
-    func fetchAppetiteChanges() async throws -> [AppetiteChangeModel]{
+    func fetchAppetiteChanges(startDate: Date, endDate: Date) async throws -> [AppetiteChangeModel]{
         guard let dataType = HKObjectType.categoryType(forIdentifier: HKCategoryTypeIdentifier.appetiteChanges) else {
             print("Data type of name Appetite Change not available")
             return []
         }
         
         return try await withCheckedThrowingContinuation { continuation in
-            let query = HKSampleQuery(sampleType: dataType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [self.sortDescriptorChronological]) { (query, samples, error) in
+            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: [.strictStartDate, .strictEndDate])
+            let query = HKSampleQuery(sampleType: dataType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [self.sortDescriptorChronological]) { (query, samples, error) in
                 guard let samples = samples as? [HKCategorySample], error == nil else {
                     continuation.resume(throwing: error ?? NSError(domain: "HealthKitFetch", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unknown error"]))
                     return
@@ -335,14 +159,15 @@ class HealthKitService {
         }
      
     
-    func fetchSleepData() async throws -> [SleepDataModel]{
+    func fetchSleepData(startDate: Date, endDate: Date) async throws -> [SleepDataModel]{
          guard let sleepAnalysisType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis) else {
              print("Sleep Analysis type not available")
              return []
          }
             
         return try await withCheckedThrowingContinuation { continuation in
-            let query = HKSampleQuery(sampleType: sleepAnalysisType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [self.sortDescriptorChronological]) { (query, samples, error) in
+            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: [.strictStartDate, .strictEndDate])
+            let query = HKSampleQuery(sampleType: sleepAnalysisType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [self.sortDescriptorChronological]) { (query, samples, error) in
                 
                 guard let samples = samples as? [HKCategorySample], error == nil else {
                     continuation.resume(throwing: error ?? NSError(domain: "HealthKitFetch", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unknown error"]))
@@ -400,7 +225,7 @@ class HealthKitService {
         var dateComponents = DateComponents()
         dateComponents.day = 1
         
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: [.strictStartDate, .strictEndDate])
         
         return try await withCheckedThrowingContinuation { continuation in
             let query = HKStatisticsCollectionQuery(quantityType: dataType,

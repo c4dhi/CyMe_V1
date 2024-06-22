@@ -37,3 +37,9 @@ struct PeriodSampleModel {
     }
 
     }
+
+extension Array where Element == PeriodSampleModel {
+    func filterByPeriodStart(isStart: Bool) -> [PeriodSampleModel] {
+        return self.filter { $0.startofPeriod == isStart }
+    }
+}

@@ -54,7 +54,8 @@ struct SymptomGraph: View {
 struct SymptomGraph_Previews: PreviewProvider {
     static var previews: some View {
         SymptomGraph(symptom: SymptomModel(
-            title: "Sleep",
+            title: "Example Symptom Graph",
+            dateRange: [],
             cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
             hints: ["Most frequent in luteal phase"],
             min: 1,
