@@ -66,8 +66,43 @@ func stringToDataLocation(_ string: String) -> DataLocation? {
     return DataLocation(rawValue: string)
 }
 
+// Translate DataLocation
+func dataLocationToUTF8String(_ dataLocation: DataLocation) -> UnsafePointer<Int8>? {
+    return (dataLocation.rawValue as NSString).utf8String
+}
+
+func questionTypeToUTF8String(_ questionType: QuestionType?) -> UnsafePointer<Int8>? {
+    return (questionType?.rawValue as NSString?)?.utf8String
+}
 
 
+// translate reminderModel
+func encodeReminderModel(_ reminder: ReminderModel) -> String {
+    do {
+        let jsonData = try JSONEncoder().encode(reminder)
+        return String(data: jsonData, encoding: .utf8) ?? ""
+    } catch {
+        print("Failed to encode reminder model: \(error)")
+        return ""
+    }
+}
+
+func decodeReminderModel(from data: Data) -> ReminderModel {
+    do {
+        return try JSONDecoder().decode(ReminderModel.self, from: data)
+    } catch {
+        print("Failed to decode reminder model: \(error)")
+        return ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date())
+    }
+}
+
+func decodeDataLocation(datalocationString: String) -> DataLocation? {
+    return DataLocation(rawValue: datalocationString)
+}
+
+func decodeQuestionType(questionTypeString: String) -> QuestionType? {
+    return QuestionType(rawValue: questionTypeString)
+}
 
 
 

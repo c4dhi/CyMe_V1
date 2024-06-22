@@ -13,7 +13,7 @@ struct ContentView: View {
 
     
     var body: some View {
-        SelfReportView(settingsViewModel: settingsViewModel)
+        SelfReportWatchView(settingsViewModel: settingsViewModel)
     }
 }
 

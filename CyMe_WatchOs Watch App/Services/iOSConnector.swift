@@ -17,10 +17,12 @@ class iOSConnector: NSObject, WCSessionDelegate, ObservableObject{
         session.delegate = self
         session.activate()
     }
+
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        
+        print("iOS Connector: ", activationState)
     }
+
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
             if let reportOptionsData = message["reportOptions"] as? Data {
@@ -48,15 +50,11 @@ class iOSConnector: NSObject, WCSessionDelegate, ObservableObject{
         }
         
         do {
-            // Encode selfReport to JSON data
             let jsonData = try JSONEncoder().encode(selfReport)
-            
-            
-            // Send data to iOS app
             session.sendMessage(["selfReportData": jsonData], replyHandler: nil, errorHandler: { error in
                 print("Error sending self-report data: \(error.localizedDescription)")
             })
-            print("sending successfull")
+            print("sending successful")
         } catch {
             print("Error encoding self-report data: \(error.localizedDescription)")
         }

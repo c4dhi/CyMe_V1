@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct SelfReportView: View {
+struct SelfReportWatchView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
-    @Binding var isPresented: Bool
     
     @StateObject private var selfReportViewModel: SelfReportViewModel
     @State private var selectedOption: SymptomSelfReportModel? = nil
@@ -18,19 +17,18 @@ struct SelfReportView: View {
     @State private var currentQuestionIndex: Int = 0
     var startTime = Date()
 
-    init(settingsViewModel: SettingsViewModel, isPresented: Binding<Bool>) {
+    init(settingsViewModel: SettingsViewModel) {
         self.settingsViewModel = settingsViewModel
-        self._isPresented = isPresented
         _selfReportViewModel = StateObject(wrappedValue: SelfReportViewModel(settingsViewModel: settingsViewModel))
     }
 
     var filteredHealthData: [HealthDataWithoutNilModel] {
         var filteredSettings = settingsViewModel.settings.healthDataSettings.filter { setting in
-            return setting.question != nil && setting.dataLocation != .onlyAppleHealth && setting.questionType != nil && setting.enableSelfReportingCyMe == true
+            return setting.question != nil && setting.dataLocation != .onlyAppleHealth && setting.questionType != nil
         }
         filteredSettings.append(HealthDataSettingsModel(
             name: "Open Question",
-            label: "Open Question",
+            label: "OpenQuestion",
             enableDataSync: false,
             enableSelfReportingCyMe: true,
             dataLocation: .onlyCyMe,
@@ -67,7 +65,7 @@ struct SelfReportView: View {
                         case .amountOfhour:
                             AmountOfHourQuestionView(setting: healthData, selectedOption: $selectedOption)
                         case .open:
-                            OpenTextQuestionView(setting: healthData, selectedOption: $selectedOption)
+                            OpenTextQuestionView(selfReport: $selfReports)
                         }
                     }
 
@@ -79,39 +77,43 @@ struct SelfReportView: View {
                                 currentQuestionIndex -= 1
                             }
                         }) {
-                            Text("Back")
+                            Image(systemName: "arrow.backward.circle")
+                                .font(.caption)
                         }
                         .padding()
                         .disabled(currentQuestionIndex == 0)
+                        .background( Color.clear)
 
                         Spacer()
                         Button(action: {
                             currentQuestionIndex += 1
                         }) {
-                            Text("Skip")
+                            Image(systemName: "forward.circle")
+                                .font(.caption)
                         }
                         .padding()
+                        .background( Color.clear)
 
                         Button(action: {
                             if currentQuestionIndex < filteredHealthData.count - 1 {
                                 onNext()
                             } else {
-                                submitSelfReport()
+                                print("report: ", selfReports)
+                                submitSelfReport(selfReports: selfReports)
                             }
                         }) {
-                            Text(currentQuestionIndex < filteredHealthData.count - 1 ? "Next" : "Submit")
+                            Image(systemName: currentQuestionIndex < filteredHealthData.count - 1 ? "arrow.forward.circle" : "checkmark.circle")
+                                .font(.caption)
                         }
                         .padding()
                         .disabled(selectedOption == nil && filteredHealthData[currentQuestionIndex].questionType != .open)
+                        .background(Color.clear)
                     }
 
                     ProgressView(value: Double(currentQuestionIndex + 1), total: Double(filteredHealthData.count))
                         .padding()
                         .accentColor(.blue)
                 }
-                .navigationTitle("CyMe Self-Reporting")
-                .navigationBarTitleDisplayMode(.inline)
-                .font(.title2)
             }
             
             if isLoading {
@@ -138,37 +140,22 @@ struct SelfReportView: View {
         if currentQuestionIndex < filteredHealthData.count - 1 {
             currentQuestionIndex += 1
         } else {
-            submitSelfReport()
+            submitSelfReport(selfReports: selfReports)
         }
     }
 
-    func submitSelfReport() {
-        if let option = selectedOption {
-            selfReports.append(option)
-        }
+    func submitSelfReport(selfReports: [SymptomSelfReportModel]) {
         isLoading = true
-        print("report: ", selfReports)
-        DispatchQueue.global(qos: .background).async {
-            let success = selfReportViewModel.saveReport(selfReports: selfReports, startTime: startTime)
-            
-            DispatchQueue.main.async {
-                isLoading = false
-                if success {
-                    isPresented = false
-                    print("Report saved successfully!")
-                } else {
-                    print("Failed to save the report.")
-                }
-            }
-        }
+        _ = selfReportViewModel.saveReport(selfReports: selfReports, startTime: startTime)
+        isLoading = false
     }
 }
 
 
 
-struct SelfReportView_Previews: PreviewProvider {
+struct SelfReportWatchView_Previews: PreviewProvider {
     static var previews: some View {
         let settingsViewModel = SettingsViewModel()
-        return SelfReportView(settingsViewModel: settingsViewModel, isPresented: .constant(true))
+        return SelfReportWatchView(settingsViewModel: settingsViewModel)
     }
 }

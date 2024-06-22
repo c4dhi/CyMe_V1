@@ -15,12 +15,12 @@ class SettingsViewModel: ObservableObject {
         
     init() {
         settingsDatabaseService = SettingsDatabaseService()
-        self.settings = settingsDatabaseService.getDefaultSettings()
+        self.settings = settingsDatabaseService.getSettings() ?? settingsDatabaseService.getDefaultSettings()
     }
     
     func saveSettings() {
         settingsDatabaseService.saveSettings(settings: settings)
     }
-    
 }
+
 

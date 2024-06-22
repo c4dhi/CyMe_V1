@@ -4,25 +4,25 @@
 //
 //  Created by Marinja Principe on 06.05.24.
 //
-
+import Foundation
 import WatchConnectivity
 
 class WatchConnector: NSObject, WCSessionDelegate, ObservableObject{
-    @Published var hasHeadache: Bool = false
-    @Published var hasPeriod: Bool = false
 
     var session: WCSession
+    private var reportingDatabaseService: ReportingDatabaseService
     
     
-    init(session: WCSession = .default) {
-        self.session = session
-        super.init()
-        session.delegate = self
-        session.activate()
-    }
+    init(session: WCSession = .default, reportingDatabaseService: ReportingDatabaseService = ReportingDatabaseService()) {
+            self.session = session
+            self.reportingDatabaseService = reportingDatabaseService
+            super.init()
+            session.delegate = self
+            session.activate()
+        }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        print(activationState)
+        print("watchConnector: ", activationState)
         
     }
     
@@ -35,20 +35,23 @@ class WatchConnector: NSObject, WCSessionDelegate, ObservableObject{
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
-            // Handle received message from Watch ap
         print(message)
-            if let selfReportData = message["selfReportData"] as? Data {
-                do {
-                    print("In reseive part")
-                    // Decode self-report data
-                    let selfReport = try JSONDecoder().decode(SelfReportModel.self, from: selfReportData)
-                    // Handle received self-report data
-                    print("Received self-report data from Watch app: \(selfReport)")
-                } catch {
-                    print("Error decoding self-report data: \(error.localizedDescription)")
+        if let selfReportData = message["selfReportData"] as? Data {
+            do {
+                let selfReport = try JSONDecoder().decode(SelfReportModel.self, from: selfReportData)
+                print("Received self-report data from Watch app: \(selfReport)")
+                
+                if reportingDatabaseService.saveReporting(report: selfReport) {
+                    print("Report saved successfully")
+                } else {
+                    print("Failed to save report")
                 }
+            } catch {
+                print("Error decoding self-report data: \(error.localizedDescription)")
             }
+        }
     }
+
     
     func sendReportOptionsToWatch(reportOptions: ReportOptionsModel) {
             guard session.isReachable else {
@@ -58,7 +61,7 @@ class WatchConnector: NSObject, WCSessionDelegate, ObservableObject{
             
             do {
                 // Encode report options to JSON data
-                let jsonData = try JSONEncoder().encode(reportOptions)
+                let jsonData = try JSONEncoder().encode("reportOptions")
                 
                 // Send data to Watch app
                 session.sendMessage(["reportOptions": jsonData], replyHandler: nil, errorHandler: { error in

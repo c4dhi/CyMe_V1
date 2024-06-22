@@ -16,7 +16,8 @@ class SettingsViewModel: ObservableObject {
         self.settings = SettingsModel(enableHealthKit: false,
                   healthDataSettings:[
                     HealthDataSettingsModel(
-                        title: "Menstrual data",
+                        name: "Menstrual data",
+                        label: "Menstrual data",
                         enableDataSync: true,
                         enableSelfReportingCyMe: true,
                         dataLocation: .sync,
@@ -24,7 +25,8 @@ class SettingsViewModel: ObservableObject {
                         questionType: .menstruationEmoticonRating
                     ),
                     HealthDataSettingsModel(
-                        title: "Sleep quality",
+                        name: "Sleep quality",
+                        label: "Sleep quality",
                         enableDataSync: false,
                         enableSelfReportingCyMe: false,
                         dataLocation: .onlyCyMe,
@@ -32,7 +34,8 @@ class SettingsViewModel: ObservableObject {
                         questionType: .emoticonRating
                     ),
                     HealthDataSettingsModel(
-                        title: "Sleep length",
+                        name: "Sleep length",
+                        label: "Sleep length",
                         enableDataSync: false,
                         enableSelfReportingCyMe: false,
                         dataLocation: .sync,
@@ -40,7 +43,8 @@ class SettingsViewModel: ObservableObject {
                         questionType: .amountOfhour
                     ),
                     HealthDataSettingsModel(
-                        title: "Headache",
+                        name: "Headache",
+                        label: "Headache",
                         enableDataSync: false,
                         enableSelfReportingCyMe: false,
                         dataLocation: .sync,
@@ -48,7 +52,8 @@ class SettingsViewModel: ObservableObject {
                         questionType: .painEmoticonRating
                     ),
                     HealthDataSettingsModel(
-                        title: "Stress",
+                        name: "Stress",
+                        label: "Stress",
                         enableDataSync: false,
                         enableSelfReportingCyMe: false,
                         dataLocation: .onlyCyMe,
@@ -56,7 +61,8 @@ class SettingsViewModel: ObservableObject {
                         questionType: .emoticonRating
                     ),
                     HealthDataSettingsModel(
-                        title: "Abdominal cramps",
+                        name: "Abdominal cramps",
+                        label: "Abdominal cramps",
                         enableDataSync: false,
                         enableSelfReportingCyMe: false,
                         dataLocation: .sync,
@@ -64,7 +70,8 @@ class SettingsViewModel: ObservableObject {
                         questionType: .painEmoticonRating
                     ),
                     HealthDataSettingsModel(
-                        title: "Lower back pain",
+                        name: "Lower back pain",
+                        label: "Lower back pain",
                         enableDataSync: false,
                         enableSelfReportingCyMe: false,
                         dataLocation: .sync,
@@ -72,7 +79,8 @@ class SettingsViewModel: ObservableObject {
                         questionType: .painEmoticonRating
                     ),
                     HealthDataSettingsModel(
-                        title: "Pelvic pain",
+                        name: "Pelvic pain",
+                        label: "Pelvic pain",
                         enableDataSync: false,
                         enableSelfReportingCyMe: false,
                         dataLocation: .sync,
@@ -80,7 +88,8 @@ class SettingsViewModel: ObservableObject {
                         questionType: .painEmoticonRating
                     ),
                     HealthDataSettingsModel(
-                        title: "Acne",
+                        name: "Acne",
+                        label: "Acne",
                         enableDataSync: false,
                         enableSelfReportingCyMe: false,
                         dataLocation: .sync,
@@ -88,7 +97,8 @@ class SettingsViewModel: ObservableObject {
                         questionType: .painEmoticonRating
                     ),
                     HealthDataSettingsModel(
-                        title: "Appetite changes",
+                        name: "Appetite changes",
+                        label: "Appetite changes",
                         enableDataSync: false,
                         enableSelfReportingCyMe: false,
                         dataLocation: .sync,
@@ -96,7 +106,8 @@ class SettingsViewModel: ObservableObject {
                         questionType: .painEmoticonRating
                     ),
                     HealthDataSettingsModel(
-                        title: "Tightness or pain in the chest",
+                        name: "Tightness or pain in the chest",
+                        label: "Tightness or pain in the chest",
                         enableDataSync: false,
                         enableSelfReportingCyMe: false,
                         dataLocation: .sync,
@@ -104,7 +115,8 @@ class SettingsViewModel: ObservableObject {
                         questionType: .painEmoticonRating
                     ),
                     HealthDataSettingsModel(
-                        title: "Step data",
+                        name: "Step data",
+                        label: "Step data",
                         enableDataSync: false,
                         enableSelfReportingCyMe: false,
                         dataLocation: .onlyAppleHealth,

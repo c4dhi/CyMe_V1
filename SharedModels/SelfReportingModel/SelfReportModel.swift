@@ -18,14 +18,15 @@ struct SelfReportModel: Codable {
     var id: Int?
     var startTime: Date
     var endTime: Date
-    var isSelfReport: Bool
+    var isCyMeSelfReport: Bool
     var selfReportMedium: selfReportMediumType
     var reports: [SymptomSelfReportModel]
     
 }
 
 struct SymptomSelfReportModel: Codable {
-    let healthDataTitle: String
+    let healthDataName: String
+    let healthDataLabel: String
     let questionType: QuestionType
     var reportedValue: String?
 }

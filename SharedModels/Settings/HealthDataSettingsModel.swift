@@ -27,12 +27,13 @@ enum QuestionType: String,  Codable {
 }
 
 struct HealthDataSettingsModel: Identifiable {
-    var title: String
+    var name: String
+    var label: String
     var enableDataSync: Bool
     var enableSelfReportingCyMe: Bool
     let dataLocation: DataLocation
     var question: String?
     var questionType: QuestionType?
     
-    var id: String { title }
+    var id: String { name }
 }

@@ -1,4 +1,11 @@
 //
+//  emotionalRatings.swift
+//  CyMe_WatchOs Watch App
+//
+//  Created by Marinja Principe on 17.06.24.
+//
+
+//
 //  emoticonReportings.swift
 //  CyMe
 //
@@ -25,24 +32,27 @@ struct EmoticonRatingQuestionView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text(setting.question)
+                .font(.caption2)
+                .lineLimit(nil)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 50)
-            HStack(alignment: .center) {
-                ForEach(emoticons, id: \.0) { (emoticon, description) in
-                    VStack {
-                        Button(action: {
-                            selectedEmoticon = description
-                            selectedOption = SymptomSelfReportModel(healthDataName: setting.name, healthDataLabel: setting.label, questionType: setting.questionType, reportedValue: description)
-                        }) {
-                            Text(emoticon)
-                                .font(.title2)
-                                .padding()
-                                .background(selectedEmoticon == description ? Color.blue : Color.clear)
-                                .foregroundColor(selectedEmoticon == description ? .white : .blue)
-                                .cornerRadius(8)
+            ScrollView(.horizontal) {
+                HStack(alignment: .center) {
+                    ForEach(emoticons, id: \.0) { (emoticon, description) in
+                        VStack {
+                            Button(action: {
+                                selectedEmoticon = description
+                                selectedOption = SymptomSelfReportModel(healthDataName: setting.name, healthDataLabel: setting.label, questionType: setting.questionType, reportedValue: description)
+                            }) {
+                                Text(emoticon)
+                                    .font(.caption)
+                                    .padding()
+                                    .background(selectedEmoticon == description ? Color.blue : Color.clear)
+                                    .foregroundColor(selectedEmoticon == description ? .white : .blue)
+                                    .cornerRadius(8)
+                            }
                         }
-                        Text(description)
-                            .font(.footnote)
-                            .foregroundColor(.primary)
                     }
                 }
             }
@@ -64,30 +74,31 @@ struct MenstruationEmoticonRatingQuestionView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text(setting.question)
+                .font(.caption2)
+                .lineLimit(nil)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 50)
-            HStack(alignment: .center) {
-                ForEach(emoticons, id: \.0) { (emoticon, description) in
-                    VStack {
-                        Button(action: {
-                            selectedOption = SymptomSelfReportModel(healthDataName: setting.name, healthDataLabel: setting.label, questionType: setting.questionType, reportedValue: description)
-                        }) {
-                            Text(emoticon)
-                                .font(.title2)
-                                .padding()
-                                .background(selectedOption?.reportedValue == description ? Color.blue : Color.clear)
-                                .foregroundColor(selectedOption?.reportedValue == description ? .white : .blue)
-                                .cornerRadius(8)
+            ScrollView(.horizontal) {
+                HStack(alignment: .center) {
+                    ForEach(emoticons, id: \.0) { (emoticon, description) in
+                        VStack {
+                            Button(action: {
+                                selectedOption = SymptomSelfReportModel(healthDataName: setting.name, healthDataLabel: setting.label, questionType: setting.questionType, reportedValue: description)
+                            }) {
+                                Text(emoticon)
+                                    .font(.caption)
+                                    .padding()
+                                    .background(selectedOption?.reportedValue == description ? Color.blue : Color.clear)
+                                    .foregroundColor(selectedOption?.reportedValue == description ? .white : .blue)
+                                    .cornerRadius(8)
+                            }
                         }
-                        if description != "No" {
-                            Text(description)
-                                .font(.footnote)
+                        if emoticon == "No" {
+                            Text("|")
+                                .font(.title)
                                 .foregroundColor(.primary)
                         }
-                    }
-                    if emoticon == "No" {
-                        Text("|")
-                            .font(.title)
-                            .foregroundColor(.primary)
                     }
                 }
             }
@@ -109,24 +120,24 @@ struct PainEmoticonRatingQuestionView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text(setting.question)
+                .font(.caption2)
+                .lineLimit(nil)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 50)
-            HStack(alignment: .center) {
+            ScrollView(.horizontal) {
+                HStack(alignment: .center) {
                     ForEach(emoticons, id: \.0) { (emoticon, description) in
                         VStack {
                             Button(action: {
                                 selectedOption = SymptomSelfReportModel(healthDataName: setting.name, healthDataLabel: setting.label, questionType: setting.questionType, reportedValue: description)
                             }) {
                                 Text(emoticon)
-                                    .font(.title2)
+                                    .font(.caption)
                                     .padding()
                                     .background(selectedOption?.reportedValue == description ? Color.blue : Color.clear)
                                     .foregroundColor(selectedOption?.reportedValue == description ? .white : .blue)
                                     .cornerRadius(8)
-                            }
-                            if description != "No" {
-                                Text(description)
-                                    .font(.footnote)
-                                    .foregroundColor(.primary)
                             }
                         }
                         if emoticon == "No" {
@@ -136,7 +147,7 @@ struct PainEmoticonRatingQuestionView: View {
                         }
                     }
                 }
-            
+            }
         }
     }
 }
@@ -156,24 +167,24 @@ struct ChangeEmoticonRatingQuestionView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text(setting.question)
+                .font(.caption2)
+                .lineLimit(nil)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 50)
             HStack(alignment: .center) {
                     ForEach(emoticons, id: \.0) { (emoticon, description) in
                         VStack {
                             Button(action: {
+                                selectedEmoticon = description
                                 selectedOption = SymptomSelfReportModel(healthDataName: setting.name, healthDataLabel: setting.label, questionType: setting.questionType, reportedValue: description)
                             }) {
                                 Text(emoticon)
-                                    .font(.title2)
+                                    .font(.caption)
                                     .padding()
-                                    .background(selectedOption?.reportedValue == description ? Color.blue : Color.clear)
-                                    .foregroundColor(selectedOption?.reportedValue == description ? .white : .blue)
+                                    .background(selectedEmoticon == description ? Color.blue : Color.clear)
+                                    .foregroundColor(selectedEmoticon == description ? .white : .blue)
                                     .cornerRadius(8)
-                            }
-                            if description != "No" {
-                                Text(description)
-                                    .font(.footnote)
-                                    .foregroundColor(.primary)
                             }
                         }
                         if emoticon == "No" {
@@ -198,6 +209,11 @@ struct AmountOfHourQuestionView: View {
     var body: some View {
         VStack(alignment: .center) {
             Text(setting.question)
+                .font(.caption2)
+                .lineLimit(nil)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.top, 50)
             
             HStack {
                 Picker("Hours", selection: $selectedHours) {
@@ -209,7 +225,7 @@ struct AmountOfHourQuestionView: View {
                 .frame(width: 80)
                 
                 Text("hours")
-                    .font(.caption)
+                    .font(.caption2)
                 
                 Picker("Minutes", selection: $selectedMinutes) {
                     ForEach(Array(stride(from: 0, to: 60, by: 5)), id: \.self) { minute in
@@ -220,7 +236,7 @@ struct AmountOfHourQuestionView: View {
                 .frame(width: 80)
                 
                 Text("minutes")
-                    .font(.caption)
+                    .font(.caption2)
             }
             .padding()
         }
@@ -241,20 +257,19 @@ struct AmountOfHourQuestionView: View {
 }
 
 struct OpenTextQuestionView: View {
-    var setting: HealthDataWithoutNilModel
-    @Binding var selectedOption : SymptomSelfReportModel?
+    @Binding var selfReport: [SymptomSelfReportModel]
     @State private var enteredText: String = ""
 
     var body: some View {
         VStack(alignment: .center) {
             Text("Is there something else you would like to add?")
+                .font(.caption2)
+                .lineLimit(nil)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 50)
             TextField("Enter text", text: $enteredText)
                 .padding()
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .onChange(of: enteredText) { newText in
-                    selectedOption = SymptomSelfReportModel(healthDataName: "notes", healthDataLabel: "Notes", questionType: .open, reportedValue: newText)
-                }
         }
         .padding()
     }

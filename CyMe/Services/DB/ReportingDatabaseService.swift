@@ -22,7 +22,7 @@ class ReportingDatabaseService {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timeStarted TEXT,
                 timeFinished TEXT,
-                isSelfReport TEXT,
+                isCyMeSelfReport TEXT,
                 selfReportMedium TEXT,
                 menstruationDate TEXT,
                 sleepQuality TEXT,
@@ -36,7 +36,8 @@ class ReportingDatabaseService {
                 appetiteChanges TEXT,
                 chestPain TEXT,
                 stepData TEXT,
-                mood TEXT
+                mood TEXT,
+                notes TEXT
             );
             """
         
@@ -52,7 +53,7 @@ class ReportingDatabaseService {
             INSERT INTO reports (
                 timeStarted,
                 timeFinished,
-                isSelfReport,
+                isCyMeSelfReport,
                 selfReportMedium,
                 menstruationDate,
                 sleepQuality,
@@ -66,9 +67,10 @@ class ReportingDatabaseService {
                 appetiteChanges,
                 chestPain,
                 stepData,
-                mood
+                mood,
+                notes
                 )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
             """
         
         var statement: OpaquePointer?
@@ -81,29 +83,34 @@ class ReportingDatabaseService {
         
         sqlite3_bind_text(statement, 1, dateToStringUTF8(report.startTime), -1, nil)
         sqlite3_bind_text(statement, 2, dateToStringUTF8(report.endTime), -1, nil)
-        sqlite3_bind_int(statement, 3, report.isSelfReport ? 1 : 0)
+        sqlite3_bind_int(statement, 3, report.isCyMeSelfReport ? 1 : 0)
         sqlite3_bind_text(statement, 4, stringToUTF8(report.selfReportMedium.rawValue), -1, nil)
         
         let titleToSQLiteField: [String: Int32] = [
-            "Menstruation date": 5,
-            "Sleep quality": 6,
-            "Sleep length": 7,
-            "Headache": 8,
-            "Stress": 9,
-            "Abdominal cramps": 10,
-            "Lower back pain": 11,
-            "Pelvic pain": 12,
-            "Acne": 13,
-            "Appetite changes": 14,
-            "Chest pain": 15,
-            "Step data": 16,
-            "Mood": 17
+            "menstruationDate": 5,
+            "sleepQuality": 6,
+            "sleepLenght": 7,
+            "headache": 8,
+            "stress": 9,
+            "abdominalCramps": 10,
+            "lowerBackPain": 11,
+            "pelvicPain": 12,
+            "acne": 13,
+            "appetiteChanges": 14,
+            "chestPain": 15,
+            "stepData": 16,
+            "mood": 17,
+            "notes": 18
         ]
         
+        // initialize all possible fields with NULL
+        for index in titleToSQLiteField.values {
+            sqlite3_bind_null(statement, index)
+        }
+        
+        // overwrite with actual values if they exist
         for reportItem in report.reports {
-            
-            if let index = titleToSQLiteField[reportItem.healthDataTitle] {
-                print(reportItem.healthDataTitle, index)
+            if let index = titleToSQLiteField[reportItem.healthDataName] {
                 sqlite3_bind_text(statement, index, stringToUTF8(reportItem.reportedValue), -1, nil)
             }
         }

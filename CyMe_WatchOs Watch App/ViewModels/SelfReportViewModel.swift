@@ -7,26 +7,44 @@
 
 import Foundation
 import SwiftUI
-import SharedModels
 
 class SelfReportViewModel: ObservableObject {
     @Published var questions: [HealthDataSettingsModel] = []
-    @Published var answers: [String: String] = [:] // To store answers, using the title as key
     
     private var settingsViewModel: SettingsViewModel
-    
+    private var iOSConnector: iOSConnector
+
     init(settingsViewModel: SettingsViewModel) {
-            self.settingsViewModel = settingsViewModel
-            loadQuestions()
-        }
+        self.settingsViewModel = settingsViewModel
+        self.iOSConnector = CyMe_WatchOs_Watch_App.iOSConnector()
+        loadQuestions()
+    }
         
-        private func loadQuestions() {
-            questions = settingsViewModel.settings.healthDataSettings.filter {
-                ($0.dataLocation == .sync || $0.dataLocation == .onlyCyMe) && $0.question != nil && $0.questionType != nil
-            }
-            
-            for question in questions {
-                answers[question.title] = nil
-            }
+    private func loadQuestions() {
+        questions = settingsViewModel.settings.healthDataSettings.filter {
+            ($0.dataLocation == .sync || $0.dataLocation == .onlyCyMe) && $0.question != nil && $0.questionType != nil
         }
+    }
+    
+    func saveReport(selfReports: [SymptomSelfReportModel], startTime: Date) -> Bool {
+            let selfReportModel = createSelfReportModel(selfReports: selfReports, startTime: startTime)
+            iOSConnector.sendSelfReportDataToiOS(selfReport: selfReportModel)
+            return true
+        }
+    
+    private func createSelfReportModel(selfReports: [SymptomSelfReportModel], startTime: Date) -> SelfReportModel {
+        let endTime = Date()
+        let isCyMeSelfReport = true
+        let selfReportMedium = selfReportMediumType.watchApp
+
+        return SelfReportModel(
+            id: nil,
+            startTime: startTime,
+            endTime: endTime,
+            isCyMeSelfReport: isCyMeSelfReport,
+            selfReportMedium: selfReportMedium,
+            reports: selfReports
+        )
+    }
 }
+
