@@ -67,7 +67,71 @@ class HealthKitService {
             }
         }
     }
-
+    func getSymptomes() -> [SymptomModel]  {
+        return [
+            SymptomModel(
+                title: "Headache",
+                dateRange: [],
+                cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
+                hints: ["Most frequent in period phase"],
+                min: "0",
+                max: "3",
+                average: "1",
+                covariance: 2.5,
+                covarianceOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
+                questionType: .painEmoticonRating
+            ),
+            SymptomModel(
+                title: "Fatiguessss",
+                dateRange: [],
+                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
+                hints: ["Most frequent in luteal phase"],
+                min: "1",
+                max: "4",
+                average: "2",
+                covariance: 1.8,
+                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                questionType: .intensity
+            ),
+            SymptomModel(
+                title: "Menstruation",
+                dateRange: [],
+                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
+                hints: ["Most frequent in luteal phase"],
+                min: "1",
+                max: "4",
+                average: "2",
+                covariance: 1.8,
+                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                questionType: .menstruationEmoticonRating
+            ),
+            SymptomModel(
+                title: "Mood",
+                dateRange: [],
+                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
+                hints: ["Most frequent in luteal phase"],
+                min: "1",
+                max: "4",
+                average: "2",
+                covariance: 1.8,
+                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                questionType: .emoticonRating
+            ),
+            SymptomModel(
+                title: "Sleep",
+                dateRange: [],
+                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
+                hints: ["Most frequent in luteal phase"],
+                min: "1",
+                max: "4",
+                average: "2",
+                covariance: 1.8,
+                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                questionType: .amountOfhour
+            )
+        ]
+        
+    }
     
     
     func writeSelfreportedSamples(dataName: HKCategoryTypeIdentifier){

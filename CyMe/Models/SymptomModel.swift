@@ -13,9 +13,9 @@ struct SymptomModel: Identifiable, Hashable {
     var dateRange : [Date]
     var cycleOverview: [Int]
     var hints: [String]
-    var min: Int // Da fändi wahrschinlich String besser weu je nach Symptom macht nid aues glich sinn (und me chönnt s Datum o grad dri due, süsch müesst me wahrschinlich mega afo ungerscheide im Frontend...
-    var max: Int // Same
-    var average: Int // Same
+    var min: String
+    var max: String
+    var average: String
     var covariance: Float
     var covarianceOverview: [[Int]] 
     var questionType: QuestionType 

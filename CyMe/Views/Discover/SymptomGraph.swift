@@ -58,9 +58,9 @@ struct SymptomGraph_Previews: PreviewProvider {
             dateRange: [],
             cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
             hints: ["Most frequent in luteal phase"],
-            min: 1,
-            max: 4,
-            average: 2,
+            min: "1",
+            max: "4",
+            average: "2",
             covariance: 1.8,
             covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
             questionType: .amountOfhour
