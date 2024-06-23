@@ -8,7 +8,7 @@
 import WatchConnectivity
 import SwiftUI
 
-class iOSConnector: NSObject, WCSessionDelegate, ObservableObject{
+class iOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     var session: WCSession
     
     init(session: WCSession = .default) {
@@ -18,48 +18,55 @@ class iOSConnector: NSObject, WCSessionDelegate, ObservableObject{
         session.activate()
     }
 
-    
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("iOS Connector: ", activationState)
     }
 
-    
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-            if let reportOptionsData = message["reportOptions"] as? Data {
-                do {
-                    // Decode report options data
-                    let reportOptions = try JSONDecoder().decode(ReportOptionsModel.self, from: reportOptionsData)
-                    
-                    // Update userReportingOptions
-                    /*DispatchQueue.main.async {
-                        self.userReporting.wrappedValue.periodTrackingEnabled = reportOptions.periodTrackingEnabled
-                        self.userReporting.wrappedValue.headacheTrackingEnabled = reportOptions.headacheTrackingEnabled
-                    }*/
-
-                    print("Received report options: \(reportOptions)")
-                } catch {
-                    print("Error decoding report options data: \(error.localizedDescription)")
-                }
+        print("iOS Connector: Received message: \(message)")
+        
+        if let data = message["settings"] as? String {
+            switch data {
+            case "test":
+                print("test")
+            default:
+                print("iOS Connector: Unknown request received from watch app.")
             }
+        }
     }
-    
+
+    func requestSettingsFromiOS() {
+        guard session.isReachable else {
+            print("iOS Connector: iOS app is not reachable.")
+            return
+        }
+        
+        let requestData: [String: Any] = ["request": "settings"]
+        print("iOS Connector: Sending settings request: \(requestData)")
+        
+        session.sendMessage(requestData, replyHandler: nil, errorHandler: { error in
+            print("iOS Connector: Error sending message to iOS app: \(error.localizedDescription)")
+        })
+    }
+
+    func updateSettings(_ settings: HealthDataSettingsModel) {
+       print("iOS Connector: Updated settings: \(settings)")
+    }
+
     func sendSelfReportDataToiOS(selfReport: SelfReportModel) {
         guard session.isReachable else {
-            print("iOS app is not reachable.")
+            print("iOS Connector: iOS app is not reachable.")
             return
         }
         
         do {
             let jsonData = try JSONEncoder().encode(selfReport)
             session.sendMessage(["selfReportData": jsonData], replyHandler: nil, errorHandler: { error in
-                print("Error sending self-report data: \(error.localizedDescription)")
+                print("iOS Connector: Error sending self-report data: \(error.localizedDescription)")
             })
-            print("sending successful")
+            print("iOS Connector: Self-report data sent successfully.")
         } catch {
-            print("Error encoding self-report data: \(error.localizedDescription)")
+            print("iOS Connector: Error encoding self-report data: \(error.localizedDescription)")
         }
     }
-
 }
-
-

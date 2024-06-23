@@ -10,7 +10,7 @@ import Foundation
 import Foundation
 
 
-enum DataLocation: String {
+enum DataLocation: String, Codable {
     case sync = "sync"
     case onlyCyMe = "onlyCyMe"
     case onlyAppleHealth = "onlyAppleHealth"
@@ -26,7 +26,7 @@ enum QuestionType: String,  Codable {
     case open = "open"
 }
 
-struct HealthDataSettingsModel: Identifiable {
+struct HealthDataSettingsModel: Identifiable, Codable {
     var name: String
     var label: String
     var enableDataSync: Bool
