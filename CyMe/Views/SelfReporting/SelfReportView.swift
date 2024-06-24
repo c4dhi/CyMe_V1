@@ -147,7 +147,6 @@ struct SelfReportView: View {
             selfReports.append(option)
         }
         isLoading = true
-        print("report: ", selfReports)
         DispatchQueue.global(qos: .background).async {
             let success = selfReportViewModel.saveReport(selfReports: selfReports, startTime: startTime)
             

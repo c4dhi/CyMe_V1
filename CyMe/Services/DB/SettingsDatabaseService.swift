@@ -238,7 +238,6 @@ class SettingsDatabaseService {
             let selectedTheme = ThemeModel(name: selectedThemeName, backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
 
             let healthDataSettings = getHealthDataSettings()
-            print("getSettings: ",healthDataSettings);
 
             return SettingsModel(
                 enableHealthKit: enableHealthKit,

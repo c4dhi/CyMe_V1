@@ -98,7 +98,6 @@ struct SelfReportWatchView: View {
                             if currentQuestionIndex < filteredHealthData.count - 1 {
                                 onNext()
                             } else {
-                                print("report: ", selfReports)
                                 submitSelfReport(selfReports: selfReports)
                             }
                         }) {

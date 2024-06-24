@@ -121,9 +121,19 @@ class UserDatabaseService {
                 let age = Int(sqlite3_column_int(statement, 2))
                 let lifePhase = String(cString: sqlite3_column_text(statement, 3))
                 let regularCycle = sqlite3_column_int(statement, 4) == 1
-                let cycleLength = Int(sqlite3_column_int(statement, 5))
-                let contraceptionsString = String(cString: sqlite3_column_text(statement, 5))
-                let contraceptions = contraceptionsString.split(separator: ",").map { String($0) }
+                let cycleLength: Int?
+                if sqlite3_column_type(statement, 5) == SQLITE_NULL {
+                    cycleLength = nil
+                } else {
+                    cycleLength = Int(sqlite3_column_int(statement, 5))
+                }
+
+                let contraceptionsString = String(cString: sqlite3_column_text(statement, 6))
+                var contraceptions: [String] = []
+
+                if !contraceptionsString.isEmpty {
+                    contraceptions = contraceptionsString.split(separator: ",").map { String($0) }
+                }
                 let fertilityGoal = String(cString: sqlite3_column_text(statement, 6))
 
                 return UserModel(name: name, age: age, lifePhase: lifePhase, regularCycle: regularCycle, cycleLength: cycleLength, contraceptions: contraceptions, fertilityGoal: fertilityGoal)

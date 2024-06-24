@@ -126,4 +126,15 @@ class ReportingDatabaseService {
             return false
         }
     }
+    
+    func saveReports(reports: [SelfReportModel]) -> Bool {
+        for report in reports {
+            if saveReporting(report: report) {
+                return true
+            } else {
+               return false
+            }
+        }
+        return true
+    }
 }
