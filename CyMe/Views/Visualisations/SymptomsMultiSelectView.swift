@@ -110,7 +110,7 @@ struct SymptomsMultiSelectView: View {
                         AxisGridLine()
                         AxisTick()
                         AxisValueLabel {
-                            if let intValue = value.as(Int.self), intValue >= 0, intValue <= symptomTitles.count {
+                            if let intValue = value.as(Int.self), intValue >= 0, intValue < symptomTitles.count {
                                 Text(symptomTitles[intValue])
                                     .frame(maxWidth: .infinity)
                             }

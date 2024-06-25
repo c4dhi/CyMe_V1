@@ -13,18 +13,6 @@ struct DiscoverView: View {
 
     var body: some View {
         VStack(spacing: 5) {
-            Button(action: {
-                Task {
-                    await viewModel.getSymptomes(relevantDataList: [.headache, .abdominalCramps, .lowerBackPain, .pelvicPain, .acne, .chestTightnessOrPain, .appetiteChange, .exerciseTime, .stepCount])
-                }
-                }) {
-                   Text("Tap Me")
-                       .font(.headline)
-                       .foregroundColor(.white)
-                       .padding()
-                       .background(Color.blue)
-                       .cornerRadius(10)
-               }
             Text("Discover")
                 .font(.title)
 
@@ -68,29 +56,8 @@ struct DiscoverView: View {
         }
         .padding()
         .onAppear {
-            if viewModel.symptoms.isEmpty {
-                let exampleSymptoms = [
-                    SymptomModel(
-                        title: "Example Symptom",
-                        dateRange: [],
-                        cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
-                        hints: ["Most frequent in period phase"],
-                        min: "2",
-                        max: "10",
-                        average: "5",
-                        covariance: 2.5,
-                        covarianceOverview: [
-                            [2, 3, 4, 6, 5],
-                            [1, 2, 3, 4, 5]
-                        ],
-                        questionType: .painEmoticonRating
-                    )
-                ]
-                viewModel.symptoms = exampleSymptoms
-                selectedSymptom = exampleSymptoms.first
-            }
+            selectedSymptom = viewModel.symptoms.first
         }
-        
     }
 }
 

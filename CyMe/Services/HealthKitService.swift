@@ -67,7 +67,7 @@ class HealthKitService {
             }
         }
     }
-    func getSymptomes() -> [SymptomModel]  {
+    /* func getSymptomes() -> [SymptomModel]  {
         return [
             SymptomModel(
                 title: "Headache",
@@ -131,7 +131,7 @@ class HealthKitService {
             )
         ]
         
-    }
+    }*/
     
     
     func writeSelfreportedSamples(dataName: HKCategoryTypeIdentifier){
@@ -246,6 +246,48 @@ class HealthKitService {
                 self.healthStore.execute(query)
             }
         }
+    
+    func simplifySleepDataToSleepLength(sleepDataModel: [SleepDataModel]) -> [Date: Double] {
+        var sleepLengthDict : [Date : Double] = [:]
+        let datesDuration = sleepDataModel.map {($0.startDate, $0.duration, $0.label)}
+        
+        let firstDate = datesDuration[0].0
+        let previousDateComponent = Calendar.current.dateComponents([.day, .month, .year], from: firstDate)
+        var cutOff = Calendar.current.date(from: DateComponents(year: previousDateComponent.year, month: previousDateComponent.month, day: previousDateComponent.day, hour: 12, minute: 00, second: 00))! // Cut of when one sleep cycle can be is at noon
+        sleepLengthDict[cutOff] = 0
+
+        for tuples in datesDuration{
+            // Check detailed sleep data
+            if cutOff < tuples.0 {
+                print(cutOff, sleepDataModel[0].formatDuration(duration: sleepLengthDict[cutOff]!))
+                cutOff = Calendar.current.date(byAdding: .hour, value: 24, to: cutOff)!
+                sleepLengthDict[cutOff] = 0
+            }
+            else if tuples.2.contains("asleep"){
+                sleepLengthDict[cutOff] = sleepLengthDict[cutOff]! + tuples.1
+            }
+        }
+        
+        cutOff = Calendar.current.date(from: DateComponents(year: previousDateComponent.year, month: previousDateComponent.month, day: previousDateComponent.day, hour: 12, minute: 00, second: 00))!
+        // Only "in bed" available
+        var considerThisDay = (sleepLengthDict[cutOff] == 0)
+        for tuples in datesDuration{
+            if cutOff < tuples.0 {
+                print(cutOff, sleepDataModel[0].formatDuration(duration: sleepLengthDict[cutOff]!))
+                cutOff = Calendar.current.date(byAdding: .hour, value: 24, to: cutOff)!
+                considerThisDay = (sleepLengthDict[cutOff] == 0)
+                
+            }
+            if considerThisDay {
+                sleepLengthDict[cutOff] = sleepLengthDict[cutOff]! + tuples.1
+            }
+        }
+        
+        print(sleepDataModel[0].formatDuration(duration: sleepLengthDict[cutOff]!))
+        
+        
+        return sleepLengthDict
+    }
         
     
     func fetchTempData(){

@@ -26,7 +26,7 @@ class DiscoverViewModel: ObservableObject {
     @Published var symptoms: [SymptomModel] = []
     
     var healthKitService: HealthKitService
-    let verbose = true
+    let verbose = false
     
     
     // List (empty or not) of the different available health data
@@ -39,46 +39,56 @@ class DiscoverViewModel: ObservableObject {
     var chestTightnessOrPainDataList : [AppleHealthSefReportModel] = []
     var appetiteChangeDataList : [AppetiteChangeModel] = []
     var sleepLengthDataList : [SleepDataModel] = []
-    var exerciseTimeDataList : [Date: Int] = [:]
-    var stepCountDataList : [Date: Int] = [:]
-
-     
+    var exerciseTimeDataList : [Date : Int] = [:]
+    var stepCountDataList : [Date : Int] = [:]
     
-        
+    
+    
+    
     init() {
         healthKitService = HealthKitService()
+        Task {
+            await self.getSymptomes(relevantDataList: [.headache, .abdominalCramps, .lowerBackPain, .pelvicPain, .acne, .chestTightnessOrPain, .appetiteChange, .exerciseTime, .stepCount, .sleepLength])
+        }
         // TODO
-            // Handle Input of what data to fetch (what is allowed to be gotten from apple health) -  make sure Apple Health is not required
-            // Handle also CyMe internal Data
-            // sleepLength TODO Sleep - Carefull with end in fetch relevant data
-            // Build Symptom Graph Array
-                // Handle multiple entries a day
-                // Appetite change mapping
-            // Thread Updating
-            // Covariance
-            // Covariance Overview
-            // Symptom Bleeding
-            // Quarter Analyis if two quarters are equal
-            //appetiteChange, sleep length, exerciseTime, stepcount
-
-            
+        // Handle Input of what data to fetch (what is allowed to be gotten from apple health) -  make sure Apple Health is not required
+        // Handle also CyMe internal Data
+        // sleepLength TODO Sleep - Carefull with end in fetch relevant data
+        // Build Symptom Graph Array
+        // Handle multiple entries a day
+        // Appetite change mapping
+        // Covariance
+        // Covariance Overview
+        // Symptom Bleeding
+        // Quarter Analyis if two quarters are equal
+        // appetiteChange, sleep length, exerciseTime, stepcount
+        // Missing values in list = nil
+        // Many cycles
+        // Speichern der Symptoms models -( HealthDataSettings in Report Tabelle)
+        // Notes
+        // Write data
+        // Stepcount at correct day?
+        
         
         // DISCUSS
-            // Selfreported Period needs a rubric: Is it the start of your period?
-            // For this to work we need at least one full cycle (2 distinct starting dates) reported
-            // Mapping is the following: 0: no, 1: mild, 2: moderate, 3: severe (!)
-            // Request Authorization at the correct place //await viewModel.healthKitService.requestAuthorization()
-            // Initialization at the correct place
-            // Average
-            // Broke visualization
-            // Statistics are no longer aligned
+        // Selfreported Period needs a rubric: "Is it the start of your period?" "Yes", "No" - Marinja will adapt
+        // For this to work we need at least one full cycle (2 distinct starting dates) reported
+        // Error Handeling -> Return empty-type
+        // Mapping is the following: 0: no, 1: mild, 2: moderate, 3: severe (!)
+        // Request Authorization at the correct place //await viewModel.healthKitService.requestAuthorization()
+        // Average
+        // Over many cycles
+        
+        // Broke visualization
+        // Statistics are no longer aligned
+        // Test in actual devices
+        // Merge
         
         
-    
     }
     
     // Helper function - nice display with a dictionary which has date as a key
-    func displayDateDictionary(dict: [Date: Any]){
+    func displayDateDictionary(dict: [Date : Any]){
         for consideredDate in dict.keys.sorted(){
             print(DateFormatter.localizedString(from: consideredDate, dateStyle: .short, timeStyle: .none), terminator: "")
             if let value = dict[consideredDate]{
@@ -150,6 +160,10 @@ class DiscoverViewModel: ObservableObject {
         if relevantDataList.contains(.sleepLength){
             do { sleepLengthDataList = try await healthKitService.fetchSleepData(startDate: startDate, endDate: endDate) }
             catch { print("Error: \(error)") }
+            for sleep in sleepLengthDataList{
+                sleep.print()
+            }
+            print(healthKitService.simplifySleepDataToSleepLength(sleepDataModel: sleepLengthDataList))
         }
         
         if relevantDataList.contains(.exerciseTime){
@@ -212,8 +226,7 @@ class DiscoverViewModel: ObservableObject {
         
         await fetchRelevantData(relevantDataList: relevantDataList, startDate: startDate, endDate: endDate)
         
-        buildSymptomModels(relevantDataList: relevantDataList, dateRange: dateRange)
-        
+        buildSymptomModels(relevantDataList: relevantDataList, dateRange: dateRange)        
     }
     
     
@@ -224,19 +237,19 @@ class DiscoverViewModel: ObservableObject {
         
         var endDate = Calendar.current.date(byAdding: .hour, value: 23-periodReportTime.hour!, to:lastEntry)! // We fill the minutes below, so just 23 hours
         endDate = Calendar.current.date(byAdding: .minute, value: 60-periodReportTime.minute!, to:endDate)!
-    
+        
         return endDate
     }
     
     func getAppropriateStartDate (firstEntry: Date) -> Date {
         // Include Symptoms of the first cycle day from midnight
-    
+        
         let periodReportTime = Calendar.current.dateComponents([.hour, .minute], from: firstEntry)
-     
-  
+        
+        
         var startDate = Calendar.current.date(byAdding: .hour, value: -periodReportTime.hour!, to:firstEntry)!
         startDate = Calendar.current.date(byAdding: .minute, value: -periodReportTime.minute!, to:startDate)!
-    
+        
         return startDate
     }
     
@@ -256,7 +269,7 @@ class DiscoverViewModel: ObservableObject {
             
             var lastFullCycleList = [Date]()
             var currentDate = lastFullCycleStartDate
-
+            
             while currentDate <= lastFullCycleEndDate {
                 lastFullCycleList.append(currentDate)
                 guard let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate) else {
@@ -271,6 +284,16 @@ class DiscoverViewModel: ObservableObject {
             print("You don't have a full cycle recorded")
             return []
         }
+    }
+    
+    func buildcollectedDataGraphArray(symptomList: [Date: Int], dateRange: [Date]) -> [Int]{
+        var dataGraphArray : [Int] = []
+        for date in dateRange{
+            // daterange entries are at 10:00 +0000 and symptom list entries are at 22:00 +0000
+            let dateToCheck = Calendar.current.date(byAdding: .hour, value: 12, to: date)!
+            dataGraphArray.append(symptomList[dateToCheck] ?? 0) // TODO change default in general
+            }
+            return dataGraphArray
     }
    
     func buildSymptomGraphArray(symptomList: [DataProtocoll], dateRange : [Date]) -> [Int]{
@@ -290,9 +313,8 @@ class DiscoverViewModel: ObservableObject {
                 symptomGraphArray.append(intensityMappingAppleHealthToCyMe[appleHealthIntensity]!)
             }
             else{
-                symptomGraphArray.append(0) // Symptom not present
+                symptomGraphArray.append(0) // Symptom not present  TODO
             }
-         
         }
         return symptomGraphArray
     }
@@ -411,7 +433,7 @@ class DiscoverViewModel: ObservableObject {
             )
             
             self.symptoms.append(symptomModel)
-        }//TODO
+        }
         
         if relevantDataList.contains(.abdominalCramps){
             let title = "Abdominal Cramps"
@@ -537,7 +559,25 @@ class DiscoverViewModel: ObservableObject {
         }
         
         if relevantDataList.contains(.stepCount){
-            print("Not Done Yet")
+            let title = "Step Count"
+            let cycleOverview : [Int] =  buildcollectedDataGraphArray(symptomList: stepCountDataList, dateRange: dateRange)
+            let hints : [String] = buildHints(cycleOverview: cycleOverview, title: title)
+            //let statistics : [String] = buildStatistics(cycleOverview: cycleOverview, title: title)
+                        
+            let symptomModel = SymptomModel(
+                title: title,
+                dateRange: dateRange,
+                cycleOverview: cycleOverview,
+                hints: hints,
+                min: "statistics[1]",
+                max: "statistics[0]",
+                average: "Not implemented",
+                covariance: 0.0,
+                covarianceOverview: [],
+                questionType: .painEmoticonRating
+            )
+            
+            self.symptoms.append(symptomModel)
         }
         
         /*
