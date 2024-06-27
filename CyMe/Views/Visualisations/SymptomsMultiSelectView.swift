@@ -28,18 +28,18 @@ extension SymptomModel {
     func toPointChartData() -> [PointChartData] {
         var pointChartData: [PointChartData] = []
         for (index, intensity) in cycleOverview.enumerated() {
-            let data = PointChartData(title: title, day: index + 1, intensity: intensity, questionType: self.questionType)
+            let data = PointChartData(title: title, day: index + 1, intensity: intensity ?? 0, questionType: self.questionType)
             pointChartData.append(data)
         }
-        return pointChartData
+        return pointChartData // TODO
     }
     func toLineChartData() -> [LineChartData] {
         var lineChartData: [LineChartData] = []
         for (index, hour) in cycleOverview.enumerated() {
-                let data = LineChartData(title: title, day: index + 1, hours: hour, questionType: self.questionType)
+                let data = LineChartData(title: title, day: index + 1, hours: hour ?? 0, questionType: self.questionType)
                 lineChartData.append(data)
         }
-        return lineChartData
+        return lineChartData // TODO
     }
 }
 

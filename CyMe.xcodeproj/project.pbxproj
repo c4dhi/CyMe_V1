@@ -32,7 +32,6 @@
 		4C1354E52BCFCE440078A84B /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354E42BCFCE440078A84B /* DiscoverView.swift */; };
 		4C1354E72BCFCE550078A84B /* KnowledgeBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354E62BCFCE550078A84B /* KnowledgeBaseView.swift */; };
 		4C1354E92BCFCEC60078A84B /* VisualisationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354E82BCFCEC60078A84B /* VisualisationView.swift */; };
-		4C1354EB2BCFD4300078A84B /* HealthDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354EA2BCFD4300078A84B /* HealthDataModel.swift */; };
 		4C1354EE2BCFD52A0078A84B /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */; };
 		4C1354F12BCFD6560078A84B /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */; };
 		4C1A36DD2C104FD0006E50D8 /* SymptomsMultiSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36DC2C104FD0006E50D8 /* SymptomsMultiSelectView.swift */; };
@@ -91,6 +90,7 @@
 		500D9B622C2D5C2300B26D27 /* DiscoverViewGraphLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B612C2D5C2300B26D27 /* DiscoverViewGraphLists.swift */; };
 		500D9B662C2D5CC900B26D27 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B652C2D5CC900B26D27 /* StringUtils.swift */; };
 		500D9B682C2D5DAA00B26D27 /* DiscoverViewHints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B672C2D5DAA00B26D27 /* DiscoverViewHints.swift */; };
+		500D9B6A2C2D943500B26D27 /* DiscoverViewStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B692C2D943500B26D27 /* DiscoverViewStatistics.swift */; };
 		505EAE702C2AFC5400F68B36 /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 505EAE6F2C2AFC5400F68B36 /* SigmaSwiftStatistics */; };
 		50E115312C072ECF002C1333 /* SleepDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E115302C072ECF002C1333 /* SleepDataModel.swift */; };
 		50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */; };
@@ -230,7 +230,6 @@
 		4C1354E42BCFCE440078A84B /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		4C1354E62BCFCE550078A84B /* KnowledgeBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnowledgeBaseView.swift; sourceTree = "<group>"; };
 		4C1354E82BCFCEC60078A84B /* VisualisationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualisationView.swift; sourceTree = "<group>"; };
-		4C1354EA2BCFD4300078A84B /* HealthDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataModel.swift; sourceTree = "<group>"; };
 		4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
 		4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
 		4C1A36DC2C104FD0006E50D8 /* SymptomsMultiSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomsMultiSelectView.swift; sourceTree = "<group>"; };
@@ -276,6 +275,7 @@
 		500D9B612C2D5C2300B26D27 /* DiscoverViewGraphLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewGraphLists.swift; sourceTree = "<group>"; };
 		500D9B652C2D5CC900B26D27 /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 		500D9B672C2D5DAA00B26D27 /* DiscoverViewHints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewHints.swift; sourceTree = "<group>"; };
+		500D9B692C2D943500B26D27 /* DiscoverViewStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewStatistics.swift; sourceTree = "<group>"; };
 		50D4A8CE2BFE2E2F008FDE58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		50D4A8CF2BFE3060008FDE58 /* CyMe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CyMe.entitlements; sourceTree = "<group>"; };
 		50E115302C072ECF002C1333 /* SleepDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepDataModel.swift; sourceTree = "<group>"; };
@@ -475,7 +475,6 @@
 		4C1354D62BCFC73E0078A84B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4C1354EA2BCFD4300078A84B /* HealthDataModel.swift */,
 				50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */,
 				4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */,
 				50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */,
@@ -671,6 +670,7 @@
 			children = (
 				500D9B612C2D5C2300B26D27 /* DiscoverViewGraphLists.swift */,
 				500D9B672C2D5DAA00B26D27 /* DiscoverViewHints.swift */,
+				500D9B692C2D943500B26D27 /* DiscoverViewStatistics.swift */,
 			);
 			path = DiscoverViewModelComponents;
 			sourceTree = "<group>";
@@ -990,6 +990,7 @@
 				4CFDC3892C0C66D000DD3295 /* HealthDataWithoutNilModel.swift in Sources */,
 				4C1354532BCFC6060078A84B /* ContentView.swift in Sources */,
 				4CDD2FD22BECAAA5005995B5 /* WelcomeView.swift in Sources */,
+				500D9B6A2C2D943500B26D27 /* DiscoverViewStatistics.swift in Sources */,
 				4CFDC3812C072D6400DD3295 /* HealthDataSettingsModel.swift in Sources */,
 				4C5A49B82BFE1A79008253FD /* ThemeModel.swift in Sources */,
 				4CDD2FE12BF4F2B9005995B5 /* SelfReportView.swift in Sources */,
@@ -997,7 +998,6 @@
 				500479C52C27293800882265 /* DataProtocoll.swift in Sources */,
 				50E26B1A2C04C7FF00726C5C /* PeriodSampleModel.swift in Sources */,
 				4C1354512BCFC6060078A84B /* CyMeApp.swift in Sources */,
-				4C1354EB2BCFD4300078A84B /* HealthDataModel.swift in Sources */,
 				4CDD2FDF2BF2585A005995B5 /* PersonalizationThemeView.swift in Sources */,
 				4CF015542BE955B300BE8DF0 /* WatchConnector.swift in Sources */,
 				4C5A49B62BFDF4A9008253FD /* ReminderModel.swift in Sources */,

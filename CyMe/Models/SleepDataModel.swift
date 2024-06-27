@@ -30,7 +30,7 @@ struct SleepDataModel {
         self.label = sleepValueLabels[value]!
         }
      
-    static func formatDuration(duration:Double) -> String{
+    static func formatDuration(duration: Double) -> String{
         if duration < 60 {
             return "\(Int(duration))s"
         }

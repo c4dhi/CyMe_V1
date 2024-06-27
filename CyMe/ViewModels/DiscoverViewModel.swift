@@ -27,7 +27,7 @@ class DiscoverViewModel: ObservableObject {
     @Published var symptoms: [SymptomModel] = []
     
     var healthKitService: HealthKitService
-    let verbose = true
+    let verbose = false
     
     
     // List (empty or not) of the different available health data
@@ -39,7 +39,7 @@ class DiscoverViewModel: ObservableObject {
     var acneDataList : [AppleHealthSefReportModel] = []
     var chestTightnessOrPainDataList : [AppleHealthSefReportModel] = []
     var appetiteChangeDataList : [AppetiteChangeModel] = []
-    var sleepLengthDataList : [Date : Double] = [:]
+    var sleepLengthDataList : [Date : Int] = [:]
     var exerciseTimeDataList : [Date : Int] = [:]
     var stepCountDataList : [Date : Int] = [:]
     
@@ -50,8 +50,8 @@ class DiscoverViewModel: ObservableObject {
         healthKitService = HealthKitService()
         Task {
             await self.getSymptomes(relevantDataList: [.headache, .abdominalCramps, .lowerBackPain, .pelvicPain, .acne, .chestTightnessOrPain, .appetiteChange, .exerciseTime, .stepCount, .sleepLength])
-            //await self.getSymptomes(relevantDataList: [.headache])
         }
+        
         // TODO NEXT WEEK
         
         // Handle Input of what data to fetch (what is allowed to be gotten from apple health) -  make sure Apple Health is not required
@@ -60,37 +60,31 @@ class DiscoverViewModel: ObservableObject {
         // Many cycles
         // Covariance
         // Covariance Overview
-        // Average // Over many cycles
-        
-        
-        // Build Symptom Graph Array
-
-        // Symptom Bleeding
-        // Quarter Analyis if two quarters are equal
-        // appetiteChange, sleep length, exerciseTime, stepcount
+        // Min, Max, Average // Over many cycles
         
         
         
-        // Broke visualization
-        // Statistics are no longer aligned
+        // Symptom Bleeding .menstruationEmoticonRating
+        // Notes
         
-        // Missing values in list = nil
-        // For this to work we need at least one full cycle (2 distinct starting dates) reported
-            // Error Handeling -> Return empty-type
         
         // Speichern der Symptoms models -( HealthDataSettings in Report Tabelle)
-        // Notes
         // Write data
-        
+        // Request Authorization faster
         
         
         
         // DISCUSS
         // Selfreported Period needs a rubric: "Is it the start of your period?" "Yes", "No" - Marinja will adapt
         // Mapping is the following: 0: no, 1: mild, 2: moderate, 3: severe (!)
-        // Request Authorization at the correct place //await viewModel.healthKitService.requestAuthorization()
-    
-        // Merge
+       
+        // PER WHATSAPP GESCHRIEBEN
+        // Build Symptom Graph Array
+            // Missing values in list = nil
+        // Broke visualization
+        // Statistics are no longer aligned
+        // For this to work we need at least one full cycle (2 distinct starting dates) reported
+            // Error Handeling -> Return empty-type
         
         
     }
@@ -98,6 +92,9 @@ class DiscoverViewModel: ObservableObject {
     func getSymptomes(relevantDataList : [availableHealthMetrics] ) async  {
         
         let dateRange = await getLastPeriodDates()
+        if dateRange.count == 0 {
+            return // There is no period date to be detected
+        }
         
         let startDate = getAppropriateStartDate(firstEntry: dateRange[0])
         let endDate =  getAppropriateEndDate(lastEntry: dateRange[dateRange.count-1])
@@ -193,7 +190,7 @@ class DiscoverViewModel: ObservableObject {
             
             print("\n Sleep Length")
             for date in sleepLengthDataList.keys.sorted() {
-                print(DateFormatter.localizedString(from: date, dateStyle: .short, timeStyle: .none), SleepDataModel.formatDuration(duration: sleepLengthDataList[date]!)) }
+                print(DateFormatter.localizedString(from: date, dateStyle: .short, timeStyle: .none), SleepDataModel.formatDuration(duration: Double(sleepLengthDataList[date]!))) }
             
             print("\n Exercise Time")
             displayDateDictionary(dict: exerciseTimeDataList)
@@ -261,278 +258,149 @@ class DiscoverViewModel: ObservableObject {
     }
     
     
+    func buildSingleSymptomModel (title: String, symptomList : [DataProtocoll], dateRange : [Date], appetiteChange : Bool = false) -> SymptomModel {
+        let cycleOverview : [Int?] =  buildSymptomGraphArray(symptomList: symptomList, dateRange: dateRange, appetiteChange: appetiteChange)
+        let hints : [String] = buildSymptomHints(cycleOverview: cycleOverview, symptomList: symptomList, dateRange: dateRange, title: title, appetiteChange: appetiteChange)
+        let statistics : [String] = buildSymptomMinMaxAverage(symptomList: symptomList, dateRange: dateRange)
+        let covariance : Float = buildSymptomCovariance(symptomList: symptomList, dateRange: dateRange)
+        
+        var questionType : QuestionType
+        
+        if appetiteChange { questionType = .changeEmoticonRating }
+        else { questionType = .painEmoticonRating }
+        
+        let symptomModel = SymptomModel(
+            title: title,
+            dateRange: dateRange,
+            cycleOverview: cycleOverview,
+            hints: hints,
+            min: statistics[0],
+            max: statistics[1],
+            average: statistics[2],
+            covariance: covariance,
+            covarianceOverview: [], //TODO
+            questionType: questionType
+        )
+        return symptomModel
+    }
+    
+    
     func buildSymptomModels (relevantDataList: [availableHealthMetrics], dateRange: [Date]) {
         
         if relevantDataList.contains(.headache){
-            let title = "Headaches"
-            let cycleOverview : [Int] =  buildSymptomGraphArray(symptomList: headacheDataList, dateRange: dateRange)
-            let hints : [String] = buildSymptomHints(cycleOverview: cycleOverview, symptomList: headacheDataList, dateRange: dateRange, title: title)
-            let statistics : [String] = buildMinMaxHints(cycleOverview: cycleOverview, title: title)
-                        
-            let symptomModel = SymptomModel(
-                title: title,
-                dateRange: dateRange,
-                cycleOverview: cycleOverview,
-                hints: hints,
-                min: statistics[1], //TODO
-                max: statistics[0], //TODO
-                average: "Not implemented", //TODO
-                covariance: 0.0, //TODO
-                covarianceOverview: [], //TODO
-                questionType: .painEmoticonRating
-            )
-            
+            let symptomModel = buildSingleSymptomModel(title: "Headaches", symptomList: headacheDataList, dateRange: dateRange)
             self.symptoms.append(symptomModel)
         }
         
         if relevantDataList.contains(.abdominalCramps){
-            let title = "Abdominal Cramps"
-            let cycleOverview : [Int] =  buildSymptomGraphArray(symptomList: abdominalCrampsDataList, dateRange: dateRange)
-            let hints : [String] = buildSymptomHints(cycleOverview: cycleOverview, symptomList: abdominalCrampsDataList, dateRange: dateRange, title: title)
-            let statistics : [String] = buildMinMaxHints(cycleOverview: cycleOverview,  title: title)
-                        
-            let symptomModel = SymptomModel(
-                title: title,
-                dateRange: dateRange,
-                cycleOverview: cycleOverview,
-                hints: hints,
-                min: statistics[1], //TODO
-                max: statistics[0], //TODO
-                average: "Not implemented", //TODO
-                covariance: 0.0, //TODO
-                covarianceOverview: [], //TODO
-                questionType: .painEmoticonRating
-            )
-            
+            let symptomModel = buildSingleSymptomModel(title: "Abdominal Cramps", symptomList: abdominalCrampsDataList, dateRange: dateRange)
             self.symptoms.append(symptomModel)
+            
         }
         
         if relevantDataList.contains(.lowerBackPain){
-            let title = "Lower Back Pain"
-            let cycleOverview : [Int] =  buildSymptomGraphArray(symptomList: lowerBackPainDataList, dateRange: dateRange)
-            let hints : [String] = buildSymptomHints(cycleOverview: cycleOverview, symptomList: lowerBackPainDataList, dateRange: dateRange, title: title)
-            let statistics : [String] = buildMinMaxHints(cycleOverview: cycleOverview, title: title)
-                        
-            let symptomModel = SymptomModel(
-                title: title,
-                dateRange: dateRange,
-                cycleOverview: cycleOverview,
-                hints: hints,
-                min: statistics[1], //TODO
-                max: statistics[0], //TODO
-                average: "Not implemented", //TODO
-                covariance: 0.0, //TODO
-                covarianceOverview: [], //TODO
-                questionType: .painEmoticonRating
-            )
-            
+            let symptomModel = buildSingleSymptomModel(title: "Lower Back Pain", symptomList: lowerBackPainDataList, dateRange: dateRange)
             self.symptoms.append(symptomModel)
         }
         
         if relevantDataList.contains(.pelvicPain){
-            let title = "Pelvic Pain"
-            let cycleOverview : [Int] =  buildSymptomGraphArray(symptomList: pelvicPainDataList, dateRange: dateRange)
-            let hints : [String] = buildSymptomHints(cycleOverview: cycleOverview, symptomList: pelvicPainDataList, dateRange: dateRange, title: title)
-            let statistics : [String] = buildMinMaxHints(cycleOverview: cycleOverview, title: title)
-                        
-            let symptomModel = SymptomModel(
-                title: title,
-                dateRange: dateRange,
-                cycleOverview: cycleOverview,
-                hints: hints,
-                min: statistics[1], //TODO
-                max: statistics[0], //TODO
-                average: "Not implemented", //TODO
-                covariance: 0.0, //TODO
-                covarianceOverview: [], //TODO
-                questionType: .painEmoticonRating
-            )
-            
+            let symptomModel = buildSingleSymptomModel(title: "Pelvic Pain", symptomList: pelvicPainDataList, dateRange: dateRange)
             self.symptoms.append(symptomModel)
         }
         
         if relevantDataList.contains(.acne){
-            let title = "Acne"
-            let cycleOverview : [Int] =  buildSymptomGraphArray(symptomList: acneDataList, dateRange: dateRange)
-            let hints : [String] = buildSymptomHints(cycleOverview: cycleOverview, symptomList: acneDataList, dateRange: dateRange, title: title)
-            let statistics : [String] = buildMinMaxHints(cycleOverview: cycleOverview, title: title)
-                        
-            let symptomModel = SymptomModel(
-                title: title,
-                dateRange: dateRange,
-                cycleOverview: cycleOverview,
-                hints: hints,
-                min: statistics[1], //TODO
-                max: statistics[0], //TODO
-                average: "Not implemented", //TODO
-                covariance: 0.0, //TODO
-                covarianceOverview: [], //TODO
-                questionType: .painEmoticonRating
-            )
-            
+            let symptomModel = buildSingleSymptomModel(title: "Acne", symptomList: acneDataList, dateRange: dateRange)
             self.symptoms.append(symptomModel)
         }
         
         if relevantDataList.contains(.chestTightnessOrPain){
-            let title = "Chest Tightness or Pain"
-            let cycleOverview : [Int] =  buildSymptomGraphArray(symptomList: chestTightnessOrPainDataList, dateRange: dateRange)
-            let hints : [String] = buildSymptomHints(cycleOverview: cycleOverview, symptomList: chestTightnessOrPainDataList, dateRange: dateRange, title: title)
-            let statistics : [String] = buildMinMaxHints(cycleOverview: cycleOverview, title: title)
-                        
-            let symptomModel = SymptomModel(
-                title: title,
-                dateRange: dateRange,
-                cycleOverview: cycleOverview,
-                hints: hints,
-                min: statistics[1], //TODO
-                max: statistics[0], //TODO
-                average: "Not implemented", //TODO
-                covariance: 0.0, //TODO
-                covarianceOverview: [], //TODO
-                questionType: .painEmoticonRating
-            )
-            
+            let symptomModel = buildSingleSymptomModel(title: "Chest Tightness or Pain", symptomList: chestTightnessOrPainDataList, dateRange: dateRange)
             self.symptoms.append(symptomModel)
+           
         }
         
         if relevantDataList.contains(.appetiteChange){
-            let title = "Appetite Change"
-            let cycleOverview : [Int] =  buildSymptomGraphArray(symptomList: appetiteChangeDataList, dateRange: dateRange, appetiteChange : true)
-            let hints : [String] = buildSymptomHints(cycleOverview: cycleOverview, symptomList: appetiteChangeDataList, dateRange: dateRange, title: title)
-            //let statistics : [String] = buildMinMaxHints(cycleOverview: cycleOverview, title: title)
-                        
-            let symptomModel = SymptomModel(
-                title: title,
-                dateRange: dateRange,
-                cycleOverview: cycleOverview,
-                hints: hints,
-                min: "statistics[1]", //TODO
-                max: "statistics[0]", //TODO
-                average: "Not implemented", //TODO
-                covariance: 0.0, //TODO
-                covarianceOverview: [], //TODO
-                questionType: .painEmoticonRating
-            )
-            
+            let symptomModel = buildSingleSymptomModel(title: "Appetite Change", symptomList: appetiteChangeDataList, dateRange: dateRange, appetiteChange: true)
             self.symptoms.append(symptomModel)
         }
         
-        if relevantDataList.contains(.acne){
-            let title = "Acne"
-            let cycleOverview : [Int] =  buildSymptomGraphArray(symptomList: acneDataList, dateRange: dateRange)
-            let hints : [String] = buildSymptomHints(cycleOverview: cycleOverview, symptomList: acneDataList, dateRange: dateRange, title: title)
-            let statistics : [String] = buildMinMaxHints(cycleOverview: cycleOverview, title: title)
-                        
-            let symptomModel = SymptomModel(
-                title: title,
-                dateRange: dateRange,
-                cycleOverview: cycleOverview,
-                hints: hints,
-                min: statistics[1], //TODO
-                max: statistics[0], //TODO
-                average: "Not implemented", //TODO
-                covariance: 0.0, //TODO
-                covarianceOverview: [], //TODO
-                questionType: .painEmoticonRating
-            )
-            
-            self.symptoms.append(symptomModel)
-        }
         
         if relevantDataList.contains(.sleepLength){
-            print("Not Done Yet")
+            let title = "Sleep Length"
+            let symptomList = sleepLengthDataList
+            
+            let cycleOverview : [Int?] =  buildcollectedDataGraphArray(symptomList: symptomList, dateRange: dateRange, sleepLength: true)
+            
+            let hints : [String] = buildCollectedQuantityHint(cycleOverview: cycleOverview, title: title, type : .sleepLength)
+            let statistics : [String] = buildCollectedQuantityMinMaxAverage(symptomList: symptomList, dateRange: dateRange)
+            let covariance : Float = buildCollectedQuantityCovariance(symptomList: symptomList, dateRange: dateRange)
+                        
+            let symptomModel = SymptomModel(
+                title: title,
+                dateRange: dateRange,
+                cycleOverview: cycleOverview,
+                hints: hints,
+                min: statistics[0],
+                max: statistics[1],
+                average: statistics[2],
+                covariance: covariance,
+                covarianceOverview: [], //TODO
+                questionType: .amountOfhour //TODO
+            )
+            
+            self.symptoms.append(symptomModel)
         }
         
         if relevantDataList.contains(.exerciseTime){
-            print("Not Done Yet")
+            let title = "Exercise Time"
+            let symptomList = exerciseTimeDataList
+            
+            let cycleOverview : [Int?] =  buildcollectedDataGraphArray(symptomList: symptomList, dateRange: dateRange)
+            let hints : [String] = buildCollectedQuantityHint(cycleOverview: cycleOverview, title: title, type : .exerciseTime)
+            let statistics : [String] = buildCollectedQuantityMinMaxAverage(symptomList: symptomList, dateRange: dateRange)
+            let covariance : Float = buildCollectedQuantityCovariance(symptomList: symptomList, dateRange: dateRange)
+                        
+            let symptomModel = SymptomModel(
+                title: title,
+                dateRange: dateRange,
+                cycleOverview: cycleOverview,
+                hints: hints,
+                min: statistics[0],
+                max: statistics[1],
+                average: statistics[2],
+                covariance: covariance,
+                covarianceOverview: [], //TODO
+                questionType: .amountOfhour //TODO
+            )
+            
+            self.symptoms.append(symptomModel)
             
         }
         
         if relevantDataList.contains(.stepCount){
             let title = "Step Count"
-            let cycleOverview : [Int] =  buildcollectedDataGraphArray(symptomList: stepCountDataList, dateRange: dateRange)
-            let hints : [String] = buildCollectedQuantityHint(cycleOverview: cycleOverview, title: title)//TODO
-            //let statistics : [String] = buildStatistics(cycleOverview: cycleOverview, title: title)
+            let symptomList = stepCountDataList
+            
+            let cycleOverview : [Int?] =  buildcollectedDataGraphArray(symptomList: symptomList, dateRange: dateRange)
+            let hints : [String] = buildCollectedQuantityHint(cycleOverview: cycleOverview, title: title, type : .stepCount)
+            let statistics : [String] = buildCollectedQuantityMinMaxAverage(symptomList: symptomList, dateRange: dateRange)
+            let covariance : Float = buildCollectedQuantityCovariance(symptomList: symptomList, dateRange: dateRange)
                         
             let symptomModel = SymptomModel(
                 title: title,
                 dateRange: dateRange,
                 cycleOverview: cycleOverview,
-                hints: hints,//TODO
-                min: "statistics[1]",//TODO
-                max: "statistics[0]",//TODO
-                average: "Not implemented",//TODO
-                covariance: 0.0,//TODO
-                covarianceOverview: [],
-                questionType: .painEmoticonRating
+                hints: hints,
+                min: statistics[0],
+                max: statistics[1],
+                average: statistics[2],
+                covariance: covariance,
+                covarianceOverview: [], //TODO
+                questionType: .amountOfhour //TODO
             )
             
             self.symptoms.append(symptomModel)
         }
-        
-        /*
-         SymptomModel(
-             title: "Headache",
-             cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
-             hints: ["Most frequent in period phase"],
-             min: 0,
-             max: 3,
-             average: 1,
-             covariance: 2.5,
-             covarianceOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
-             questionType: .painEmoticonRating
-         ),
-         SymptomModel(
-             title: "Fatigue",
-             cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-             hints: ["Most frequent in luteal phase"],
-             min: 1,
-             max: 4,
-             average: 2,
-             covariance: 1.8,
-             covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-             questionType: .intensity
-         ),
-         SymptomModel(
-             title: "Menstruation",
-             cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-             hints: ["Most frequent in luteal phase"],
-             min: 1,
-             max: 4,
-             average: 2,
-             covariance: 1.8,
-             covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-             questionType: .menstruationEmoticonRating
-         ),
-         SymptomModel(
-             title: "Mood",
-             cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-             hints: ["Most frequent in luteal phase"],
-             min: 1,
-             max: 4,
-             average: 2,
-             covariance: 1.8,
-             covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-             questionType: .emoticonRating
-         ),
-         SymptomModel(
-             title: "Sleep",
-             cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-             hints: ["Most frequent in luteal phase"],
-             min: 1,
-             max: 4,
-             average: 2,
-             covariance: 1.8,
-             covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-             questionType: .amountOfhour
-         )
-         
-         
-         */
-    
     }
-
-    
-    
 }
 

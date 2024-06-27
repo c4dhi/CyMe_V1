@@ -9,27 +9,41 @@ import Foundation
 
 
 // Collected Health Data - Dictionaries
-func buildcollectedDataGraphArray(symptomList: [Date: Int], dateRange: [Date]) -> [Int]{
-    var dataGraphArray : [Int] = []
+func buildcollectedDataGraphArray(symptomList: [Date: Int], dateRange: [Date], sleepLength : Bool = false) -> [Int?]{
+    var dataGraphArray : [Int?] = []
     
-    let firstDate = Calendar.current.date(byAdding: .hour, value: -12, to: dateRange[0])!
-    dataGraphArray.append(symptomList[firstDate] ?? 0)
+    if !sleepLength{
+        let firstDate = Calendar.current.date(byAdding: .hour, value: -12, to: dateRange[0])!
+        dataGraphArray.append(symptomList[firstDate] ?? nil)
+    }
+    
     
     for date in dateRange.sorted(){
         // daterange entries are at 10:00 +0000 and symptom list entries are at 22:00 +0000
-        let dateToCheck = Calendar.current.date(byAdding: .hour, value: 12, to: date)!
-        dataGraphArray.append(symptomList[dateToCheck] ?? 0) // TODO change default in general
+        // except for sleep length
+        var dateToCheck : Date
+        
+        if !sleepLength {
+            dateToCheck = Calendar.current.date(byAdding: .hour, value: 12, to: date)!
         }
-    dataGraphArray.removeLast() // Ignore the last 0 entry since it belongs to the next day
+        else {
+            dateToCheck = date
+        }
+        
+        dataGraphArray.append(symptomList[dateToCheck] ?? nil)
+        }
+    if !sleepLength {
+        dataGraphArray.removeLast() // Ignore the last 0 entry since it belongs to the next day
+    }
     return dataGraphArray
 }
 
 // Selfreported Symptoms - Lists
-func buildSymptomGraphArray(symptomList: [DataProtocoll], dateRange : [Date], appetiteChange : Bool = false) -> [Int]{
+func buildSymptomGraphArray(symptomList: [DataProtocoll], dateRange : [Date], appetiteChange : Bool = false) -> [Int?]{
     let datesWithSymptom  = symptomList.map {Calendar.current.dateComponents([.day, .month, .year], from: $0.startdate)}
     
-    var symptomGraphArray : [Int] = []
-    let intensityMappingAppleHealthToCyMe : [Int : Int] = [1: 0, 0: 2, 2: 1, 3: 2, 4: 3]
+    var symptomGraphArray : [Int?] = []
+    let intensityMappingAppleHealthToCyMe : [Int : Int?] = [1: nil, 0: 2, 2: 1, 3: 2, 4: 3]
     let intensityMappingAppetiteChangeToCyMe : [Int : Int?] = [1: nil, 0:0, 2:-1, 3:1]
      
     for date in dateRange{
@@ -56,7 +70,7 @@ func buildSymptomGraphArray(symptomList: [DataProtocoll], dateRange : [Date], ap
             
             let appleHealthIntensity = consideredSymptom.intensity
             if appetiteChange{
-                symptomGraphArray.append((intensityMappingAppetiteChangeToCyMe[appleHealthIntensity]!) ?? 0 ) //TODO check with nil
+                symptomGraphArray.append((intensityMappingAppetiteChangeToCyMe[appleHealthIntensity]!))
             }
             else{
                 symptomGraphArray.append(intensityMappingAppleHealthToCyMe[appleHealthIntensity]!)
@@ -64,7 +78,7 @@ func buildSymptomGraphArray(symptomList: [DataProtocoll], dateRange : [Date], ap
             
         }
         else{
-            symptomGraphArray.append(0) // Symptom not present - no report  TODO
+            symptomGraphArray.append(nil) 
         }
     }
     return symptomGraphArray

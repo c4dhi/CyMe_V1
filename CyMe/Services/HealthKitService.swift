@@ -3,7 +3,6 @@
 //  CyMe
 //
 //  Created by Marinja Principe on 17.04.24.
-//  TODO do here the interaction with the health kit
 
 import HealthKit
 import Foundation
@@ -56,9 +55,7 @@ class HealthKitService {
     func requestAuthorization() {
         healthStore.requestAuthorization(toShare: typesToWrite, read: typesToRead) { (success, error) in
             if success {
-                // Authorization successful, fetch health data
-                //self.get_health_data()
-                
+  
             } else {
                 // Authorization failed, handle error
                 if let error = error {
@@ -67,71 +64,6 @@ class HealthKitService {
             }
         }
     }
-    /* func getSymptomes() -> [SymptomModel]  {
-        return [
-            SymptomModel(
-                title: "Headache",
-                dateRange: [],
-                cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
-                hints: ["Most frequent in period phase"],
-                min: "0",
-                max: "3",
-                average: "1",
-                covariance: 2.5,
-                covarianceOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
-                questionType: .painEmoticonRating
-            ),
-            SymptomModel(
-                title: "Fatiguessss",
-                dateRange: [],
-                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-                hints: ["Most frequent in luteal phase"],
-                min: "1",
-                max: "4",
-                average: "2",
-                covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-                questionType: .intensity
-            ),
-            SymptomModel(
-                title: "Menstruation",
-                dateRange: [],
-                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-                hints: ["Most frequent in luteal phase"],
-                min: "1",
-                max: "4",
-                average: "2",
-                covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-                questionType: .menstruationEmoticonRating
-            ),
-            SymptomModel(
-                title: "Mood",
-                dateRange: [],
-                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-                hints: ["Most frequent in luteal phase"],
-                min: "1",
-                max: "4",
-                average: "2",
-                covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-                questionType: .emoticonRating
-            ),
-            SymptomModel(
-                title: "Sleep",
-                dateRange: [],
-                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-                hints: ["Most frequent in luteal phase"],
-                min: "1",
-                max: "4",
-                average: "2",
-                covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-                questionType: .amountOfhour
-            )
-        ]
-        
-    }*/
     
     
     func writeSelfreportedSamples(dataName: HKCategoryTypeIdentifier){
@@ -247,7 +179,7 @@ class HealthKitService {
             }
         }
     
-    func simplifySleepDataToSleepLength(sleepDataModel: [SleepDataModel]) -> [Date: Double] {
+    func simplifySleepDataToSleepLength(sleepDataModel: [SleepDataModel]) -> [Date: Int] {
         var sleepLengthDict : [Date : Double] = [:]
         let datesDuration = sleepDataModel.map {($0.startDate, $0.duration, $0.label)}
         
@@ -282,7 +214,11 @@ class HealthKitService {
         // We need to remove the last entry since we are artifically adding half a night we don't want to display
         sleepLengthDict.removeValue(forKey: cutOff)
         
-        return sleepLengthDict
+        var sleepLengthDictInt : [Date:Int] = [:]
+        for key in sleepLengthDict.keys{
+            sleepLengthDictInt[key] = Int(sleepLengthDict[key]!)
+        }
+        return sleepLengthDictInt
     }
         
     

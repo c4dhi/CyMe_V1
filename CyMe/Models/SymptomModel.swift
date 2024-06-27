@@ -11,7 +11,7 @@ struct SymptomModel: Identifiable, Hashable {
     let id = UUID()
     var title: String
     var dateRange : [Date]
-    var cycleOverview: [Int]
+    var cycleOverview: [Int?]
     var hints: [String]
     var min: String
     var max: String
