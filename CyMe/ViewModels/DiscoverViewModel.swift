@@ -26,7 +26,7 @@ class DiscoverViewModel: ObservableObject {
     @Published var symptoms: [SymptomModel] = []
     
     var healthKitService: HealthKitService
-    let verbose = false
+    let verbose = true
     
     
     // List (empty or not) of the different available health data
@@ -38,7 +38,7 @@ class DiscoverViewModel: ObservableObject {
     var acneDataList : [AppleHealthSefReportModel] = []
     var chestTightnessOrPainDataList : [AppleHealthSefReportModel] = []
     var appetiteChangeDataList : [AppetiteChangeModel] = []
-    var sleepLengthDataList : [SleepDataModel] = []
+    var sleepLengthDataList : [Date : Double] = [:]
     var exerciseTimeDataList : [Date : Int] = [:]
     var stepCountDataList : [Date : Int] = [:]
     
@@ -53,7 +53,7 @@ class DiscoverViewModel: ObservableObject {
         // TODO
         // Handle Input of what data to fetch (what is allowed to be gotten from apple health) -  make sure Apple Health is not required
         // Handle also CyMe internal Data
-        // sleepLength TODO Sleep - Carefull with end in fetch relevant data
+        
         // Build Symptom Graph Array
         // Handle multiple entries a day
         // Appetite change mapping
@@ -158,12 +158,10 @@ class DiscoverViewModel: ObservableObject {
         }
         
         if relevantDataList.contains(.sleepLength){
-            do { sleepLengthDataList = try await healthKitService.fetchSleepData(startDate: startDate, endDate: endDate) }
+            var sleepDetailList : [SleepDataModel] = []
+            do { sleepDetailList = try await healthKitService.fetchSleepData(startDate: startDate, endDate: endDate)}
             catch { print("Error: \(error)") }
-            for sleep in sleepLengthDataList{
-                sleep.print()
-            }
-            print(healthKitService.simplifySleepDataToSleepLength(sleepDataModel: sleepLengthDataList))
+            sleepLengthDataList = healthKitService.simplifySleepDataToSleepLength(sleepDataModel: sleepDetailList)
         }
         
         if relevantDataList.contains(.exerciseTime){
@@ -206,7 +204,8 @@ class DiscoverViewModel: ObservableObject {
             for data in appetiteChangeDataList { data.print() }
             
             print("\n Sleep Length")
-            for sleep in sleepLengthDataList { sleep.print() }
+            for date in sleepLengthDataList.keys.sorted() {
+                print(DateFormatter.localizedString(from: date, dateStyle: .short, timeStyle: .none), SleepDataModel.formatDuration(duration: sleepLengthDataList[date]!)) }
             
             print("\n Exercise Time")
             displayDateDictionary(dict: exerciseTimeDataList)

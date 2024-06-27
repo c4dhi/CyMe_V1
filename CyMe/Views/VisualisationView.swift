@@ -49,8 +49,10 @@ struct VisualisationView: View {
         }
 }
 
+
 struct VisualisationView_Previews: PreviewProvider {
     static var previews: some View {
         VisualisationView(viewModel: DiscoverViewModel())
     }
 }
+

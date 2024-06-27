@@ -66,3 +66,4 @@ struct DiscoverView_Previews: PreviewProvider {
         DiscoverView(viewModel: DiscoverViewModel())
     }
 }
+

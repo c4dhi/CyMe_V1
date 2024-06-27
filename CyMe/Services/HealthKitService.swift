@@ -258,12 +258,11 @@ class HealthKitService {
 
         for tuples in datesDuration{
             // Check detailed sleep data
-            if cutOff < tuples.0 {
-                print(cutOff, sleepDataModel[0].formatDuration(duration: sleepLengthDict[cutOff]!))
+            while cutOff < tuples.0 {
                 cutOff = Calendar.current.date(byAdding: .hour, value: 24, to: cutOff)!
                 sleepLengthDict[cutOff] = 0
             }
-            else if tuples.2.contains("asleep"){
+            if tuples.2.contains("asleep"){
                 sleepLengthDict[cutOff] = sleepLengthDict[cutOff]! + tuples.1
             }
         }
@@ -272,19 +271,16 @@ class HealthKitService {
         // Only "in bed" available
         var considerThisDay = (sleepLengthDict[cutOff] == 0)
         for tuples in datesDuration{
-            if cutOff < tuples.0 {
-                print(cutOff, sleepDataModel[0].formatDuration(duration: sleepLengthDict[cutOff]!))
+            while cutOff < tuples.0 {
                 cutOff = Calendar.current.date(byAdding: .hour, value: 24, to: cutOff)!
                 considerThisDay = (sleepLengthDict[cutOff] == 0)
-                
             }
             if considerThisDay {
                 sleepLengthDict[cutOff] = sleepLengthDict[cutOff]! + tuples.1
             }
         }
-        
-        print(sleepDataModel[0].formatDuration(duration: sleepLengthDict[cutOff]!))
-        
+        // We need to remove the last entry since we are artifically adding half a night we don't want to display
+        sleepLengthDict.removeValue(forKey: cutOff)
         
         return sleepLengthDict
     }

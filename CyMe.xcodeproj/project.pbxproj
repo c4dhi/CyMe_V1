@@ -88,7 +88,7 @@
 		4CFDC3862C0C49ED00DD3295 /* SelfReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */; };
 		4CFDC3892C0C66D000DD3295 /* HealthDataWithoutNilModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */; };
 		500479C52C27293800882265 /* DataProtocoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500479C42C27293800882265 /* DataProtocoll.swift */; };
-		506446062C2AC09A00822155 /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 506446052C2AC09A00822155 /* SigmaSwiftStatistics */; };
+		505EAE702C2AFC5400F68B36 /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 505EAE6F2C2AFC5400F68B36 /* SigmaSwiftStatistics */; };
 		50E115312C072ECF002C1333 /* SleepDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E115302C072ECF002C1333 /* SleepDataModel.swift */; };
 		50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */; };
 		50E26B1A2C04C7FF00726C5C /* PeriodSampleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */; };
@@ -284,7 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CDF585D2C0DA12C00C7E9F6 /* SharedModels.framework in Frameworks */,
-				506446062C2AC09A00822155 /* SigmaSwiftStatistics in Frameworks */,
+				505EAE702C2AFC5400F68B36 /* SigmaSwiftStatistics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -690,7 +690,7 @@
 			);
 			name = CyMe;
 			packageProductDependencies = (
-				506446052C2AC09A00822155 /* SigmaSwiftStatistics */,
+				505EAE6F2C2AFC5400F68B36 /* SigmaSwiftStatistics */,
 			);
 			productName = CyMe;
 			productReference = 4C13544D2BCFC6060078A84B /* CyMe.app */;
@@ -1764,7 +1764,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		506446052C2AC09A00822155 /* SigmaSwiftStatistics */ = {
+		505EAE6F2C2AFC5400F68B36 /* SigmaSwiftStatistics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 50DC147C2BD11F8100A280CE /* XCRemoteSwiftPackageReference "SigmaSwiftStatistics" */;
 			productName = SigmaSwiftStatistics;
