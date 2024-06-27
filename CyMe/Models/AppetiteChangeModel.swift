@@ -10,7 +10,7 @@ import HealthKit
 
 struct AppetiteChangeModel : DataProtocoll {
     var startdate: Date
-    var appetiteChangePresent: Bool
+    var symptomPresent: Bool // Appetite Change Present
     var intensity: Int
     var appetiteChangeCathegory: HKCategoryValueAppetiteChanges
     var label: String
@@ -26,12 +26,12 @@ struct AppetiteChangeModel : DataProtocoll {
         let selfreportIntensityLabels = [1:  "no Change", 0:  "unspecified", 2:  "decreased", 3:  "increased" ] 
         self.label = selfreportIntensityLabels[intensity] ?? "No intensity Label"
         
-        self.appetiteChangePresent = (intensity != 1)
+        self.symptomPresent = (intensity != 1)
         }
     
     func print() {
         let formatedDate = DateFormatter.localizedString(from: startdate, dateStyle: .short, timeStyle: .short)
-        Swift.print("(\(formatedDate), \(label), Symptom present: \(appetiteChangePresent))")
+        Swift.print("(\(formatedDate), \(label), Symptom present: \(symptomPresent))")
     }
 
     }

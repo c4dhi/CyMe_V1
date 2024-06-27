@@ -10,6 +10,7 @@ import Foundation
 protocol DataProtocoll {
     var startdate: Date {get}
     var intensity: Int {get}
+    var symptomPresent : Bool {get}
 }
 
 extension Array where Element == DataProtocoll {

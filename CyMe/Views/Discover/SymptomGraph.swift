@@ -24,7 +24,7 @@ struct SymptomGraph: View {
                 }
             }
             .chartXAxis {
-                AxisMarks(position: .bottom, values: Array(1...31).map { Double($0) - 0.5 }) { value in
+                AxisMarks(position: .bottom, values: Array(1...symptom.cycleOverview.count).map { Double($0) - 0.5 }) { value in
                     AxisGridLine()
                     AxisTick()
                     AxisValueLabel(centered: true) {

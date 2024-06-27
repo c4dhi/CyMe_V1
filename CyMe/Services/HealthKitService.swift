@@ -327,7 +327,7 @@ class HealthKitService {
         var dateComponents = DateComponents()
         dateComponents.day = 1
         
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: [.strictStartDate, .strictEndDate])
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: [ .strictEndDate])
         
         return try await withCheckedThrowingContinuation { continuation in
             let query = HKStatisticsCollectionQuery(quantityType: dataType,

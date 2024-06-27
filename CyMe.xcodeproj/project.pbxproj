@@ -88,6 +88,9 @@
 		4CFDC3862C0C49ED00DD3295 /* SelfReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */; };
 		4CFDC3892C0C66D000DD3295 /* HealthDataWithoutNilModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */; };
 		500479C52C27293800882265 /* DataProtocoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500479C42C27293800882265 /* DataProtocoll.swift */; };
+		500D9B622C2D5C2300B26D27 /* DiscoverViewGraphLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B612C2D5C2300B26D27 /* DiscoverViewGraphLists.swift */; };
+		500D9B662C2D5CC900B26D27 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B652C2D5CC900B26D27 /* StringUtils.swift */; };
+		500D9B682C2D5DAA00B26D27 /* DiscoverViewHints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B672C2D5DAA00B26D27 /* DiscoverViewHints.swift */; };
 		505EAE702C2AFC5400F68B36 /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 505EAE6F2C2AFC5400F68B36 /* SigmaSwiftStatistics */; };
 		50E115312C072ECF002C1333 /* SleepDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E115302C072ECF002C1333 /* SleepDataModel.swift */; };
 		50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */; };
@@ -270,6 +273,9 @@
 		4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportViewModel.swift; sourceTree = "<group>"; };
 		4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataWithoutNilModel.swift; sourceTree = "<group>"; };
 		500479C42C27293800882265 /* DataProtocoll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProtocoll.swift; sourceTree = "<group>"; };
+		500D9B612C2D5C2300B26D27 /* DiscoverViewGraphLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewGraphLists.swift; sourceTree = "<group>"; };
+		500D9B652C2D5CC900B26D27 /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
+		500D9B672C2D5DAA00B26D27 /* DiscoverViewHints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewHints.swift; sourceTree = "<group>"; };
 		50D4A8CE2BFE2E2F008FDE58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		50D4A8CF2BFE3060008FDE58 /* CyMe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CyMe.entitlements; sourceTree = "<group>"; };
 		50E115302C072ECF002C1333 /* SleepDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepDataModel.swift; sourceTree = "<group>"; };
@@ -514,6 +520,7 @@
 		4C1354F22BCFD6730078A84B /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				500D9B602C2D5BEA00B26D27 /* DiscoverViewModelComponents */,
 				4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */,
 				4C5A49B32BFDEFF6008253FD /* SettingsViewModel.swift */,
 				4C5A49B92BFFD07C008253FD /* ProfileViewModel.swift */,
@@ -634,6 +641,7 @@
 			isa = PBXGroup;
 			children = (
 				4CFDC37E2C04F24500DD3295 /* DatabaseUtils.swift */,
+				500D9B652C2D5CC900B26D27 /* StringUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -656,6 +664,15 @@
 				4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */,
 			);
 			path = SelfReportingModel;
+			sourceTree = "<group>";
+		};
+		500D9B602C2D5BEA00B26D27 /* DiscoverViewModelComponents */ = {
+			isa = PBXGroup;
+			children = (
+				500D9B612C2D5C2300B26D27 /* DiscoverViewGraphLists.swift */,
+				500D9B672C2D5DAA00B26D27 /* DiscoverViewHints.swift */,
+			);
+			path = DiscoverViewModelComponents;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -990,12 +1007,15 @@
 				4C5A49B42BFDEFF6008253FD /* SettingsViewModel.swift in Sources */,
 				4C5605292C01D29500B9114D /* ReportingDatabaseService.swift in Sources */,
 				4C0897222C0E04670042A6D1 /* SymptomInsightsView.swift in Sources */,
+				500D9B622C2D5C2300B26D27 /* DiscoverViewGraphLists.swift in Sources */,
+				500D9B682C2D5DAA00B26D27 /* DiscoverViewHints.swift in Sources */,
 				4C08971D2C0DBBD20042A6D1 /* SymptomModel.swift in Sources */,
 				4CDD2FD52BECB52E005995B5 /* ProfileView.swift in Sources */,
 				4CDD2FDB2BF25023005995B5 /* OnboardingView.swift in Sources */,
 				4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */,
 				4CFDC37F2C04F24500DD3295 /* DatabaseUtils.swift in Sources */,
 				4C1354E32BCFCE320078A84B /* HomeView.swift in Sources */,
+				500D9B662C2D5CC900B26D27 /* StringUtils.swift in Sources */,
 				4CDF57F22C0CF8D700C7E9F6 /* PopupView.swift in Sources */,
 				4C1A36DD2C104FD0006E50D8 /* SymptomsMultiSelectView.swift in Sources */,
 				50EED2D62C2083420001BF5C /* AppetiteChangeModel.swift in Sources */,
