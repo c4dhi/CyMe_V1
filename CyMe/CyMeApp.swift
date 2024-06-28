@@ -22,6 +22,7 @@ struct CyMeApp: App {
                 ContentView()
             } else {
                 OnboardingView()
+                //ContentView()
             }
         }
     }

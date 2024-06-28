@@ -30,7 +30,7 @@ struct SleepDataModel {
         self.label = sleepValueLabels[value]!
         }
      
-    func formatDuration(duration:Double) -> String{
+    static func formatDuration(duration: Double) -> String{
         if duration < 60 {
             return "\(Int(duration))s"
         }
@@ -54,7 +54,7 @@ struct SleepDataModel {
     
     func print() {
         let formatedDate = DateFormatter.localizedString(from: startDate, dateStyle: .short, timeStyle: .short)
-        Swift.print("(\(formatedDate), Duration: \(duration)s, \(formatDuration(duration:duration)), \(label) )")
+        Swift.print("(\(formatedDate), Duration: \(duration)s, \(SleepDataModel.formatDuration(duration:duration)), \(label) )")
     }
 
     }

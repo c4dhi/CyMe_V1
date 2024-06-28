@@ -28,18 +28,18 @@ extension SymptomModel {
     func toPointChartData() -> [PointChartData] {
         var pointChartData: [PointChartData] = []
         for (index, intensity) in cycleOverview.enumerated() {
-            let data = PointChartData(title: title, day: index + 1, intensity: intensity, questionType: self.questionType)
+            let data = PointChartData(title: title, day: index + 1, intensity: intensity ?? 0, questionType: self.questionType)
             pointChartData.append(data)
         }
-        return pointChartData
+        return pointChartData // TODO
     }
     func toLineChartData() -> [LineChartData] {
         var lineChartData: [LineChartData] = []
         for (index, hour) in cycleOverview.enumerated() {
-                let data = LineChartData(title: title, day: index + 1, hours: hour, questionType: self.questionType)
+                let data = LineChartData(title: title, day: index + 1, hours: hour ?? 0, questionType: self.questionType)
                 lineChartData.append(data)
         }
-        return lineChartData
+        return lineChartData // TODO
     }
 }
 
@@ -110,7 +110,7 @@ struct SymptomsMultiSelectView: View {
                         AxisGridLine()
                         AxisTick()
                         AxisValueLabel {
-                            if let intValue = value.as(Int.self), intValue >= 0, intValue <= symptomTitles.count {
+                            if let intValue = value.as(Int.self), intValue >= 0, intValue < symptomTitles.count {
                                 Text(symptomTitles[intValue])
                                     .frame(maxWidth: .infinity)
                             }
@@ -261,55 +261,60 @@ struct SymptomsMultiSelectView_Previews: PreviewProvider {
         SymptomsMultiSelectView(selectedSymptoms: [
             SymptomModel(
                 title: "Headache",
+                dateRange: [],
                 cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
                 hints: ["Most frequent in period phase"],
-                min: 0,
-                max: 3,
-                average: 1,
+                min: "0",
+                max: "3",
+                average: "1",
                 covariance: 2.5,
                 covarianceOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
                 questionType: .painEmoticonRating
             ),
             SymptomModel(
                 title: "Fatigue",
+                dateRange: [],
                 cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
                 hints: ["Most frequent in luteal phase"],
-                min: 1,
-                max: 4,
-                average: 2,
+                min: "1",
+                max: "4",
+                average: "2",
                 covariance: 1.8,
                 covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .intensity
             ),
             SymptomModel(
                 title: "Menstruation",
+                dateRange: [],
                 cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
                 hints: ["Most frequent in luteal phase"],
-                min: 1,
-                max: 4,
-                average: 2,
+                min: "1",
+                max: "4",
+                average: "2",
                 covariance: 1.8,
                 covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .menstruationEmoticonRating
             ),
             SymptomModel(
                 title: "Mood",
+                dateRange: [],
                 cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
                 hints: ["Most frequent in luteal phase"],
-                min: 1,
-                max: 4,
-                average: 2,
+                min: "1",
+                max: "4",
+                average: "2",
                 covariance: 1.8,
                 covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .emoticonRating
             ),
             SymptomModel(
                 title: "Sleep",
+                dateRange: [],
                 cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
                 hints: ["Most frequent in luteal phase"],
-                min: 1,
-                max: 4,
-                average: 2,
+                min: "1",
+                max: "4",
+                average: "2",
                 covariance: 1.8,
                 covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .amountOfhour

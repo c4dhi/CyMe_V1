@@ -10,13 +10,16 @@ import Foundation
 struct SymptomModel: Identifiable, Hashable {
     let id = UUID()
     var title: String
-    var cycleOverview: [Int]
+    var dateRange : [Date]
+    var cycleOverview: [Int?]
     var hints: [String]
-    var min: Int
-    var max: Int
-    var average: Int
+    var min: String
+    var max: String
+    var average: String
     var covariance: Float
-    var covarianceOverview: [[Int]]
-    var questionType: QuestionType
+    var covarianceOverview: [[Int]] 
+    var questionType: QuestionType 
 }
+
+
 

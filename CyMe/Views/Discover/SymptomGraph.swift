@@ -24,7 +24,7 @@ struct SymptomGraph: View {
                 }
             }
             .chartXAxis {
-                AxisMarks(position: .bottom, values: Array(1...31).map { Double($0) - 0.5 }) { value in
+                AxisMarks(position: .bottom, values: Array(1...symptom.cycleOverview.count).map { Double($0) - 0.5 }) { value in
                     AxisGridLine()
                     AxisTick()
                     AxisValueLabel(centered: true) {
@@ -54,12 +54,13 @@ struct SymptomGraph: View {
 struct SymptomGraph_Previews: PreviewProvider {
     static var previews: some View {
         SymptomGraph(symptom: SymptomModel(
-            title: "Sleep",
+            title: "Example Symptom Graph",
+            dateRange: [],
             cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
             hints: ["Most frequent in luteal phase"],
-            min: 1,
-            max: 4,
-            average: 2,
+            min: "1",
+            max: "4",
+            average: "2",
             covariance: 1.8,
             covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
             questionType: .amountOfhour

@@ -51,12 +51,13 @@ struct SymptomFilterView_Previews: PreviewProvider {
     static var previews: some View {
         SymptomFilterView(symptoms: [
             SymptomModel(
-                title: "Headache",
+                title: "Example Symptom Filter View",
+                dateRange: [],
                 cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
                 hints: ["Most frequent in period phase"],
-                min: 0,
-                max: 3,
-                average: 1,
+                min: "0",
+                max: "3",
+                average: "1",
                 covariance: 2.5,
                 covarianceOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
                 questionType: .painEmoticonRating

@@ -56,28 +56,8 @@ struct DiscoverView: View {
         }
         .padding()
         .onAppear {
-            if viewModel.symptoms.isEmpty {
-                let exampleSymptoms = [
-                    SymptomModel(
-                        title: "Headache",
-                        cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
-                        hints: ["Most frequent in period phase"],
-                        min: 2,
-                        max: 10,
-                        average: 5,
-                        covariance: 2.5,
-                        covarianceOverview: [
-                            [2, 3, 4, 6, 5],
-                            [1, 2, 3, 4, 5]
-                        ],
-                        questionType: .painEmoticonRating
-                    )
-                ]
-                viewModel.symptoms = exampleSymptoms
-                selectedSymptom = exampleSymptoms.first
-            }
+            selectedSymptom = viewModel.symptoms.first
         }
-        
     }
 }
 
@@ -86,3 +66,4 @@ struct DiscoverView_Previews: PreviewProvider {
         DiscoverView(viewModel: DiscoverViewModel())
     }
 }
+
