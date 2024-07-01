@@ -42,6 +42,7 @@
 		4C1A36F02C319054006E50D8 /* ReviewReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36EF2C319054006E50D8 /* ReviewReportModel.swift */; };
 		4C1A36F12C31987C006E50D8 /* ReviewReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36EF2C319054006E50D8 /* ReviewReportModel.swift */; };
 		4C1A36F22C31987E006E50D8 /* ReviewReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36EF2C319054006E50D8 /* ReviewReportModel.swift */; };
+		4C1A36F42C3280CB006E50D8 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36F32C3280CB006E50D8 /* NotificationService.swift */; };
 		4C5605242C01CF7700B9114D /* SettingsDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605232C01CF7700B9114D /* SettingsDatabaseService.swift */; };
 		4C5605272C01D26600B9114D /* UserDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605262C01D26600B9114D /* UserDatabaseService.swift */; };
 		4C5605292C01D29500B9114D /* ReportingDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605282C01D29500B9114D /* ReportingDatabaseService.swift */; };
@@ -244,6 +245,7 @@
 		4C1A36E22C20541C006E50D8 /* EmoticonReportings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmoticonReportings.swift; sourceTree = "<group>"; };
 		4C1A36ED2C30581B006E50D8 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		4C1A36EF2C319054006E50D8 /* ReviewReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewReportModel.swift; sourceTree = "<group>"; };
+		4C1A36F32C3280CB006E50D8 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		4C5605232C01CF7700B9114D /* SettingsDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDatabaseService.swift; sourceTree = "<group>"; };
 		4C5605262C01D26600B9114D /* UserDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDatabaseService.swift; sourceTree = "<group>"; };
 		4C5605282C01D29500B9114D /* ReportingDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingDatabaseService.swift; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 				4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */,
 				4CB6BBDE2BD6E5BF008A32CA /* DatabaseService.swift */,
 				4CF015532BE955B300BE8DF0 /* WatchConnector.swift */,
+				4C1A36F32C3280CB006E50D8 /* NotificationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1001,6 +1004,7 @@
 				4CFDC3812C072D6400DD3295 /* HealthDataSettingsModel.swift in Sources */,
 				4C5A49B82BFE1A79008253FD /* ThemeModel.swift in Sources */,
 				4CDD2FE12BF4F2B9005995B5 /* SelfReportView.swift in Sources */,
+				4C1A36F42C3280CB006E50D8 /* NotificationService.swift in Sources */,
 				4CB6BBDF2BD6E5BF008A32CA /* DatabaseService.swift in Sources */,
 				500479C52C27293800882265 /* DataProtocoll.swift in Sources */,
 				50E26B1A2C04C7FF00726C5C /* PeriodSampleModel.swift in Sources */,

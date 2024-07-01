@@ -27,7 +27,7 @@ class DiscoverViewModel: ObservableObject {
     @Published var symptoms: [SymptomModel] = []
     
     var healthKitService: HealthKitService
-    let verbose = false
+    let verbose = true
     
     
     // List (empty or not) of the different available health data
@@ -208,6 +208,9 @@ class DiscoverViewModel: ObservableObject {
         catch { print("Error: \(error)") }
         
         let periodStarts = periodDataList.filterByPeriodStart(isStart: true)
+        for period in periodStarts{
+            period.print()
+        }
         
         if periodStarts.count >= 2 {
             

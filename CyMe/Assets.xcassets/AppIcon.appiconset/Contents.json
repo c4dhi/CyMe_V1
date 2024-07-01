@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "logo-color_right_size.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

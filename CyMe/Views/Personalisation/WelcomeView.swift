@@ -13,6 +13,9 @@ struct WelcomeView: View {
     
     var body: some View {
         VStack(spacing: 20) {
+            Image("Icon")
+                .resizable()
+                .frame(width: 120, height: 120)
             Text("Welcome to CyMe")
                 .font(.title)
                 .fontWeight(.bold)

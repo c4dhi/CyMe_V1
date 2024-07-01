@@ -73,99 +73,101 @@ struct SymptomsMultiSelectView: View {
     }
     
     var body: some View {
-        ScrollView(.horizontal) {
-            HStack {
-                // Point chart
-                Chart {
-                    ForEach(Array(selectedSymptoms.enumerated()), id: \.element.id) { (symptomIndex, symptom) in
-                        ForEach(Array(symptom.toPointChartData().enumerated()), id: \.element.id) { (index, item) in
-                            let symbol = getSymbol(for: item.questionType, intensity: item.intensity)
-                            PointMark(
-                                x: .value("Cycle day", item.day),
-                                y: .value("Symptom", Double(symptomIndex))
-                            )
-                            .symbol {
-                                symbol
+        ScrollView(.vertical) {
+            ScrollView(.horizontal) {
+                HStack {
+                    // Point chart
+                    Chart {
+                        ForEach(Array(selectedSymptoms.enumerated()), id: \.element.id) { (symptomIndex, symptom) in
+                            ForEach(Array(symptom.toPointChartData().enumerated()), id: \.element.id) { (index, item) in
+                                let symbol = getSymbol(for: item.questionType, intensity: item.intensity)
+                                PointMark(
+                                    x: .value("Cycle day", item.day),
+                                    y: .value("Symptom", Double(symptomIndex))
+                                )
+                                .symbol {
+                                    symbol
+                                }
                             }
                         }
                     }
-                }
-                .chartXAxis {
-                    AxisMarks(position: .top, values: Array(1...31).map { Double($0) - 0.5 }) { value in
-                        AxisGridLine()
-                        AxisTick()
-                        AxisValueLabel(centered: true) {
-                            if let intValue = value.as(Int.self) {
-                                Text("\(intValue)")
-                                    .frame(maxWidth: .infinity)
+                    .chartXAxis {
+                        AxisMarks(position: .top, values: Array(1...31).map { Double($0) - 0.5 }) { value in
+                            AxisGridLine()
+                            AxisTick()
+                            AxisValueLabel(centered: true) {
+                                if let intValue = value.as(Int.self) {
+                                    Text("\(intValue)")
+                                        .frame(maxWidth: .infinity)
+                                }
                             }
                         }
                     }
-                }
-                .chartXAxisLabel(position: .top, alignment: .leading) {
-                    Text("Cycle day")
-                }
-                .chartYAxis {
-                    AxisMarks(position: .leading) { value in
-                        AxisGridLine()
-                        AxisTick()
-                        AxisValueLabel {
-                            if let intValue = value.as(Int.self), intValue >= 0, intValue < symptomTitles.count {
-                                Text(symptomTitles[intValue])
-                                    .frame(maxWidth: .infinity)
+                    .chartXAxisLabel(position: .top, alignment: .leading) {
+                        Text("Cycle day")
+                    }
+                    .chartYAxis {
+                        AxisMarks(position: .leading) { value in
+                            AxisGridLine()
+                            AxisTick()
+                            AxisValueLabel {
+                                if let intValue = value.as(Int.self), intValue >= 0, intValue < symptomTitles.count {
+                                    Text(symptomTitles[intValue])
+                                        .frame(maxWidth: .infinity)
+                                }
                             }
                         }
                     }
+                    
+                    .frame(width: 1000, height: CGFloat(selectedSymptoms.count * 40))
+                    .overlay(
+                        // mark good days
+                        drawOverlay(cycleDay: 10, color: .green)
+                    )
+                    .overlay(
+                        // mark bad days
+                        drawOverlay(cycleDay: 3, color: .red)
+                    )
                 }
-
-                .frame(width: 1000, height: CGFloat(selectedSymptoms.count * 40))
-                .overlay(
-                    // mark good days
-                    drawOverlay(cycleDay: 10, color: .green)
-                )
-                .overlay(
-                    // mark bad days
-                    drawOverlay(cycleDay: 3, color: .red)
-                )
+                // Line charts
+                /*Chart {
+                 ForEach(Array(selectedSymptoms.enumerated()), id: \.element.id) { (symptomIndex, symptom) in
+                 ForEach(Array(symptom.toLineChartData().enumerated()), id: \.element.id) { (index, item) in
+                 LineMark(
+                 x: .value("Cycle Day", item.day),
+                 y: .value("Hours", item.hours)
+                 )
+                 .foregroundStyle(.green)
+                 }
+                 }
+                 }
+                 .chartXAxis {
+                 AxisMarks(position: .top, values: Array(1...31).map { Double($0) - 0.5 }) { value in
+                 AxisGridLine()
+                 AxisTick()
+                 AxisValueLabel(centered: true) {
+                 if let intValue = value.as(Int.self) {
+                 Text("\(intValue)")
+                 .frame(maxWidth: .infinity)
+                 }
+                 }
+                 }
+                 }
+                 .chartYAxis {
+                 AxisMarks(position: .leading) { value in
+                 AxisGridLine()
+                 AxisTick()
+                 AxisValueLabel(centered: true) {
+                 if let doubleValue = value.as(Double.self) {
+                 Text(String(format: "%.1f", doubleValue))
+                 }
+                 }
+                 }
+                 }
+                 .frame(width: 940, height: CGFloat(selectedSymptoms.count * 40))
+                 .padding(.leading, 50)
+                 .padding(.top, 70)*/
             }
-            // Line charts
-            Chart {
-                ForEach(Array(selectedSymptoms.enumerated()), id: \.element.id) { (symptomIndex, symptom) in
-                    ForEach(Array(symptom.toLineChartData().enumerated()), id: \.element.id) { (index, item) in
-                        LineMark(
-                            x: .value("Cycle Day", item.day),
-                            y: .value("Hours", item.hours)
-                        )
-                        .foregroundStyle(.green)
-                    }
-                }
-            }
-            .chartXAxis {
-                AxisMarks(position: .top, values: Array(1...31).map { Double($0) - 0.5 }) { value in
-                    AxisGridLine()
-                    AxisTick()
-                    AxisValueLabel(centered: true) {
-                        if let intValue = value.as(Int.self) {
-                            Text("\(intValue)")
-                                .frame(maxWidth: .infinity)
-                        }
-                    }
-                }
-            }
-            .chartYAxis {
-                AxisMarks(position: .leading) { value in
-                    AxisGridLine()
-                    AxisTick()
-                    AxisValueLabel(centered: true) {
-                        if let doubleValue = value.as(Double.self) {
-                            Text(String(format: "%.1f", doubleValue))
-                        }
-                    }
-                }
-            }
-            .frame(width: 940, height: CGFloat(selectedSymptoms.count * 40))
-            .padding(.leading, 50)
-            .padding(.top, 70)
         }
     }
     
