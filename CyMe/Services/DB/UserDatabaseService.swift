@@ -120,7 +120,7 @@ class UserDatabaseService {
                 let name = String(cString: sqlite3_column_text(statement, 1))
                 let age = Int(sqlite3_column_int(statement, 2))
                 let lifePhase = String(cString: sqlite3_column_text(statement, 3))
-                let regularCycle = sqlite3_column_int(statement, 4) == 1
+                let regularCycle = String(cString: sqlite3_column_text(statement, 4)) == "true"
                 let cycleLength: Int?
                 if sqlite3_column_type(statement, 5) == SQLITE_NULL {
                     cycleLength = nil
@@ -134,7 +134,7 @@ class UserDatabaseService {
                 if !contraceptionsString.isEmpty {
                     contraceptions = contraceptionsString.split(separator: ",").map { String($0) }
                 }
-                let fertilityGoal = String(cString: sqlite3_column_text(statement, 6))
+                let fertilityGoal = String(cString: sqlite3_column_text(statement, 7))
 
                 return UserModel(name: name, age: age, lifePhase: lifePhase, regularCycle: regularCycle, cycleLength: cycleLength, contraceptions: contraceptions, fertilityGoal: fertilityGoal)
             } else {
@@ -195,11 +195,11 @@ class UserDatabaseService {
         private func updateUser(user: UserModel) -> Bool {
             let updateQuery = """
                 UPDATE user SET
-                    name = ?, age = ?, lifePhase = ?, regularCycle = ?,
+                    name = ?, age = ?, lifePhase = ?, regularCycle = ?, cycleLength = ?,
                     contraceptions = ?, fertilityGoal = ?
                 WHERE id = 1;
                 """
-
+            print(user)
             var statement: OpaquePointer?
             guard sqlite3_prepare_v2(db, updateQuery, -1, &statement, nil) == SQLITE_OK else {
                 print("Error preparing update statement")

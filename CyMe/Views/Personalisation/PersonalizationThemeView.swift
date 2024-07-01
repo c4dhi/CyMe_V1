@@ -18,6 +18,8 @@ enum ColorType {
 struct PersonalizationThemeView: View {
     var nextPage: () -> Void
     @ObservedObject var settingsViewModel: SettingsViewModel
+    
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .black, accentColor: .blue)
     @State private var selectedThemeIndex = 0
     @State private var selectedColorType: ColorType? = nil
     @State private var isCustomColorPickerShown = false
@@ -36,7 +38,7 @@ struct PersonalizationThemeView: View {
        .fontWeight(.bold)
        .padding()
        .frame(maxWidth: .infinity, alignment: .leading)
-       .background(settingsViewModel.settings.selectedTheme.primaryColor)
+       .background(settingsViewModel.settings.selectedTheme.primaryColor.toColor())
             Form {
                 Section(header: Text("Personalize CyMe theme")) {
                     Text("Select your prefered theme:")
@@ -53,7 +55,7 @@ struct PersonalizationThemeView: View {
                     // Color boxes
                     HStack(spacing: 8) {
                         Rectangle()
-                            .fill(themes[selectedThemeIndex].primaryColor)
+                            .fill(themes[selectedThemeIndex].primaryColor.toColor())
                             .frame(width: 50, height: 50)
                             .border(Color.black, width: 1)
                             .cornerRadius(8)
@@ -64,7 +66,7 @@ struct PersonalizationThemeView: View {
                                 }
                             }
                         Rectangle()
-                            .fill(themes[selectedThemeIndex].accentColor)
+                            .fill(themes[selectedThemeIndex].accentColor.toColor())
                             .frame(width: 50, height: 50)
                             .border(Color.black, width: 1)
                             .cornerRadius(8)
@@ -75,7 +77,7 @@ struct PersonalizationThemeView: View {
                                 }
                             }
                         Rectangle()
-                            .fill(themes[selectedThemeIndex].backgroundColor)
+                            .fill(themes[selectedThemeIndex].backgroundColor.toColor())
                             .frame(width: 50, height: 50)
                             .border(Color.black, width: 1)
                             .cornerRadius(8)
@@ -97,6 +99,17 @@ struct PersonalizationThemeView: View {
             .onChange(of: selectedThemeIndex) { newValue in
                 settingsViewModel.settings.selectedTheme = themes[newValue]
             }
+            .onAppear {
+                if let savedTheme = UserDefaults.standard.themeModel(forKey: "theme") {
+                    settingsViewModel.settings.selectedTheme = savedTheme
+                    if let index = themes.firstIndex(where: { $0.name == savedTheme.name }) {
+                        selectedThemeIndex = index
+                    } else {
+                        themes[themes.count - 1] = savedTheme // Set the custom theme
+                        selectedThemeIndex = themes.count - 1
+                    }
+                }
+            }
 
             Button(action: {
                 // TODO add validation
@@ -108,7 +121,7 @@ struct PersonalizationThemeView: View {
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(settingsViewModel.settings.selectedTheme.accentColor)
+                    .background(settingsViewModel.settings.selectedTheme.accentColor.toColor())
                     .cornerRadius(10)
             }
             .popover(isPresented: $isCustomColorPickerShown) {
@@ -116,17 +129,17 @@ struct PersonalizationThemeView: View {
                     ColorPicker("Select your custom color", selection: Binding<Color>(
                         get: {
                             switch selectedColorType {
-                            case .background: return themes[selectedThemeIndex].backgroundColor
-                            case .primary: return themes[selectedThemeIndex].primaryColor
-                            case .accent: return themes[selectedThemeIndex].accentColor
+                            case .background: return themes[selectedThemeIndex].backgroundColor.toColor()
+                            case .primary: return themes[selectedThemeIndex].primaryColor.toColor()
+                            case .accent: return themes[selectedThemeIndex].accentColor.toColor()
                             case .none: return .white
                             }
                         },
                         set: { newValue in
                             switch selectedColorType {
-                            case .background: themes[selectedThemeIndex].backgroundColor = newValue
-                            case .primary: themes[selectedThemeIndex].primaryColor = newValue
-                            case .accent: themes[selectedThemeIndex].accentColor = newValue
+                            case .background: themes[selectedThemeIndex].backgroundColor = CodableColor(color: newValue)
+                            case .primary: themes[selectedThemeIndex].primaryColor = CodableColor(color: newValue)
+                            case .accent: themes[selectedThemeIndex].accentColor = CodableColor(color: newValue)
                             case .none: break
                             }
                         }

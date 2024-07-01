@@ -8,21 +8,23 @@
 import SwiftUI
 
 struct HomeView: View {
-    // Sample data for demonstration
-    let headacheCount = 5
-    let moodSwingsCount = 3
-    let bellyacheCount = 5
-    let currentMestrualStage = "Follicular Phase"
+    @StateObject private var homeViewModel = HomeViewModel()
+    @EnvironmentObject var themeManager: ThemeManager
+
+    let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            return formatter
+        }()
     
-    // Define the number of days in a cycle
-    let numberOfDaysInCycle = 7
-    
-    // Calculate the angle for the small circle based on the current day
-    var rotationAngle: Double {
-        let currentDay = Calendar.current.component(.day, from: Date())
-        let angle = Double(currentDay) / Double(numberOfDaysInCycle) * 360.0
-        return -angle // Negative angle for clockwise rotation
+    var circlePosition: (x: CGFloat, y: CGFloat) {
+        let angle = Double(homeViewModel.cycleDay - 1) / Double(homeViewModel.cycleLength - 1) * 2 * .pi - .pi / 2
+        let xPosition = homeViewModel.circleRadius * CGFloat(cos(angle))
+        let yPosition = homeViewModel.circleRadius * CGFloat(sin(angle))
+        return (x: xPosition, y: yPosition)
     }
+    
+    @State private var selectedTabIndex = 0
     
     var body: some View {
         VStack(spacing: 10) {
@@ -31,51 +33,86 @@ struct HomeView: View {
                 Circle()
                     .stroke(Color.gray, lineWidth: 15)
                     .frame(width: 200, height: 200)
-                ForEach(0..<numberOfDaysInCycle) { day in
-                    Circle()
-                        .fill(day == currentDay() - 1 ? Color.blue : Color.gray)
-                        .frame(width: 10, height: 10)
-                        .rotationEffect(.degrees(Double(day) / Double(numberOfDaysInCycle) * 360))
-                        .offset(x: 90, y: 0)
-                }
                 Circle()
-                    .fill(Color.blue)
-                    .frame(width: 15, height: 15)
-                    .rotationEffect(.degrees(rotationAngle))
-                    .offset(x: 90, y: 0)
-                Text("Day \(currentDay())")
-                                    .foregroundColor(.black)
-                                    .font(.headline)
-                                    .fontWeight(.bold)
-                                    .offset(x: 0, y: 0)
-                Text(currentMestrualStage)
-                                    .foregroundColor(.black)
-                                    .font(.headline)
-                                    .offset(x: 0, y: 130)
+                    .fill(themeManager.theme.accentColor.toColor())
+                    .frame(width: 20, height: 20)
+                    .offset(x: circlePosition.x, y: circlePosition.y)
+                Text("Day \(homeViewModel.cycleDay)")
+                    .foregroundColor(.black)
+                    .font(.headline)
+                    .fontWeight(.bold)
+                Text("Welcome to CyMe, Marinja!")
+                    .foregroundColor(.black)
+                    .font(.headline)
+                    .offset(x: 0, y: 130)
+                Text("We're here to help you understand and harmonize with your cycle. Enjoy exploring your personalized tracker!")
+                    .foregroundColor(.black)
+                    .offset(x: 0, y: 190)
             }
-            .offset(y: 80)
+            .padding(.top, 20)
             
-            // FactSquare components
-            HStack(spacing: 10) {
-                Spacer()
-                FactSquare(title: "Headache counts", count: headacheCount)
-                Spacer()
-                FactSquare(title: "Mood swings", count: moodSwingsCount)
-                Spacer()
-                FactSquare(title: "Bellyache", count: bellyacheCount)
-                Spacer()
+            // Daily summary box
+            VStack(spacing: 10) {
+                Text("Daily summary")
+                    .font(.headline)
+                    .foregroundColor(.black)
+                    .padding(.top, 10)
+                Text("Total reports today: \(homeViewModel.totalReports)")
+                    .foregroundColor(.black)
             }
             .padding()
-            .offset(y:-80)
+            .background(themeManager.theme.accentColor.toColor().opacity(0.2))
+            .cornerRadius(10)
+            .padding(.top, 150)
+            
+            // Reported notes
+            VStack(spacing: 0) {
+                Text("Reported notes")
+                    .font(.headline)
+                    .foregroundColor(.black)
+                    .padding(.top, 20)
+                
+                // TabView for swiping through report cards
+                TabView(selection: $selectedTabIndex) {
+                    ForEach(homeViewModel.reports.indices, id: \.self) { index in
+                        ReportCard(report: homeViewModel.reports[index].notes ?? "-", date: dateFormatter.string(from: homeViewModel.reports[index].endTime))
+                            .frame(width: 300) // Adjust the width of each card as needed
+                            .tag(index)
+                            .padding(.top, -40)
+                    }
+                }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+                .padding(.horizontal)
+                .onAppear {
+                    homeViewModel.fetchReports()
+                }
+               
+            }
+            .padding(.bottom, 40)
         }
-    }
-    
-    // Function to get the current day of the month
-    private func currentDay() -> Int {
-        return Calendar.current.component(.day, from: Date())
     }
 }
 
+struct ReportCard: View {
+    let report: String
+    let date: String
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(date)
+                .font(.subheadline)
+                .foregroundColor(.gray)
+            Text(report)
+                .font(.body)
+                .foregroundColor(.black)
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(10)
+        .shadow(radius: 2)
+    }
+}
 
 struct FactSquare: View {
     let title: String
@@ -103,11 +140,8 @@ struct FactSquare: View {
     }
 }
 
-
-
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
     }
 }
-

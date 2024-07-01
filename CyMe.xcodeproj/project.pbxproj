@@ -38,6 +38,10 @@
 		4C1A36DF2C105469006E50D8 /* SymptomFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36DE2C105469006E50D8 /* SymptomFilterView.swift */; };
 		4C1A36E12C19839F006E50D8 /* EmoticonReportings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36E02C19839F006E50D8 /* EmoticonReportings.swift */; };
 		4C1A36E32C20541C006E50D8 /* EmoticonReportings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36E22C20541C006E50D8 /* EmoticonReportings.swift */; };
+		4C1A36EE2C30581B006E50D8 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36ED2C30581B006E50D8 /* HomeViewModel.swift */; };
+		4C1A36F02C319054006E50D8 /* ReviewReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36EF2C319054006E50D8 /* ReviewReportModel.swift */; };
+		4C1A36F12C31987C006E50D8 /* ReviewReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36EF2C319054006E50D8 /* ReviewReportModel.swift */; };
+		4C1A36F22C31987E006E50D8 /* ReviewReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36EF2C319054006E50D8 /* ReviewReportModel.swift */; };
 		4C5605242C01CF7700B9114D /* SettingsDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605232C01CF7700B9114D /* SettingsDatabaseService.swift */; };
 		4C5605272C01D26600B9114D /* UserDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605262C01D26600B9114D /* UserDatabaseService.swift */; };
 		4C5605292C01D29500B9114D /* ReportingDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605282C01D29500B9114D /* ReportingDatabaseService.swift */; };
@@ -238,6 +242,8 @@
 		4C1A36DE2C105469006E50D8 /* SymptomFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomFilterView.swift; sourceTree = "<group>"; };
 		4C1A36E02C19839F006E50D8 /* EmoticonReportings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmoticonReportings.swift; sourceTree = "<group>"; };
 		4C1A36E22C20541C006E50D8 /* EmoticonReportings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmoticonReportings.swift; sourceTree = "<group>"; };
+		4C1A36ED2C30581B006E50D8 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		4C1A36EF2C319054006E50D8 /* ReviewReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewReportModel.swift; sourceTree = "<group>"; };
 		4C5605232C01CF7700B9114D /* SettingsDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDatabaseService.swift; sourceTree = "<group>"; };
 		4C5605262C01D26600B9114D /* UserDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDatabaseService.swift; sourceTree = "<group>"; };
 		4C5605282C01D29500B9114D /* ReportingDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingDatabaseService.swift; sourceTree = "<group>"; };
@@ -527,6 +533,7 @@
 				4C5A49B32BFDEFF6008253FD /* SettingsViewModel.swift */,
 				4C5A49B92BFFD07C008253FD /* ProfileViewModel.swift */,
 				4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */,
+				4C1A36ED2C30581B006E50D8 /* HomeViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -659,6 +666,7 @@
 			children = (
 				4CF015512BE9556000BE8DF0 /* SelfReportModel.swift */,
 				4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */,
+				4C1A36EF2C319054006E50D8 /* ReviewReportModel.swift */,
 			);
 			path = SelfReportingModel;
 			sourceTree = "<group>";
@@ -1010,12 +1018,14 @@
 				500D9B682C2D5DAA00B26D27 /* DiscoverViewHints.swift in Sources */,
 				4C08971D2C0DBBD20042A6D1 /* SymptomModel.swift in Sources */,
 				4CDD2FD52BECB52E005995B5 /* ProfileView.swift in Sources */,
+				4C1A36EE2C30581B006E50D8 /* HomeViewModel.swift in Sources */,
 				4CDD2FDB2BF25023005995B5 /* OnboardingView.swift in Sources */,
 				4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */,
 				4CFDC37F2C04F24500DD3295 /* DatabaseUtils.swift in Sources */,
 				4C1354E32BCFCE320078A84B /* HomeView.swift in Sources */,
 				500D9B662C2D5CC900B26D27 /* StringUtils.swift in Sources */,
 				4CDF57F22C0CF8D700C7E9F6 /* PopupView.swift in Sources */,
+				4C1A36F12C31987C006E50D8 /* ReviewReportModel.swift in Sources */,
 				4C1A36DD2C104FD0006E50D8 /* SymptomsMultiSelectView.swift in Sources */,
 				50EED2D62C2083420001BF5C /* AppetiteChangeModel.swift in Sources */,
 				4C1354E52BCFCE440078A84B /* DiscoverView.swift in Sources */,
@@ -1051,6 +1061,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CDD2FCA2BEB747A005995B5 /* ReportOptionsModel.swift in Sources */,
+				4C1A36F22C31987E006E50D8 /* ReviewReportModel.swift in Sources */,
 				4CDD2FCF2BEB7CD9005995B5 /* UserReportingOptions.swift in Sources */,
 				4CDF58692C0DA1F000C7E9F6 /* HealthDataSettingsModel.swift in Sources */,
 				4CDF58682C0DA1EC00C7E9F6 /* SettingsModel.swift in Sources */,
@@ -1090,6 +1101,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CDF58672C0DA1EA00C7E9F6 /* SettingsModel.swift in Sources */,
+				4C1A36F02C319054006E50D8 /* ReviewReportModel.swift in Sources */,
 				4CDF58662C0DA17200C7E9F6 /* HealthDataWithoutNilModel.swift in Sources */,
 				4CDF586A2C0DA1F000C7E9F6 /* HealthDataSettingsModel.swift in Sources */,
 				4CDF586C2C0DA1F500C7E9F6 /* ThemeModel.swift in Sources */,

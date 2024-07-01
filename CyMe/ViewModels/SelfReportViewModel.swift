@@ -24,7 +24,6 @@ class SelfReportViewModel: ObservableObject {
         questions = settingsViewModel.settings.healthDataSettings.filter {
             ($0.dataLocation == .sync || $0.dataLocation == .onlyCyMe) && $0.question != nil && $0.questionType != nil && $0.enableSelfReportingCyMe == true
         }
-        print(questions)
     }
     
     func saveReport(selfReports: [SymptomSelfReportModel], startTime: Date) -> Bool {

@@ -12,6 +12,7 @@ struct ProfileView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
     @ObservedObject var userViewModel: ProfileViewModel
 
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .black, accentColor: .blue)
     let lifePhaseOptions = ["Premenopause", "Menopause", "Postmenopause"]
     let fertilityGoalOptions = ["Avoiding pregnancy", "Pregnancy", "Exploring options"]
 
@@ -21,7 +22,7 @@ struct ProfileView: View {
                 .fontWeight(.bold)
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(settingsViewModel.settings.selectedTheme.primaryColor)
+                .background(theme.primaryColor.toColor())
             
             Form {
                 Section(header: Text("Personal information")) {
@@ -101,7 +102,7 @@ struct ProfileView: View {
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(isInputValid() ? settingsViewModel.settings.selectedTheme.accentColor : Color.gray)
+                    .background(isInputValid() ? theme.accentColor.toColor() : Color.gray)
                     .cornerRadius(10)
             }
             .disabled(!isInputValid())

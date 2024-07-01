@@ -10,6 +10,7 @@ import SigmaSwiftStatistics
 struct DiscoverView: View {
     @ObservedObject var viewModel: DiscoverViewModel
     @State private var selectedSymptom: SymptomModel?
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
 
     var body: some View {
         VStack(spacing: 5) {
@@ -30,7 +31,7 @@ struct DiscoverView: View {
                         SymptomGraph(symptom: symptom)
                             .frame(height: 200)
                             .padding()
-                            .background(Color.white)
+                            .background(theme.backgroundColor.toColor())
                             .cornerRadius(10)
                     }
 
@@ -38,7 +39,7 @@ struct DiscoverView: View {
                     Section(header: Text("Insights").padding(.vertical, 8)) {
                         SymptomInsightsView(hints: symptom.hints)
                             .padding()
-                            .background(Color.white)
+                            .background(theme.backgroundColor.toColor())
                             .cornerRadius(10)
                     }
 
@@ -46,10 +47,15 @@ struct DiscoverView: View {
                     Section(header: Text("Statistics").padding(.vertical, 8)) {
                         SymptomStatisticsView(symptom: symptom)
                             .padding()
-                            .background(Color.white)
+                            .background(theme.backgroundColor.toColor())
                             .cornerRadius(10)
                     }
                 }
+            } else {
+                Text("No reports available")
+                .foregroundColor(.gray)
+                .font(.headline)
+                .padding()
             }
 
             Spacer()
@@ -63,7 +69,53 @@ struct DiscoverView: View {
 
 struct DiscoverView_Previews: PreviewProvider {
     static var previews: some View {
-        DiscoverView(viewModel: DiscoverViewModel())
+        let mockViewModel = DiscoverViewModel()
+        mockViewModel.symptoms = generateMockSymptoms()
+        
+        return DiscoverView(viewModel: mockViewModel)
+    }
+    
+    static func generateMockSymptoms() -> [SymptomModel] {
+        // Generate mock symptoms data
+        let headacheModel = SymptomModel(
+            title: "Headaches",
+            dateRange: [],
+            cycleOverview: [1, 2, nil, 3, 1, 2, 1],
+            hints: ["Hint 1", "Hint 2"],
+            min: "1",
+            max: "3",
+            average: "1.5",
+            covariance: 0.7,
+            covarianceOverview: [],
+            questionType: .painEmoticonRating
+        )
+        
+        let abdominalCrampsModel = SymptomModel(
+            title: "Abdominal Cramps",
+            dateRange: [],
+            cycleOverview: [2, 3, nil, 1, 2, 3, 1],
+            hints: ["Hint 1", "Hint 2"],
+            min: "1",
+            max: "3",
+            average: "2",
+            covariance: 0.6,
+            covarianceOverview: [],
+            questionType: .painEmoticonRating
+        )
+        
+        let appetiteChangeModel = SymptomModel(
+            title: "Appetite Change",
+            dateRange: [],
+            cycleOverview: [1, nil, 2, 1, nil, 1, 2],
+            hints: ["Hint 1", "Hint 2"],
+            min: "1",
+            max: "2",
+            average: "1.25",
+            covariance: 0.5,
+            covarianceOverview: [],
+            questionType: .changeEmoticonRating
+        )
+        
+        return [headacheModel, abdominalCrampsModel, appetiteChangeModel]
     }
 }
-

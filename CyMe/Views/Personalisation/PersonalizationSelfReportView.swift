@@ -4,6 +4,12 @@
 //
 //  Created by Marinja Principe on 13.05.24.
 //
+//
+//  PersonalizationSelfReportView.swift
+//  CyMe
+//
+//  Created by Marinja Principe on 13.05.24.
+//
 import SwiftUI
 
 struct ReminderOptionView: View {
@@ -22,8 +28,8 @@ struct ReminderOptionView: View {
             
             if isEnabled {
                 Picker("Frequency", selection: $frequencyIndex) {
-                    ForEach(0..<frequencyOptions.count, id: \.self) { index in
-                        Text(frequencyOptions[index])
+                    ForEach(frequencyOptions, id: \.self) { option in
+                        Text(option)
                     }
                 }
                 .pickerStyle(MenuPickerStyle())
@@ -64,6 +70,7 @@ struct ReminderOptionView: View {
 }
 
 
+
 struct TimePicker: View {
     var title: String
     @Binding var time: Date
@@ -81,6 +88,7 @@ struct PersonalizationSelfReportView: View {
     var nextPage: () -> Void
     
     @ObservedObject var settingsViewModel: SettingsViewModel
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .black, accentColor: .blue)
     
     var body: some View {
         Text("Personalize CyMe reminders")
@@ -88,7 +96,7 @@ struct PersonalizationSelfReportView: View {
        .fontWeight(.bold)
        .padding()
        .frame(maxWidth: .infinity, alignment: .leading)
-       .background(settingsViewModel.settings.selectedTheme.primaryColor)
+       .background(theme.primaryColor.toColor())
         Form {
             Section(header: Text("Self-Reporting Settings")) {
                 Toggle("Enable self-reporting on Apple Watch", isOn: $settingsViewModel.settings.selfReportWithWatch)
@@ -126,7 +134,7 @@ struct PersonalizationSelfReportView: View {
                 .foregroundColor(.white)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(settingsViewModel.settings.selectedTheme.accentColor)
+                .background(theme.accentColor.toColor())
                 .cornerRadius(10)
         }
     }

@@ -25,8 +25,11 @@ struct SettingsView: View {
                 PersonalizationSelfReportView(nextPage: goToNextPage, settingsViewModel: settingsViewModel)
             } else if currentPageIndex == 3 {
                 PersonalizationThemeView(nextPage: goToNextPage, settingsViewModel: settingsViewModel)
-            } else {
-                ContentView()
+            }
+        }
+        .onChange(of: currentPageIndex) { newValue in
+            if newValue >= 4 {
+                isPresented = false
             }
         }
     }
@@ -34,31 +37,6 @@ struct SettingsView: View {
     func goToNextPage() {
         currentPageIndex += 1
     }
-
-    /*var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("Period Tracking")) {
-                    Toggle("Enable Period Tracking", isOn: $periodTrackingEnabled)
-                }
-                Section(header: Text("Headache Tracking")) {
-                    Toggle("Enable Period Tracking", isOn: $headacheTrackingEnabled)
-                }
-            }
-            .navigationTitle("Settings")
-            .navigationBarItems(trailing: Button("Done") {
-                // Dismiss settings view
-                isPresented = false
-                submitToWatch()
-            })
-        }
-        .navigationViewStyle(StackNavigationViewStyle())
-    }*/
-    
-    func submitToWatch() {
-        //TODO
-    }
-
 
 }
 
