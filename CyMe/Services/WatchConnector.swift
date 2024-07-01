@@ -4,70 +4,88 @@
 //
 //  Created by Marinja Principe on 06.05.24.
 //
-
+import Foundation
 import WatchConnectivity
 
 class WatchConnector: NSObject, WCSessionDelegate, ObservableObject{
-    @Published var hasHeadache: Bool = false
-    @Published var hasPeriod: Bool = false
 
     var session: WCSession
+    private var reportingDatabaseService: ReportingDatabaseService
+    @Published var settingsViewModel: SettingsViewModel
     
-    
-    init(session: WCSession = .default) {
+    init(session: WCSession = .default, reportingDatabaseService: ReportingDatabaseService = ReportingDatabaseService()) {
         self.session = session
+        self.reportingDatabaseService = reportingDatabaseService
+        self.settingsViewModel = SettingsViewModel()
         super.init()
         session.delegate = self
         session.activate()
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        print(activationState)
+        print("watchConnector: ", activationState)
         
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
-        
+        print("watchConnector: Session became inactive and reactivated")
     }
-    
+
     func sessionDidDeactivate(_ session: WCSession) {
-        
+        print("watchConnector: Session deactivated and reactivated")
+    }
+
+    func sessionReachabilityDidChange(_ session: WCSession) {
+        print("watchConnector: Session reachability changed to \(session.isReachable)")
     }
     
-    func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
-            // Handle received message from Watch ap
-        print(message)
-            if let selfReportData = message["selfReportData"] as? Data {
-                do {
-                    print("In reseive part")
-                    // Decode self-report data
-                    let selfReport = try JSONDecoder().decode(SelfReportModel.self, from: selfReportData)
-                    // Handle received self-report data
-                    print("Received self-report data from Watch app: \(selfReport)")
-                } catch {
-                    print("Error decoding self-report data: \(error.localizedDescription)")
-                }
-            }
-    }
-    
-    func sendReportOptionsToWatch(reportOptions: ReportOptionsModel) {
-            guard session.isReachable else {
-                print("Watch app is not reachable.")
-                return
-            }
-            
-            do {
-                // Encode report options to JSON data
-                let jsonData = try JSONEncoder().encode(reportOptions)
-                
-                // Send data to Watch app
-                session.sendMessage(["reportOptions": jsonData], replyHandler: nil, errorHandler: { error in
-                    print("Error sending report options data: \(error.localizedDescription)")
-                })
-                print("sending successfull")
-            } catch {
-                print("Error encoding report options data: \(error.localizedDescription)")
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String: Any]) -> Void) {
+        print("WatchConnector: Received message with reply handler: \(message)")
+
+        if let request = message["request"] as? String {
+            switch request {
+            case "settings":
+                sendSettings()
+            default:
+                print("WatchConnector: Unknown request received from watch app.")
             }
         }
+
+        if let selfReportList = message["selfReportList"] as? Data {
+            do {
+                let selfReports = try JSONDecoder().decode([SelfReportModel].self, from: selfReportList)
+                print("WatchConnector: Received self-report data from Watch app: \(selfReports)")
+
+                if reportingDatabaseService.saveReports(reports: selfReports) {
+                    print("WatchConnector: Report saved successfully")
+                } else {
+                    print("WatchConnector: Failed to save report")
+                }
+
+                // Example of replying back to the watch app
+                replyHandler(["status": "Received and processed self-report data"])
+            } catch {
+                print("WatchConnector: Error decoding self-report data: \(error.localizedDescription)")
+                replyHandler(["error": error.localizedDescription])
+            }
+        }
+    }
+    
+    func sendSettings() {
+        guard session.isReachable else {
+            print("WatchConnector: Watch is not reachable.")
+            return
+        }
+
+        do {
+            let jsonData = try JSONEncoder().encode(settingsViewModel.settings.healthDataSettings)
+            print("WatchConnector: Attempting to update application context with settings: \(settingsViewModel.settings.healthDataSettings)")
+            
+            try session.updateApplicationContext(["settings": jsonData])
+            print("WatchConnector: update Application Context successful")
+        } catch {
+            print("WatchConnector: Error encoding settings: \(error.localizedDescription)")
+        }
+    }
 }
 

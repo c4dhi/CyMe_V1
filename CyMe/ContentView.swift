@@ -44,6 +44,7 @@ struct ContentView: View {
                 Button(action: {
                     // Action for the plus button
                     isSelfReportPresented = true
+                    connector.sendSettings()
                 }) {
                     Image(systemName: "plus.circle.fill")
                         .resizable()

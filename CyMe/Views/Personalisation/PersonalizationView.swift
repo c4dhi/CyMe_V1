@@ -48,7 +48,7 @@ struct PersonalizationView: View {
                     ForEach(settingsViewModel.settings.healthDataSettings.indices, id: \.self) { index in
                         let healthData = settingsViewModel.settings.healthDataSettings[index]
                         self.measurementRow(
-                            label: healthData.title,
+                            label: healthData.label,
                             measure: $settingsViewModel.settings.healthDataSettings[index].enableDataSync,
                             selfReport: $settingsViewModel.settings.healthDataSettings[index].enableSelfReportingCyMe,
                             syncIsEnabled: true,

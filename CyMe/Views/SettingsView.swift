@@ -8,12 +8,34 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @AppStorage("periodTrackingEnabled") private var periodTrackingEnabled = true
-    @AppStorage("headacheTrackingEnabled") private var headacheTrackingEnabled = true
     @Binding var isPresented: Bool
     @StateObject var connector = WatchConnector()
-
+    
+    @State private var currentPageIndex = 0
+    @StateObject private var settingsViewModel = SettingsViewModel()
+    @StateObject private var profileViewModel = ProfileViewModel()
+    
     var body: some View {
+        VStack {
+            if currentPageIndex == 0 {
+                ProfileView(nextPage: goToNextPage, settingsViewModel: settingsViewModel, userViewModel: profileViewModel )
+            } else if currentPageIndex == 1 {
+                PersonalizationView(nextPage: goToNextPage, settingsViewModel: settingsViewModel)
+            } else if currentPageIndex == 2 {
+                PersonalizationSelfReportView(nextPage: goToNextPage, settingsViewModel: settingsViewModel)
+            } else if currentPageIndex == 3 {
+                PersonalizationThemeView(nextPage: goToNextPage, settingsViewModel: settingsViewModel)
+            } else {
+                ContentView()
+            }
+        }
+    }
+    
+    func goToNextPage() {
+        currentPageIndex += 1
+    }
+
+    /*var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Period Tracking")) {
@@ -31,14 +53,10 @@ struct SettingsView: View {
             })
         }
         .navigationViewStyle(StackNavigationViewStyle())
-    }
+    }*/
     
     func submitToWatch() {
-        // Create a report options model with the updated tracking preferences
-        let reportOptions = ReportOptionsModel(periodTrackingEnabled: periodTrackingEnabled, headacheTrackingEnabled: headacheTrackingEnabled)
-
-        // Send the report options data to the Watch
-        connector.sendReportOptionsToWatch(reportOptions: reportOptions)
+        //TODO
     }
 
 

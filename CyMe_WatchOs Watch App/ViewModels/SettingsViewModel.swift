@@ -11,118 +11,52 @@ import SwiftUI
 class SettingsViewModel: ObservableObject {
     @Published var settings: SettingsModel
     
-        
+    private var connector: iOSConnector
+    
     init() {
-        self.settings = SettingsModel(enableHealthKit: false,
-                  healthDataSettings:[
-                    HealthDataSettingsModel(
-                        title: "Menstrual data",
-                        enableDataSync: true,
-                        enableSelfReportingCyMe: true,
-                        dataLocation: .sync,
-                        question: "Did you have your period today?",
-                        questionType: .menstruationEmoticonRating
-                    ),
-                    HealthDataSettingsModel(
-                        title: "Sleep quality",
-                        enableDataSync: false,
-                        enableSelfReportingCyMe: false,
-                        dataLocation: .onlyCyMe,
-                        question: "Rate your sleep quality last night",
-                        questionType: .emoticonRating
-                    ),
-                    HealthDataSettingsModel(
-                        title: "Sleep length",
-                        enableDataSync: false,
-                        enableSelfReportingCyMe: false,
-                        dataLocation: .sync,
-                        question: "How many hours did you sleep?",
-                        questionType: .amountOfhour
-                    ),
-                    HealthDataSettingsModel(
-                        title: "Headache",
-                        enableDataSync: false,
-                        enableSelfReportingCyMe: false,
-                        dataLocation: .sync,
-                        question: "Did you experience a headache today?",
-                        questionType: .painEmoticonRating
-                    ),
-                    HealthDataSettingsModel(
-                        title: "Stress",
-                        enableDataSync: false,
-                        enableSelfReportingCyMe: false,
-                        dataLocation: .onlyCyMe,
-                        question: "Rate your stress level today",
-                        questionType: .emoticonRating
-                    ),
-                    HealthDataSettingsModel(
-                        title: "Abdominal cramps",
-                        enableDataSync: false,
-                        enableSelfReportingCyMe: false,
-                        dataLocation: .sync,
-                        question: "Did you experience abdominal cramps today?",
-                        questionType: .painEmoticonRating
-                    ),
-                    HealthDataSettingsModel(
-                        title: "Lower back pain",
-                        enableDataSync: false,
-                        enableSelfReportingCyMe: false,
-                        dataLocation: .sync,
-                        question: "Did you experience lower back pain today?",
-                        questionType: .painEmoticonRating
-                    ),
-                    HealthDataSettingsModel(
-                        title: "Pelvic pain",
-                        enableDataSync: false,
-                        enableSelfReportingCyMe: false,
-                        dataLocation: .sync,
-                        question: "Did you experience pelvic pain today?",
-                        questionType: .painEmoticonRating
-                    ),
-                    HealthDataSettingsModel(
-                        title: "Acne",
-                        enableDataSync: false,
-                        enableSelfReportingCyMe: false,
-                        dataLocation: .sync,
-                        question: "Did you have acne today?",
-                        questionType: .intensity
-                    ),
-                    HealthDataSettingsModel(
-                        title: "Appetite changes",
-                        enableDataSync: false,
-                        enableSelfReportingCyMe: false,
-                        dataLocation: .sync,
-                        question: "Did you experience changes in appetite today?",
-                        questionType: .intensity
-                    ),
-                    HealthDataSettingsModel(
-                        title: "Tightness or pain in the chest",
-                        enableDataSync: false,
-                        enableSelfReportingCyMe: false,
-                        dataLocation: .sync,
-                        question: "Did you experience tightness or pain in the chest today?",
-                        questionType: .painEmoticonRating
-                    ),
-                    HealthDataSettingsModel(
-                        title: "Step data",
-                        enableDataSync: false,
-                        enableSelfReportingCyMe: false,
-                        dataLocation: .onlyAppleHealth,
-                        question: nil,
-                        questionType: nil
-                    )
-                ],
-                  selfReportWithWatch: true,
-                  enableWidget: true,
-                  startPeriodReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
-                  selfReportReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
-                  summaryReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
-                  selectedTheme: ThemeModel(name: "Deep blue", backgroundColor: .white, primaryColor: .blue, accentColor: .blue))
+        self.settings = SettingsModel(
+            enableHealthKit: false,
+            healthDataSettings: [HealthDataSettingsModel(
+                name: "menstruationDate",
+                label: "Menstruation date",
+                enableDataSync: true,
+                enableSelfReportingCyMe: true,
+                dataLocation: .sync,
+                question: "Did you have your period today?",
+                questionType: .menstruationEmoticonRating
+            ),
+            HealthDataSettingsModel(
+                name: "sleepQuality",
+                label: "Sleep quality",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .onlyCyMe,
+                question: "Rate your sleep quality last night",
+                questionType: .emoticonRating
+            ),
+            HealthDataSettingsModel(
+                name: "sleepLenght",
+                label: "Sleep length",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .sync,
+                question: "How many hours did you sleep?",
+                questionType: .amountOfhour
+            ),],
+            selfReportWithWatch: false,
+            enableWidget: false,
+            startPeriodReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
+            selfReportReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
+            summaryReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
+            selectedTheme: ThemeModel(name: "", backgroundColor: .clear, primaryColor: .clear, accentColor: .clear)
+        )
+        
+        self.connector = iOSConnector()
     }
     
-    func saveSettings() {
-       // TODO save in IOS Connector
+    public func fetchSettings() {
+        connector.requestSettingsFromiOS()
     }
-    
 }
+
 

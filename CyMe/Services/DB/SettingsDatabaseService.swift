@@ -11,6 +11,9 @@ class SettingsDatabaseService {
         self.db = DatabaseService.shared.db
         createSettingsTableIfNeeded()
         createHealthDataSettingsTableIfNeeded()
+        var defaultSettings = getDefaultSettings()
+        insertMainSettings(settings: defaultSettings)
+        insertHealthDataSettings(healthDataSettings: defaultSettings.healthDataSettings)
     }
     
     public func getDefaultSettings() -> SettingsModel {
@@ -29,7 +32,8 @@ class SettingsDatabaseService {
     private func getDefaultHealthDataSettings() -> [HealthDataSettingsModel] {
         let defaultValues: [HealthDataSettingsModel] = [
             HealthDataSettingsModel(
-                title: "Menstrual data",
+                name: "menstruationDate",
+                label: "Menstruation date",
                 enableDataSync: true,
                 enableSelfReportingCyMe: true,
                 dataLocation: .sync,
@@ -37,7 +41,8 @@ class SettingsDatabaseService {
                 questionType: .menstruationEmoticonRating
             ),
             HealthDataSettingsModel(
-                title: "Sleep quality",
+                name: "sleepQuality",
+                label: "Sleep quality",
                 enableDataSync: false,
                 enableSelfReportingCyMe: false,
                 dataLocation: .onlyCyMe,
@@ -45,7 +50,8 @@ class SettingsDatabaseService {
                 questionType: .emoticonRating
             ),
             HealthDataSettingsModel(
-                title: "Sleep length",
+                name: "sleepLenght",
+                label: "Sleep length",
                 enableDataSync: false,
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
@@ -53,7 +59,8 @@ class SettingsDatabaseService {
                 questionType: .amountOfhour
             ),
             HealthDataSettingsModel(
-                title: "Headache",
+                name: "headache",
+                label: "Headache",
                 enableDataSync: false,
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
@@ -61,7 +68,8 @@ class SettingsDatabaseService {
                 questionType: .painEmoticonRating
             ),
             HealthDataSettingsModel(
-                title: "Stress",
+                name: "stress",
+                label: "Stress",
                 enableDataSync: false,
                 enableSelfReportingCyMe: false,
                 dataLocation: .onlyCyMe,
@@ -69,7 +77,8 @@ class SettingsDatabaseService {
                 questionType: .emoticonRating
             ),
             HealthDataSettingsModel(
-                title: "Abdominal cramps",
+                name: "abdominalCramps",
+                label: "Abdominal cramps",
                 enableDataSync: false,
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
@@ -77,7 +86,8 @@ class SettingsDatabaseService {
                 questionType: .painEmoticonRating
             ),
             HealthDataSettingsModel(
-                title: "Lower back pain",
+                name: "lowerBackPain",
+                label: "Lower back pain",
                 enableDataSync: false,
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
@@ -85,7 +95,8 @@ class SettingsDatabaseService {
                 questionType: .painEmoticonRating
             ),
             HealthDataSettingsModel(
-                title: "Pelvic pain",
+                name: "pelvicPain",
+                label: "Pelvic pain",
                 enableDataSync: false,
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
@@ -93,7 +104,8 @@ class SettingsDatabaseService {
                 questionType: .painEmoticonRating
             ),
             HealthDataSettingsModel(
-                title: "Acne",
+                name: "acne",
+                label: "Acne",
                 enableDataSync: false,
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
@@ -101,7 +113,8 @@ class SettingsDatabaseService {
                 questionType: .painEmoticonRating
             ),
             HealthDataSettingsModel(
-                title: "Appetite changes",
+                name: "appetiteChanges",
+                label: "Appetite changes",
                 enableDataSync: false,
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
@@ -109,7 +122,8 @@ class SettingsDatabaseService {
                 questionType: .changeEmoticonRating
             ),
             HealthDataSettingsModel(
-                title: "Tightness or pain in the chest",
+                name: "chestPain",
+                label: "Chest pain",
                 enableDataSync: false,
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
@@ -117,12 +131,22 @@ class SettingsDatabaseService {
                 questionType: .painEmoticonRating
             ),
             HealthDataSettingsModel(
-                title: "Step data",
+                name: "stepData",
+                label: "Step data",
                 enableDataSync: false,
                 enableSelfReportingCyMe: false,
                 dataLocation: .onlyAppleHealth,
                 question: nil,
                 questionType: nil
+            ),
+            HealthDataSettingsModel(
+                name: "mood",
+                label: "Mood",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .onlyCyMe,
+                question: "What mood do you currently have?",
+                questionType: .emoticonRating
             )
         ]
         return defaultValues
@@ -152,11 +176,15 @@ class SettingsDatabaseService {
     
     private func createHealthDataSettingsTableIfNeeded() {
         let createTableQuery = """
-            CREATE TABLE IF NOT EXISTS HealthDataSettings (
+            CREATE TABLE IF NOT EXISTS healthDataSettings (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                title TEXT,
+                name TEXT,
+                label TEXT,
                 enableDataSync TEXT,
-                enableSelfReportingCyMe TEXT
+                enableSelfReportingCyMe TEXT,
+                dataLocation TEXT,
+                question TEXT,
+                questionType TEXT
             );
             """
         
@@ -179,50 +207,38 @@ class SettingsDatabaseService {
         
         defer { sqlite3_finalize(statement) }
         
-        var count: Int32 = 0
-        if sqlite3_step(statement) == SQLITE_ROW {
-            count = sqlite3_column_int(statement, 0)
-        }
-        
-        if count > 0 {
-            _ = updateMainSettings(settings: settings)
-            _ = updateHealthDataSettings(healthDataSettings: settings.healthDataSettings)
-        } else {
-            _ = insertMainSettings(settings: settings)
-            insertHealthDataSettings(healthDataSettings: settings.healthDataSettings)
-        }
+        _ = updateMainSettings(settings: settings)
+        _ = updateHealthDataSettings(healthDataSettings: settings.healthDataSettings)
     }
     
     // Get the whole Settings model
-    private func getSettings() -> SettingsModel? {
+    public func getSettings() -> SettingsModel? {
         let query = "SELECT * FROM settings LIMIT 1;"
         var statement: OpaquePointer?
-        
+
         guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
             print("Error preparing select statement")
             return nil
         }
-        
+
         defer { sqlite3_finalize(statement) }
-        
+
         if sqlite3_step(statement) == SQLITE_ROW {
             let enableHealthKit = String(cString: sqlite3_column_text(statement, 1)) == "true"
             let selfReportWithWatch = String(cString: sqlite3_column_text(statement, 2)) == "true"
             let enableWidget = String(cString: sqlite3_column_text(statement, 3)) == "true"
-            let startPeriodReminderData = Data(base64Encoded: String(cString: sqlite3_column_text(statement, 4))) ?? Data()
-            let selfReportReminderData = Data(base64Encoded: String(cString: sqlite3_column_text(statement, 5))) ?? Data()
-            let summaryReminderData = Data(base64Encoded: String(cString: sqlite3_column_text(statement, 6))) ?? Data()
+            let startPeriodReminderData = String(cString: sqlite3_column_text(statement, 4)).data(using: .utf8) ?? Data()
+            let selfReportReminderData = String(cString: sqlite3_column_text(statement, 5)).data(using: .utf8) ?? Data()
+            let summaryReminderData = String(cString: sqlite3_column_text(statement, 6)).data(using: .utf8) ?? Data()
             let selectedThemeName = String(cString: sqlite3_column_text(statement, 7))
-            
-            //TODO parse them correctly
-            let startPeriodReminder = ReminderModel(isEnabled: false, frequency: "", times: [], startDate: Date())
-            let selfReportReminder = ReminderModel(isEnabled: false, frequency: "", times: [], startDate: Date())
-            let summaryReminder = ReminderModel(isEnabled: false, frequency: "", times: [], startDate: Date())
-            
+
+            let startPeriodReminder = decodeReminderModel(from: startPeriodReminderData)
+            let selfReportReminder = decodeReminderModel(from: selfReportReminderData)
+            let summaryReminder = decodeReminderModel(from: summaryReminderData)
             let selectedTheme = ThemeModel(name: selectedThemeName, backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
-            
-            var healthDataSettings = getHealthDataSettings()
-            
+
+            let healthDataSettings = getHealthDataSettings()
+
             return SettingsModel(
                 enableHealthKit: enableHealthKit,
                 healthDataSettings: healthDataSettings,
@@ -292,8 +308,8 @@ class SettingsDatabaseService {
                 startPeriodReminder = ?,
                 selfReportReminder = ?,
                 summaryReminder = ?,
-                selectedTheme = ?,
-                WHERE id = 1;
+                selectedTheme = ?
+            WHERE id = 1;
             """
         
         var statement: OpaquePointer?
@@ -322,10 +338,11 @@ class SettingsDatabaseService {
             return false
         }
     }
+
     
 // --------------------------------------- HealthData Settings ------------------------------------------------
     private func insertHealthDataSettings(healthDataSettings: [HealthDataSettingsModel]) {
-        let selectQuery = "SELECT COUNT(*) FROM HealthDataSettings;"
+        let selectQuery = "SELECT COUNT(*) FROM healthDataSettings;"
         var stmt: OpaquePointer?
         var count: Int = 0
 
@@ -337,15 +354,29 @@ class SettingsDatabaseService {
         }
 
         if count == 0 {
+            let insertQuery = """
+                INSERT INTO healthDataSettings (name, label, enableDataSync, enableSelfReportingCyMe, dataLocation, question, questionType)
+                VALUES (?, ?, ?, ?, ?, ?, ?);
+                """
+            
             for healthData in healthDataSettings {
-                let insertQuery = """
-                    INSERT INTO HealthDataSettings (title, enableDataSync, enableSelfReportingCyMe)
-                    VALUES ('\(healthData.title)', '\(healthData.enableDataSync)', '\(healthData.enableSelfReportingCyMe)');
-                    """
-                if DatabaseService.shared.executeQuery(insertQuery) {
-                    print("Default value inserted successfully: \(healthData.title)")
+                if sqlite3_prepare_v2(db, insertQuery, -1, &stmt, nil) == SQLITE_OK {
+                    sqlite3_bind_text(stmt, 1, stringToUTF8(healthData.name), -1, nil)
+                    sqlite3_bind_text(stmt, 2, stringToUTF8(healthData.label), -1, nil)
+                    sqlite3_bind_text(stmt, 3, boolToNSStringUTF8String(healthData.enableDataSync), -1, nil)
+                    sqlite3_bind_text(stmt, 4, boolToNSStringUTF8String(healthData.enableSelfReportingCyMe), -1, nil)
+                    sqlite3_bind_text(stmt, 5, stringToUTF8(healthData.dataLocation.rawValue), -1, nil)
+                    sqlite3_bind_text(stmt, 6, stringToUTF8(healthData.question), -1, nil)
+                    sqlite3_bind_text(stmt, 7, stringToUTF8(healthData.questionType?.rawValue), -1, nil)
+                    
+                    if sqlite3_step(stmt) == SQLITE_DONE {
+                        print("Default value inserted successfully: \(healthData.name)")
+                    } else {
+                        print("Error inserting default value: \(healthData.name)")
+                    }
+                    sqlite3_finalize(stmt)
                 } else {
-                    print("Error inserting default value: \(healthData.title)")
+                    print("Error preparing insert statement")
                 }
             }
             print("Default values inserted successfully")
@@ -354,75 +385,118 @@ class SettingsDatabaseService {
         }
     }
 
+
     
-    private func updateHealthDataSettings(healthDataSettings: [HealthDataSettingsModel]) -> [HealthDataSettingsModel]?  {
-        let updateQuery = """
-            UPDATE HealthDataSettings SET
-            enableDataSync = ?,
-            enableSelfReportingCyMe = ?
-            WHERE title = ?;
-            """
-        
+    private func updateHealthDataSettings(healthDataSettings: [HealthDataSettingsModel]) -> Bool {
         var success = true
-        
-        for healthDataSetting in healthDataSettings {
-            var statement: OpaquePointer?
-            guard sqlite3_prepare_v2(db, updateQuery, -1, &statement, nil) == SQLITE_OK else {
-                print("Error preparing update statement")
-                success = false
-                continue
-            }
-            
-            defer { sqlite3_finalize(statement) }
-            
-            sqlite3_bind_text(statement, 1, boolToNSStringUTF8String(healthDataSetting.enableDataSync), -1, nil)
-            sqlite3_bind_text(statement, 2, boolToNSStringUTF8String(healthDataSetting.enableSelfReportingCyMe), -1, nil)
-            sqlite3_bind_text(statement, 3, (healthDataSetting.title as NSString).utf8String, -1, nil)
-            
-            if sqlite3_step(statement) != SQLITE_DONE {
-                success = false
-                if let error = sqlite3_errmsg(db) {
-                    print("Failed to update health data setting with title \(healthDataSetting.title): \(String(cString: error))")
+
+        // Begin transaction
+        if sqlite3_exec(db, "BEGIN TRANSACTION", nil, nil, nil) != SQLITE_OK {
+            print("Error beginning transaction")
+            return false
+        }
+
+        let query = """
+            UPDATE healthDataSettings SET
+                label = ?,
+                enableDataSync = ?,
+                enableSelfReportingCyMe = ?,
+                dataLocation = ?,
+                question = ?,
+                questionType = ?
+            WHERE name = ?;
+        """
+
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
+            for healthDataSetting in healthDataSettings {
+                sqlite3_bind_text(statement, 1, stringToUTF8(healthDataSetting.label), -1, nil)
+                sqlite3_bind_text(statement, 2, boolToNSStringUTF8String(healthDataSetting.enableDataSync), -1, nil)
+                sqlite3_bind_text(statement, 3, boolToNSStringUTF8String(healthDataSetting.enableSelfReportingCyMe), -1, nil)
+                sqlite3_bind_text(statement, 4, dataLocationToUTF8String(healthDataSetting.dataLocation), -1, nil)
+
+                if let question = healthDataSetting.question {
+                    sqlite3_bind_text(statement, 5, stringToUTF8(question), -1, nil)
+                } else {
+                    sqlite3_bind_null(statement, 5)
                 }
+
+                if let questionType = healthDataSetting.questionType {
+                    sqlite3_bind_text(statement, 6, questionTypeToUTF8String(questionType), -1, nil)
+                } else {
+                    sqlite3_bind_null(statement, 6)
+                }
+
+                sqlite3_bind_text(statement, 7, stringToUTF8(healthDataSetting.name), -1, nil)
+
+                if sqlite3_step(statement) != SQLITE_DONE {
+                    print("Failed to update health data settings for \(healthDataSetting.name)")
+                    success = false
+                }
+
+                sqlite3_reset(statement)
             }
+            sqlite3_finalize(statement)
+        } else {
+            print("Error preparing update statement")
+            success = false
         }
-        
-        if success {
-            print("Successfully updated health data settings")
-            return healthDataSettings
+
+        // End transaction
+        if sqlite3_exec(db, success ? "COMMIT" : "ROLLBACK", nil, nil, nil) != SQLITE_OK {
+            print("Error ending transaction")
+            return false
         }
-        
-        return nil
+
+        return success
     }
 
 
     
     private func getHealthDataSettings() -> [HealthDataSettingsModel] {
-        var settings: [HealthDataSettingsModel] = []
-        let selectQuery = "SELECT title, enableDataSync, enableSelfReportingCyMe, dataLocation FROM HealthDataSettings;"
-        var stmt: OpaquePointer?
+        let query = "SELECT * FROM healthDataSettings;"
+        var statement: OpaquePointer?
+        var healthDataSettings: [HealthDataSettingsModel] = []
 
-        if sqlite3_prepare_v2(db, selectQuery, -1, &stmt, nil) == SQLITE_OK {
-            while sqlite3_step(stmt) == SQLITE_ROW {
-                let title = String(cString: sqlite3_column_text(stmt, 0))
-                let enableDataSyncText = String(cString: sqlite3_column_text(stmt, 1))
-                let enableSelfReportingCyMeText = String(cString: sqlite3_column_text(stmt, 2))
-                let dataLocation = String(cString: sqlite3_column_text(stmt, 3))
-                
-                settings.append(HealthDataSettingsModel(title: title, enableDataSync: stringToBool(enableDataSyncText), enableSelfReportingCyMe: stringToBool(enableSelfReportingCyMeText), dataLocation: stringToDataLocation(dataLocation) ?? DataLocation.onlyCyMe))
-            }
-            sqlite3_finalize(stmt)
-        } else {
-            print("Error preparing select statement")
+        guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
+            print("Error preparing select statement for health data settings")
+            return healthDataSettings
         }
 
-        return settings
+        defer { sqlite3_finalize(statement) }
+
+        while sqlite3_step(statement) == SQLITE_ROW {
+            let name = String(cString: sqlite3_column_text(statement, 1))
+            let label = String(cString: sqlite3_column_text(statement, 2))
+            let enableDataSync = String(cString: sqlite3_column_text(statement, 3)) == "true"
+            let enableSelfReportingCyMe = String(cString: sqlite3_column_text(statement, 4)) == "true"
+            let dataLocation = decodeDataLocation(datalocationString: String(cString: sqlite3_column_text(statement, 5))) ?? .onlyCyMe
+            
+            let question = fetchQuestion(statement: statement, columnIndex: 6)
+            let questionTypeString = fetchQuestion(statement: statement, columnIndex: 7)
+            let questionType: QuestionType? = questionTypeString != nil ? QuestionType(rawValue: questionTypeString!) : nil
+
+            
+            
+
+            let healthDataSetting = HealthDataSettingsModel(
+                name: name,
+                label: label,
+                enableDataSync: enableDataSync,
+                enableSelfReportingCyMe: enableSelfReportingCyMe,
+                dataLocation: dataLocation,
+                question: question,
+                questionType: questionType
+            )
+            healthDataSettings.append(healthDataSetting)
+        }
+        return healthDataSettings
     }
-
-
     
-    
-    
-    
+    private func fetchQuestion(statement: OpaquePointer?, columnIndex: Int32) -> String? {
+        guard let statement = statement else { return nil }
+        guard let cString = sqlite3_column_text(statement, columnIndex) else { return nil }
+        return String(cString: cString)
+    }
 
 }

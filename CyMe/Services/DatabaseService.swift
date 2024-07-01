@@ -59,7 +59,6 @@ class DatabaseService {
         }
         
         if sqlite3_step(statement) == SQLITE_DONE {
-            print("Successfully executed query")
             return true
         } else {
             if let error = sqlite3_errmsg(db) {

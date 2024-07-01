@@ -8,14 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
-    
     @StateObject var settingsViewModel = SettingsViewModel()
-
     
     var body: some View {
-        SelfReportView(settingsViewModel: settingsViewModel)
+        VStack {
+            if !settingsViewModel.settings.healthDataSettings.isEmpty {
+                SelfReportWatchView(settingsViewModel: settingsViewModel)
+            } else {
+                VStack {
+                    Button(action: {
+                        settingsViewModel.fetchSettings()
+                    }) {
+                        Text("Fetch Settings")
+                    }
+                }
+            }
+        }
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

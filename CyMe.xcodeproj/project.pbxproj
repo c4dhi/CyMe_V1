@@ -36,6 +36,8 @@
 		4C1354F12BCFD6560078A84B /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */; };
 		4C1A36DD2C104FD0006E50D8 /* SymptomsMultiSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36DC2C104FD0006E50D8 /* SymptomsMultiSelectView.swift */; };
 		4C1A36DF2C105469006E50D8 /* SymptomFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36DE2C105469006E50D8 /* SymptomFilterView.swift */; };
+		4C1A36E12C19839F006E50D8 /* EmoticonReportings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36E02C19839F006E50D8 /* EmoticonReportings.swift */; };
+		4C1A36E32C20541C006E50D8 /* EmoticonReportings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36E22C20541C006E50D8 /* EmoticonReportings.swift */; };
 		4C5605242C01CF7700B9114D /* SettingsDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605232C01CF7700B9114D /* SettingsDatabaseService.swift */; };
 		4C5605272C01D26600B9114D /* UserDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605262C01D26600B9114D /* UserDatabaseService.swift */; };
 		4C5605292C01D29500B9114D /* ReportingDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605282C01D29500B9114D /* ReportingDatabaseService.swift */; };
@@ -49,7 +51,7 @@
 		4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */; };
 		4CDD2FC82BEB722F005995B5 /* ReportOptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */; };
 		4CDD2FCA2BEB747A005995B5 /* ReportOptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC92BEB747A005995B5 /* ReportOptionsModel.swift */; };
-		4CDD2FCD2BEB792B005995B5 /* SelfReportingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FCC2BEB792B005995B5 /* SelfReportingView.swift */; };
+		4CDD2FCD2BEB792B005995B5 /* SelfReportingWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FCC2BEB792B005995B5 /* SelfReportingWatchView.swift */; };
 		4CDD2FCF2BEB7CD9005995B5 /* UserReportingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FCE2BEB7CD9005995B5 /* UserReportingOptions.swift */; };
 		4CDD2FD22BECAAA5005995B5 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FD12BECAAA5005995B5 /* WelcomeView.swift */; };
 		4CDD2FD52BECB52E005995B5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FD42BECB52E005995B5 /* ProfileView.swift */; };
@@ -234,6 +236,8 @@
 		4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
 		4C1A36DC2C104FD0006E50D8 /* SymptomsMultiSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomsMultiSelectView.swift; sourceTree = "<group>"; };
 		4C1A36DE2C105469006E50D8 /* SymptomFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomFilterView.swift; sourceTree = "<group>"; };
+		4C1A36E02C19839F006E50D8 /* EmoticonReportings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmoticonReportings.swift; sourceTree = "<group>"; };
+		4C1A36E22C20541C006E50D8 /* EmoticonReportings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmoticonReportings.swift; sourceTree = "<group>"; };
 		4C5605232C01CF7700B9114D /* SettingsDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDatabaseService.swift; sourceTree = "<group>"; };
 		4C5605262C01D26600B9114D /* UserDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDatabaseService.swift; sourceTree = "<group>"; };
 		4C5605282C01D29500B9114D /* ReportingDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingDatabaseService.swift; sourceTree = "<group>"; };
@@ -248,7 +252,7 @@
 		4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportOptionsModel.swift; sourceTree = "<group>"; };
 		4CDD2FC92BEB747A005995B5 /* ReportOptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportOptionsModel.swift; sourceTree = "<group>"; };
-		4CDD2FCC2BEB792B005995B5 /* SelfReportingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportingView.swift; sourceTree = "<group>"; };
+		4CDD2FCC2BEB792B005995B5 /* SelfReportingWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportingWatchView.swift; sourceTree = "<group>"; };
 		4CDD2FCE2BEB7CD9005995B5 /* UserReportingOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReportingOptions.swift; sourceTree = "<group>"; };
 		4CDD2FD12BECAAA5005995B5 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		4CDD2FD42BECB52E005995B5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -493,7 +497,6 @@
 				4C1A36DB2C104FAE006E50D8 /* Visualisations */,
 				4C08971E2C0E01B50042A6D1 /* Discover */,
 				4CDF57F32C0CFEF700C7E9F6 /* SelfReporting */,
-				4CDD2FD32BECAD72005995B5 /* Images */,
 				4CDD2FD02BECAA6F005995B5 /* Personalisation */,
 				4C1354E22BCFCE320078A84B /* HomeView.swift */,
 				4C1354E42BCFCE440078A84B /* DiscoverView.swift */,
@@ -550,7 +553,8 @@
 		4CDD2FCB2BEB786D005995B5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4CDD2FCC2BEB792B005995B5 /* SelfReportingView.swift */,
+				4CDD2FCC2BEB792B005995B5 /* SelfReportingWatchView.swift */,
+				4C1A36E22C20541C006E50D8 /* EmoticonReportings.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -568,18 +572,12 @@
 			path = Personalisation;
 			sourceTree = "<group>";
 		};
-		4CDD2FD32BECAD72005995B5 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Images;
-			sourceTree = "<group>";
-		};
 		4CDF57F32C0CFEF700C7E9F6 /* SelfReporting */ = {
 			isa = PBXGroup;
 			children = (
 				4CDD2FE02BF4F2B9005995B5 /* SelfReportView.swift */,
 				4CDF57F12C0CF8D700C7E9F6 /* PopupView.swift */,
+				4C1A36E02C19839F006E50D8 /* EmoticonReportings.swift */,
 			);
 			path = SelfReporting;
 			sourceTree = "<group>";
@@ -989,6 +987,7 @@
 				4C5A49BA2BFFD07C008253FD /* ProfileViewModel.swift in Sources */,
 				4CFDC3892C0C66D000DD3295 /* HealthDataWithoutNilModel.swift in Sources */,
 				4C1354532BCFC6060078A84B /* ContentView.swift in Sources */,
+				4C1A36E12C19839F006E50D8 /* EmoticonReportings.swift in Sources */,
 				4CDD2FD22BECAAA5005995B5 /* WelcomeView.swift in Sources */,
 				500D9B6A2C2D943500B26D27 /* DiscoverViewStatistics.swift in Sources */,
 				4CFDC3812C072D6400DD3295 /* HealthDataSettingsModel.swift in Sources */,
@@ -1058,8 +1057,9 @@
 				4CDF58172C0D9CFE00C7E9F6 /* HealthDataWithoutNilModel.swift in Sources */,
 				4CDF586D2C0DA1F900C7E9F6 /* ReminderModel.swift in Sources */,
 				4CDF586B2C0DA1F400C7E9F6 /* ThemeModel.swift in Sources */,
+				4C1A36E32C20541C006E50D8 /* EmoticonReportings.swift in Sources */,
 				4C1354B12BCFC6A40078A84B /* ContentView.swift in Sources */,
-				4CDD2FCD2BEB792B005995B5 /* SelfReportingView.swift in Sources */,
+				4CDD2FCD2BEB792B005995B5 /* SelfReportingWatchView.swift in Sources */,
 				4C1354AF2BCFC6A40078A84B /* CyMe_WatchOsApp.swift in Sources */,
 				4CDF58152C0D9CF600C7E9F6 /* SelfReportModel.swift in Sources */,
 				4CDF57F62C0D95B400C7E9F6 /* SelfReportViewModel.swift in Sources */,
