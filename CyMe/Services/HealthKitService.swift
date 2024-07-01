@@ -276,7 +276,9 @@ class HealthKitService {
     func simplifySleepDataToSleepLength(sleepDataModel: [SleepDataModel]) -> [Date: Int] {
         var sleepLengthDict : [Date : Double] = [:]
         let datesDuration = sleepDataModel.map {($0.startDate, $0.duration, $0.label)}
-        
+        if datesDuration.count == 0 {
+            return [:]
+        }
         let firstDate = datesDuration[0].0
         let previousDateComponent = Calendar.current.dateComponents([.day, .month, .year], from: firstDate)
         var cutOff = Calendar.current.date(from: DateComponents(year: previousDateComponent.year, month: previousDateComponent.month, day: previousDateComponent.day, hour: 12, minute: 00, second: 00))! // Cut of when one sleep cycle can be is at noon

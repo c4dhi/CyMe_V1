@@ -42,11 +42,20 @@ struct ContentView: View {
         .accentColor(themeManager.theme.primaryColor.toColor())
         .environmentObject(themeManager)
         .overlay(
-            // Plus Button overlay
+           // CyMe Icon
+            VStack {
+                Spacer()
+                    Image("Icon")
+                        .resizable()
+                        .frame(width: 60, height: 60)
+                .padding(.bottom, 1500)
+                .padding(.leading, 20)
+            }
+        )
+        .overlay(
             VStack {
                 Spacer()
                 Button(action: {
-                    // Action for the plus button
                     isSelfReportPresented = true
                     connector.sendSettings()
                 }) {
@@ -59,7 +68,6 @@ struct ContentView: View {
             }
         )
         .overlay(
-            // Settings Button overlay
             VStack {
                 Spacer()
                 HStack {
@@ -72,7 +80,7 @@ struct ContentView: View {
                             .frame(width: 40, height: 40)
                             .foregroundColor(themeManager.theme.accentColor.toColor())
                     }
-                    .padding(.bottom, 1500)
+                    .padding(.bottom, 700)
                     .padding(.trailing, 20)
                     .sheet(isPresented: $isSettingsPresented) {
                         SettingsView(isPresented: $isSettingsPresented)
@@ -81,9 +89,33 @@ struct ContentView: View {
             }
             , alignment: .topTrailing
         )
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("NotificationTapped"))) { _ in
+            DispatchQueue.main.async {
+                isSelfReportPresented = true
+            }
+        }
         .popup(isPresented: $isSelfReportPresented) {
-                    SelfReportView(settingsViewModel: settingsViewModel, isPresented: $isSelfReportPresented)
+            SelfReportView(settingsViewModel: settingsViewModel, isPresented: $isSelfReportPresented)
+        }
+        .overlay(
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        // TODO add action which shows random facts about menstrual health
+                    }) {
+                        
+                        Image("shortIcon")
+                            .resizable()
+                            .frame(width: 70, height: 70)
+                    }
+                    .padding(.bottom, 700)
+                    .padding(.trailing, 320)
                 }
+            }
+            , alignment: .topTrailing
+        )
     }
 }
 

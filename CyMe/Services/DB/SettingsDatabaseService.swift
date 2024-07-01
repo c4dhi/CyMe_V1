@@ -251,6 +251,8 @@ class SettingsDatabaseService {
             let selectedTheme = ThemeModel(name: selectedThemeName, backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
 
             let healthDataSettings = getHealthDataSettings()
+            
+            print("here", selfReportReminder)
 
             return SettingsModel(
                 enableHealthKit: enableHealthKit,
@@ -340,6 +342,7 @@ class SettingsDatabaseService {
         sqlite3_bind_text(statement, 5, modelToJSONStringUTF8(settings.selfReportReminder), -1, nil)
         sqlite3_bind_text(statement, 6, modelToJSONStringUTF8(settings.summaryReminder), -1, nil)
         sqlite3_bind_text(statement, 7, (settings.selectedTheme.name as NSString).utf8String, -1, nil)
+        
         
         if sqlite3_step(statement) == SQLITE_DONE {
             print("Successfully updated settings")

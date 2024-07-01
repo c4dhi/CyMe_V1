@@ -15,7 +15,7 @@ import SwiftUI
 struct ReminderOptionView: View {
     var title: String
     @Binding var isEnabled: Bool
-    @Binding var frequencyIndex: String
+    @Binding var frequency: String
     @Binding var timesPerDay: [Date]
     @Binding var startDate: Date
     
@@ -27,7 +27,7 @@ struct ReminderOptionView: View {
                 .toggleStyle(SwitchToggleStyle(tint: .blue))
             
             if isEnabled {
-                Picker("Frequency", selection: $frequencyIndex) {
+                Picker("Frequency", selection: $frequency) {
                     ForEach(frequencyOptions, id: \.self) { option in
                         Text(option)
                     }
@@ -36,24 +36,13 @@ struct ReminderOptionView: View {
                 
                 DatePicker("Start date", selection: $startDate, in: Date()..., displayedComponents: .date)
                 
-                if frequencyIndex == "Multiple times per day" {
+                if frequency == "Multiple times per day" {
                     ForEach(0..<timesPerDay.count, id: \.self) { index in
-                        HStack {
-                            TimePicker(title: "Time \(index + 1)", time: $timesPerDay[index])
-                            if index > 0 {
-                                Button(action: {
-                                    timesPerDay.remove(at: index)
-                                }) {
-                                    Image(systemName: "minus.circle")
-                                        .foregroundColor(.red)
-                                }
-                            } else {
-                                Spacer()
-                            }
-                        }
+                            TimePickerWithRemoveButton(title: "Time \(index + 1)", time: $timesPerDay[index], index: index, timesPerDay: $timesPerDay)
                     }
                     Button(action: {
                         timesPerDay.append(Date())
+                        print("after add: ", timesPerDay)
                     }) {
                         Label("Add time", systemImage: "plus")
                     }
@@ -65,11 +54,38 @@ struct ReminderOptionView: View {
         .padding()
         .background(Color(.systemGray6))
         .cornerRadius(10)
-        .padding(.horizontal) // Add horizontal padding to match the profile form
+        .padding(.horizontal)
+        .onChange(of: frequency) { newFrequency in
+            removeExtraTimes()
+            print(timesPerDay)
+        }
+        
+    }
+    
+    
+    private func removeExtraTimes() {
+        timesPerDay.removeSubrange(1..<timesPerDay.count)
+        print("after removing extra times: ", timesPerDay)
     }
 }
 
-
+struct TimePickerWithRemoveButton: View {
+    var title: String
+    @Binding var time: Date
+    let index: Int
+    @Binding var timesPerDay: [Date]
+    
+    var body: some View {
+        HStack {
+            TimePicker(title: title, time: $time)
+            if index > 0 {
+                // TODO add here the remove button
+            } else {
+                Spacer()
+            }
+        }
+    }
+}
 
 struct TimePicker: View {
     var title: String
@@ -103,29 +119,15 @@ struct PersonalizationSelfReportView: View {
             }
             
             Section(header: Text("Reminders")) {
-                ReminderOptionView(
-                    title: "Start period",
-                    isEnabled: $settingsViewModel.settings.startPeriodReminder.isEnabled,
-                    frequencyIndex: $settingsViewModel.settings.startPeriodReminder.frequency,
-                    timesPerDay: $settingsViewModel.settings.startPeriodReminder.times,
-                    startDate: $settingsViewModel.settings.startPeriodReminder.startDate
-                )
                 
                 ReminderOptionView(
                     title: "Time to self-report",
                     isEnabled: $settingsViewModel.settings.selfReportReminder.isEnabled,
-                    frequencyIndex: $settingsViewModel.settings.selfReportReminder.frequency,
+                    frequency: $settingsViewModel.settings.selfReportReminder.frequency,
                     timesPerDay: $settingsViewModel.settings.selfReportReminder.times,
                     startDate: $settingsViewModel.settings.selfReportReminder.startDate
                 )
                 
-                ReminderOptionView(
-                    title: "Daily summary",
-                    isEnabled: $settingsViewModel.settings.summaryReminder.isEnabled,
-                    frequencyIndex: $settingsViewModel.settings.summaryReminder.frequency,
-                    timesPerDay: $settingsViewModel.settings.summaryReminder.times,
-                    startDate: $settingsViewModel.settings.summaryReminder.startDate
-                )
             }
         }
         Button(action: nextPage) {

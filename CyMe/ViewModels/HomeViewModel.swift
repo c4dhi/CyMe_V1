@@ -2,7 +2,7 @@ import SwiftUI
 
 class HomeViewModel: ObservableObject {
     @Published var cycleLength = 30
-    @Published var cycleDay = 15
+    @Published var cycleDay = 13
     @Published var totalReports = 6
     @Published var circleRadius: CGFloat = 90.0
     @Published var reports: [ReviewReportModel] = []
