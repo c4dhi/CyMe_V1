@@ -21,6 +21,7 @@ class ProfileViewModel: ObservableObject {
     }
 
     func saveUser() {
+        UserDefaults.standard.set(user.name, forKey: "name")
         DatabaseService.shared.userDatabaseService.saveUser(user: user)
     }
 }

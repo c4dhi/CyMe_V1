@@ -10,7 +10,7 @@ import SQLite3
 
 class ReportingDatabaseService {
     private var db: OpaquePointer?
-
+    
     init() {
         self.db = DatabaseService.shared.db
         createReportingTableIfNeeded()
@@ -114,7 +114,7 @@ class ReportingDatabaseService {
                 sqlite3_bind_text(statement, index, stringToUTF8(reportItem.reportedValue), -1, nil)
             }
         }
-
+        
         
         if sqlite3_step(statement) == SQLITE_DONE {
             print("Successfully inserted report")
@@ -132,9 +132,137 @@ class ReportingDatabaseService {
             if saveReporting(report: report) {
                 return true
             } else {
-               return false
+                return false
             }
         }
         return true
     }
+    
+    /*func getReports(from startDate: Date, to endDate: Date) -> [SelfReportModel] {
+            var reports: [SelfReportModel] = []
+            print(startDate)
+            print(endDate)
+            let query = """
+                SELECT * FROM reports
+                WHERE timeFinished >= ? AND timeFinished <= ?
+                """
+            
+            var statement: OpaquePointer?
+            
+            guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
+                print("Error preparing query statement")
+                return reports
+            }
+            
+            defer { sqlite3_finalize(statement) }
+            
+            // Bind the startDate and endDate to the query
+            sqlite3_bind_text(statement, 1, dateToStringUTF8(startDate), -1, nil)
+            sqlite3_bind_text(statement, 2, dateToStringUTF8(endDate), -1, nil)
+            
+            // Execute the query
+            while sqlite3_step(statement) == SQLITE_ROW {
+                let timeStartedCString = sqlite3_column_text(statement, 1),
+                let timeFinishedCString = sqlite3_column_text(statement, 2),
+                let isCyMeSelfReport = sqlite3_column_int(statement, 3) == 1
+                let selfReportMediumCString = sqlite3_column_text(statement, 4)
+            }
+            
+            return reports
+        }*/
+    
+    func getReports(from startDate: Date, to endDate: Date) -> [ReviewReportModel] {
+        var reports: [ReviewReportModel] = []
+        
+        // Ensure the database connection is available
+        guard let db = db else {
+            print("Database connection is not available")
+            return reports
+        }
+        
+        let query = """
+            SELECT * FROM reports
+            WHERE timeFinished >= ? AND timeFinished <= ?
+            """
+        
+        var statement: OpaquePointer?
+        
+        // Prepare the SQL query
+        guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
+            let errmsg = String(cString: sqlite3_errmsg(db))
+            print("Error preparing query statement: \(errmsg)")
+            return reports
+        }
+        
+        defer { sqlite3_finalize(statement) }
+        
+        // Bind the startDate and endDate to the query
+        sqlite3_bind_text(statement, 1, dateToStringUTF8(startDate), -1, nil)
+        sqlite3_bind_text(statement, 2, dateToStringUTF8(endDate), -1, nil)
+        
+        while sqlite3_step(statement) == SQLITE_ROW {
+            if let report = parseReport(from: statement) {
+                reports.append(report)
+            }
+        }
+        
+        return reports
+    }
+    
+    private func parseReport(from statement: OpaquePointer?) -> ReviewReportModel? {
+        guard
+            let timeStartedCString = sqlite3_column_text(statement, 1),
+            let timeFinishedCString = sqlite3_column_text(statement, 2),
+            let selfReportMediumCString = sqlite3_column_text(statement, 4)
+        else {
+            return nil
+        }
+        
+        let dateFormatter = ISO8601DateFormatter()
+        guard
+            let startTime = dateFormatter.date(from: String(cString: timeStartedCString)),
+            let endTime = dateFormatter.date(from: String(cString: timeFinishedCString))
+        else {
+            return nil
+        }
+        
+        let isCyMeSelfReport = sqlite3_column_int(statement, 3) == 1
+        let selfReportMedium = selfReportMediumType(rawValue: String(cString: selfReportMediumCString)) ?? .iOSApp
+        
+        let reviewReport = ReviewReportModel(
+            id: Int(sqlite3_column_int(statement, 0)),
+            startTime: startTime,
+            endTime: endTime,
+            isCyMeSelfReport: isCyMeSelfReport,
+            selfReportMedium: selfReportMedium,
+            menstruationDate: columnValue(statement, index: 5),
+            sleepQuality: columnValue(statement, index: 6),
+            sleepLenght: columnValue(statement, index: 7),
+            headache: columnValue(statement, index: 8),
+            stress: columnValue(statement, index: 9),
+            abdominalCramps: columnValue(statement, index: 10),
+            lowerBackPain: columnValue(statement, index: 11),
+            pelvicPain: columnValue(statement, index: 12),
+            acne: columnValue(statement, index: 13),
+            appetiteChanges: columnValue(statement, index: 14),
+            chestPain: columnValue(statement, index: 15),
+            stepData: columnValue(statement, index: 16),
+            mood: columnValue(statement, index: 17),
+            notes: columnValue(statement, index: 18)
+        )
+        
+        return reviewReport
+    }
+
+    // Helper function to safely retrieve column values from SQLite statement
+    private func columnValue(_ statement: OpaquePointer?, index: Int32) -> String? {
+        if let value = sqlite3_column_text(statement, index) {
+            return String(cString: value)
+        }
+        return nil
+    }
+
+
 }
+    
+    

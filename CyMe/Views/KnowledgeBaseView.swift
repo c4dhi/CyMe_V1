@@ -15,11 +15,12 @@ struct KnowledgeBaseView: View {
     @State private var isGenerellKnowledgeSectionOpen: Bool = false
     @State private var isSymptomesSectionOpen: Bool = false
     @State private var isCycleSyncSectionOpen: Bool = false
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
     
     var body: some View {
         VStack {
             // Title
-            Text("Knowledge Base")
+            Text("Knowledge base preview")
                             .font(.title)
                             .fontWeight(.bold)
             // Search field
@@ -35,7 +36,7 @@ struct KnowledgeBaseView: View {
                 .accentColor(.white)
                 .foregroundColor(.white)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color.blue))
+                .background(RoundedRectangle(cornerRadius: 10).fill(theme.primaryColor.toColor()))
                 
                 DisclosureGroup("Symptomes", isExpanded: $isSymptomesSectionOpen) {
                     Text("Headache")
@@ -44,7 +45,7 @@ struct KnowledgeBaseView: View {
                 .accentColor(.white)
                 .foregroundColor(.white)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color.blue))
+                .background(RoundedRectangle(cornerRadius: 10).fill(theme.primaryColor.toColor()))
                 
                 DisclosureGroup("Cycle sync", isExpanded: $isCycleSyncSectionOpen) {
                     Text("Sleep")
@@ -54,7 +55,7 @@ struct KnowledgeBaseView: View {
                 .accentColor(.white)
                 .foregroundColor(.white)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color.blue))
+                .background(RoundedRectangle(cornerRadius: 10).fill(theme.primaryColor.toColor()))
             }
             .padding()
         }

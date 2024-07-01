@@ -10,6 +10,7 @@ import SwiftUI
 struct PersonalizationView: View {
     var nextPage: () -> Void
     @ObservedObject var settingsViewModel: SettingsViewModel
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .black, accentColor: .blue)
     var healthkit = HealthKitService()
 
     var body: some View {
@@ -18,7 +19,7 @@ struct PersonalizationView: View {
        .fontWeight(.bold)
        .padding()
        .frame(maxWidth: .infinity, alignment: .leading)
-       .background(settingsViewModel.settings.selectedTheme.primaryColor)
+       .background(theme.primaryColor.toColor())
     
         Form {
             Section(header: Text("Health Data Access")) {
@@ -66,7 +67,7 @@ struct PersonalizationView: View {
                 .foregroundColor(.white)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(Color.blue)
+                .background(theme.primaryColor.toColor())
                 .cornerRadius(10)
         }
     }

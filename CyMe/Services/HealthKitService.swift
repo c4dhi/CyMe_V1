@@ -73,10 +73,10 @@ class HealthKitService {
         //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.lowerBackPain) // Kreuzschmerzen
         //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.pelvicPain) // Unterleibsschmerzen
         //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.acne)
-        fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.chestTightnessOrPain) // Engegefühl oder Schmerzen in der Brust
+        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.chestTightnessOrPain) // Engegefühl oder Schmerzen in der Brust
         
         // Fetch some automatically generated data
-        fetchCollectedQuantityData(amountOfDays: 5, dataName: HKQuantityTypeIdentifier.stepCount)
+        //fetchCollectedQuantityData(amountOfDays: 5, dataName: HKQuantityTypeIdentifier.stepCount)
         //fetchCollectedQuantityData(amountOfDays: 5, dataName: HKQuantityTypeIdentifier.appleExerciseTime)
     
         
@@ -97,55 +97,60 @@ class HealthKitService {
         return [
             SymptomModel(
                 title: "Headache",
+                dateRange: [],
                 cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
                 hints: ["Most frequent in period phase"],
-                min: 0,
-                max: 3,
-                average: 1,
+                min: "1",
+                max: "4",
+                average: "2",
                 covariance: 2.5,
                 covarianceOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
                 questionType: .painEmoticonRating
             ),
             SymptomModel(
                 title: "Fatigue",
+                dateRange: [],
                 cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
                 hints: ["Most frequent in luteal phase"],
-                min: 1,
-                max: 4,
-                average: 2,
+                min: "1",
+                max: "4",
+                average: "2",
                 covariance: 1.8,
                 covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .painEmoticonRating
             ),
             SymptomModel(
                 title: "Menstruation",
+                dateRange: [],
                 cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
                 hints: ["Most frequent in luteal phase"],
-                min: 1,
-                max: 4,
-                average: 2,
+                min: "1",
+                max: "4",
+                average: "2",
                 covariance: 1.8,
                 covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .menstruationEmoticonRating
             ),
             SymptomModel(
                 title: "Mood",
+                dateRange: [],
                 cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
                 hints: ["Most frequent in luteal phase"],
-                min: 1,
-                max: 4,
-                average: 2,
+                min: "1",
+                max: "4",
+                average: "2",
                 covariance: 1.8,
                 covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .emoticonRating
             ),
             SymptomModel(
                 title: "Sleep",
+                dateRange: [],
                 cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
                 hints: ["Most frequent in luteal phase"],
-                min: 1,
-                max: 4,
-                average: 2,
+                min: "1",
+                max: "4",
+                average: "2",
                 covariance: 1.8,
                 covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .amountOfhour

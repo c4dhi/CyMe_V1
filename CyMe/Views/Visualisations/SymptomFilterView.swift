@@ -11,6 +11,7 @@ struct SymptomFilterView: View {
     var symptoms: [SymptomModel]
     @Binding var selectedSymptoms: Set<SymptomModel>
     @Binding var showingFilterSheet : Bool
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
 
     var body: some View {
         NavigationView {
@@ -21,7 +22,7 @@ struct SymptomFilterView: View {
                         Spacer()
                         if selectedSymptoms.contains(symptom) {
                             Image(systemName: "checkmark")
-                                .foregroundColor(.blue)
+                                .foregroundColor(theme.primaryColor.toColor())
                         }
                     }
                     .contentShape(Rectangle())

@@ -11,6 +11,8 @@ import SwiftUI
 class SettingsViewModel: ObservableObject {
     @Published var settings: SettingsModel
     
+    private var themeManager = ThemeManager()
+    
     private var settingsDatabaseService: SettingsDatabaseService
         
     init() {
@@ -19,6 +21,7 @@ class SettingsViewModel: ObservableObject {
     }
     
     func saveSettings() {
+        themeManager.saveThemeToUserDefaults(newTheme: settings.selectedTheme)
         settingsDatabaseService.saveSettings(settings: settings)
     }
 }

@@ -29,7 +29,7 @@ struct WelcomeView: View {
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(settingsViewModel.settings.selectedTheme.accentColor)
+                    .background(settingsViewModel.settings.selectedTheme.accentColor.toColor())
                     .cornerRadius(10)
             }
             .padding(.horizontal)

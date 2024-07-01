@@ -13,6 +13,8 @@ struct ContentView: View {
     @State private var isSelfReportPresented = false
     @StateObject var settingsViewModel = SettingsViewModel()
     @State var discoverViewModel = DiscoverViewModel()
+    @StateObject var themeManager = ThemeManager()
+        
     
     var body: some View {
         TabView {
@@ -37,6 +39,8 @@ struct ContentView: View {
                     Text("Knowledge base")
                 }
         }
+        .accentColor(themeManager.theme.primaryColor.toColor())
+        .environmentObject(themeManager)
         .overlay(
             // Plus Button overlay
             VStack {
@@ -49,7 +53,7 @@ struct ContentView: View {
                     Image(systemName: "plus.circle.fill")
                         .resizable()
                         .frame(width: 60, height: 60)
-                        .foregroundColor(.blue)
+                        .foregroundColor(themeManager.theme.accentColor.toColor())
                 }
                 .padding(.bottom, 40)
             }
@@ -61,18 +65,16 @@ struct ContentView: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        // Action for the settings button
                         isSettingsPresented = true
                     }) {
                         Image(systemName: "gearshape.fill")
                             .resizable()
                             .frame(width: 40, height: 40)
-                            .foregroundColor(.blue)
+                            .foregroundColor(themeManager.theme.accentColor.toColor())
                     }
-                    .padding(.bottom, 1500) // TODO make better
+                    .padding(.bottom, 1500)
                     .padding(.trailing, 20)
                     .sheet(isPresented: $isSettingsPresented) {
-                        // Present settings view here
                         SettingsView(isPresented: $isSettingsPresented)
                     }
                 }
@@ -84,6 +86,8 @@ struct ContentView: View {
                 }
     }
 }
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

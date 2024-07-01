@@ -11,9 +11,10 @@ class SettingsDatabaseService {
         self.db = DatabaseService.shared.db
         createSettingsTableIfNeeded()
         createHealthDataSettingsTableIfNeeded()
-        var defaultSettings = getDefaultSettings()
-        insertMainSettings(settings: defaultSettings)
-        insertHealthDataSettings(healthDataSettings: defaultSettings.healthDataSettings)
+        if getSettings() == nil {
+            let defaultSettings = getDefaultSettings()
+            saveSettings(settings: defaultSettings)
+        }
     }
     
     public func getDefaultSettings() -> SettingsModel {
@@ -198,17 +199,29 @@ class SettingsDatabaseService {
     
     // Saved the whole model in the respective database
     func saveSettings(settings: SettingsModel) {
-        let fetchQuery = "SELECT COUNT(*) FROM settings WHERE id = 1;"
-        var statement: OpaquePointer?
-        guard sqlite3_prepare_v2(db, fetchQuery, -1, &statement, nil) == SQLITE_OK else {
-            print("Error preparing fetch statement")
+        let checkQuery = "SELECT COUNT(*) FROM settings;"
+        var checkStatement: OpaquePointer?
+        
+        guard sqlite3_prepare_v2(db, checkQuery, -1, &checkStatement, nil) == SQLITE_OK else {
+            print("Error preparing check statement")
             return
         }
         
-        defer { sqlite3_finalize(statement) }
+        defer { sqlite3_finalize(checkStatement) }
         
-        _ = updateMainSettings(settings: settings)
-        _ = updateHealthDataSettings(healthDataSettings: settings.healthDataSettings)
+        guard sqlite3_step(checkStatement) == SQLITE_ROW else {
+            print("Error checking existing settings")
+            return
+        }
+        
+        let count = sqlite3_column_int(checkStatement, 0)
+        if count > 0 {
+            _ = updateMainSettings(settings: settings)
+            _ = updateHealthDataSettings(healthDataSettings: settings.healthDataSettings)
+        } else {
+            _ = insertMainSettings(settings: settings)
+            insertHealthDataSettings(healthDataSettings: settings.healthDataSettings)
+        }
     }
     
     // Get the whole Settings model
