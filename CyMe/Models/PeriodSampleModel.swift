@@ -8,16 +8,18 @@
 import Foundation
 import HealthKit
 
-struct PeriodSampleModel {
+struct PeriodSampleModel : DataProtocoll {
     var startdate: Date
     var cathegory: HKCategoryValueMenstrualFlow
     var label: String
     var startofPeriod : Bool
-    var bleedingPresent: Bool
+    var intensity : Int
+    var symptomPresent: Bool // Bleeding Present
    
     
     init(startdate: Date, value: Int, startofPeriod: Int) {
         self.startdate = startdate
+        self.intensity = value
         
         let periodCathegory = [1: HKCategoryValueMenstrualFlow.unspecified, 2: HKCategoryValueMenstrualFlow.light, 3: HKCategoryValueMenstrualFlow.medium, 4: HKCategoryValueMenstrualFlow.heavy, 5: HKCategoryValueMenstrualFlow.none]
         self.cathegory = periodCathegory[value]!
@@ -27,13 +29,13 @@ struct PeriodSampleModel {
 
         
         self.startofPeriod = (startofPeriod == 1)
-        self.bleedingPresent = (value != 5)
+        self.symptomPresent = (value != 5)
         }
      
     
     func print() {
         let formatedDate = DateFormatter.localizedString(from: startdate, dateStyle: .short, timeStyle: .none)
-        Swift.print("(\(formatedDate), \(label), Bleeding: \(bleedingPresent), Start: \(startofPeriod))")
+        Swift.print("(\(formatedDate), \(label), Bleeding: \(symptomPresent), Start: \(startofPeriod))")
     }
 
     }

@@ -10,11 +10,11 @@ import Foundation
 
 /// Symptoms
 
-func buildSymptomHints(cycleOverview : [Int?], symptomList : [DataProtocoll], dateRange: [Date], title: String, appetiteChange: Bool = false) -> [String]{
+func buildSymptomHints(cycleOverview : [Int?], symptomList : [DataProtocoll], dateRange: [Date], title: String, removeMaxMinHint: Bool = false) -> [String]{
     
     // Count Hint
     let count = buildSymptomCountHint(symptomList: symptomList)
-    let countHint = "You have reported \(title) on \(count) days of your last cycle."
+    let countHint = "You have reported \(title) on \(count) days of your chosen menstrual cycle."
     
     if count == 0 { // If there are no symptoms reported we don't want many empty hints
         return [countHint]
@@ -23,15 +23,21 @@ func buildSymptomHints(cycleOverview : [Int?], symptomList : [DataProtocoll], da
     
     // Quarter Frequency Analysis
     let quarter = buildSymptomQuarterFrequencyAnalysis(symptomList: symptomList, dateRange: dateRange)
-
-    let quarterAnalysisHint = "You reported \(title) most often in your \(quarter.0) quarter of this menstrual cycle with \(quarter.1) reports in total."
     
-    // Max, Min over this cycle hints
+    var quarterAnalysisHint = ""
+    
+    if quarter.1 == -1 { quarterAnalysisHint = ""}
+    else {
+        quarterAnalysisHint = "You reported \(title) most often in your \(quarter.0) quarter of your chosen menstrual cycle with  \(quarter.1) reports in total."
+    }
+    
+
     // Appetite Change does not get Max, Min hints, since there is no range - either it happens or it doesn't
-    if appetiteChange{
+    if removeMaxMinHint{
         return [countHint, quarterAnalysisHint]
     }
     
+    // Max, Min over this cycle hints
     let maxMinHints = buildMinMaxHints(cycleOverview: cycleOverview, title: title)
     
     return [countHint, quarterAnalysisHint, maxMinHints[0], maxMinHints[1]]
@@ -52,6 +58,10 @@ func buildSymptomQuarterFrequencyAnalysis(symptomList : [DataProtocoll], dateRan
     let cycleLength = dateRange.count
     let increments : Int = cycleLength/4
   
+    if increments == 0 {
+        return ("", -1) // We have definitely not 4 distinct quarters
+    }
+    
     var count_1 = 0
     for day in dateRange[0...increments-1]{
         let dailySymptomList = symptomList.filterByStartDate(startDate: day)
@@ -153,6 +163,10 @@ func buildMinMaxHints(cycleOverview : [Int?], title: String) -> [String] { // re
 func buildCollectedQuantityQuarterAnalysis (cycleOverview: [Int?]) -> (String, Int){
     let cycleLength = cycleOverview.count
     let increments : Int = cycleLength/4
+    
+    if increments == 0 {
+        return ("", -1) // We have definitely not 4 distinct quarters
+    }
     
     var count_1 = 0
     for amount in cycleOverview[0...increments-1]{
