@@ -67,3 +67,38 @@ struct SymptomGraph_Previews: PreviewProvider {
         ))
     }
 }
+
+struct PointChartData: Identifiable {
+    var id = UUID()
+    var title: String
+    var day: Int
+    var intensity: Int
+    var questionType: QuestionType
+}
+
+struct LineChartData: Identifiable {
+    var id = UUID()
+    var title: String
+    var day: Int
+    var hours: Int
+    var questionType: QuestionType
+}
+
+extension SymptomModel {
+    func toPointChartData() -> [PointChartData] {
+        var pointChartData: [PointChartData] = []
+        for (index, intensity) in cycleOverview.enumerated() {
+            let data = PointChartData(title: title, day: index + 1, intensity: intensity ?? 0, questionType: self.questionType)
+            pointChartData.append(data)
+        }
+        return pointChartData
+    }
+    func toLineChartData() -> [LineChartData] {
+        var lineChartData: [LineChartData] = []
+        for (index, hour) in cycleOverview.enumerated() {
+                let data = LineChartData(title: title, day: index + 1, hours: hour ?? 0, questionType: self.questionType)
+                lineChartData.append(data)
+        }
+        return lineChartData
+    }
+}

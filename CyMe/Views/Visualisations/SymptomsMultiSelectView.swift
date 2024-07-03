@@ -44,8 +44,14 @@ extension SymptomModel {
 }
 
 struct SymptomsMultiSelectView: View {
-    let cycleDayWidth: CGFloat = 1000/30
-    var selectedSymptoms: [SymptomModel]
+    let cycleDayWidth: CGFloat = 1000 / 30
+        var selectedSymptoms: [SymptomModel]
+        var cycleLengh: Int
+        
+        init(selectedSymptoms: [SymptomModel]) {
+            self.selectedSymptoms = selectedSymptoms
+            self.cycleLengh = selectedSymptoms.isEmpty ? 0 : selectedSymptoms[0].cycleOverview.count
+        }
     
     var pointChartData: [PointChartData] {
         var data: [PointChartData] = []
@@ -92,7 +98,7 @@ struct SymptomsMultiSelectView: View {
                         }
                     }
                     .chartXAxis {
-                        AxisMarks(position: .top, values: Array(1...31).map { Double($0) - 0.5 }) { value in
+                        AxisMarks(position: .top, values: Array(1...cycleLengh+1).map { Double($0) - 0.5 }) { value in
                             AxisGridLine()
                             AxisTick()
                             AxisValueLabel(centered: true) {

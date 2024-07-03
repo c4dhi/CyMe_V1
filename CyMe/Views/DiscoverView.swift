@@ -11,6 +11,7 @@ struct DiscoverView: View {
     @ObservedObject var viewModel: DiscoverViewModel
     @State private var selectedSymptom: SymptomModel?
     @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
+    @State private var selectedCycleOption = 1 // 1 for "This Cycle", 0 for "Last Cycle"
 
     var body: some View {
         VStack(spacing: 5) {
@@ -23,6 +24,13 @@ struct DiscoverView: View {
                 }
             }
             .pickerStyle(MenuPickerStyle())
+            Picker(selection: $selectedCycleOption, label: Text("")) {
+                Text("Last Cycle").tag(0)
+                Text("This Cycle").tag(1)
+                
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            
 
             
             if let symptom = selectedSymptom {
