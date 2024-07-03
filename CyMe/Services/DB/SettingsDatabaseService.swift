@@ -42,6 +42,15 @@ class SettingsDatabaseService {
                 questionType: .menstruationEmoticonRating
             ),
             HealthDataSettingsModel(
+                name: "menstruationStart",
+                label: "Menstruation start",
+                enableDataSync: true,
+                enableSelfReportingCyMe: true,
+                dataLocation: .onlyCyMe,
+                question: "Is it the first day of your period?",
+                questionType: .menstruationStartRating
+            ),
+            HealthDataSettingsModel(
                 name: "sleepQuality",
                 label: "Sleep quality",
                 enableDataSync: false,

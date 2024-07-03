@@ -106,6 +106,26 @@ struct MenstruationEmoticonRatingQuestionView: View {
     }
 }
 
+struct MenstruationStartRatingQuestionView: View {
+    var setting: HealthDataWithoutNilModel
+    @Binding var selectedOption: SymptomSelfReportModel?
+
+    var body: some View {
+        VStack(alignment: .center) {
+            if let binding = Binding(
+                get: { self.selectedOption?.reportedValue == "true" },
+                set: { self.selectedOption?.reportedValue = $0 ? "true" : "false" }
+            ) {
+                Toggle(setting.question, isOn: binding)
+                    .padding(.bottom, 10)
+                    .padding(.horizontal)
+            } else {
+                Text("No option selected")
+            }
+        }
+    }
+}
+
 struct PainEmoticonRatingQuestionView: View {
     var setting: HealthDataWithoutNilModel
     @Binding var selectedOption : SymptomSelfReportModel?
