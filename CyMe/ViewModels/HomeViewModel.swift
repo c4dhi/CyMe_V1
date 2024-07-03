@@ -5,6 +5,7 @@ class HomeViewModel: ObservableObject {
     @Published var cycleDay = 13
     @Published var totalReports = 6
     @Published var circleRadius: CGFloat = 90.0
+    @Published var userName : String = ""
     @Published var reports: [ReviewReportModel] = []
     @Published var reportNotes = [
         "Headache in the morning, mild.",
@@ -22,7 +23,7 @@ class HomeViewModel: ObservableObject {
     ]
     private var reportingDatabaseService: ReportingDatabaseService
     private var userDatabaseService: UserDatabaseService
-        
+    
     init() {
         reportingDatabaseService = ReportingDatabaseService()
         userDatabaseService = UserDatabaseService()
@@ -33,6 +34,7 @@ class HomeViewModel: ObservableObject {
         let startTime = Calendar.current.startOfDay(for: Date())
         let endTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date()) ?? Date()
         let userSettings = userDatabaseService.loadUser()
+        userName = userSettings.name
         cycleLength = userSettings.cycleLength ?? 30
         reports = reportingDatabaseService.getReports(from: startTime, to: endTime)
         totalReports = reports.count

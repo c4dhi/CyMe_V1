@@ -41,7 +41,7 @@ struct HomeView: View {
                     .foregroundColor(.black)
                     .font(.headline)
                     .fontWeight(.bold)
-                Text("Welcome to CyMe, Marinja!")
+                Text("Welcome to CyMe, \(homeViewModel.userName)!")
                     .foregroundColor(.black)
                     .font(.headline)
                     .offset(x: 0, y: 130)

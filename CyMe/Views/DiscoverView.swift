@@ -62,7 +62,12 @@ struct DiscoverView: View {
         }
         .padding()
         .onAppear {
-            selectedSymptom = viewModel.symptoms.first
+            Task{
+                await viewModel.getSymptomes()
+                selectedSymptom = viewModel.symptoms.first
+            }
+            
+             
         }
     }
 }

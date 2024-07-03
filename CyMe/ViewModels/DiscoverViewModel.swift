@@ -24,30 +24,19 @@ enum availableHealthMetrics: String {
     case stress
     case sleepQuality
     case mood
+    case menstrualBleeding
 }
 
 
 class DiscoverViewModel: ObservableObject {
     @Published var symptoms: [SymptomModel] = []
+    @Published var cycleDay: Int = 0
     
     var healthKitService: HealthKitService
     var reportingDatabaseService: ReportingDatabaseService
+    var settingsDatabaseService: SettingsDatabaseService
     let verbose = false
-    
-    
-    let relevantDataList : [availableHealthMetrics] = [.headache,
-                                                       .abdominalCramps,
-                                                       .lowerBackPain,
-                                                       .pelvicPain,
-                                                       .acne,
-                                                       .chestTightnessOrPain,
-                                                       .appetiteChange,
-                                                       .sleepLength,
-                                                       .exerciseTime,
-                                                       .stepCount,
-                                                       .stress,
-                                                       .mood,
-                                                       .sleepQuality]
+
     
     // List (empty or not) of the different available health data
     var periodDataList : [PeriodSampleModel] = []
@@ -65,83 +54,89 @@ class DiscoverViewModel: ObservableObject {
     var stressDataList : [CyMeSefReportModel] = []
     var moodDataList : [CyMeSefReportModel] = []
     
-    
-    
-    
-    
+
     init() {
         healthKitService = HealthKitService()
         reportingDatabaseService =  ReportingDatabaseService()
+        settingsDatabaseService = SettingsDatabaseService()
+        
         Task {
             await self.getSymptomes()
         }
-        
-        // TODO Mittwuch
-        // Zyklusstart finden
-            // Mindest 3 Tage Blutung (Was machen wir am ersten Periodentag --- Besprechen --- )
-            // Mindestens 10 Tage dazwischen ?
-            // Immer noch auf das label zurückgreifen
-        // Liste Zylkusstarts speichern und für Home Page benutzen
-        // Durchschnittliche Zylkuslänge berechnen? Für Homepage ( --- Besprechen --- )
-        // Mehrere Starttage (<-> Möglich --- Besprechen --- )
-        
-        // Orte finden für  ( --- Besprechen --- )
-            // Daten schreiben - Wo ist der Selfreport fertig
-            // Update der Seite - Ende Selfreport, App neu öffnen
-            // Update Relevant Data List on setting change
-        //  max or not max (average) bei mehrernen Einträgen ( --- Besprechen --- ) - Im Absolut betrag aufrunden
-        
-        // TODO Donnerstag
-        // Writing Data
-        // QuestionTypes überprüfen
-        // Handle Input of what data to fetch (what is allowed to be gotten from apple health) -  make sure Apple Health is not required
-        // Was interessiert einem anzeigen Apple Health
-        // Update Relevant Data List on setting change
-        // Update Visualization model properly
-        // max or not max (average) for multiple entries (1 Place to change)
-    
-        // TODO Freitag
-        // Many cycles
-        // Covariance
-        // Covariance Overview
-        // Min, Max, Average // Over many cycles
-        
-        // TODO Next Week
-        // Speichern der Symptoms models -( HealthDataSettings in Report Tabelle)
-        // Request Authorization faster
-        
-        
-        
-        // DISCUSSED
-        // Selfreported Period needs a rubric: "Is it the start of your period?" "Yes", "No" - Marinja will adapt - maybe not
-        // Sleep Length in Current cycle not available (last day) - Should be fixed with nil
-       
-        // PER WHATSAPP GESCHRIEBEN
-        // Build Symptom Graph Array
-            // Missing values in list = nil
-        // Broke visualization
-        // Statistics are no longer aligned
-        
     }
     
-    func getSymptomes() async  {
+    
+    func getSymptomes(currentCycle : Bool = true) async  {
+        
+        let relevantDataLists = getRelevantDataLists()
+        let relevantForDisplay = relevantDataLists[0]
+        let relevantForAppleHealthFetch = relevantDataLists[2]
         
         let dateRangeList = await getLastPeriodDates()
         if dateRangeList.count == 0 {
             return // There is no period date to be detected
         }
     
-        //let dateRange = dateRangeList[0] // Last Full Cycle
-        let dateRange = dateRangeList[1] // Current Cycle
+        let dateRange : [Date]
+        
+        DispatchQueue.main.async {
+            self.cycleDay = dateRangeList[1].count
+        }
+        
+        if currentCycle{
+            dateRange = dateRangeList[1]
+        }
+        else { // Display the last full cycle
+            dateRange = dateRangeList[0]
+        }
         
         let startDate = getAppropriateStartDate(firstEntry: dateRange[0])
         let endDate =  getAppropriateEndDate(lastEntry: dateRange[dateRange.count-1])
         
         
-        await fetchRelevantAppleHealthData(startDate: startDate, endDate: endDate)
+        await fetchRelevantAppleHealthData(relevantDataList : relevantForAppleHealthFetch, startDate: startDate, endDate: endDate)
         fetchRelevantCyMeData(startDate: startDate, endDate: endDate)
         
-        buildSymptomModels(dateRange: dateRange, startDate: startDate, endDate : endDate)
+        DispatchQueue.main.async {
+            self.symptoms = self.buildSymptomModels(relevantDataList : relevantForDisplay, dateRange: dateRange, startDate: startDate, endDate : endDate)
+        }
+    }
+    
+    func getRelevantDataLists() -> [[availableHealthMetrics]]{
+        
+        var relevantForDisplay : [availableHealthMetrics] = []
+        var relevantForAppleHealthFetch : [availableHealthMetrics] = []
+        var relevantForCyMeFetch : [availableHealthMetrics] = []
+        
+        let dBtoAvailableHealthMetrics : [String : availableHealthMetrics] =
+                                        ["menstruationDate" : .menstrualBleeding,
+                                          "sleepQuality" : .sleepQuality,
+                                          "sleepLenght" : .sleepLength,
+                                          "headache" : .headache,
+                                          "stress" : .stress,
+                                          "abdominalCramps" : .abdominalCramps,
+                                          "lowerBackPain" : .lowerBackPain,
+                                          "pelvicPain" : .pelvicPain,
+                                          "acne" : .acne,
+                                          "appetiteChanges" : .appetiteChange,
+                                          "chestPain" : .chestTightnessOrPain,
+                                          "stepData" : .stepCount,
+                                          "mood" : .mood,
+                                          "exerciseTime" : .exerciseTime]
+
+        let healthDataSettings = settingsDatabaseService.getSettings()?.healthDataSettings
+        for setting in healthDataSettings! {
+            if(setting.enableDataSync){
+                relevantForAppleHealthFetch.append(dBtoAvailableHealthMetrics[setting.name]!)
+            }
+            if(setting.enableSelfReportingCyMe){
+                relevantForCyMeFetch.append(dBtoAvailableHealthMetrics[setting.name]!)
+            }
+            if(setting.enableSelfReportingCyMe) || (setting.enableDataSync){
+                relevantForDisplay.append(dBtoAvailableHealthMetrics[setting.name]!)
+            }
+        }
+        return [relevantForDisplay, relevantForCyMeFetch, relevantForAppleHealthFetch]
     }
     
     func fetchRelevantCyMeData(startDate: Date, endDate: Date)  { // Gets the desired data and stores them in class variables
@@ -258,41 +253,55 @@ class DiscoverViewModel: ObservableObject {
             }
         }
 
-    func fetchRelevantAppleHealthData(startDate: Date, endDate: Date) async { // Gets the desired data and stores them in class variables
+    func fetchRelevantAppleHealthData(relevantDataList : [availableHealthMetrics], startDate: Date, endDate: Date) async { // Gets the desired data and stores them in class variables
         
         if relevantDataList.contains(.headache){
             do { headacheDataList = try await healthKitService.fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.headache, startDate: startDate, endDate: endDate) }
             catch { print("Error: \(error)") }
+        } else{
+            headacheDataList = []
         }
         
         if relevantDataList.contains(.abdominalCramps){
             do { abdominalCrampsDataList = try await healthKitService.fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.abdominalCramps, startDate: startDate, endDate: endDate) }
             catch { print("Error: \(error)") }
+        } else{
+            abdominalCrampsDataList = []
         }
         
         if relevantDataList.contains(.lowerBackPain){
             do { lowerBackPainDataList = try await healthKitService.fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.lowerBackPain, startDate: startDate, endDate: endDate) }
             catch { print("Error: \(error)") }
+        } else{
+            lowerBackPainDataList = []
         }
         
         if relevantDataList.contains(.pelvicPain){
             do { pelvicPainDataList = try await healthKitService.fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.pelvicPain, startDate: startDate, endDate: endDate) }
             catch { print("Error: \(error)") }
+        } else{
+            pelvicPainDataList = []
         }
         
         if relevantDataList.contains(.acne){
             do { acneDataList = try await healthKitService.fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.acne, startDate: startDate, endDate: endDate) }
             catch { print("Error: \(error)") }
+        } else{
+            acneDataList = []
         }
         
         if relevantDataList.contains(.chestTightnessOrPain){
             do { chestTightnessOrPainDataList = try await healthKitService.fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.chestTightnessOrPain, startDate: startDate, endDate: endDate) }
             catch { print("Error: \(error)") }
+        } else{
+            chestTightnessOrPainDataList = []
         }
         
         if relevantDataList.contains(.appetiteChange){
             do { appetiteChangeDataList = try await healthKitService.fetchAppetiteChanges(startDate: startDate, endDate: endDate) }
             catch { print("Error: \(error)") }
+        } else{
+            appetiteChangeDataList = []
         }
         
         if relevantDataList.contains(.sleepLength){
@@ -300,17 +309,23 @@ class DiscoverViewModel: ObservableObject {
             do { sleepDetailList = try await healthKitService.fetchSleepData(startDate: startDate, endDate: endDate)}
             catch { print("Error: \(error)") }
             sleepLengthDataList = healthKitService.simplifySleepDataToSleepLength(sleepDataModel: sleepDetailList)
+        } else{
+            sleepLengthDataList = [:]
         }
         
         if relevantDataList.contains(.exerciseTime){
             do { exerciseTimeDataList = try await healthKitService.fetchCollectedQuantityData(startDate: startDate, endDate: endDate, dataName: HKQuantityTypeIdentifier.appleExerciseTime) }
             catch { print("Error: \(error)") }
             
+        } else{
+            exerciseTimeDataList = [:]
         }
         
         if relevantDataList.contains(.stepCount){
             do { stepCountDataList = try await healthKitService.fetchCollectedQuantityData(startDate: startDate, endDate: endDate, dataName: HKQuantityTypeIdentifier.stepCount) }
             catch { print("Error: \(error)") }
+        } else{
+            stepCountDataList = [:]
         }
     }
     
@@ -354,7 +369,7 @@ class DiscoverViewModel: ObservableObject {
             
         } else {
             print("You don't have a full cycle recorded")
-            return [[]]
+            return []
         }
     }
     
@@ -407,8 +422,9 @@ class DiscoverViewModel: ObservableObject {
         return symptomModel
     }
     
-    
-    func buildSymptomModels (dateRange: [Date], startDate : Date, endDate : Date) {
+    func buildSymptomModels (relevantDataList : [availableHealthMetrics], dateRange: [Date], startDate : Date, endDate : Date) -> [SymptomModel]{
+        var symptomListToReturn  : [SymptomModel] = []
+        
         
         // We will always display bleeding
         let title = "Menstrual Bleeding"
@@ -437,44 +453,45 @@ class DiscoverViewModel: ObservableObject {
             covariance: covariance,
             covarianceOverview: [], //TODO
             questionType: .menstruationEmoticonRating)
-        self.symptoms.append(symptomModel)
+        symptomListToReturn.append(symptomModel)
+        
         
         
         if relevantDataList.contains(.headache){
             let symptomModel = buildSingleSymptomModel(title: "Headaches", symptomList: headacheDataList, dateRange: dateRange)
-            self.symptoms.append(symptomModel)
+            symptomListToReturn.append(symptomModel)
         }
         
         if relevantDataList.contains(.abdominalCramps){
             let symptomModel = buildSingleSymptomModel(title: "Abdominal Cramps", symptomList: abdominalCrampsDataList, dateRange: dateRange)
-            self.symptoms.append(symptomModel)
+            symptomListToReturn.append(symptomModel)
             
         }
         
         if relevantDataList.contains(.lowerBackPain){
             let symptomModel = buildSingleSymptomModel(title: "Lower Back Pain", symptomList: lowerBackPainDataList, dateRange: dateRange)
-            self.symptoms.append(symptomModel)
+            symptomListToReturn.append(symptomModel)
         }
         
         if relevantDataList.contains(.pelvicPain){
             let symptomModel = buildSingleSymptomModel(title: "Pelvic Pain", symptomList: pelvicPainDataList, dateRange: dateRange)
-            self.symptoms.append(symptomModel)
+            symptomListToReturn.append(symptomModel)
         }
         
         if relevantDataList.contains(.acne){
             let symptomModel = buildSingleSymptomModel(title: "Acne", symptomList: acneDataList, dateRange: dateRange)
-            self.symptoms.append(symptomModel)
+            symptomListToReturn.append(symptomModel)
         }
         
         if relevantDataList.contains(.chestTightnessOrPain){
             let symptomModel = buildSingleSymptomModel(title: "Chest Tightness or Pain", symptomList: chestTightnessOrPainDataList, dateRange: dateRange)
-            self.symptoms.append(symptomModel)
+            symptomListToReturn.append(symptomModel)
            
         }
         
         if relevantDataList.contains(.appetiteChange){
             let symptomModel = buildSingleSymptomModel(title: "Appetite Change", symptomList: appetiteChangeDataList, dateRange: dateRange, appetiteChange: true)
-            self.symptoms.append(symptomModel)
+            symptomListToReturn.append(symptomModel)
         }
         
         
@@ -501,7 +518,7 @@ class DiscoverViewModel: ObservableObject {
                 questionType: .amountOfhour //TODO
             )
             
-            self.symptoms.append(symptomModel)
+            symptomListToReturn.append(symptomModel)
         }
         
         if relevantDataList.contains(.exerciseTime){
@@ -526,7 +543,7 @@ class DiscoverViewModel: ObservableObject {
                 questionType: .amountOfhour //TODO
             )
             
-            self.symptoms.append(symptomModel)
+            symptomListToReturn.append(symptomModel)
             
         }
         
@@ -552,7 +569,7 @@ class DiscoverViewModel: ObservableObject {
                 questionType: .amountOfhour //TODO
             )
             
-            self.symptoms.append(symptomModel)
+            symptomListToReturn.append(symptomModel)
         }
         
         if relevantDataList.contains(.mood){
@@ -579,7 +596,7 @@ class DiscoverViewModel: ObservableObject {
                 questionType: .emoticonRating //TODO
             )
             
-            self.symptoms.append(symptomModel)
+            symptomListToReturn.append(symptomModel)
         }
         
         if relevantDataList.contains(.stress){
@@ -606,7 +623,7 @@ class DiscoverViewModel: ObservableObject {
                 questionType: .emoticonRating //TODO
             )
             
-            self.symptoms.append(symptomModel)
+            symptomListToReturn.append(symptomModel)
         }
         
         if relevantDataList.contains(.sleepQuality){
@@ -633,8 +650,10 @@ class DiscoverViewModel: ObservableObject {
                 questionType: .emoticonRating //TODO
             )
             
-            self.symptoms.append(symptomModel)
+            symptomListToReturn.append(symptomModel)
+            
         }
+        return symptomListToReturn
     }
 }
 
