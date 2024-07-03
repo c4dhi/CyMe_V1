@@ -1,9 +1,3 @@
-//
-//  VisualisationView.swift
-//  CyMe
-//
-//  Created by Marinja Principe on 17.04.24.
-//
 import SwiftUI
 
 struct VisualisationView: View {
@@ -11,6 +5,7 @@ struct VisualisationView: View {
     @State private var selectedSymptoms: Set<SymptomModel> = []
     @State private var showingFilterSheet = false
     @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
+    @State private var selectedCycleOption = 1 // 1 for "This Cycle", 0 for "Last Cycle"
 
     var body: some View {
         VStack {
@@ -21,8 +16,16 @@ struct VisualisationView: View {
                     .padding()
                 Spacer()
             }
+            
             VStack {
                 HStack {
+                    Picker(selection: $selectedCycleOption, label: Text("")) {
+                        Text("Last Cycle").tag(0)
+                        Text("This Cycle").tag(1)
+                        
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding()
                     Spacer()
                     Button(action: {
                         showingFilterSheet.toggle()
@@ -32,6 +35,7 @@ struct VisualisationView: View {
                             .padding()
                             .foregroundColor(theme.primaryColor.toColor())
                     }
+                    
                 }
             }
             
@@ -41,7 +45,7 @@ struct VisualisationView: View {
                     .font(.headline)
                     .padding()
             } else {
-                SymptomsMultiSelectView(selectedSymptoms: Array(selectedSymptoms))
+                OverviewTable(symptoms: Array(selectedSymptoms))
                     .padding()
                     .background(Color.white)
                     .cornerRadius(10)
@@ -52,6 +56,11 @@ struct VisualisationView: View {
         .padding()
         .onAppear {
             selectedSymptoms = Set(viewModel.symptoms)
+        }
+        .onReceive([selectedCycleOption].publisher.first()) { _ in
+            // Logic to handle selection change (this cycle or last cycle)
+            // You can update your data or perform any necessary actions here
+            // For example, you might want to fetch different data based on the selectedCycleOption
         }
         .sheet(isPresented: $showingFilterSheet) {
             SymptomFilterView(symptoms: viewModel.symptoms, selectedSymptoms: $selectedSymptoms, showingFilterSheet: $showingFilterSheet)

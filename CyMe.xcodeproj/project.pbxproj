@@ -34,7 +34,6 @@
 		4C1354E92BCFCEC60078A84B /* VisualisationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354E82BCFCEC60078A84B /* VisualisationView.swift */; };
 		4C1354EE2BCFD52A0078A84B /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */; };
 		4C1354F12BCFD6560078A84B /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */; };
-		4C1A36DD2C104FD0006E50D8 /* SymptomsMultiSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36DC2C104FD0006E50D8 /* SymptomsMultiSelectView.swift */; };
 		4C1A36DF2C105469006E50D8 /* SymptomFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36DE2C105469006E50D8 /* SymptomFilterView.swift */; };
 		4C1A36E12C19839F006E50D8 /* EmoticonReportings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36E02C19839F006E50D8 /* EmoticonReportings.swift */; };
 		4C1A36E32C20541C006E50D8 /* EmoticonReportings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36E22C20541C006E50D8 /* EmoticonReportings.swift */; };
@@ -43,6 +42,7 @@
 		4C1A36F12C31987C006E50D8 /* ReviewReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36EF2C319054006E50D8 /* ReviewReportModel.swift */; };
 		4C1A36F22C31987E006E50D8 /* ReviewReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36EF2C319054006E50D8 /* ReviewReportModel.swift */; };
 		4C1A36F42C3280CB006E50D8 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36F32C3280CB006E50D8 /* NotificationService.swift */; };
+		4C3816902C3568960079A48B /* OverviewTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C38168F2C3568960079A48B /* OverviewTable.swift */; };
 		4C5605242C01CF7700B9114D /* SettingsDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605232C01CF7700B9114D /* SettingsDatabaseService.swift */; };
 		4C5605272C01D26600B9114D /* UserDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605262C01D26600B9114D /* UserDatabaseService.swift */; };
 		4C5605292C01D29500B9114D /* ReportingDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605282C01D29500B9114D /* ReportingDatabaseService.swift */; };
@@ -239,13 +239,13 @@
 		4C1354E82BCFCEC60078A84B /* VisualisationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualisationView.swift; sourceTree = "<group>"; };
 		4C1354ED2BCFD52A0078A84B /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
 		4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
-		4C1A36DC2C104FD0006E50D8 /* SymptomsMultiSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomsMultiSelectView.swift; sourceTree = "<group>"; };
 		4C1A36DE2C105469006E50D8 /* SymptomFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomFilterView.swift; sourceTree = "<group>"; };
 		4C1A36E02C19839F006E50D8 /* EmoticonReportings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmoticonReportings.swift; sourceTree = "<group>"; };
 		4C1A36E22C20541C006E50D8 /* EmoticonReportings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmoticonReportings.swift; sourceTree = "<group>"; };
 		4C1A36ED2C30581B006E50D8 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		4C1A36EF2C319054006E50D8 /* ReviewReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewReportModel.swift; sourceTree = "<group>"; };
 		4C1A36F32C3280CB006E50D8 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		4C38168F2C3568960079A48B /* OverviewTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewTable.swift; sourceTree = "<group>"; };
 		4C5605232C01CF7700B9114D /* SettingsDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDatabaseService.swift; sourceTree = "<group>"; };
 		4C5605262C01D26600B9114D /* UserDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDatabaseService.swift; sourceTree = "<group>"; };
 		4C5605282C01D29500B9114D /* ReportingDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingDatabaseService.swift; sourceTree = "<group>"; };
@@ -544,8 +544,8 @@
 		4C1A36DB2C104FAE006E50D8 /* Visualisations */ = {
 			isa = PBXGroup;
 			children = (
-				4C1A36DC2C104FD0006E50D8 /* SymptomsMultiSelectView.swift */,
 				4C1A36DE2C105469006E50D8 /* SymptomFilterView.swift */,
+				4C38168F2C3568960079A48B /* OverviewTable.swift */,
 			);
 			path = Visualisations;
 			sourceTree = "<group>";
@@ -1022,6 +1022,7 @@
 				500D9B682C2D5DAA00B26D27 /* DiscoverViewHints.swift in Sources */,
 				4C08971D2C0DBBD20042A6D1 /* SymptomModel.swift in Sources */,
 				4CDD2FD52BECB52E005995B5 /* ProfileView.swift in Sources */,
+				4C3816902C3568960079A48B /* OverviewTable.swift in Sources */,
 				4C1A36EE2C30581B006E50D8 /* HomeViewModel.swift in Sources */,
 				4CDD2FDB2BF25023005995B5 /* OnboardingView.swift in Sources */,
 				4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */,
@@ -1030,7 +1031,6 @@
 				500D9B662C2D5CC900B26D27 /* StringUtils.swift in Sources */,
 				4CDF57F22C0CF8D700C7E9F6 /* PopupView.swift in Sources */,
 				4C1A36F12C31987C006E50D8 /* ReviewReportModel.swift in Sources */,
-				4C1A36DD2C104FD0006E50D8 /* SymptomsMultiSelectView.swift in Sources */,
 				50EED2D62C2083420001BF5C /* AppetiteChangeModel.swift in Sources */,
 				4C1354E52BCFCE440078A84B /* DiscoverView.swift in Sources */,
 				4C1354EE2BCFD52A0078A84B /* HealthKitService.swift in Sources */,
