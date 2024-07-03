@@ -35,7 +35,6 @@ class HomeViewModel: ObservableObject {
         let userSettings = userDatabaseService.loadUser()
         cycleLength = userSettings.cycleLength ?? 30
         reports = reportingDatabaseService.getReports(from: startTime, to: endTime)
-        print(reports)
         totalReports = reports.count
     }
     

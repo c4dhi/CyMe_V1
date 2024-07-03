@@ -38,3 +38,24 @@ func oxfordComma(list: [Any]) -> String{
         return output
     }
 }
+    
+func getTimeRepresentationFromString(timeString: String) -> Int {
+    let regex = try! NSRegularExpression(pattern: "(\\d+) hours (\\d+) minutes")
+    let nsString = timeString as NSString
+    
+    if let match = regex.firstMatch(in: timeString, range: NSRange(location: 0, length: nsString.length)) {
+        let hoursString = nsString.substring(with: match.range(at: 1))
+        let minutesString = nsString.substring(with: match.range(at: 2))
+        
+        if let hours = Int(hoursString), let minutes = Int(minutesString) {
+            return (hours * 60) + minutes
+        } else {
+            print("Failed to convert extracted strings to integers.")
+        }
+    } else {
+        print("No match found in the string.")
+        
+    }
+    return -1
+}
+

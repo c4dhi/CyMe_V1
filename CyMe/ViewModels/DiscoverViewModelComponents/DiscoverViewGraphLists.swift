@@ -38,7 +38,7 @@ func buildcollectedDataGraphArray(symptomList: [Date: Int], dateRange: [Date], s
     return dataGraphArray
 }
 
-// Selfreported Symptoms - Lists
+// Apple Selfreported Symptoms - Lists
 func buildSymptomGraphArray(symptomList: [DataProtocoll], dateRange : [Date], appetiteChange : Bool = false) -> [Int?]{
     let datesWithSymptom  = symptomList.map {Calendar.current.dateComponents([.day, .month, .year], from: $0.startdate)}
     
@@ -83,4 +83,45 @@ func buildSymptomGraphArray(symptomList: [DataProtocoll], dateRange : [Date], ap
     }
     return symptomGraphArray
 }
+
+// CyMe Selfreported Symptoms - Lists
+func buildCyMeGraphArray(symptomList: [DataProtocoll], dateRange : [Date], period : Bool = false) -> [Int?]{
+    let datesWithSymptom  = symptomList.map {Calendar.current.dateComponents([.day, .month, .year], from: $0.startdate)}
+    
+    let periodIntensityConversion = [1:2, 2:1, 3:2, 4:3, 5:0]
+    
+    var symptomGraphArray : [Int?] = []
+     
+    for date in dateRange{
+        if datesWithSymptom.contains(Calendar.current.dateComponents([.day, .month, .year], from: date)){
+            var dailySymptomList = symptomList.filterByStartDate(startDate: date)
+            
+            // For multiple reports in a day we choose the average
+            var sumOfIntensities = 0.0
+            for symptom in dailySymptomList{
+                
+                var intensity : Int
+                
+                if period {intensity = periodIntensityConversion[symptom.intensity]!}
+                else {intensity = symptom.intensity}
+                
+                sumOfIntensities += Double(intensity)
+            }
+            let  average = sumOfIntensities/Double(dailySymptomList.count) // The average of a single value still makes sense
+            if average < 0 { // We always choose to display the more intense option
+                symptomGraphArray.append(Int(floor(average)))
+            }
+            else {
+                symptomGraphArray.append(Int(ceil(average)))
+            }
+            
+        }
+        else{
+            symptomGraphArray.append(nil)
+        }
+    }
+    return symptomGraphArray
+}
+
+
 

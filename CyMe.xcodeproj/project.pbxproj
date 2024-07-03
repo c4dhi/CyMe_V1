@@ -54,7 +54,6 @@
 		4C5A49BC2BFFD184008253FD /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A49BB2BFFD184008253FD /* UserModel.swift */; };
 		4CB6BBDF2BD6E5BF008A32CA /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB6BBDE2BD6E5BF008A32CA /* DatabaseService.swift */; };
 		4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */; };
-		4CDD2FC82BEB722F005995B5 /* ReportOptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */; };
 		4CDD2FCA2BEB747A005995B5 /* ReportOptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC92BEB747A005995B5 /* ReportOptionsModel.swift */; };
 		4CDD2FCD2BEB792B005995B5 /* SelfReportingWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FCC2BEB792B005995B5 /* SelfReportingWatchView.swift */; };
 		4CDD2FCF2BEB7CD9005995B5 /* UserReportingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FCE2BEB7CD9005995B5 /* UserReportingOptions.swift */; };
@@ -98,7 +97,8 @@
 		500D9B662C2D5CC900B26D27 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B652C2D5CC900B26D27 /* StringUtils.swift */; };
 		500D9B682C2D5DAA00B26D27 /* DiscoverViewHints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B672C2D5DAA00B26D27 /* DiscoverViewHints.swift */; };
 		500D9B6A2C2D943500B26D27 /* DiscoverViewStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B692C2D943500B26D27 /* DiscoverViewStatistics.swift */; };
-		505EAE702C2AFC5400F68B36 /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 505EAE6F2C2AFC5400F68B36 /* SigmaSwiftStatistics */; };
+		50966ECD2C33EADD006BBE84 /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 50966ECC2C33EADD006BBE84 /* SigmaSwiftStatistics */; };
+		50966ECF2C342715006BBE84 /* CyMeSelfreportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50966ECE2C342715006BBE84 /* CyMeSelfreportModel.swift */; };
 		50E115312C072ECF002C1333 /* SleepDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E115302C072ECF002C1333 /* SleepDataModel.swift */; };
 		50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */; };
 		50E26B1A2C04C7FF00726C5C /* PeriodSampleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */; };
@@ -258,7 +258,6 @@
 		4C84BA3E2C046D7400A865AC /* CyMe-WatchOs-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "CyMe-WatchOs-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		4CB6BBDE2BD6E5BF008A32CA /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportOptionsModel.swift; sourceTree = "<group>"; };
 		4CDD2FC92BEB747A005995B5 /* ReportOptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportOptionsModel.swift; sourceTree = "<group>"; };
 		4CDD2FCC2BEB792B005995B5 /* SelfReportingWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportingWatchView.swift; sourceTree = "<group>"; };
 		4CDD2FCE2BEB7CD9005995B5 /* UserReportingOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReportingOptions.swift; sourceTree = "<group>"; };
@@ -288,6 +287,7 @@
 		500D9B652C2D5CC900B26D27 /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 		500D9B672C2D5DAA00B26D27 /* DiscoverViewHints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewHints.swift; sourceTree = "<group>"; };
 		500D9B692C2D943500B26D27 /* DiscoverViewStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewStatistics.swift; sourceTree = "<group>"; };
+		50966ECE2C342715006BBE84 /* CyMeSelfreportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyMeSelfreportModel.swift; sourceTree = "<group>"; };
 		50D4A8CE2BFE2E2F008FDE58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		50D4A8CF2BFE3060008FDE58 /* CyMe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CyMe.entitlements; sourceTree = "<group>"; };
 		50E115302C072ECF002C1333 /* SleepDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepDataModel.swift; sourceTree = "<group>"; };
@@ -302,7 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CDF585D2C0DA12C00C7E9F6 /* SharedModels.framework in Frameworks */,
-				505EAE702C2AFC5400F68B36 /* SigmaSwiftStatistics in Frameworks */,
+				50966ECD2C33EADD006BBE84 /* SigmaSwiftStatistics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,13 +488,13 @@
 			isa = PBXGroup;
 			children = (
 				50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */,
-				4CDD2FC72BEB722F005995B5 /* ReportOptionsModel.swift */,
 				50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */,
 				4C5A49BB2BFFD184008253FD /* UserModel.swift */,
 				50E115302C072ECF002C1333 /* SleepDataModel.swift */,
 				4C08971C2C0DBBD20042A6D1 /* SymptomModel.swift */,
 				50EED2D52C2083420001BF5C /* AppetiteChangeModel.swift */,
 				500479C42C27293800882265 /* DataProtocoll.swift */,
+				50966ECE2C342715006BBE84 /* CyMeSelfreportModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -716,7 +716,7 @@
 			);
 			name = CyMe;
 			packageProductDependencies = (
-				505EAE6F2C2AFC5400F68B36 /* SigmaSwiftStatistics */,
+				50966ECC2C33EADD006BBE84 /* SigmaSwiftStatistics */,
 			);
 			productName = CyMe;
 			productReference = 4C13544D2BCFC6060078A84B /* CyMe.app */;
@@ -988,7 +988,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */,
-				4CDD2FC82BEB722F005995B5 /* ReportOptionsModel.swift in Sources */,
 				50E115312C072ECF002C1333 /* SleepDataModel.swift in Sources */,
 				4CDF58162C0D9CF900C7E9F6 /* SelfReportModel.swift in Sources */,
 				4CDD2FD92BF24E9A005995B5 /* PersonalizationView.swift in Sources */,
@@ -1005,6 +1004,7 @@
 				4C5A49B82BFE1A79008253FD /* ThemeModel.swift in Sources */,
 				4CDD2FE12BF4F2B9005995B5 /* SelfReportView.swift in Sources */,
 				4C1A36F42C3280CB006E50D8 /* NotificationService.swift in Sources */,
+				50966ECF2C342715006BBE84 /* CyMeSelfreportModel.swift in Sources */,
 				4CB6BBDF2BD6E5BF008A32CA /* DatabaseService.swift in Sources */,
 				500479C52C27293800882265 /* DataProtocoll.swift in Sources */,
 				50E26B1A2C04C7FF00726C5C /* PeriodSampleModel.swift in Sources */,
@@ -1800,7 +1800,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		505EAE6F2C2AFC5400F68B36 /* SigmaSwiftStatistics */ = {
+		50966ECC2C33EADD006BBE84 /* SigmaSwiftStatistics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 50DC147C2BD11F8100A280CE /* XCRemoteSwiftPackageReference "SigmaSwiftStatistics" */;
 			productName = SigmaSwiftStatistics;
