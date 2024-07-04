@@ -25,6 +25,7 @@ class ReportingDatabaseService {
                 isCyMeSelfReport TEXT,
                 selfReportMedium TEXT,
                 menstruationDate TEXT,
+                menstruationStart TEXT,
                 sleepQuality TEXT,
                 sleepLenght TEXT,
                 headache TEXT,
@@ -56,6 +57,7 @@ class ReportingDatabaseService {
                 isCyMeSelfReport,
                 selfReportMedium,
                 menstruationDate,
+                menstruationStart,
                 sleepQuality,
                 sleepLenght,
                 headache,
@@ -70,7 +72,7 @@ class ReportingDatabaseService {
                 mood,
                 notes
                 )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
             """
         
         var statement: OpaquePointer?
@@ -88,19 +90,20 @@ class ReportingDatabaseService {
         
         let titleToSQLiteField: [String: Int32] = [
             "menstruationDate": 5,
-            "sleepQuality": 6,
-            "sleepLenght": 7,
-            "headache": 8,
-            "stress": 9,
-            "abdominalCramps": 10,
-            "lowerBackPain": 11,
-            "pelvicPain": 12,
-            "acne": 13,
-            "appetiteChanges": 14,
-            "chestPain": 15,
-            "stepData": 16,
-            "mood": 17,
-            "notes": 18
+            "menstruationStart": 6,
+            "sleepQuality": 7,
+            "sleepLenght": 8,
+            "headache": 9,
+            "stress": 10,
+            "abdominalCramps": 11,
+            "lowerBackPain": 12,
+            "pelvicPain": 13,
+            "acne": 14,
+            "appetiteChanges": 15,
+            "chestPain": 16,
+            "stepData": 17,
+            "mood": 18,
+            "notes": 19
         ]
         
         // initialize all possible fields with NULL
@@ -236,19 +239,20 @@ class ReportingDatabaseService {
             isCyMeSelfReport: isCyMeSelfReport,
             selfReportMedium: selfReportMedium,
             menstruationDate: columnValue(statement, index: 5),
-            sleepQuality: columnValue(statement, index: 6),
-            sleepLenght: columnValue(statement, index: 7),
-            headache: columnValue(statement, index: 8),
-            stress: columnValue(statement, index: 9),
-            abdominalCramps: columnValue(statement, index: 10),
-            lowerBackPain: columnValue(statement, index: 11),
-            pelvicPain: columnValue(statement, index: 12),
-            acne: columnValue(statement, index: 13),
-            appetiteChanges: columnValue(statement, index: 14),
-            chestPain: columnValue(statement, index: 15),
-            stepData: columnValue(statement, index: 16),
-            mood: columnValue(statement, index: 17),
-            notes: columnValue(statement, index: 18)
+            menstruationStart: columnValue(statement, index: 6),
+            sleepQuality: columnValue(statement, index: 7),
+            sleepLenght: columnValue(statement, index: 8),
+            headache: columnValue(statement, index: 9),
+            stress: columnValue(statement, index: 10),
+            abdominalCramps: columnValue(statement, index: 11),
+            lowerBackPain: columnValue(statement, index: 12),
+            pelvicPain: columnValue(statement, index: 13),
+            acne: columnValue(statement, index: 14),
+            appetiteChanges: columnValue(statement, index: 15),
+            chestPain: columnValue(statement, index: 16),
+            stepData: columnValue(statement, index: 17),
+            mood: columnValue(statement, index: 18),
+            notes: columnValue(statement, index: 19)
         )
         
         return reviewReport

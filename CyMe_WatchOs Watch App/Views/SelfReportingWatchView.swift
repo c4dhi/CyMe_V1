@@ -66,6 +66,8 @@ struct SelfReportWatchView: View {
                             AmountOfHourQuestionView(setting: healthData, selectedOption: $selectedOption)
                         case .open:
                             OpenTextQuestionView(selfReport: $selfReports)
+                        case .menstruationStartRating:
+                            MenstruationStartRatingQuestionView(setting: healthData, selectedOption: $selectedOption)
                         }
                     }
 
