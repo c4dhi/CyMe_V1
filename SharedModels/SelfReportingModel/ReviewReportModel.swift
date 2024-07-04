@@ -13,6 +13,7 @@ struct ReviewReportModel: Codable {
     var isCyMeSelfReport: Bool
     var selfReportMedium: selfReportMediumType
     var menstruationDate: String?
+    var menstruationStart: String?
     var sleepQuality: String?
     var sleepLenght: String?
     var headache: String?

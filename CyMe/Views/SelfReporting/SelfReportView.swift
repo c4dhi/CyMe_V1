@@ -59,7 +59,9 @@ struct SelfReportView: View {
                         case .emoticonRating:
                             EmoticonRatingQuestionView(setting: healthData, selectedOption: $selectedOption)
                         case .menstruationEmoticonRating:
-                            MenstruationEmoticonRatingQuestionView(setting: healthData,selectedOption: $selectedOption)
+                            MenstruationEmoticonRatingQuestionView(setting: healthData, selectedOption: $selectedOption)
+                        case .menstruationStartRating:
+                            MenstruationStartRatingQuestionView(setting: healthData, selectedOption: $selectedOption)
                         case .painEmoticonRating:
                             PainEmoticonRatingQuestionView(setting: healthData,selectedOption: $selectedOption)
                         case .changeEmoticonRating:
@@ -86,13 +88,19 @@ struct SelfReportView: View {
 
                         Spacer()
                         Button(action: {
-                            currentQuestionIndex += 1
+                            if shouldJumpOver() {
+                                currentQuestionIndex += 1
+                            }
+                            onSkip()
                         }) {
                             Text("Skip")
                         }
                         .padding()
 
                         Button(action: {
+                            if shouldJumpOver() {
+                                currentQuestionIndex += 1
+                            }
                             if currentQuestionIndex < filteredHealthData.count - 1 {
                                 onNext()
                             } else {
@@ -120,6 +128,11 @@ struct SelfReportView: View {
             }
         }
         .ignoresSafeArea()
+    }
+    
+    func shouldJumpOver() -> Bool {
+        guard let lastReport = selectedOption else { return false }
+        return lastReport.questionType == .menstruationEmoticonRating && (lastReport.reportedValue == "No" || lastReport.reportedValue == nil)
     }
 
     func onNext() {

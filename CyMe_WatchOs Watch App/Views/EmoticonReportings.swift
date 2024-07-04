@@ -106,6 +106,30 @@ struct MenstruationEmoticonRatingQuestionView: View {
     }
 }
 
+struct MenstruationStartRatingQuestionView: View {
+    var setting: HealthDataWithoutNilModel
+    @Binding var selectedOption: SymptomSelfReportModel?
+    @State var isFirstDayOfPeriod = false
+
+
+    var body: some View {
+        VStack(alignment: .center) {
+                Toggle(setting.question, isOn: $isFirstDayOfPeriod)
+                    .padding(.bottom, 10)
+                    .padding(.top, 50)
+                    .padding(.horizontal)
+                    .onAppear {
+                        selectedOption = SymptomSelfReportModel(healthDataName: setting.name, healthDataLabel: setting.label, questionType: setting.questionType, reportedValue: String(isFirstDayOfPeriod))
+                    }
+                    .onChange(of: isFirstDayOfPeriod) { newValue in
+                        selectedOption = SymptomSelfReportModel(healthDataName: setting.name, healthDataLabel: setting.label, questionType: setting.questionType, reportedValue: String(newValue))
+                    }
+            
+        }
+    }
+}
+
+
 struct PainEmoticonRatingQuestionView: View {
     var setting: HealthDataWithoutNilModel
     @Binding var selectedOption : SymptomSelfReportModel?
