@@ -2,7 +2,7 @@ import SwiftUI
 
 class HomeViewModel: ObservableObject {
     @Published var cycleLength = 30
-    @Published var cycleDay = 13
+    @Published var cycleDay : Int = 16
     @Published var totalReports = 6
     @Published var circleRadius: CGFloat = 90.0
     @Published var userName : String = ""
@@ -27,6 +27,7 @@ class HomeViewModel: ObservableObject {
     init() {
         reportingDatabaseService = ReportingDatabaseService()
         userDatabaseService = UserDatabaseService()
+
         fetchReports()
     }
     
@@ -36,7 +37,9 @@ class HomeViewModel: ObservableObject {
         let userSettings = userDatabaseService.loadUser()
         userName = userSettings.name
         cycleLength = userSettings.cycleLength ?? 30
-        reports = reportingDatabaseService.getReports(from: startTime, to: endTime)
+        DispatchQueue.main.async {
+            self.reports = self.reportingDatabaseService.getReports(from: startTime, to: endTime)
+        }
         totalReports = reports.count
     }
     

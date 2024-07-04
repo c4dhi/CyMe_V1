@@ -204,6 +204,15 @@ func buildCollectedQuantityQuarterAnalysis (cycleOverview: [Int?]) -> (String, I
 
 func buildCollectedQuantityHint(cycleOverview : [Int?], title: String, type: availableHealthMetrics) -> [String] {
     
+    var anyNonNilValues = false
+    for entry in cycleOverview {
+        if entry != nil{
+            anyNonNilValues = true
+        }
+    }
+    if !anyNonNilValues { return ["You don't have any \(title) data reported."]}
+    
+    
     // Quarter Frequency Analysis
     let quarter = buildCollectedQuantityQuarterAnalysis(cycleOverview: cycleOverview)
 
