@@ -49,12 +49,13 @@ class DiscoverViewModel: ObservableObject {
         
         combindedDataModel = CombinedDataModel()
         relevantDataClass = RelevantData()
-        menstruationRanges = MenstruationRanges(reportingDatabaseService: reportingDatabaseService)
+        menstruationRanges = MenstruationRanges()
         
         Task {
             await self.getSymptomes()
         }
     }
+    
     
     
     func updateSymptoms (currentCycle : Bool = true) async {

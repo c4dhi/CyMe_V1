@@ -17,11 +17,10 @@ class MenstruationRanges : ObservableObject {
     var periodDataListFull : [PeriodSampleModel] = []
     
     let healthKitService =  HealthKitService()
-    let reportingDatabaseService :  ReportingDatabaseService
+    let reportingDatabaseService :  ReportingDatabaseService = ReportingDatabaseService()
     
-    init(reportingDatabaseService : ReportingDatabaseService){
+    init(){
         self.cycleDay = self.currentDateRange.count
-        self.reportingDatabaseService = reportingDatabaseService
         Task{
             await getLastPeriodDates()
         }

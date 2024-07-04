@@ -23,12 +23,20 @@ class HomeViewModel: ObservableObject {
     ]
     private var reportingDatabaseService: ReportingDatabaseService
     private var userDatabaseService: UserDatabaseService
+    private var menstruationRanges : MenstruationRanges
     
     init() {
         reportingDatabaseService = ReportingDatabaseService()
         userDatabaseService = UserDatabaseService()
+        menstruationRanges = MenstruationRanges()
 
         fetchReports()
+        DispatchQueue.main.async {
+            Task{
+                await self.menstruationRanges.getLastPeriodDates()
+                self.cycleDay = self.menstruationRanges.cycleDay
+            }
+        }
     }
     
     func fetchReports() {
