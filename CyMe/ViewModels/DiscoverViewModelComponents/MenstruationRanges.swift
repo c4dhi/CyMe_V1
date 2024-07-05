@@ -79,7 +79,7 @@ class MenstruationRanges : ObservableObject {
         var dateRangeToReturn : [Date] = []
        
         var iterator = startDate
-        while iterator <= endDate {
+        while iterator <= getAppropriateEndDate(lastEntry: endDate) {
             dateRangeToReturn.append(iterator)
             guard let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: iterator) else {
                 break
