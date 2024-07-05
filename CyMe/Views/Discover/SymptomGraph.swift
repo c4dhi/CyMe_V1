@@ -10,17 +10,26 @@ import Charts
 
 struct SymptomGraph: View {
     var symptom: SymptomModel
-
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
 
     var body: some View {
         ScrollView(.horizontal) {
             Chart {
-                ForEach(Array(symptom.toLineChartData().enumerated()), id: \.element.id) { (index, item) in
+                let chartData = symptom.toLineChartData()
+                ForEach(chartData) { item in
                     LineMark(
                         x: .value("Cycle Day", item.day),
                         y: .value("Hours", item.hours)
                     )
-                    .foregroundStyle(.green)
+                    .foregroundStyle(theme.primaryColor.toColor())
+                }
+                
+                ForEach(chartData) { item in
+                    PointMark(
+                        x: .value("Cycle Day", item.day),
+                        y: .value("Hours", item.hours)
+                    )
+                    .foregroundStyle(theme.accentColor.toColor())
                 }
             }
             .chartXAxis {
@@ -56,7 +65,7 @@ struct SymptomGraph_Previews: PreviewProvider {
         SymptomGraph(symptom: SymptomModel(
             title: "Example Symptom Graph",
             dateRange: [],
-            cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
+            cycleOverview: [1, 2, nil, 4, 3, 2, 1, nil, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
             hints: ["Most frequent in luteal phase"],
             min: "1",
             max: "4",
@@ -84,21 +93,17 @@ struct LineChartData: Identifiable {
     var questionType: QuestionType
 }
 
+
 extension SymptomModel {
-    func toPointChartData() -> [PointChartData] {
-        var pointChartData: [PointChartData] = []
-        for (index, intensity) in cycleOverview.enumerated() {
-            let data = PointChartData(title: title, day: index + 1, intensity: intensity ?? 0, questionType: self.questionType)
-            pointChartData.append(data)
-        }
-        return pointChartData
-    }
     func toLineChartData() -> [LineChartData] {
         var lineChartData: [LineChartData] = []
         for (index, hour) in cycleOverview.enumerated() {
-                let data = LineChartData(title: title, day: index + 1, hours: hour ?? 0, questionType: self.questionType)
+            if let hour = hour {
+                let data = LineChartData(title: title, day: index + 1, hours: hour, questionType: self.questionType)
                 lineChartData.append(data)
+            }
         }
         return lineChartData
     }
 }
+

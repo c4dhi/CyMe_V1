@@ -141,39 +141,6 @@ class ReportingDatabaseService {
         return true
     }
     
-    /*func getReports(from startDate: Date, to endDate: Date) -> [SelfReportModel] {
-            var reports: [SelfReportModel] = []
-            print(startDate)
-            print(endDate)
-            let query = """
-                SELECT * FROM reports
-                WHERE timeFinished >= ? AND timeFinished <= ?
-                """
-            
-            var statement: OpaquePointer?
-            
-            guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
-                print("Error preparing query statement")
-                return reports
-            }
-            
-            defer { sqlite3_finalize(statement) }
-            
-            // Bind the startDate and endDate to the query
-            sqlite3_bind_text(statement, 1, dateToStringUTF8(startDate), -1, nil)
-            sqlite3_bind_text(statement, 2, dateToStringUTF8(endDate), -1, nil)
-            
-            // Execute the query
-            while sqlite3_step(statement) == SQLITE_ROW {
-                let timeStartedCString = sqlite3_column_text(statement, 1),
-                let timeFinishedCString = sqlite3_column_text(statement, 2),
-                let isCyMeSelfReport = sqlite3_column_int(statement, 3) == 1
-                let selfReportMediumCString = sqlite3_column_text(statement, 4)
-            }
-            
-            return reports
-        }*/
-    
     func getReports(from startDate: Date, to endDate: Date) -> [ReviewReportModel] {
         var reports: [ReviewReportModel] = []
         
