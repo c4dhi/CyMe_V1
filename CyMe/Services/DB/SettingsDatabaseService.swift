@@ -157,6 +157,15 @@ class SettingsDatabaseService {
                 dataLocation: .onlyCyMe,
                 question: "What mood do you currently have?",
                 questionType: .emoticonRating
+            ),
+            HealthDataSettingsModel(
+                name: "exerciseTime",
+                label: "Exercise Time",
+                enableDataSync: false,
+                enableSelfReportingCyMe: false,
+                dataLocation: .onlyAppleHealth,
+                question: nil,
+                questionType: nil
             )
         ]
         return defaultValues

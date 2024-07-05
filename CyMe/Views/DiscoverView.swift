@@ -31,6 +31,7 @@ struct DiscoverView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             
+            
 
             
             if let symptom = selectedSymptom {
@@ -70,7 +71,24 @@ struct DiscoverView: View {
         }
         .padding()
         .onAppear {
-            selectedSymptom = viewModel.symptoms.first
+            Task{
+                await viewModel.updateSymptoms()
+                selectedSymptom = viewModel.symptoms.first
+            }
+            selectedCycleOption = 1
+        }
+        .onChange(of: selectedCycleOption){ newValue in
+            let rememberSelectedSymptom = selectedSymptom?.title
+            Task{
+                await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1))
+                
+                for symptom in viewModel.symptoms{
+                    if symptom.title == rememberSelectedSymptom{
+                        selectedSymptom = symptom
+                        break
+                    }
+                }
+            }
         }
     }
 }

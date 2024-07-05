@@ -55,7 +55,10 @@ struct VisualisationView: View {
         }
         .padding()
         .onAppear {
-            selectedSymptoms = Set(viewModel.symptoms)
+            Task{
+                await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1))
+                selectedSymptoms = Set(viewModel.symptoms)
+            }
         }
         .onReceive([selectedCycleOption].publisher.first()) { _ in
             // Logic to handle selection change (this cycle or last cycle)
@@ -64,6 +67,12 @@ struct VisualisationView: View {
         }
         .sheet(isPresented: $showingFilterSheet) {
             SymptomFilterView(symptoms: viewModel.symptoms, selectedSymptoms: $selectedSymptoms, showingFilterSheet: $showingFilterSheet)
+        }
+        .onChange(of: selectedCycleOption){ newValue in
+            Task{
+                await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1))
+                selectedSymptoms = Set(viewModel.symptoms)
+                }
         }
     }
 }

@@ -65,33 +65,7 @@ class HealthKitService {
         }
     }
     
-    
-    func get_health_data()  {
-        // We fetch some selfreported data
-        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.headache)
-        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.abdominalCramps) // Bauchkrämpfe
-        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.lowerBackPain) // Kreuzschmerzen
-        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.pelvicPain) // Unterleibsschmerzen
-        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.acne)
-        //fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.chestTightnessOrPain) // Engegefühl oder Schmerzen in der Brust
-        
-        // Fetch some automatically generated data
-        //fetchCollectedQuantityData(amountOfDays: 5, dataName: HKQuantityTypeIdentifier.stepCount)
-        //fetchCollectedQuantityData(amountOfDays: 5, dataName: HKQuantityTypeIdentifier.appleExerciseTime)
-    
-        
-        // Write some data
-        //writeSelfreportedSamples(dataName: HKCategoryTypeIdentifier.memoryLapse)
-        // TODO not all of these are tested
-        
-        // We fetch period data
-        //fetchPeriodData()
-        
-        // We fetch sleep data
-        //fetchSleepData()
-        
-    }
-    
+    /* Still necessary??
     func getSymptomes() -> [SymptomModel]  {
         // TODO get symptomes
         return [
@@ -158,7 +132,7 @@ class HealthKitService {
         ]
         
     }
-    
+     */
     
     func writeSelfreportedSamples(dataName: HKCategoryTypeIdentifier){
         guard let dataType = HKObjectType.categoryType(forIdentifier: dataName) else {
@@ -226,14 +200,15 @@ class HealthKitService {
     }
         
     
-    func fetchPeriodData() async throws -> [PeriodSampleModel]{
+    func fetchPeriodData(startDate : Date, endDate : Date) async throws -> [PeriodSampleModel]{
          guard let menstrualFlowType = HKObjectType.categoryType(forIdentifier: .menstrualFlow) else {
              print("Menstrual Flow type not available")
              return []
          }
 
         return try await withCheckedThrowingContinuation { continuation in
-            let query = HKSampleQuery(sampleType: menstrualFlowType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [self.sortDescriptorChronological]) { (query, samples, error) in
+            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: [.strictStartDate, .strictEndDate])
+            let query = HKSampleQuery(sampleType: menstrualFlowType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [self.sortDescriptorChronological]) { (query, samples, error) in
                 guard let samples = samples as? [HKCategorySample], error == nil else {
                     continuation.resume(throwing: error ?? NSError(domain: "HealthKitFetch", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unknown error"]))
                     return

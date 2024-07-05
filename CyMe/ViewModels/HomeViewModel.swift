@@ -2,9 +2,10 @@ import SwiftUI
 
 class HomeViewModel: ObservableObject {
     @Published var cycleLength = 30
-    @Published var cycleDay = 13
+    @Published var cycleDay : Int = 0
     @Published var totalReports = 6
     @Published var circleRadius: CGFloat = 90.0
+    @Published var userName : String = ""
     @Published var reports: [ReviewReportModel] = []
     @Published var reportNotes = [
         "Headache in the morning, mild.",
@@ -22,19 +23,31 @@ class HomeViewModel: ObservableObject {
     ]
     private var reportingDatabaseService: ReportingDatabaseService
     private var userDatabaseService: UserDatabaseService
-        
+    private var menstruationRanges : MenstruationRanges
+    
     init() {
         reportingDatabaseService = ReportingDatabaseService()
         userDatabaseService = UserDatabaseService()
+        menstruationRanges = MenstruationRanges()
+
         fetchReports()
+        DispatchQueue.main.async {
+            Task{
+                await self.menstruationRanges.getLastPeriodDates()
+                self.cycleDay = self.menstruationRanges.cycleDay
+            }
+        }
     }
     
     func fetchReports() {
         let startTime = Calendar.current.startOfDay(for: Date())
         let endTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date()) ?? Date()
         let userSettings = userDatabaseService.loadUser()
+        userName = userSettings.name
         cycleLength = userSettings.cycleLength ?? 30
-        reports = reportingDatabaseService.getReports(from: startTime, to: endTime)
+        DispatchQueue.main.async {
+            self.reports = self.reportingDatabaseService.getReports(from: startTime, to: endTime)
+        }
         totalReports = reports.count
     }
     

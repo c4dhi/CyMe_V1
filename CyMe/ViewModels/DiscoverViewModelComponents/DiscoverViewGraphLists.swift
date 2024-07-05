@@ -12,6 +12,10 @@ import Foundation
 func buildcollectedDataGraphArray(symptomList: [Date: Int], dateRange: [Date], sleepLength : Bool = false) -> [Int?]{
     var dataGraphArray : [Int?] = []
     
+    if dateRange.count == 0{
+        return []
+    }
+    
     if !sleepLength{
         let firstDate = Calendar.current.date(byAdding: .hour, value: -12, to: dateRange[0])!
         dataGraphArray.append(symptomList[firstDate] ?? nil)
@@ -51,30 +55,21 @@ func buildSymptomGraphArray(symptomList: [DataProtocoll], dateRange : [Date], ap
             let dailySymptomList = symptomList.filterByStartDate(startDate: date)
             
             var consideredSymptom : DataProtocoll
-            if dailySymptomList.count > 1{
-                // For multiple reports in a day we choose the most intense one
-                var maxIntensitySymptom = dailySymptomList[0]
-                for symptom in dailySymptomList{
-                    if symptom.intensity == 1 { // Not present is the weakest, strictly smallest cathegory, everything is more intense than "not present"
-                        continue
-                    }
-                    if symptom.intensity > maxIntensitySymptom.intensity{
-                        maxIntensitySymptom = symptom
-                    }
+            // For multiple reports in a day we choose the average
+            var sumOfIntensities = 0.0
+            for symptom in dailySymptomList{
+                var intensity : Int
+                
+                if appetiteChange{
+                    intensity = (intensityMappingAppetiteChangeToCyMe[symptom.intensity]!) ?? 0
                 }
-                consideredSymptom = maxIntensitySymptom
+                else{
+                    intensity = (intensityMappingAppleHealthToCyMe[symptom.intensity])! ?? 0
+                }
+                sumOfIntensities += Double(intensity)
             }
-            else {
-                consideredSymptom = dailySymptomList[0]
-            }
-            
-            let appleHealthIntensity = consideredSymptom.intensity
-            if appetiteChange{
-                symptomGraphArray.append((intensityMappingAppetiteChangeToCyMe[appleHealthIntensity]!))
-            }
-            else{
-                symptomGraphArray.append(intensityMappingAppleHealthToCyMe[appleHealthIntensity]!)
-            }
+            let  average = sumOfIntensities/Double(dailySymptomList.count) // The average of a single value still makes sense
+            symptomGraphArray.append(Int(ceil(average)))
             
         }
         else{
