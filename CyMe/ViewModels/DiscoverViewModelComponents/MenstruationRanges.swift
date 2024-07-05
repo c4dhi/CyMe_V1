@@ -31,7 +31,9 @@ class MenstruationRanges : ObservableObject {
     func updateData() async {
         periodDataListFull  = []
         
-        do { periodDataListFull = try await healthKitService.fetchPeriodData() }
+        let aYearAgo = Calendar.current.date(byAdding: .year, value: -1, to: Date())! // This is a choice
+        
+        do { periodDataListFull = try await healthKitService.fetchPeriodData(startDate: aYearAgo, endDate: Date()) }
         catch { print("Error: \(error)") }
         
         let startDate = Calendar.current.date(byAdding: .year, value: -1, to: Date())! //At first we go a year back, just an arbitrary choice

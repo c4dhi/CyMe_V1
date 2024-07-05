@@ -260,7 +260,7 @@ class DiscoverViewModel: ObservableObject {
 
     func fetchRelevantAppleHealthData(relevantDataList : [availableHealthMetrics], startDate: Date, endDate: Date, combinedDataModel : inout CombinedDataModel) async { // Gets the desired data and stores them in class variables
         
-        do { combinedDataModel.periodDataList  = try await healthKitService.fetchPeriodData() }
+        do { combinedDataModel.periodDataList  = try await healthKitService.fetchPeriodData(startDate : startDate, endDate : endDate) }
         catch { print("Error: \(error)") }
         
         
