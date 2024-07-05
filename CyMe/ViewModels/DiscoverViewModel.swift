@@ -32,19 +32,21 @@ enum availableHealthMetrics: String {
 class DiscoverViewModel: ObservableObject {
     @Published var symptoms: [SymptomModel] = []
     
+    var healthKitService: HealthKitService
+    var reportingDatabaseService: ReportingDatabaseService
+    
     var symptomsCurrentCycle : [SymptomModel] = []
     var symptomsLastFullCycle : [SymptomModel] = []
     var symptomsSecondToLastFullCycle : [SymptomModel] = []
-    
-    var healthKitService: HealthKitService
-    var reportingDatabaseService: ReportingDatabaseService
 
-    var combindedDataModelCurrent : CombinedDataModel
-    var combindedDataModelLast : CombinedDataModel
-    var combindedDataModelSecondToLast : CombinedDataModel
+    var combinedDataModelCurrent : CombinedDataModel
+    var combinedDataModelLast : CombinedDataModel
+    var combinedDataModelSecondToLast : CombinedDataModel
     
     var relevantDataClass : RelevantData
     var menstruationRanges : MenstruationRanges
+    
+    var availableCycles = 0
     
     let verbose = false
 
@@ -54,9 +56,9 @@ class DiscoverViewModel: ObservableObject {
         healthKitService = HealthKitService()
         reportingDatabaseService =  ReportingDatabaseService()
         
-        combindedDataModelCurrent = CombinedDataModel()
-        combindedDataModelLast = CombinedDataModel()
-        combindedDataModelSecondToLast = CombinedDataModel()
+        combinedDataModelCurrent = CombinedDataModel()
+        combinedDataModelLast = CombinedDataModel()
+        combinedDataModelSecondToLast = CombinedDataModel()
         
         
         relevantDataClass = RelevantData()
@@ -71,9 +73,9 @@ class DiscoverViewModel: ObservableObject {
     
     func updateSymptoms (currentCycle : Bool = true) async {
         
-        combindedDataModelCurrent = CombinedDataModel()
-        combindedDataModelLast = CombinedDataModel()
-        combindedDataModelSecondToLast = CombinedDataModel()
+        combinedDataModelCurrent = CombinedDataModel()
+        combinedDataModelLast = CombinedDataModel()
+        combinedDataModelSecondToLast = CombinedDataModel()
         
         relevantDataClass.getRelevantDataLists()
         
@@ -82,12 +84,40 @@ class DiscoverViewModel: ObservableObject {
             return // There is no period date to be detected
         }
         
+        if(menstruationRanges.currentDateRange.count > 0){
+            combinedDataModelCurrent = await getCombinedDataModel(dateRange: menstruationRanges.currentDateRange)
+            availableCycles = 1
+        }
         
-        symptomsCurrentCycle = await getSymptomes(dateRange: menstruationRanges.currentDateRange, combinedDataModel: &combindedDataModelCurrent)
+        if(menstruationRanges.lastFullCycleDateRange.count > 0){
+            combinedDataModelLast = await getCombinedDataModel(dateRange: menstruationRanges.lastFullCycleDateRange)
+            availableCycles = 2
+        }
         
-        symptomsLastFullCycle = await getSymptomes(dateRange: menstruationRanges.lastFullCycleDateRange, combinedDataModel: &combindedDataModelLast)
+        if(menstruationRanges.secondToLastFullCycleDateRange.count > 0){
+            combinedDataModelSecondToLast = await getCombinedDataModel(dateRange: menstruationRanges.secondToLastFullCycleDateRange)
+            availableCycles = 3
+        }
         
-        symptomsSecondToLastFullCycle = await getSymptomes(dateRange: menstruationRanges.secondToLastFullCycleDateRange, combinedDataModel: &combindedDataModelSecondToLast)
+        if availableCycles >= 1 {
+            symptomsCurrentCycle = buildSymptomModels(relevantDataList : relevantDataClass.relevantForDisplay, dateRange: menstruationRanges.currentDateRange, combinedDataModel : combinedDataModelCurrent)
+        }
+        else {
+            symptomsCurrentCycle = []
+        }
+        
+        if availableCycles >= 2 {
+            symptomsLastFullCycle = buildSymptomModels(relevantDataList : relevantDataClass.relevantForDisplay, dateRange: menstruationRanges.lastFullCycleDateRange, combinedDataModel : combinedDataModelLast)
+        }
+        else {
+            symptomsLastFullCycle = []
+        }
+        if availableCycles >= 3 {
+            symptomsSecondToLastFullCycle = buildSymptomModels(relevantDataList : relevantDataClass.relevantForDisplay, dateRange: menstruationRanges.secondToLastFullCycleDateRange, combinedDataModel : combinedDataModelSecondToLast)
+        }
+        else{
+            symptomsSecondToLastFullCycle = []
+        }
         
         DispatchQueue.main.async {
             if currentCycle{
@@ -100,15 +130,16 @@ class DiscoverViewModel: ObservableObject {
     }
     
     
-    func getSymptomes(dateRange : [Date], combinedDataModel : inout CombinedDataModel) async -> [SymptomModel] {
+    func getCombinedDataModel(dateRange : [Date]) async -> (CombinedDataModel) {
+        
+        var combinedDataModelToReturn = CombinedDataModel()
         
         let startDate = menstruationRanges.getAppropriateStartDate(firstEntry: dateRange[0])
         let endDate =  menstruationRanges.getAppropriateEndDate(lastEntry: dateRange[dateRange.count-1])
         
-        await fetchRelevantAppleHealthData(relevantDataList : relevantDataClass.relevantForAppleHealthFetch, startDate: startDate, endDate: endDate, combinedDataModel: &combinedDataModel)
-        fetchRelevantCyMeData(startDate: startDate, endDate: endDate, combinedDataModel: &combinedDataModel)
-        
-        return buildSymptomModels(relevantDataList : relevantDataClass.relevantForDisplay, dateRange: dateRange, startDate: startDate, endDate : endDate, combinedDataModel : &combinedDataModel)
+        await fetchRelevantAppleHealthData(relevantDataList : relevantDataClass.relevantForAppleHealthFetch, startDate: startDate, endDate: endDate, combinedDataModel: &combinedDataModelToReturn)
+        fetchRelevantCyMeData(startDate: startDate, endDate: endDate, combinedDataModel: &combinedDataModelToReturn)
+        return (combinedDataModelToReturn)
 
     }
     
@@ -287,11 +318,9 @@ class DiscoverViewModel: ObservableObject {
     }
     
     
-    func buildSingleSymptomModel (title: String, symptomList : [DataProtocoll], dateRange : [Date], appetiteChange : Bool = false) -> SymptomModel {
+    func buildSingleSymptomModel (title: String, symptomList : [DataProtocoll], dateRange : [Date], appetiteChange : Bool = false, statistics : [String], covarianceAndList : (Float, [[Int?]])) -> SymptomModel {
         let cycleOverview : [Int?] =  buildSymptomGraphArray(symptomList: symptomList, dateRange: dateRange, appetiteChange: appetiteChange)
         let hints : [String] = buildSymptomHints(cycleOverview: cycleOverview, symptomList: symptomList, dateRange: dateRange, title: title, removeMaxMinHint: appetiteChange)
-        let statistics : [String] = buildSymptomMinMaxAverage(symptomList: symptomList, dateRange: dateRange)
-        let covariance : Float = buildSymptomCovariance(symptomList: symptomList, dateRange: dateRange)
         
         var questionType : QuestionType
         
@@ -306,15 +335,18 @@ class DiscoverViewModel: ObservableObject {
             min: statistics[0],
             max: statistics[1],
             average: statistics[2],
-            covariance: covariance,
-            covarianceOverview: [], //TODO
+            covariance: covarianceAndList.0,
+            covarianceOverview: covarianceAndList.1,
             questionType: questionType
         )
         return symptomModel
     }
     
-    func buildSymptomModels (relevantDataList : [availableHealthMetrics], dateRange: [Date], startDate : Date, endDate : Date, combinedDataModel : inout CombinedDataModel) -> [SymptomModel]{
+    func buildSymptomModels (relevantDataList : [availableHealthMetrics], dateRange: [Date], combinedDataModel : CombinedDataModel) -> [SymptomModel]{
         var symptomListToReturn  : [SymptomModel] = []
+        
+        let startDate = menstruationRanges.getAppropriateStartDate(firstEntry: dateRange[0])
+        let endDate =  menstruationRanges.getAppropriateEndDate(lastEntry: dateRange[dateRange.count-1])
         
         
         // We will always display bleeding
@@ -330,8 +362,8 @@ class DiscoverViewModel: ObservableObject {
     
         let cycleOverview : [Int?] =  buildCyMeGraphArray(symptomList: symptomList, dateRange: dateRange, period: true)
         let hints : [String] = buildSymptomHints(cycleOverview: cycleOverview, symptomList: symptomList, dateRange: dateRange, title: title)
-        let statistics : [String] = buildSymptomMinMaxAverage(symptomList: symptomList, dateRange: dateRange)
-        let covariance : Float = buildSymptomCovariance(symptomList: symptomList, dateRange: dateRange)
+        let statistics : [String] = buildSymptomMinMaxAverage(symptomListCurrent: self.combinedDataModelCurrent.periodDataList, symptomListLast: self.combinedDataModelLast.periodDataList, symptomListSecondToLast: self.combinedDataModelSecondToLast.periodDataList, title: title, availableCycles: availableCycles)
+        let covarianceAndList : (Float, [[Int?]]) = buildCovariance(cycleOverviewCurrent: buildCyMeGraphArray(symptomList: combinedDataModelCurrent.periodDataList, dateRange: menstruationRanges.currentDateRange, period: true), cycleOverviewLast:  buildCyMeGraphArray(symptomList: combinedDataModelLast.periodDataList, dateRange: menstruationRanges.lastFullCycleDateRange, period: true), cycleOverviewSecondToLast:  buildCyMeGraphArray(symptomList: combinedDataModelSecondToLast.periodDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange, period: true), cyclesAvailable: availableCycles)
         
         let symptomModel = SymptomModel(
             title: title,
@@ -341,47 +373,61 @@ class DiscoverViewModel: ObservableObject {
             min: statistics[0],
             max: statistics[1],
             average: statistics[2],
-            covariance: covariance,
-            covarianceOverview: [], //TODO
+            covariance: covarianceAndList.0,
+            covarianceOverview: covarianceAndList.1,
             questionType: .menstruationEmoticonRating)
         symptomListToReturn.append(symptomModel)
         
         
         
         if relevantDataList.contains(.headache){
-            let symptomModel = buildSingleSymptomModel(title: "Headaches", symptomList: combinedDataModel.headacheDataList, dateRange: dateRange)
+            let statistics : [String] = buildSymptomMinMaxAverage(symptomListCurrent: self.combinedDataModelCurrent.headacheDataList, symptomListLast: self.combinedDataModelLast.headacheDataList, symptomListSecondToLast: self.combinedDataModelSecondToLast.headacheDataList, title: "Headaches", availableCycles: availableCycles)
+            let covarianceAndList : (Float, [[Int?]]) = buildCovariance(cycleOverviewCurrent: buildSymptomGraphArray(symptomList: combinedDataModelCurrent.headacheDataList, dateRange: menstruationRanges.currentDateRange), cycleOverviewLast:  buildSymptomGraphArray(symptomList: combinedDataModelLast.headacheDataList, dateRange: menstruationRanges.lastFullCycleDateRange), cycleOverviewSecondToLast:  buildSymptomGraphArray(symptomList: combinedDataModelSecondToLast.headacheDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange), cyclesAvailable: availableCycles)
+            let symptomModel = buildSingleSymptomModel(title: "Headaches", symptomList: combinedDataModel.headacheDataList, dateRange: dateRange, statistics: statistics, covarianceAndList: covarianceAndList)
             symptomListToReturn.append(symptomModel)
         }
         
         if relevantDataList.contains(.abdominalCramps){
-            let symptomModel = buildSingleSymptomModel(title: "Abdominal Cramps", symptomList: combinedDataModel.abdominalCrampsDataList, dateRange: dateRange)
+            let statistics : [String] = buildSymptomMinMaxAverage(symptomListCurrent: self.combinedDataModelCurrent.abdominalCrampsDataList, symptomListLast: self.combinedDataModelLast.abdominalCrampsDataList, symptomListSecondToLast: self.combinedDataModelSecondToLast.abdominalCrampsDataList, title: "Abdominal Cramps", availableCycles: availableCycles)
+            let covarianceAndList : (Float, [[Int?]]) = buildCovariance(cycleOverviewCurrent: buildSymptomGraphArray(symptomList: combinedDataModelCurrent.abdominalCrampsDataList, dateRange: menstruationRanges.currentDateRange), cycleOverviewLast:  buildSymptomGraphArray(symptomList: combinedDataModelLast.abdominalCrampsDataList, dateRange: menstruationRanges.lastFullCycleDateRange), cycleOverviewSecondToLast:  buildSymptomGraphArray(symptomList: combinedDataModelSecondToLast.abdominalCrampsDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange), cyclesAvailable: availableCycles)
+            let symptomModel = buildSingleSymptomModel(title: "Abdominal Cramps", symptomList: combinedDataModel.abdominalCrampsDataList, dateRange: dateRange, statistics: statistics, covarianceAndList: covarianceAndList)
             symptomListToReturn.append(symptomModel)
             
         }
         
         if relevantDataList.contains(.lowerBackPain){
-            let symptomModel = buildSingleSymptomModel(title: "Lower Back Pain", symptomList: combinedDataModel.lowerBackPainDataList, dateRange: dateRange)
+            let statistics : [String] = buildSymptomMinMaxAverage(symptomListCurrent: self.combinedDataModelCurrent.lowerBackPainDataList, symptomListLast: self.combinedDataModelLast.lowerBackPainDataList, symptomListSecondToLast: self.combinedDataModelSecondToLast.lowerBackPainDataList, title: "Lower Back Pain", availableCycles: availableCycles)
+            let covarianceAndList : (Float, [[Int?]]) = buildCovariance(cycleOverviewCurrent: buildSymptomGraphArray(symptomList: combinedDataModelCurrent.lowerBackPainDataList, dateRange: menstruationRanges.currentDateRange), cycleOverviewLast:  buildSymptomGraphArray(symptomList: combinedDataModelLast.lowerBackPainDataList, dateRange: menstruationRanges.lastFullCycleDateRange), cycleOverviewSecondToLast:  buildSymptomGraphArray(symptomList: combinedDataModelSecondToLast.lowerBackPainDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange), cyclesAvailable: availableCycles)
+            let symptomModel = buildSingleSymptomModel(title: "Lower Back Pain", symptomList: combinedDataModel.lowerBackPainDataList, dateRange: dateRange, statistics: statistics, covarianceAndList: covarianceAndList)
             symptomListToReturn.append(symptomModel)
         }
         
         if relevantDataList.contains(.pelvicPain){
-            let symptomModel = buildSingleSymptomModel(title: "Pelvic Pain", symptomList: combinedDataModel.pelvicPainDataList, dateRange: dateRange)
+            let statistics : [String] = buildSymptomMinMaxAverage(symptomListCurrent: self.combinedDataModelCurrent.pelvicPainDataList, symptomListLast: self.combinedDataModelLast.pelvicPainDataList, symptomListSecondToLast: self.combinedDataModelSecondToLast.pelvicPainDataList, title: "Pelvic Pain", availableCycles: availableCycles)
+            let covarianceAndList : (Float, [[Int?]]) = buildCovariance(cycleOverviewCurrent: buildSymptomGraphArray(symptomList: combinedDataModelCurrent.pelvicPainDataList, dateRange: menstruationRanges.currentDateRange), cycleOverviewLast:  buildSymptomGraphArray(symptomList: combinedDataModelLast.pelvicPainDataList, dateRange: menstruationRanges.lastFullCycleDateRange), cycleOverviewSecondToLast:  buildSymptomGraphArray(symptomList: combinedDataModelSecondToLast.pelvicPainDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange), cyclesAvailable: availableCycles)
+            let symptomModel = buildSingleSymptomModel(title: "Pelvic Pain", symptomList: combinedDataModel.pelvicPainDataList, dateRange: dateRange, statistics: statistics, covarianceAndList: covarianceAndList)
             symptomListToReturn.append(symptomModel)
         }
         
         if relevantDataList.contains(.acne){
-            let symptomModel = buildSingleSymptomModel(title: "Acne", symptomList: combinedDataModel.acneDataList, dateRange: dateRange)
+            let statistics : [String] = buildSymptomMinMaxAverage(symptomListCurrent: self.combinedDataModelCurrent.acneDataList, symptomListLast: self.combinedDataModelLast.acneDataList, symptomListSecondToLast: self.combinedDataModelSecondToLast.acneDataList, title: "Acne", availableCycles: availableCycles)
+            let covarianceAndList : (Float, [[Int?]]) = buildCovariance(cycleOverviewCurrent: buildSymptomGraphArray(symptomList: combinedDataModelCurrent.acneDataList, dateRange: menstruationRanges.currentDateRange), cycleOverviewLast:  buildSymptomGraphArray(symptomList: combinedDataModelLast.acneDataList, dateRange: menstruationRanges.lastFullCycleDateRange), cycleOverviewSecondToLast:  buildSymptomGraphArray(symptomList: combinedDataModelSecondToLast.acneDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange), cyclesAvailable: availableCycles)
+            let symptomModel = buildSingleSymptomModel(title: "Acne", symptomList: combinedDataModel.acneDataList, dateRange: dateRange, statistics: statistics, covarianceAndList: covarianceAndList)
             symptomListToReturn.append(symptomModel)
         }
         
         if relevantDataList.contains(.chestTightnessOrPain){
-            let symptomModel = buildSingleSymptomModel(title: "Chest Tightness or Pain", symptomList: combinedDataModel.chestTightnessOrPainDataList, dateRange: dateRange)
+            let statistics : [String] = buildSymptomMinMaxAverage(symptomListCurrent: self.combinedDataModelCurrent.chestTightnessOrPainDataList, symptomListLast: self.combinedDataModelLast.chestTightnessOrPainDataList, symptomListSecondToLast: self.combinedDataModelSecondToLast.chestTightnessOrPainDataList, title: "Chest Tightness or Pain", availableCycles: availableCycles)
+            let covarianceAndList : (Float, [[Int?]]) = buildCovariance(cycleOverviewCurrent: buildSymptomGraphArray(symptomList: combinedDataModelCurrent.chestTightnessOrPainDataList, dateRange: menstruationRanges.currentDateRange), cycleOverviewLast:  buildSymptomGraphArray(symptomList: combinedDataModelLast.chestTightnessOrPainDataList, dateRange: menstruationRanges.lastFullCycleDateRange), cycleOverviewSecondToLast:  buildSymptomGraphArray(symptomList: combinedDataModelSecondToLast.chestTightnessOrPainDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange), cyclesAvailable: availableCycles)
+            let symptomModel = buildSingleSymptomModel(title: "Chest Tightness or Pain", symptomList: combinedDataModel.chestTightnessOrPainDataList, dateRange: dateRange, statistics: statistics, covarianceAndList: covarianceAndList)
             symptomListToReturn.append(symptomModel)
            
         }
         
         if relevantDataList.contains(.appetiteChange){
-            let symptomModel = buildSingleSymptomModel(title: "Appetite Change", symptomList: combinedDataModel.appetiteChangeDataList, dateRange: dateRange, appetiteChange: true)
+            let statistics : [String] = buildSymptomMinMaxAverage(symptomListCurrent: self.combinedDataModelCurrent.appetiteChangeDataList, symptomListLast: self.combinedDataModelLast.appetiteChangeDataList, symptomListSecondToLast: self.combinedDataModelSecondToLast.appetiteChangeDataList, title: "Appetite Change", availableCycles: availableCycles)
+            let covarianceAndList : (Float, [[Int?]]) = buildCovariance(cycleOverviewCurrent: buildSymptomGraphArray(symptomList: combinedDataModelCurrent.appetiteChangeDataList, dateRange: menstruationRanges.currentDateRange, appetiteChange: true), cycleOverviewLast:  buildSymptomGraphArray(symptomList: combinedDataModelLast.appetiteChangeDataList, dateRange: menstruationRanges.lastFullCycleDateRange, appetiteChange: true), cycleOverviewSecondToLast:  buildSymptomGraphArray(symptomList: combinedDataModelSecondToLast.appetiteChangeDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange, appetiteChange: true), cyclesAvailable: availableCycles)
+            let symptomModel = buildSingleSymptomModel(title: "Appetite Change", symptomList: combinedDataModel.appetiteChangeDataList, dateRange: dateRange, appetiteChange: true, statistics: statistics, covarianceAndList: covarianceAndList)
             symptomListToReturn.append(symptomModel)
         }
         
@@ -393,8 +439,8 @@ class DiscoverViewModel: ObservableObject {
             let cycleOverview : [Int?] =  buildcollectedDataGraphArray(symptomList: symptomList, dateRange: dateRange, sleepLength: true)
             
             let hints : [String] = buildCollectedQuantityHint(cycleOverview: cycleOverview, title: title, type : .sleepLength)
-            let statistics : [String] = buildCollectedQuantityMinMaxAverage(symptomList: symptomList, dateRange: dateRange)
-            let covariance : Float = buildCollectedQuantityCovariance(symptomList: symptomList, dateRange: dateRange)
+            let statistics : [String] = buildCollectedQuantityMinMaxAverage(cycleOverviewCurrent: buildcollectedDataGraphArray(symptomList: combinedDataModelCurrent.sleepLengthDataList, dateRange: menstruationRanges.currentDateRange, sleepLength: true), cycleOverviewLast:  buildcollectedDataGraphArray(symptomList: combinedDataModelLast.sleepLengthDataList, dateRange: menstruationRanges.lastFullCycleDateRange, sleepLength: true), cycleOverviewSecondToLast:  buildcollectedDataGraphArray(symptomList: combinedDataModelSecondToLast.sleepLengthDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange, sleepLength: true), availableCycles: availableCycles, title: title, type: .sleepLength)
+            let covarianceAndList : (Float, [[Int?]]) = buildCovariance(cycleOverviewCurrent: buildcollectedDataGraphArray(symptomList: combinedDataModelCurrent.sleepLengthDataList, dateRange: menstruationRanges.currentDateRange, sleepLength: true), cycleOverviewLast:  buildcollectedDataGraphArray(symptomList: combinedDataModelLast.sleepLengthDataList, dateRange: menstruationRanges.lastFullCycleDateRange, sleepLength: true), cycleOverviewSecondToLast:  buildcollectedDataGraphArray(symptomList: combinedDataModelSecondToLast.sleepLengthDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange, sleepLength: true), cyclesAvailable: availableCycles)
                         
             let symptomModel = SymptomModel(
                 title: title,
@@ -404,8 +450,8 @@ class DiscoverViewModel: ObservableObject {
                 min: statistics[0],
                 max: statistics[1],
                 average: statistics[2],
-                covariance: covariance,
-                covarianceOverview: [], //TODO
+                covariance: covarianceAndList.0,
+                covarianceOverview: covarianceAndList.1,
                 questionType: .amountOfhour //TODO
             )
             
@@ -418,8 +464,8 @@ class DiscoverViewModel: ObservableObject {
             
             let cycleOverview : [Int?] =  buildcollectedDataGraphArray(symptomList: symptomList, dateRange: dateRange)
             let hints : [String] = buildCollectedQuantityHint(cycleOverview: cycleOverview, title: title, type : .exerciseTime)
-            let statistics : [String] = buildCollectedQuantityMinMaxAverage(symptomList: symptomList, dateRange: dateRange)
-            let covariance : Float = buildCollectedQuantityCovariance(symptomList: symptomList, dateRange: dateRange)
+            let statistics : [String] = buildCollectedQuantityMinMaxAverage(cycleOverviewCurrent: buildcollectedDataGraphArray(symptomList: combinedDataModelCurrent.exerciseTimeDataList, dateRange: menstruationRanges.currentDateRange), cycleOverviewLast:  buildcollectedDataGraphArray(symptomList: combinedDataModelLast.exerciseTimeDataList, dateRange: menstruationRanges.lastFullCycleDateRange), cycleOverviewSecondToLast:  buildcollectedDataGraphArray(symptomList: combinedDataModelSecondToLast.exerciseTimeDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange), availableCycles: availableCycles, title: title, type: .exerciseTime)
+            let covarianceAndList : (Float, [[Int?]]) = buildCovariance(cycleOverviewCurrent: buildcollectedDataGraphArray(symptomList: combinedDataModelCurrent.exerciseTimeDataList, dateRange: menstruationRanges.currentDateRange), cycleOverviewLast:  buildcollectedDataGraphArray(symptomList: combinedDataModelLast.exerciseTimeDataList, dateRange: menstruationRanges.lastFullCycleDateRange), cycleOverviewSecondToLast:  buildcollectedDataGraphArray(symptomList: combinedDataModelSecondToLast.exerciseTimeDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange), cyclesAvailable: availableCycles)
                         
             let symptomModel = SymptomModel(
                 title: title,
@@ -429,8 +475,8 @@ class DiscoverViewModel: ObservableObject {
                 min: statistics[0],
                 max: statistics[1],
                 average: statistics[2],
-                covariance: covariance,
-                covarianceOverview: [], //TODO
+                covariance: covarianceAndList.0,
+                covarianceOverview: covarianceAndList.1,
                 questionType: .amountOfhour //TODO
             )
             
@@ -444,8 +490,9 @@ class DiscoverViewModel: ObservableObject {
             
             let cycleOverview : [Int?] =  buildcollectedDataGraphArray(symptomList: symptomList, dateRange: dateRange)
             let hints : [String] = buildCollectedQuantityHint(cycleOverview: cycleOverview, title: title, type : .stepCount)
-            let statistics : [String] = buildCollectedQuantityMinMaxAverage(symptomList: symptomList, dateRange: dateRange)
-            let covariance : Float = buildCollectedQuantityCovariance(symptomList: symptomList, dateRange: dateRange)
+            let statistics : [String] = buildCollectedQuantityMinMaxAverage(cycleOverviewCurrent: buildcollectedDataGraphArray(symptomList: combinedDataModelCurrent.stepCountDataList, dateRange: menstruationRanges.currentDateRange), cycleOverviewLast:  buildcollectedDataGraphArray(symptomList: combinedDataModelLast.stepCountDataList, dateRange: menstruationRanges.lastFullCycleDateRange), cycleOverviewSecondToLast:  buildcollectedDataGraphArray(symptomList: combinedDataModelSecondToLast.stepCountDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange), availableCycles: availableCycles, title: title, type: .stepCount)
+            let covarianceAndList : (Float, [[Int?]]) = buildCovariance(cycleOverviewCurrent: buildcollectedDataGraphArray(symptomList: combinedDataModelCurrent.stepCountDataList, dateRange: menstruationRanges.currentDateRange), cycleOverviewLast:  buildcollectedDataGraphArray(symptomList: combinedDataModelLast.stepCountDataList, dateRange: menstruationRanges.lastFullCycleDateRange), cycleOverviewSecondToLast:  buildcollectedDataGraphArray(symptomList: combinedDataModelSecondToLast.stepCountDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange), cyclesAvailable: availableCycles)
+
                         
             let symptomModel = SymptomModel(
                 title: title,
@@ -455,8 +502,8 @@ class DiscoverViewModel: ObservableObject {
                 min: statistics[0],
                 max: statistics[1],
                 average: statistics[2],
-                covariance: covariance,
-                covarianceOverview: [], //TODO
+                covariance: covarianceAndList.0,
+                covarianceOverview: covarianceAndList.1,
                 questionType: .amountOfhour //TODO
             )
             
@@ -470,8 +517,8 @@ class DiscoverViewModel: ObservableObject {
             let cycleOverview : [Int?] =  buildCyMeGraphArray(symptomList: symptomList, dateRange: dateRange)
            
             let hints : [String] = buildSymptomHints(cycleOverview: cycleOverview, symptomList: symptomList, dateRange:  dateRange, title: title, removeMaxMinHint: true)
-            let statistics : [String] = buildSymptomMinMaxAverage(symptomList: symptomList, dateRange: dateRange)
-            let covariance : Float = buildSymptomCovariance(symptomList: symptomList, dateRange: dateRange)
+            let statistics : [String] = buildSymptomMinMaxAverage(symptomListCurrent: self.combinedDataModelCurrent.moodDataList, symptomListLast: self.combinedDataModelLast.moodDataList, symptomListSecondToLast: self.combinedDataModelSecondToLast.moodDataList, title: title, availableCycles: availableCycles)
+            let covarianceAndList : (Float, [[Int?]]) = buildCovariance(cycleOverviewCurrent: buildCyMeGraphArray(symptomList: combinedDataModelCurrent.moodDataList, dateRange: menstruationRanges.currentDateRange), cycleOverviewLast:  buildCyMeGraphArray(symptomList: combinedDataModelLast.moodDataList, dateRange: menstruationRanges.lastFullCycleDateRange), cycleOverviewSecondToLast:  buildCyMeGraphArray(symptomList: combinedDataModelSecondToLast.moodDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange), cyclesAvailable: availableCycles)
              
                         
             let symptomModel = SymptomModel(
@@ -482,8 +529,8 @@ class DiscoverViewModel: ObservableObject {
                 min: statistics[0],
                 max: statistics[1],
                 average: statistics[2],
-                covariance: covariance,
-                covarianceOverview: [], //TODO
+                covariance: covarianceAndList.0,
+                covarianceOverview: covarianceAndList.1,
                 questionType: .emoticonRating //TODO
             )
             
@@ -497,8 +544,8 @@ class DiscoverViewModel: ObservableObject {
             let cycleOverview : [Int?] =  buildCyMeGraphArray(symptomList: symptomList, dateRange: dateRange)
            
             let hints : [String] = buildSymptomHints(cycleOverview: cycleOverview, symptomList: symptomList, dateRange:  dateRange, title: title, removeMaxMinHint: true)
-            let statistics : [String] = buildSymptomMinMaxAverage(symptomList: symptomList, dateRange: dateRange)
-            let covariance : Float = buildSymptomCovariance(symptomList: symptomList, dateRange: dateRange)
+            let statistics : [String] = buildSymptomMinMaxAverage(symptomListCurrent: self.combinedDataModelCurrent.stressDataList, symptomListLast: self.combinedDataModelLast.stressDataList, symptomListSecondToLast: self.combinedDataModelSecondToLast.stressDataList, title: title, availableCycles: availableCycles)
+            let covarianceAndList : (Float, [[Int?]]) = buildCovariance(cycleOverviewCurrent: buildCyMeGraphArray(symptomList: combinedDataModelCurrent.stressDataList, dateRange: menstruationRanges.currentDateRange), cycleOverviewLast:  buildCyMeGraphArray(symptomList: combinedDataModelLast.stressDataList, dateRange: menstruationRanges.lastFullCycleDateRange), cycleOverviewSecondToLast:  buildCyMeGraphArray(symptomList: combinedDataModelSecondToLast.stressDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange), cyclesAvailable: availableCycles)
              
                         
             let symptomModel = SymptomModel(
@@ -509,8 +556,8 @@ class DiscoverViewModel: ObservableObject {
                 min: statistics[0],
                 max: statistics[1],
                 average: statistics[2],
-                covariance: covariance,
-                covarianceOverview: [], //TODO
+                covariance: covarianceAndList.0,
+                covarianceOverview: covarianceAndList.1,
                 questionType: .emoticonRating //TODO
             )
             
@@ -524,8 +571,8 @@ class DiscoverViewModel: ObservableObject {
             let cycleOverview : [Int?] =  buildCyMeGraphArray(symptomList: symptomList, dateRange: dateRange)
            
             let hints : [String] = buildSymptomHints(cycleOverview: cycleOverview, symptomList: symptomList, dateRange:  dateRange, title: title, removeMaxMinHint: true)
-            let statistics : [String] = buildSymptomMinMaxAverage(symptomList: symptomList, dateRange: dateRange)
-            let covariance : Float = buildSymptomCovariance(symptomList: symptomList, dateRange: dateRange)
+            let statistics : [String] = buildSymptomMinMaxAverage(symptomListCurrent: self.combinedDataModelCurrent.sleepQualityDataList, symptomListLast: self.combinedDataModelLast.sleepQualityDataList, symptomListSecondToLast: self.combinedDataModelSecondToLast.sleepQualityDataList, title: title, availableCycles: availableCycles)
+            let covarianceAndList : (Float, [[Int?]]) = buildCovariance(cycleOverviewCurrent: buildCyMeGraphArray(symptomList: combinedDataModelCurrent.sleepQualityDataList, dateRange: menstruationRanges.currentDateRange), cycleOverviewLast:  buildCyMeGraphArray(symptomList: combinedDataModelLast.sleepQualityDataList, dateRange: menstruationRanges.lastFullCycleDateRange), cycleOverviewSecondToLast:  buildCyMeGraphArray(symptomList: combinedDataModelSecondToLast.sleepQualityDataList, dateRange: menstruationRanges.secondToLastFullCycleDateRange), cyclesAvailable: availableCycles)
              
                         
             let symptomModel = SymptomModel(
@@ -536,8 +583,8 @@ class DiscoverViewModel: ObservableObject {
                 min: statistics[0],
                 max: statistics[1],
                 average: statistics[2],
-                covariance: covariance,
-                covarianceOverview: [], //TODO
+                covariance: covarianceAndList.0,
+                covarianceOverview: covarianceAndList.1,
                 questionType: .emoticonRating //TODO
             )
             

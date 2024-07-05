@@ -12,6 +12,10 @@ import Foundation
 func buildcollectedDataGraphArray(symptomList: [Date: Int], dateRange: [Date], sleepLength : Bool = false) -> [Int?]{
     var dataGraphArray : [Int?] = []
     
+    if dateRange.count == 0{
+        return []
+    }
+    
     if !sleepLength{
         let firstDate = Calendar.current.date(byAdding: .hour, value: -12, to: dateRange[0])!
         dataGraphArray.append(symptomList[firstDate] ?? nil)

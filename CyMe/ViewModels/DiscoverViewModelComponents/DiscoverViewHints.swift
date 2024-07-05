@@ -271,8 +271,32 @@ func buildCollectedQuantityHint(cycleOverview : [Int?], title: String, type: ava
     if type == .exerciseTime {
         minText = "The minimal amount of \(title) you reported is \(minValue ?? -1) minutes which you reported on cycle day \(oxfordComma(list:daysWithMinValue)). "
     }
+    
+    
+    var sum = Float(0)
+    var valuesCount = Float(0)
+    
+    for entry in cycleOverview{
+        if entry != nil{
+            sum += Float(entry ?? 0)
+            valuesCount += 1
+        }
+    }
+    
+    let average = sum/valuesCount
+    var averageText = ""
+    
+    if type == .sleepLength {
+        averageText = "In this cycle you report on average \(SleepDataModel.formatDuration(duration: Double(average))) of sleep per day. "
+    }
+    if type == .stepCount {
+        averageText = "In this cycle you report on average \(String(format: "%.2f", average)) steps per day. "
+    }
+    if type == .exerciseTime {
+        averageText = "In this cycle you report on average \(String(format: "%.2f", average)) minutes of exercise per day. "
+    }
    
-    return [quarterAnalysisHint, maxText, minText]
+    return [quarterAnalysisHint, maxText, minText, averageText]
     
 }
 
