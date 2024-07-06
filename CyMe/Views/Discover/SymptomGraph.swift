@@ -19,7 +19,7 @@ struct SymptomGraph: View {
                 ForEach(chartData) { item in
                     LineMark(
                         x: .value("Cycle Day", item.day),
-                        y: .value("Hours", item.hours)
+                        y: .value("Intensity", item.intensity)
                     )
                     .foregroundStyle(theme.primaryColor.toColor())
                 }
@@ -27,7 +27,7 @@ struct SymptomGraph: View {
                 ForEach(chartData) { item in
                     PointMark(
                         x: .value("Cycle Day", item.day),
-                        y: .value("Hours", item.hours)
+                        y: .value("Intensity", item.intensity)
                     )
                     .foregroundStyle(theme.accentColor.toColor())
                 }
@@ -79,27 +79,23 @@ struct SymptomGraph_Previews: PreviewProvider {
 
 struct PointChartData: Identifiable {
     var id = UUID()
-    var title: String
     var day: Int
     var intensity: Int
-    var questionType: QuestionType
 }
 
 struct LineChartData: Identifiable {
     var id = UUID()
-    var title: String
     var day: Int
-    var hours: Int
-    var questionType: QuestionType
+    var intensity: Int
 }
 
 
 extension SymptomModel {
     func toLineChartData() -> [LineChartData] {
         var lineChartData: [LineChartData] = []
-        for (index, hour) in cycleOverview.enumerated() {
-            if let hour = hour {
-                let data = LineChartData(title: title, day: index + 1, hours: hour, questionType: self.questionType)
+        for (index, intensity) in cycleOverview.enumerated() {
+            if let intensity = intensity {
+                let data = LineChartData( day: index + 1, intensity: intensity)
                 lineChartData.append(data)
             }
         }

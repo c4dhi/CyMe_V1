@@ -43,6 +43,7 @@
 		4C1A36F22C31987E006E50D8 /* ReviewReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36EF2C319054006E50D8 /* ReviewReportModel.swift */; };
 		4C1A36F42C3280CB006E50D8 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A36F32C3280CB006E50D8 /* NotificationService.swift */; };
 		4C3816902C3568960079A48B /* OverviewTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C38168F2C3568960079A48B /* OverviewTable.swift */; };
+		4C3816922C3868A10079A48B /* MultiSymptomeGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3816912C3868A10079A48B /* MultiSymptomeGraph.swift */; };
 		4C5605242C01CF7700B9114D /* SettingsDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605232C01CF7700B9114D /* SettingsDatabaseService.swift */; };
 		4C5605272C01D26600B9114D /* UserDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605262C01D26600B9114D /* UserDatabaseService.swift */; };
 		4C5605292C01D29500B9114D /* ReportingDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5605282C01D29500B9114D /* ReportingDatabaseService.swift */; };
@@ -249,6 +250,7 @@
 		4C1A36EF2C319054006E50D8 /* ReviewReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewReportModel.swift; sourceTree = "<group>"; };
 		4C1A36F32C3280CB006E50D8 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		4C38168F2C3568960079A48B /* OverviewTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewTable.swift; sourceTree = "<group>"; };
+		4C3816912C3868A10079A48B /* MultiSymptomeGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSymptomeGraph.swift; sourceTree = "<group>"; };
 		4C5605232C01CF7700B9114D /* SettingsDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDatabaseService.swift; sourceTree = "<group>"; };
 		4C5605262C01D26600B9114D /* UserDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDatabaseService.swift; sourceTree = "<group>"; };
 		4C5605282C01D29500B9114D /* ReportingDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingDatabaseService.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 				4C08971F2C0E01E90042A6D1 /* SymptomGraph.swift */,
 				4C0897212C0E04670042A6D1 /* SymptomInsightsView.swift */,
 				4C0897232C0E04A10042A6D1 /* SymptomStatisticsView.swift */,
+				4C3816912C3868A10079A48B /* MultiSymptomeGraph.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -1040,6 +1043,7 @@
 				4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */,
 				4CFDC37F2C04F24500DD3295 /* DatabaseUtils.swift in Sources */,
 				4C1354E32BCFCE320078A84B /* HomeView.swift in Sources */,
+				4C3816922C3868A10079A48B /* MultiSymptomeGraph.swift in Sources */,
 				500D9B662C2D5CC900B26D27 /* StringUtils.swift in Sources */,
 				4CDF57F22C0CF8D700C7E9F6 /* PopupView.swift in Sources */,
 				4C1A36F12C31987C006E50D8 /* ReviewReportModel.swift in Sources */,

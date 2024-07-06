@@ -10,12 +10,19 @@ struct OverviewTable: View {
     var symptoms: [SymptomModel]
     var count = 1
     
+    private var dateFormatter: DateFormatter {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .none
+            return formatter
+        }
+    
     var body: some View {
         ScrollView(.vertical){
             ScrollView(.horizontal){
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("Cycle days overview")
+                        Text("Cycle start at \(dateFormatter.string(from: symptoms[0].dateRange[0]))")
                             .font(.headline)
                             .padding(.bottom, 5)
                         Spacer()
