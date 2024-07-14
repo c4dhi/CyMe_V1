@@ -35,7 +35,7 @@ class SettingsDatabaseService {
             HealthDataSettingsModel(
                 name: "menstruationDate",
                 label: "Menstruation date",
-                enableDataSync: true,
+                enableDataSync: false,
                 enableSelfReportingCyMe: true,
                 dataLocation: .sync,
                 question: "Did you have your period today?",
@@ -44,7 +44,7 @@ class SettingsDatabaseService {
             HealthDataSettingsModel(
                 name: "menstruationStart",
                 label: "Menstruation start",
-                enableDataSync: true,
+                enableDataSync: false,
                 enableSelfReportingCyMe: true,
                 dataLocation: .onlyCyMe,
                 question: "Is it the first day of your period?",

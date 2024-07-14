@@ -199,7 +199,6 @@ class UserDatabaseService {
                     contraceptions = ?, fertilityGoal = ?
                 WHERE id = 1;
                 """
-            print(user)
             var statement: OpaquePointer?
             guard sqlite3_prepare_v2(db, updateQuery, -1, &statement, nil) == SQLITE_OK else {
                 print("Error preparing update statement")
@@ -235,5 +234,68 @@ class UserDatabaseService {
                 return false
             }
         }
+    
+    func anonymizeUserTable(at databaseURL: URL) {
+        guard let db = openDatabase(at: databaseURL) else { return }
+
+        let fetchUsersQuery = "SELECT id, name FROM user;"
+        var fetchStatement: OpaquePointer?
+
+        guard sqlite3_prepare_v2(db, fetchUsersQuery, -1, &fetchStatement, nil) == SQLITE_OK else {
+            print("Error preparing fetch statement")
+            return
+        }
+
+        defer {
+            sqlite3_finalize(fetchStatement)
+        }
+
+        while sqlite3_step(fetchStatement) == SQLITE_ROW {
+            let id = sqlite3_column_int(fetchStatement, 0)
+            let name = String(cString: sqlite3_column_text(fetchStatement, 1))
+            let anonymizedCode = generateAnonymizedCode(for: name)
+
+            let updateQuery = "UPDATE user SET name = ? WHERE id = ?;"
+            var updateStatement: OpaquePointer?
+
+            guard sqlite3_prepare_v2(db, updateQuery, -1, &updateStatement, nil) == SQLITE_OK else {
+                print("Error preparing update statement")
+                continue
+            }
+
+            sqlite3_bind_text(updateStatement, 1, (anonymizedCode as NSString).utf8String, -1, nil)
+            sqlite3_bind_int(updateStatement, 2, id)
+
+            if sqlite3_step(updateStatement) == SQLITE_DONE {
+                print("Successfully updated user \(id) with anonymized code")
+            } else {
+                if let error = sqlite3_errmsg(db) {
+                    print("Failed to update user \(id): \(String(cString: error))")
+                }
+            }
+
+            sqlite3_finalize(updateStatement)
+        }
+
+        sqlite3_close(db)
+    }
+    
+    private func openDatabase(at url: URL) -> OpaquePointer? {
+        var db: OpaquePointer?
+        if sqlite3_open(url.path, &db) == SQLITE_OK {
+            print("Successfully opened connection to database at \(url.path)")
+            return db
+        } else {
+            if let error = sqlite3_errmsg(db) {
+                print("Unable to open database: \(String(cString: error))")
+            }
+            return nil
+        }
+    }
+
+   private func generateAnonymizedCode(for name: String) -> String {
+       let baseCode = UUID().uuidString.prefix(8)
+       return "\(baseCode)"
+   }
 }
 

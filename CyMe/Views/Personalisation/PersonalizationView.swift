@@ -10,7 +10,7 @@ import SwiftUI
 struct PersonalizationView: View {
     var nextPage: () -> Void
     @ObservedObject var settingsViewModel: SettingsViewModel
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .black, accentColor: .blue)
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     var healthkit = HealthKitService()
 
     var body: some View {
@@ -67,7 +67,7 @@ struct PersonalizationView: View {
                 .foregroundColor(.white)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(theme.primaryColor.toColor())
+                .background(theme.accentColor.toColor())
                 .cornerRadius(10)
         }
     }

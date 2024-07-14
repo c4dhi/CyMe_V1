@@ -47,6 +47,20 @@ class DatabaseService {
         }
     }
     
+    func databaseURL() -> URL? {
+        let fileURL = try! FileManager.default
+            .url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            .appendingPathComponent("CyMe.sqlite")
+        return fileURL
+    }
+
+    func databaseFileExists() -> Bool {
+        let fileURL = try! FileManager.default
+            .url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            .appendingPathComponent("CyMe.sqlite")
+        return FileManager.default.fileExists(atPath: fileURL.path)
+    }
+
     func executeQuery(_ query: String) -> Bool {
         var statement: OpaquePointer?
         defer { sqlite3_finalize(statement) }

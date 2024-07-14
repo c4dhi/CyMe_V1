@@ -54,6 +54,10 @@
 		4C5A49BA2BFFD07C008253FD /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A49B92BFFD07C008253FD /* ProfileViewModel.swift */; };
 		4C5A49BC2BFFD184008253FD /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5A49BB2BFFD184008253FD /* UserModel.swift */; };
 		4CB6BBDF2BD6E5BF008A32CA /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB6BBDE2BD6E5BF008A32CA /* DatabaseService.swift */; };
+		4CC461FE2C3BD602006B5933 /* SettingsNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC461FD2C3BD602006B5933 /* SettingsNavigationView.swift */; };
+		4CC462002C440785006B5933 /* MailComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC461FF2C440785006B5933 /* MailComposeView.swift */; };
+		4CC462022C440872006B5933 /* MailComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC462012C440872006B5933 /* MailComposeViewController.swift */; };
+		4CC462062C44206A006B5933 /* FileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC462052C44206A006B5933 /* FileViewController.swift */; };
 		4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */; };
 		4CDD2FCA2BEB747A005995B5 /* ReportOptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC92BEB747A005995B5 /* ReportOptionsModel.swift */; };
 		4CDD2FCD2BEB792B005995B5 /* SelfReportingWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FCC2BEB792B005995B5 /* SelfReportingWatchView.swift */; };
@@ -262,6 +266,10 @@
 		4C5A49BB2BFFD184008253FD /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		4C84BA3E2C046D7400A865AC /* CyMe-WatchOs-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "CyMe-WatchOs-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		4CB6BBDE2BD6E5BF008A32CA /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
+		4CC461FD2C3BD602006B5933 /* SettingsNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNavigationView.swift; sourceTree = "<group>"; };
+		4CC461FF2C440785006B5933 /* MailComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailComposeView.swift; sourceTree = "<group>"; };
+		4CC462012C440872006B5933 /* MailComposeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailComposeViewController.swift; sourceTree = "<group>"; };
+		4CC462052C44206A006B5933 /* FileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileViewController.swift; sourceTree = "<group>"; };
 		4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4CDD2FC92BEB747A005995B5 /* ReportOptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportOptionsModel.swift; sourceTree = "<group>"; };
 		4CDD2FCC2BEB792B005995B5 /* SelfReportingWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportingWatchView.swift; sourceTree = "<group>"; };
@@ -521,6 +529,8 @@
 				4C1354E82BCFCEC60078A84B /* VisualisationView.swift */,
 				4C1354E62BCFCE550078A84B /* KnowledgeBaseView.swift */,
 				4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */,
+				4CC461FD2C3BD602006B5933 /* SettingsNavigationView.swift */,
+				4CC461FF2C440785006B5933 /* MailComposeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -534,6 +544,8 @@
 				4CB6BBDE2BD6E5BF008A32CA /* DatabaseService.swift */,
 				4CF015532BE955B300BE8DF0 /* WatchConnector.swift */,
 				4C1A36F32C3280CB006E50D8 /* NotificationService.swift */,
+				4CC462012C440872006B5933 /* MailComposeViewController.swift */,
+				4CC462052C44206A006B5933 /* FileViewController.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1017,6 +1029,7 @@
 				4C5A49B82BFE1A79008253FD /* ThemeModel.swift in Sources */,
 				4CDD2FE12BF4F2B9005995B5 /* SelfReportView.swift in Sources */,
 				4C1A36F42C3280CB006E50D8 /* NotificationService.swift in Sources */,
+				4CC462022C440872006B5933 /* MailComposeViewController.swift in Sources */,
 				50966ECF2C342715006BBE84 /* CyMeSelfreportModel.swift in Sources */,
 				503481322C36AE8C00A49903 /* CombinedDataModel.swift in Sources */,
 				4CB6BBDF2BD6E5BF008A32CA /* DatabaseService.swift in Sources */,
@@ -1047,9 +1060,12 @@
 				500D9B662C2D5CC900B26D27 /* StringUtils.swift in Sources */,
 				4CDF57F22C0CF8D700C7E9F6 /* PopupView.swift in Sources */,
 				4C1A36F12C31987C006E50D8 /* ReviewReportModel.swift in Sources */,
+				4CC461FE2C3BD602006B5933 /* SettingsNavigationView.swift in Sources */,
 				50EED2D62C2083420001BF5C /* AppetiteChangeModel.swift in Sources */,
 				4C1354E52BCFCE440078A84B /* DiscoverView.swift in Sources */,
 				4C1354EE2BCFD52A0078A84B /* HealthKitService.swift in Sources */,
+				4CC462062C44206A006B5933 /* FileViewController.swift in Sources */,
+				4CC462002C440785006B5933 /* MailComposeView.swift in Sources */,
 				4C1A36DF2C105469006E50D8 /* SymptomFilterView.swift in Sources */,
 				4CDD2FDD2BF25825005995B5 /* PersonalizationSelfReportView.swift in Sources */,
 				4C1354F12BCFD6560078A84B /* DiscoverViewModel.swift in Sources */,
