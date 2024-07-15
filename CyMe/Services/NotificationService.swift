@@ -47,9 +47,9 @@ func scheduleNotification(at date: Date, frequency: String) {
     let notificationCenter = UNUserNotificationCenter.current()
     notificationCenter.add(request) { (error) in
         if let error = error {
-            print("Error adding notification: \(error)")
+            Logger.shared.log("Error adding notification: \(error)")
         } else {
-            print("Notification scheduled successfully for \(date) with frequency \(frequency)")
+            Logger.shared.log("Notification scheduled successfully for \(date) with frequency \(frequency)")
         }
     }
 }

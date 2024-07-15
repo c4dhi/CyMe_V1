@@ -24,17 +24,17 @@ class SettingsViewModel: ObservableObject {
         themeManager.saveThemeToUserDefaults(newTheme: settings.selectedTheme)
         settingsDatabaseService.saveSettings(settings: settings)
         setNotifications(isEnabled: settings.selfReportReminder.isEnabled, startDate: settings.selfReportReminder.startDate, times: settings.selfReportReminder.times, frequency: settings.selfReportReminder.frequency)
+        
     }
     
     func setNotifications(isEnabled: Bool, startDate: Date, times: [Date], frequency: String) {
-        print (times)
         removeAllScheduledNotifications()
         guard isEnabled else { return }
         
         for time in times {
             if let combinedDate = Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: time), minute: Calendar.current.component(.minute, from: time), second: 0, of: startDate) {
                 scheduleNotification(at: combinedDate, frequency: frequency)
-                print("notification set at: ", combinedDate)
+                Logger.shared.log("Notification set at: \(combinedDate)")
             }
         }
     }

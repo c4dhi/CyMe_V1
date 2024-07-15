@@ -42,7 +42,6 @@ struct ReminderOptionView: View {
                     }
                     Button(action: {
                         timesPerDay.append(Date())
-                        print("after add: ", timesPerDay)
                     }) {
                         Label("Add time", systemImage: "plus")
                     }
@@ -57,7 +56,6 @@ struct ReminderOptionView: View {
         .padding(.horizontal)
         .onChange(of: frequency) { newFrequency in
             removeExtraTimes()
-            print(timesPerDay)
         }
         
     }
@@ -65,7 +63,6 @@ struct ReminderOptionView: View {
     
     private func removeExtraTimes() {
         timesPerDay.removeSubrange(1..<timesPerDay.count)
-        print("after removing extra times: ", timesPerDay)
     }
 }
 

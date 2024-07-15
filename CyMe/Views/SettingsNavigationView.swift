@@ -1,6 +1,9 @@
 import SwiftUI
 import UniformTypeIdentifiers
 import UIKit
+import Zip
+
+
 
 class DocumentPickerDelegate: NSObject, UIDocumentPickerDelegate {
     var onDocumentPicked: ((URL) -> Void)?
@@ -11,9 +14,19 @@ class DocumentPickerDelegate: NSObject, UIDocumentPickerDelegate {
     }
 
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-        print("Document picker was cancelled")
+        Logger.shared.log("Document picker was cancelled")
     }
 }
+
+func zipFiles(sourceURLs: [URL], destinationURL: URL) {
+    do {
+        try Zip.zipFiles(paths: sourceURLs, zipFilePath: destinationURL, password: nil, progress: nil)
+        Logger.shared.log("Zipped successfully to \(destinationURL.path)")
+    } catch {
+        Logger.shared.log("Failed to zip files: \(error.localizedDescription)")
+    }
+}
+
 
 struct SettingsNavigationView: View {
     @Binding var isPresented: Bool
@@ -54,9 +67,10 @@ struct SettingsNavigationView: View {
     func downloadDatabaseFile() {
         if DatabaseService.shared.databaseFileExists() {
             databaseURL = DatabaseService.shared.databaseURL()
+            Logger.shared.log("Database file found at \(databaseURL!.path)")
             anonymizeAndPresentDocumentPicker()
         } else {
-            print("Database file not found")
+            Logger.shared.log("Database file not found")
         }
     }
 
@@ -66,27 +80,41 @@ struct SettingsNavigationView: View {
         let tempDatabaseURL = FileManager.default.temporaryDirectory.appendingPathComponent("CyMe_database.sqlite")
 
         do {
+            // Remove the existing file if it exists
+            if FileManager.default.fileExists(atPath: tempDatabaseURL.path) {
+                try FileManager.default.removeItem(at: tempDatabaseURL)
+            }
+
             try FileManager.default.copyItem(at: originalDatabaseURL, to: tempDatabaseURL)
+            Logger.shared.log("Temporary database created at \(tempDatabaseURL.path)")
+            
             UserDatabaseService().anonymizeUserTable(at: tempDatabaseURL)
-            presentDocumentPicker(for: tempDatabaseURL)
+            Logger.shared.log("User table anonymized in temporary database")
+
+            // Zip the database and log file
+            let logFileURL = Logger.shared.logFileURL // Update this to your log file path
+            let zipDestinationURL = FileManager.default.temporaryDirectory.appendingPathComponent("CyMe.zip")
+            zipFiles(sourceURLs: [tempDatabaseURL, logFileURL], destinationURL: zipDestinationURL)
+            
+            presentDocumentPicker(for: zipDestinationURL)
         } catch {
-            print("Error copying database: \(error.localizedDescription)")
+            Logger.shared.log("Error copying database: \(error.localizedDescription)")
         }
     }
+
 
     func presentDocumentPicker(for databaseURL: URL) {
         let documentPicker = UIDocumentPickerViewController(forExporting: [databaseURL])
         documentPicker.delegate = documentPickerDelegate
         documentPicker.modalPresentationStyle = .fullScreen
 
-        // Handle document picker actions
         documentPickerDelegate.onDocumentPicked = { url in
             do {
                 try FileManager.default.copyItem(at: databaseURL, to: url)
-                print("File copied to [\(url.path)]")
+                Logger.shared.log("Files copied to [\(url.path)]")
                 presentFilePreviewController(with: url)
             } catch {
-                print("Copy failed: \(error.localizedDescription)")
+                Logger.shared.log("Copy failed: \(error.localizedDescription)")
             }
         }
 
@@ -101,6 +129,7 @@ struct SettingsNavigationView: View {
         UIApplication.shared.windows.first?.rootViewController?.present(filePreviewController, animated: true)
     }
 }
+
 
 struct ProfileViewWrapper: View {
     @Binding var isPresented: Bool

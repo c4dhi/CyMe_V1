@@ -96,6 +96,7 @@ struct ContentView: View {
                         Spacer()
                         Button(action: {
                             // TODO add action which shows random facts about menstrual health
+                            connector.sendSettings()
                         }) {
                             Image("shortIcon")
                                 .resizable()

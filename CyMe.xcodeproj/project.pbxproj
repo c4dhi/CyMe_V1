@@ -58,6 +58,8 @@
 		4CC462002C440785006B5933 /* MailComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC461FF2C440785006B5933 /* MailComposeView.swift */; };
 		4CC462022C440872006B5933 /* MailComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC462012C440872006B5933 /* MailComposeViewController.swift */; };
 		4CC462062C44206A006B5933 /* FileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC462052C44206A006B5933 /* FileViewController.swift */; };
+		4CC462082C44E64A006B5933 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC462072C44E64A006B5933 /* Logger.swift */; };
+		4CC4620B2C44ED29006B5933 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 4CC4620A2C44ED29006B5933 /* Zip */; };
 		4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */; };
 		4CDD2FCA2BEB747A005995B5 /* ReportOptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FC92BEB747A005995B5 /* ReportOptionsModel.swift */; };
 		4CDD2FCD2BEB792B005995B5 /* SelfReportingWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD2FCC2BEB792B005995B5 /* SelfReportingWatchView.swift */; };
@@ -270,6 +272,7 @@
 		4CC461FF2C440785006B5933 /* MailComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailComposeView.swift; sourceTree = "<group>"; };
 		4CC462012C440872006B5933 /* MailComposeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailComposeViewController.swift; sourceTree = "<group>"; };
 		4CC462052C44206A006B5933 /* FileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileViewController.swift; sourceTree = "<group>"; };
+		4CC462072C44E64A006B5933 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		4CDD2FC52BEB6B4F005995B5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4CDD2FC92BEB747A005995B5 /* ReportOptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportOptionsModel.swift; sourceTree = "<group>"; };
 		4CDD2FCC2BEB792B005995B5 /* SelfReportingWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportingWatchView.swift; sourceTree = "<group>"; };
@@ -317,6 +320,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CC4620B2C44ED29006B5933 /* Zip in Frameworks */,
 				4CDF585D2C0DA12C00C7E9F6 /* SharedModels.framework in Frameworks */,
 				507845402C36F0D900B8D019 /* SigmaSwiftStatistics in Frameworks */,
 			);
@@ -546,6 +550,7 @@
 				4C1A36F32C3280CB006E50D8 /* NotificationService.swift */,
 				4CC462012C440872006B5933 /* MailComposeViewController.swift */,
 				4CC462052C44206A006B5933 /* FileViewController.swift */,
+				4CC462072C44E64A006B5933 /* Logger.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -741,6 +746,7 @@
 			name = CyMe;
 			packageProductDependencies = (
 				5078453F2C36F0D900B8D019 /* SigmaSwiftStatistics */,
+				4CC4620A2C44ED29006B5933 /* Zip */,
 			);
 			productName = CyMe;
 			productReference = 4C13544D2BCFC6060078A84B /* CyMe.app */;
@@ -926,6 +932,7 @@
 			mainGroup = 4C1354442BCFC6060078A84B;
 			packageReferences = (
 				50DC147C2BD11F8100A280CE /* XCRemoteSwiftPackageReference "SigmaSwiftStatistics" */,
+				4CC462092C44ED29006B5933 /* XCRemoteSwiftPackageReference "Zip" */,
 			);
 			productRefGroup = 4C13544E2BCFC6060078A84B /* Products */;
 			projectDirPath = "";
@@ -1042,6 +1049,7 @@
 				4C5A49B22BFDEF49008253FD /* SettingsModel.swift in Sources */,
 				4C0897202C0E01E90042A6D1 /* SymptomGraph.swift in Sources */,
 				4C5A49BC2BFFD184008253FD /* UserModel.swift in Sources */,
+				4CC462082C44E64A006B5933 /* Logger.swift in Sources */,
 				503481302C36AD7D00A49903 /* MenstruationRanges.swift in Sources */,
 				4C5A49B42BFDEFF6008253FD /* SettingsViewModel.swift in Sources */,
 				4C5605292C01D29500B9114D /* ReportingDatabaseService.swift in Sources */,
@@ -1821,6 +1829,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4CC462092C44ED29006B5933 /* XCRemoteSwiftPackageReference "Zip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/Zip";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		50DC147C2BD11F8100A280CE /* XCRemoteSwiftPackageReference "SigmaSwiftStatistics" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/evgenyneu/SigmaSwiftStatistics.git";
@@ -1832,6 +1848,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4CC4620A2C44ED29006B5933 /* Zip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4CC462092C44ED29006B5933 /* XCRemoteSwiftPackageReference "Zip" */;
+			productName = Zip;
+		};
 		5078453F2C36F0D900B8D019 /* SigmaSwiftStatistics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 50DC147C2BD11F8100A280CE /* XCRemoteSwiftPackageReference "SigmaSwiftStatistics" */;

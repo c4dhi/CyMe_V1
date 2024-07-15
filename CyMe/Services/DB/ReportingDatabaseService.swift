@@ -43,9 +43,9 @@ class ReportingDatabaseService {
             """
         
         if DatabaseService.shared.executeQuery(createTableQuery) {
-            print("Reporting table created successfully or already exists")
+            Logger.shared.log("Reporting table created successfully or already exists")
         } else {
-            print("Error creating settireportingngs table")
+            Logger.shared.log("Error creating settireportingngs table")
         }
     }
     
@@ -77,7 +77,7 @@ class ReportingDatabaseService {
         
         var statement: OpaquePointer?
         guard sqlite3_prepare_v2(db, insertQuery, -1, &statement, nil) == SQLITE_OK else {
-            print("Error preparing insert statement")
+            Logger.shared.log("Error preparing insert statement")
             return false
         }
         
@@ -120,11 +120,11 @@ class ReportingDatabaseService {
         
         
         if sqlite3_step(statement) == SQLITE_DONE {
-            print("Successfully inserted report")
+            Logger.shared.log("Successfully inserted report")
             return true
         } else {
             if let error = sqlite3_errmsg(db) {
-                print("Failed to insert report: \(String(cString: error))")
+                Logger.shared.log("Failed to insert report: \(String(cString: error))")
             }
             return false
         }
@@ -146,7 +146,7 @@ class ReportingDatabaseService {
         
         // Ensure the database connection is available
         guard let db = db else {
-            print("Database connection is not available")
+            Logger.shared.log("Database connection is not available")
             return reports
         }
         
@@ -160,7 +160,7 @@ class ReportingDatabaseService {
         // Prepare the SQL query
         guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
             let errmsg = String(cString: sqlite3_errmsg(db))
-            print("Error preparing query statement: \(errmsg)")
+            Logger.shared.log("Error preparing query statement: \(errmsg)")
             return reports
         }
         

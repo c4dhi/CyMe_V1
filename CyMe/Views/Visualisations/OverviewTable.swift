@@ -67,7 +67,6 @@ struct OverviewTable: View {
     }
 
     private func minDays() -> Int {
-        print(symptoms)
         return symptoms.map { $0.cycleOverview.count }.min() ?? 0
     }
     
@@ -76,6 +75,10 @@ struct OverviewTable: View {
         case .emoticonRating:
             return AnyView(
                 EmoticonSymbol(emotion: intensity)
+            )
+        case .painEmoticonRating:
+            return AnyView(
+                PainEmoticonSymbol(emotion: intensity)
             )
         case .amountOfhour:
             return AnyView(
@@ -133,6 +136,27 @@ struct OverviewTable: View {
             ("🤔", "Neutral"),
             ("😌", "Happy"),
             ("🤩", "Very Happy")
+        ]
+
+        var body: some View {
+            if 0..<emoticons.count ~= emotion {
+                let (emoticon, _) = emoticons[emotion]
+                return Text(emoticon)
+                    .font(.system(size: 18))
+            } else {
+                return Text("")
+            }
+        }
+    }
+    
+    struct PainEmoticonSymbol: View {
+        let emotion: Int
+
+        let emoticons: [(String, String)] = [
+            ("No", "No"),
+            ("😐", "Mild"),
+            ("😣", "Moderate"),
+            ("😖", "Severe"),
         ]
 
         var body: some View {

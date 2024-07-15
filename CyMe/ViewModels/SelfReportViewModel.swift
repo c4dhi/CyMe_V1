@@ -30,10 +30,10 @@ class SelfReportViewModel: ObservableObject {
         let selfReportModel = createSelfReportModel(selfReports: selfReports, startTime: startTime)
         let success = reportingDatabaseService.saveReporting(report: selfReportModel)
         if success {
-            print("Report saved successfully!")
+            Logger.shared.log("Report saved successfully!")
             return true
         } else {
-            print("Failed to save the report.")
+            Logger.shared.log("Failed to save the report.")
             return false
         }
     }

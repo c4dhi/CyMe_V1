@@ -167,9 +167,9 @@ struct SelfReportView: View {
                 isLoading = false
                 if success {
                     isPresented = false
-                    print("Report saved successfully!")
+                    Logger.shared.log("Report saved successfully!")
                 } else {
-                    print("Failed to save the report.")
+                    Logger.shared.log("Failed to save the report.")
                 }
             }
         }
