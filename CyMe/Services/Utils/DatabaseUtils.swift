@@ -82,7 +82,7 @@ func encodeReminderModel(_ reminder: ReminderModel) -> String {
         let jsonData = try JSONEncoder().encode(reminder)
         return String(data: jsonData, encoding: .utf8) ?? ""
     } catch {
-        print("Failed to encode reminder model: \(error)")
+        Logger.shared.log("Failed to encode reminder model: \(error)")
         return ""
     }
 }
@@ -91,7 +91,7 @@ func decodeReminderModel(from data: Data) -> ReminderModel {
     do {
         return try JSONDecoder().decode(ReminderModel.self, from: data)
     } catch {
-        print("Failed to decode reminder model: \(error)")
+        Logger.shared.log("Failed to decode reminder model: \(error)")
         return ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date())
     }
 }

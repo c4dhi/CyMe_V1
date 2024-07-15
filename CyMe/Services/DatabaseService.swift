@@ -39,21 +39,35 @@ class DatabaseService {
 
         var db: OpaquePointer? = nil
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
-            print("Error opening database")
+            Logger.shared.log("Error opening database")
             return nil
         } else {
-            print("Successfully opened connection to database at \(fileURL.path)")
+            Logger.shared.log("Successfully opened connection to database at \(fileURL.path)")
             return db
         }
     }
     
+    func databaseURL() -> URL? {
+        let fileURL = try! FileManager.default
+            .url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            .appendingPathComponent("CyMe.sqlite")
+        return fileURL
+    }
+
+    func databaseFileExists() -> Bool {
+        let fileURL = try! FileManager.default
+            .url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            .appendingPathComponent("CyMe.sqlite")
+        return FileManager.default.fileExists(atPath: fileURL.path)
+    }
+
     func executeQuery(_ query: String) -> Bool {
         var statement: OpaquePointer?
         defer { sqlite3_finalize(statement) }
         
         guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
             if let error = sqlite3_errmsg(db) {
-                print("Error preparing statement: \(String(cString: error))")
+                Logger.shared.log("Error preparing statement: \(String(cString: error))")
             }
             return false
         }
@@ -62,7 +76,7 @@ class DatabaseService {
             return true
         } else {
             if let error = sqlite3_errmsg(db) {
-                print("Error executing query: \(String(cString: error))")
+                Logger.shared.log("Error executing query: \(String(cString: error))")
             }
             return false
         }

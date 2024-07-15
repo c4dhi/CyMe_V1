@@ -12,7 +12,7 @@ struct ProfileView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
     @ObservedObject var userViewModel: ProfileViewModel
 
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .black, accentColor: .blue)
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     let lifePhaseOptions = ["Premenopause", "Menopause", "Postmenopause"]
     let fertilityGoalOptions = ["Avoiding pregnancy", "Pregnancy", "Exploring options"]
 

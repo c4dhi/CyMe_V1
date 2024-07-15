@@ -36,7 +36,7 @@ struct DiscoverView: View {
             
             if let symptom = selectedSymptom {
                 List {
-                    Section(header: Text("Symptom Graph").padding(.vertical, 8)) {
+                    Section(header: Text("Symptom graph").padding(.vertical, 8)) {
                         SymptomGraph(symptom: symptom)
                             .frame(height: 200)
                             .padding()
@@ -55,6 +55,13 @@ struct DiscoverView: View {
 
                     Section(header: Text("Statistics").padding(.vertical, 8)) {
                         SymptomStatisticsView(symptom: symptom)
+                            .padding()
+                            .background(theme.backgroundColor.toColor())
+                            .cornerRadius(10)
+                    }
+                    Section(header: Text("Covariance graph").padding(.vertical, 8)) {
+                        MultiSymptomGraph(multiSymptomList: symptom.covarianceOverview)
+                            .frame(height: 200)
                             .padding()
                             .background(theme.backgroundColor.toColor())
                             .cornerRadius(10)

@@ -23,49 +23,49 @@ class WatchConnector: NSObject, WCSessionDelegate, ObservableObject{
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        print("watchConnector: ", activationState)
+        Logger.shared.log("watchConnector: \(activationState)")
         
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
-        print("watchConnector: Session became inactive and reactivated")
+        Logger.shared.log("watchConnector: Session became inactive and reactivated")
     }
 
     func sessionDidDeactivate(_ session: WCSession) {
-        print("watchConnector: Session deactivated and reactivated")
+        Logger.shared.log("watchConnector: Session deactivated and reactivated")
     }
 
     func sessionReachabilityDidChange(_ session: WCSession) {
-        print("watchConnector: Session reachability changed to \(session.isReachable)")
+        Logger.shared.log("watchConnector: Session reachability changed to \(session.isReachable)")
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String: Any]) -> Void) {
-        print("WatchConnector: Received message with reply handler: \(message)")
+        Logger.shared.log("WatchConnector: Received message with reply handler: \(message)")
 
         if let request = message["request"] as? String {
             switch request {
             case "settings":
                 sendSettings()
             default:
-                print("WatchConnector: Unknown request received from watch app.")
+                Logger.shared.log("WatchConnector: Unknown request received from watch app.")
             }
         }
 
         if let selfReportList = message["selfReportList"] as? Data {
             do {
                 let selfReports = try JSONDecoder().decode([SelfReportModel].self, from: selfReportList)
-                print("WatchConnector: Received self-report data from Watch app: \(selfReports)")
+                Logger.shared.log("WatchConnector: Received self-report data from Watch app: \(selfReports)")
 
                 if reportingDatabaseService.saveReports(reports: selfReports) {
-                    print("WatchConnector: Report saved successfully")
+                    Logger.shared.log("WatchConnector: Report saved successfully")
                 } else {
-                    print("WatchConnector: Failed to save report")
+                    Logger.shared.log("WatchConnector: Failed to save report")
                 }
 
                 // Example of replying back to the watch app
                 replyHandler(["status": "Received and processed self-report data"])
             } catch {
-                print("WatchConnector: Error decoding self-report data: \(error.localizedDescription)")
+                Logger.shared.log("WatchConnector: Error decoding self-report data: \(error.localizedDescription)")
                 replyHandler(["error": error.localizedDescription])
             }
         }
@@ -73,18 +73,17 @@ class WatchConnector: NSObject, WCSessionDelegate, ObservableObject{
     
     func sendSettings() {
         guard session.isReachable else {
-            print("WatchConnector: Watch is not reachable.")
+            Logger.shared.log("WatchConnector: Watch is not reachable.")
             return
         }
 
         do {
             let jsonData = try JSONEncoder().encode(settingsViewModel.settings.healthDataSettings)
-            print("WatchConnector: Attempting to update application context with settings: \(settingsViewModel.settings.healthDataSettings)")
-            
+            Logger.shared.log("WatchConnector: Sending settings: \(settingsViewModel.settings.healthDataSettings)")
             try session.updateApplicationContext(["settings": jsonData])
-            print("WatchConnector: update Application Context successful")
+            Logger.shared.log("WatchConnector: Update Application Context successful")
         } catch {
-            print("WatchConnector: Error encoding settings: \(error.localizedDescription)")
+            Logger.shared.log("WatchConnector: Error encoding settings: \(error.localizedDescription)")
         }
     }
 }

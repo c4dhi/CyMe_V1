@@ -31,18 +31,16 @@ class iOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         print("iOS Connector: Received application context: \(applicationContext)")
-        
+
         if let settingsData = applicationContext["settings"] as? Data {
             do {
-                let settings = try JSONDecoder().decode([HealthDataSettingsModel].self, from: settingsData)
+                let settings = try JSONDecoder().decode(HealthDataSettingsModel.self, from: settingsData)
                 print("iOS Connector: Updated settings received from iOS app: \(settings)")
-                // Handle updated settings received from iOS app
+                // Update your settings model or state here
             } catch {
                 print("iOS Connector: Error decoding settings data: \(error.localizedDescription)")
             }
         }
-        
-        // Handle other context data if needed
     }
 
     func requestSettingsFromiOS() {

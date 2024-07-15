@@ -10,12 +10,19 @@ struct OverviewTable: View {
     var symptoms: [SymptomModel]
     var count = 1
     
+    private var dateFormatter: DateFormatter {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .none
+            return formatter
+        }
+    
     var body: some View {
         ScrollView(.vertical){
             ScrollView(.horizontal){
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("Cycle days overview")
+                        Text("Cycle start at \(dateFormatter.string(from: symptoms[0].dateRange[0]))")
                             .font(.headline)
                             .padding(.bottom, 5)
                         Spacer()
@@ -60,7 +67,6 @@ struct OverviewTable: View {
     }
 
     private func minDays() -> Int {
-        print(symptoms)
         return symptoms.map { $0.cycleOverview.count }.min() ?? 0
     }
     
@@ -69,6 +75,10 @@ struct OverviewTable: View {
         case .emoticonRating:
             return AnyView(
                 EmoticonSymbol(emotion: intensity)
+            )
+        case .painEmoticonRating:
+            return AnyView(
+                PainEmoticonSymbol(emotion: intensity)
             )
         case .amountOfhour:
             return AnyView(
@@ -126,6 +136,27 @@ struct OverviewTable: View {
             ("🤔", "Neutral"),
             ("😌", "Happy"),
             ("🤩", "Very Happy")
+        ]
+
+        var body: some View {
+            if 0..<emoticons.count ~= emotion {
+                let (emoticon, _) = emoticons[emotion]
+                return Text(emoticon)
+                    .font(.system(size: 18))
+            } else {
+                return Text("")
+            }
+        }
+    }
+    
+    struct PainEmoticonSymbol: View {
+        let emotion: Int
+
+        let emoticons: [(String, String)] = [
+            ("No", "No"),
+            ("😐", "Mild"),
+            ("😣", "Moderate"),
+            ("😖", "Severe"),
         ]
 
         var body: some View {

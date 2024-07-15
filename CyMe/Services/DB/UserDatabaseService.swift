@@ -28,9 +28,9 @@ class UserDatabaseService {
                 """
             
             if DatabaseService.shared.executeQuery(createTableQuery) {
-                print("User table created successfully or already exists")
+                Logger.shared.log("User table created successfully or already exists")
             } else {
-                print("Error creating user table")
+                Logger.shared.log("Error creating user table")
             }
         }
     
@@ -41,7 +41,7 @@ class UserDatabaseService {
             
             guard sqlite3_prepare_v2(DatabaseService.shared.db, query, -1, &statement, nil) == SQLITE_OK else {
                 if let error = sqlite3_errmsg(DatabaseService.shared.db) {
-                    print("Error preparing statement: \(String(cString: error))")
+                    Logger.shared.log("Error preparing statement: \(String(cString: error))")
                 }
                 return false
             }
@@ -53,7 +53,7 @@ class UserDatabaseService {
                 return count > 0
             } else {
                 if let error = sqlite3_errmsg(DatabaseService.shared.db) {
-                    print("Error executing query: \(String(cString: error))")
+                    Logger.shared.log("Error executing query: \(String(cString: error))")
                 }
                 return false
             }
@@ -63,7 +63,7 @@ class UserDatabaseService {
             let query = "SELECT name FROM user LIMIT 1;"
             var statement: OpaquePointer?
             guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
-                print("Error preparing query")
+                Logger.shared.log("Error preparing query")
                 return nil
             }
             
@@ -72,12 +72,12 @@ class UserDatabaseService {
             }
             
             guard sqlite3_step(statement) == SQLITE_ROW else {
-                print("No rows found")
+                Logger.shared.log("No rows found")
                 return nil
             }
             
             guard let namePtr = sqlite3_column_text(statement, 0) else {
-                print("No name found")
+                Logger.shared.log("No name found")
                 return nil
             }
             
@@ -88,7 +88,7 @@ class UserDatabaseService {
             let fetchQuery = "SELECT COUNT(*) FROM user WHERE id = 1;"
             var statement: OpaquePointer?
             guard sqlite3_prepare_v2(db, fetchQuery, -1, &statement, nil) == SQLITE_OK else {
-                print("Error preparing fetch statement")
+                Logger.shared.log("Error preparing fetch statement")
                 return
             }
 
@@ -110,7 +110,7 @@ class UserDatabaseService {
             let selectQuery = "SELECT * FROM user WHERE id = 1;"
             var statement: OpaquePointer?
             guard sqlite3_prepare_v2(db, selectQuery, -1, &statement, nil) == SQLITE_OK else {
-                print("Error preparing select statement")
+                Logger.shared.log("Error preparing select statement")
                 return defaultUser()
             }
 
@@ -155,7 +155,7 @@ class UserDatabaseService {
             
             var statement: OpaquePointer?
             guard sqlite3_prepare_v2(db, insertQuery, -1, &statement, nil) == SQLITE_OK else {
-                print("Error preparing insert statement")
+                Logger.shared.log("Error preparing insert statement")
                 return false
             }
             
@@ -182,11 +182,11 @@ class UserDatabaseService {
             sqlite3_bind_text(statement, 7, (user.fertilityGoal as NSString).utf8String, -1, nil)
             
             if sqlite3_step(statement) == SQLITE_DONE {
-                print("Successfully inserted user")
+                Logger.shared.log("Successfully inserted user")
                 return true
             } else {
                 if let error = sqlite3_errmsg(db) {
-                    print("Failed to insert user: \(String(cString: error))")
+                    Logger.shared.log("Failed to insert user: \(String(cString: error))")
                 }
                 return false
             }
@@ -199,10 +199,9 @@ class UserDatabaseService {
                     contraceptions = ?, fertilityGoal = ?
                 WHERE id = 1;
                 """
-            print(user)
             var statement: OpaquePointer?
             guard sqlite3_prepare_v2(db, updateQuery, -1, &statement, nil) == SQLITE_OK else {
-                print("Error preparing update statement")
+                Logger.shared.log("Error preparing update statement")
                 return false
             }
 
@@ -226,14 +225,77 @@ class UserDatabaseService {
             sqlite3_bind_text(statement, 7, (user.fertilityGoal as NSString).utf8String, -1, nil)
 
             if sqlite3_step(statement) == SQLITE_DONE {
-                print("Successfully updated user")
+                Logger.shared.log("Successfully updated user")
                 return true
             } else {
                 if let error = sqlite3_errmsg(db) {
-                    print("Failed to update user: \(String(cString: error))")
+                    Logger.shared.log("Failed to update user: \(String(cString: error))")
                 }
                 return false
             }
         }
+    
+    func anonymizeUserTable(at databaseURL: URL) {
+        guard let db = openDatabase(at: databaseURL) else { return }
+
+        let fetchUsersQuery = "SELECT id, name FROM user;"
+        var fetchStatement: OpaquePointer?
+
+        guard sqlite3_prepare_v2(db, fetchUsersQuery, -1, &fetchStatement, nil) == SQLITE_OK else {
+            Logger.shared.log("Error preparing fetch statement")
+            return
+        }
+
+        defer {
+            sqlite3_finalize(fetchStatement)
+        }
+
+        while sqlite3_step(fetchStatement) == SQLITE_ROW {
+            let id = sqlite3_column_int(fetchStatement, 0)
+            let name = String(cString: sqlite3_column_text(fetchStatement, 1))
+            let anonymizedCode = generateAnonymizedCode(for: name)
+
+            let updateQuery = "UPDATE user SET name = ? WHERE id = ?;"
+            var updateStatement: OpaquePointer?
+
+            guard sqlite3_prepare_v2(db, updateQuery, -1, &updateStatement, nil) == SQLITE_OK else {
+                Logger.shared.log("Error preparing update statement")
+                continue
+            }
+
+            sqlite3_bind_text(updateStatement, 1, (anonymizedCode as NSString).utf8String, -1, nil)
+            sqlite3_bind_int(updateStatement, 2, id)
+
+            if sqlite3_step(updateStatement) == SQLITE_DONE {
+                Logger.shared.log("Successfully updated user \(id) with anonymized code")
+            } else {
+                if let error = sqlite3_errmsg(db) {
+                    Logger.shared.log("Failed to update user \(id): \(String(cString: error))")
+                }
+            }
+
+            sqlite3_finalize(updateStatement)
+        }
+
+        sqlite3_close(db)
+    }
+    
+    private func openDatabase(at url: URL) -> OpaquePointer? {
+        var db: OpaquePointer?
+        if sqlite3_open(url.path, &db) == SQLITE_OK {
+            Logger.shared.log("Successfully opened connection to database at \(url.path)")
+            return db
+        } else {
+            if let error = sqlite3_errmsg(db) {
+                Logger.shared.log("Unable to open database: \(String(cString: error))")
+            }
+            return nil
+        }
+    }
+
+   private func generateAnonymizedCode(for name: String) -> String {
+       let baseCode = UUID().uuidString.prefix(8)
+       return "\(baseCode)"
+   }
 }
 

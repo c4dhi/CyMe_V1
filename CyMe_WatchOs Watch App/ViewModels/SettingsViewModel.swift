@@ -35,13 +35,13 @@ class SettingsViewModel: ObservableObject {
                 questionType: .emoticonRating
             ),
             HealthDataSettingsModel(
-                name: "sleepLenght",
-                label: "Sleep length",
+                name: "headache",
+                label: "Headache",
                 enableDataSync: false,
                 enableSelfReportingCyMe: false,
                 dataLocation: .sync,
-                question: "How many hours did you sleep?",
-                questionType: .amountOfhour
+                question: "Did you experience a headache today?",
+                questionType: .painEmoticonRating
             ),],
             selfReportWithWatch: false,
             enableWidget: false,

@@ -35,7 +35,7 @@ class SettingsDatabaseService {
             HealthDataSettingsModel(
                 name: "menstruationDate",
                 label: "Menstruation date",
-                enableDataSync: true,
+                enableDataSync: false,
                 enableSelfReportingCyMe: true,
                 dataLocation: .sync,
                 question: "Did you have your period today?",
@@ -44,7 +44,7 @@ class SettingsDatabaseService {
             HealthDataSettingsModel(
                 name: "menstruationStart",
                 label: "Menstruation start",
-                enableDataSync: true,
+                enableDataSync: false,
                 enableSelfReportingCyMe: true,
                 dataLocation: .onlyCyMe,
                 question: "Is it the first day of your period?",
@@ -187,9 +187,9 @@ class SettingsDatabaseService {
             """
         
         if DatabaseService.shared.executeQuery(createTableQuery) {
-            print("Settings table created successfully or already exists")
+            Logger.shared.log("Settings table created successfully or already exists")
         } else {
-            print("Error creating settings table")
+            Logger.shared.log("Error creating settings table")
         }
     }
     
@@ -208,9 +208,9 @@ class SettingsDatabaseService {
             """
         
         if DatabaseService.shared.executeQuery(createTableQuery) {
-            print("Health data Settings table created successfully or already exists")
+            Logger.shared.log("Health data Settings table created successfully or already exists")
         } else {
-            print("Error creating health data settings table")
+            Logger.shared.log("Error creating health data settings table")
         }
     }
     
@@ -221,14 +221,14 @@ class SettingsDatabaseService {
         var checkStatement: OpaquePointer?
         
         guard sqlite3_prepare_v2(db, checkQuery, -1, &checkStatement, nil) == SQLITE_OK else {
-            print("Error preparing check statement")
+            Logger.shared.log("Error preparing check statement")
             return
         }
         
         defer { sqlite3_finalize(checkStatement) }
         
         guard sqlite3_step(checkStatement) == SQLITE_ROW else {
-            print("Error checking existing settings")
+            Logger.shared.log("Error checking existing settings")
             return
         }
         
@@ -248,7 +248,7 @@ class SettingsDatabaseService {
         var statement: OpaquePointer?
 
         guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
-            print("Error preparing select statement")
+            Logger.shared.log("Error preparing select statement")
             return nil
         }
 
@@ -269,8 +269,6 @@ class SettingsDatabaseService {
             let selectedTheme = ThemeModel(name: selectedThemeName, backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
 
             let healthDataSettings = getHealthDataSettings()
-            
-            print("here", selfReportReminder)
 
             return SettingsModel(
                 enableHealthKit: enableHealthKit,
@@ -283,7 +281,7 @@ class SettingsDatabaseService {
                 selectedTheme: selectedTheme
             )
         } else {
-            print("Settings not found")
+            Logger.shared.log("Settings not found")
             return nil
         }
     }
@@ -306,7 +304,7 @@ class SettingsDatabaseService {
         
         var statement: OpaquePointer?
         guard sqlite3_prepare_v2(db, insertQuery, -1, &statement, nil) == SQLITE_OK else {
-            print("Error preparing insert statement")
+            Logger.shared.log("Error preparing insert statement")
             return false
         }
         
@@ -322,11 +320,11 @@ class SettingsDatabaseService {
         
         
         if sqlite3_step(statement) == SQLITE_DONE {
-            print("Successfully inserted settings")
+            Logger.shared.log("Successfully inserted settings")
             return true
         } else {
             if let error = sqlite3_errmsg(db) {
-                print("Failed to insert settings: \(String(cString: error))")
+                Logger.shared.log("Failed to insert settings: \(String(cString: error))")
             }
             return false
         }
@@ -347,7 +345,7 @@ class SettingsDatabaseService {
         
         var statement: OpaquePointer?
         guard sqlite3_prepare_v2(db, updateQuery, -1, &statement, nil) == SQLITE_OK else {
-            print("Error preparing update statement")
+            Logger.shared.log("Error preparing update statement")
             return false
         }
         
@@ -363,11 +361,11 @@ class SettingsDatabaseService {
         
         
         if sqlite3_step(statement) == SQLITE_DONE {
-            print("Successfully updated settings")
+            Logger.shared.log("Successfully updated settings")
             return true
         } else {
             if let error = sqlite3_errmsg(db) {
-                print("Failed to update settings: \(String(cString: error))")
+                Logger.shared.log("Failed to update settings: \(String(cString: error))")
             }
             return false
         }
@@ -404,18 +402,18 @@ class SettingsDatabaseService {
                     sqlite3_bind_text(stmt, 7, stringToUTF8(healthData.questionType?.rawValue), -1, nil)
                     
                     if sqlite3_step(stmt) == SQLITE_DONE {
-                        print("Default value inserted successfully: \(healthData.name)")
+                        Logger.shared.log("Default value inserted successfully: \(healthData.name)")
                     } else {
-                        print("Error inserting default value: \(healthData.name)")
+                        Logger.shared.log("Error inserting default value: \(healthData.name)")
                     }
                     sqlite3_finalize(stmt)
                 } else {
-                    print("Error preparing insert statement")
+                    Logger.shared.log("Error preparing insert statement")
                 }
             }
-            print("Default values inserted successfully")
+            Logger.shared.log("Default values inserted successfully")
         } else {
-            print("Default values already exist")
+            Logger.shared.log("Default values already exist")
         }
     }
 
@@ -426,7 +424,7 @@ class SettingsDatabaseService {
 
         // Begin transaction
         if sqlite3_exec(db, "BEGIN TRANSACTION", nil, nil, nil) != SQLITE_OK {
-            print("Error beginning transaction")
+            Logger.shared.log("Error beginning transaction")
             return false
         }
 
@@ -464,7 +462,7 @@ class SettingsDatabaseService {
                 sqlite3_bind_text(statement, 7, stringToUTF8(healthDataSetting.name), -1, nil)
 
                 if sqlite3_step(statement) != SQLITE_DONE {
-                    print("Failed to update health data settings for \(healthDataSetting.name)")
+                    Logger.shared.log("Failed to update health data settings for \(healthDataSetting.name)")
                     success = false
                 }
 
@@ -472,13 +470,13 @@ class SettingsDatabaseService {
             }
             sqlite3_finalize(statement)
         } else {
-            print("Error preparing update statement")
+            Logger.shared.log("Error preparing update statement")
             success = false
         }
 
         // End transaction
         if sqlite3_exec(db, success ? "COMMIT" : "ROLLBACK", nil, nil, nil) != SQLITE_OK {
-            print("Error ending transaction")
+            Logger.shared.log("Error ending transaction")
             return false
         }
 
@@ -493,7 +491,7 @@ class SettingsDatabaseService {
         var healthDataSettings: [HealthDataSettingsModel] = []
 
         guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
-            print("Error preparing select statement for health data settings")
+            Logger.shared.log("Error preparing select statement for health data settings")
             return healthDataSettings
         }
 

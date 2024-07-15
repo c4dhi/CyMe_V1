@@ -23,7 +23,6 @@ struct CyMeApp: App {
                 ContentView()
             } else {
                 OnboardingView()
-                //ContentView()
             }
         }
     }
@@ -34,9 +33,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
             if granted {
-                print("Notification permission granted.")
+                Logger.shared.log("Notification permission granted.")
             } else if let error = error {
-                print("Failed to request notification permission: \(error)")
+                Logger.shared.log("Failed to request notification permission: \(error)")
             }
         }
         return true

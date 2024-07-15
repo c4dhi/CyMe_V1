@@ -19,7 +19,7 @@ struct PersonalizationThemeView: View {
     var nextPage: () -> Void
     @ObservedObject var settingsViewModel: SettingsViewModel
     
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .black, accentColor: .blue)
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     @State private var selectedThemeIndex = 0
     @State private var selectedColorType: ColorType? = nil
     @State private var isCustomColorPickerShown = false
