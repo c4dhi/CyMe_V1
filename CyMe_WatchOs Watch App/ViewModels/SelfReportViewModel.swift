@@ -10,13 +10,13 @@ import SwiftUI
 
 class SelfReportViewModel: ObservableObject {
     @Published var questions: [HealthDataSettingsModel] = []
+    @ObservedObject var connector: iOSConnector
     
     private var settingsViewModel: SettingsViewModel
-    private var iOSConnector: iOSConnector
 
-    init(settingsViewModel: SettingsViewModel) {
+    init(settingsViewModel: SettingsViewModel, connector: iOSConnector) {
         self.settingsViewModel = settingsViewModel
-        self.iOSConnector = CyMe_WatchOs_Watch_App.iOSConnector()
+        self.connector = connector
         loadQuestions()
     }
         
@@ -26,25 +26,5 @@ class SelfReportViewModel: ObservableObject {
         }
     }
     
-    func saveReport(selfReports: [SymptomSelfReportModel], startTime: Date) -> Bool {
-            let selfReportModel = createSelfReportModel(selfReports: selfReports, startTime: startTime)
-            iOSConnector.sendSelfReportDataToiOS(selfReport: selfReportModel)
-            return true
-        }
-    
-    private func createSelfReportModel(selfReports: [SymptomSelfReportModel], startTime: Date) -> SelfReportModel {
-        let endTime = Date()
-        let isCyMeSelfReport = true
-        let selfReportMedium = selfReportMediumType.watchApp
-
-        return SelfReportModel(
-            id: nil,
-            startTime: startTime,
-            endTime: endTime,
-            isCyMeSelfReport: isCyMeSelfReport,
-            selfReportMedium: selfReportMedium,
-            reports: selfReports
-        )
-    }
 }
 

@@ -11,8 +11,6 @@ import SwiftUI
 class SettingsViewModel: ObservableObject {
     @Published var settings: SettingsModel
     
-    private var connector: iOSConnector
-    
     init() {
         self.settings = SettingsModel(
             enableHealthKit: false,
@@ -51,11 +49,6 @@ class SettingsViewModel: ObservableObject {
             selectedTheme: ThemeModel(name: "", backgroundColor: .clear, primaryColor: .clear, accentColor: .clear)
         )
         
-        self.connector = iOSConnector()
-    }
-    
-    public func fetchSettings() {
-        connector.requestSettingsFromiOS()
     }
 }
 

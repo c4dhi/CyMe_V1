@@ -6,20 +6,28 @@
 //
 
 import SwiftUI
+import WatchKit
 
 struct SelfReportWatchView: View {
+    @Binding var isSelfReporting: Bool
     @ObservedObject var settingsViewModel: SettingsViewModel
+    @ObservedObject var connector: iOSConnector
     
     @StateObject private var selfReportViewModel: SelfReportViewModel
     @State private var selectedOption: SymptomSelfReportModel? = nil
     @State var selfReports: [SymptomSelfReportModel] = []
-    @State var isLoading = false
     @State private var currentQuestionIndex: Int = 0
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    @State private var isSubmittedSuccessfully = false
+
     var startTime = Date()
 
-    init(settingsViewModel: SettingsViewModel) {
+    init(settingsViewModel: SettingsViewModel, connector: iOSConnector, isSelfReporting: Binding<Bool>) {
         self.settingsViewModel = settingsViewModel
-        _selfReportViewModel = StateObject(wrappedValue: SelfReportViewModel(settingsViewModel: settingsViewModel))
+        _selfReportViewModel = StateObject(wrappedValue: SelfReportViewModel(settingsViewModel: settingsViewModel, connector: connector))
+        self.connector = connector
+        self._isSelfReporting = isSelfReporting
     }
 
     var filteredHealthData: [HealthDataWithoutNilModel] {
@@ -117,12 +125,24 @@ struct SelfReportWatchView: View {
                 }
             }
             
-            if isLoading {
+            if connector.isLoading {
                 Color.primary.opacity(0.7)
                 ProgressView()
             }
         }
         .ignoresSafeArea()
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text(isSubmittedSuccessfully ? "Success" : "Error"),
+                message: Text(alertMessage),
+                dismissButton: .default(Text("OK"), action: {
+                    if isSubmittedSuccessfully {
+                        self.isSelfReporting = false
+                        WKExtension.shared().rootInterfaceController?.popToRootController()
+                    }
+                })
+            )
+        }
     }
 
     func onNext() {
@@ -146,9 +166,28 @@ struct SelfReportWatchView: View {
     }
 
     func submitSelfReport(selfReports: [SymptomSelfReportModel]) {
-        isLoading = true
-        _ = selfReportViewModel.saveReport(selfReports: selfReports, startTime: startTime)
-        isLoading = false
+        let selfReportModel = createSelfReportModel(selfReports: selfReports, startTime: startTime)
+        connector.sendSelfReportDataToiOS(selfReport: selfReportModel) { success, message in
+            DispatchQueue.main.async {
+                self.isSubmittedSuccessfully = success
+                self.alertMessage = message
+                self.showAlert = true
+            }
+        }
+    }
+    private func createSelfReportModel(selfReports: [SymptomSelfReportModel], startTime: Date) -> SelfReportModel {
+        let endTime = Date()
+        let isCyMeSelfReport = true
+        let selfReportMedium = selfReportMediumType.watchApp
+
+        return SelfReportModel(
+            id: nil,
+            startTime: startTime,
+            endTime: endTime,
+            isCyMeSelfReport: isCyMeSelfReport,
+            selfReportMedium: selfReportMedium,
+            reports: selfReports
+        )
     }
 }
 
@@ -157,6 +196,7 @@ struct SelfReportWatchView: View {
 struct SelfReportWatchView_Previews: PreviewProvider {
     static var previews: some View {
         let settingsViewModel = SettingsViewModel()
-        return SelfReportWatchView(settingsViewModel: settingsViewModel)
+        let connector = iOSConnector()
+        return SelfReportWatchView(settingsViewModel: settingsViewModel, connector: connector, isSelfReporting: .constant(true))
     }
 }
