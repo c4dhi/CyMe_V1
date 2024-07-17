@@ -34,7 +34,7 @@ class iOSConnector: NSObject, WCSessionDelegate, ObservableObject {
 
         if let settingsData = applicationContext["settings"] as? Data {
             do {
-                let settings = try JSONDecoder().decode(HealthDataSettingsModel.self, from: settingsData)
+                let settings = try JSONDecoder().decode([HealthDataSettingsModel].self, from: settingsData)
                 print("iOS Connector: Updated settings received from iOS app: \(settings)")
                 // Update your settings model or state here
             } catch {

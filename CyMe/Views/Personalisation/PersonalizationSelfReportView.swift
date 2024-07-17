@@ -101,7 +101,7 @@ struct PersonalizationSelfReportView: View {
     var nextPage: () -> Void
     
     @ObservedObject var settingsViewModel: SettingsViewModel
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .black, accentColor: .blue)
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     
     var body: some View {
         Text("Personalize CyMe reminders")
