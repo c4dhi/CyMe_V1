@@ -117,7 +117,8 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(nextPage: {}, settingsViewModel: SettingsViewModel(), userViewModel: ProfileViewModel())
+        let connector = WatchConnector()
+        ProfileView(nextPage: {}, settingsViewModel: SettingsViewModel(connector: connector), userViewModel: ProfileViewModel())
     }
 }
 

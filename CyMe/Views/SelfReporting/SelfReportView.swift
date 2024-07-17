@@ -180,7 +180,8 @@ struct SelfReportView: View {
 
 struct SelfReportView_Previews: PreviewProvider {
     static var previews: some View {
-        let settingsViewModel = SettingsViewModel()
+        let connector = WatchConnector()
+        let settingsViewModel = SettingsViewModel(connector: connector)
         return SelfReportView(settingsViewModel: settingsViewModel, isPresented: .constant(true))
     }
 }

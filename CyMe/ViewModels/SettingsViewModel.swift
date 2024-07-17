@@ -10,19 +10,21 @@ import SwiftUI
 
 class SettingsViewModel: ObservableObject {
     @Published var settings: SettingsModel
-    
+        
     private var themeManager = ThemeManager()
-    
     private var settingsDatabaseService: SettingsDatabaseService
+    private var connector: WatchConnector
     
-    init() {
-        settingsDatabaseService = SettingsDatabaseService()
+    init(connector: WatchConnector) {
+        self.connector = connector
+        self.settingsDatabaseService = SettingsDatabaseService()
         self.settings = settingsDatabaseService.getSettings() ?? settingsDatabaseService.getDefaultSettings()
     }
     
     func saveSettings() {
         themeManager.saveThemeToUserDefaults(newTheme: settings.selectedTheme)
         settingsDatabaseService.saveSettings(settings: settings)
+        connector.sendSettings(settings: settings)
         setNotifications(isEnabled: settings.selfReportReminder.isEnabled, startDate: settings.selfReportReminder.startDate, times: settings.selfReportReminder.times, frequency: settings.selfReportReminder.frequency)
         
     }

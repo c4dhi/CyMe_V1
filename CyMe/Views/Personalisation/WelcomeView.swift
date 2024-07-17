@@ -44,6 +44,6 @@ struct WelcomeView: View {
 
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView(nextPage: {}, settingsViewModel: SettingsViewModel())
+        WelcomeView(nextPage: {}, settingsViewModel: SettingsViewModel(connector: WatchConnector()))
     }
 }

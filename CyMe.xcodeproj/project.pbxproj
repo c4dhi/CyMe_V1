@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4C0897152C0DA2970042A6D1 /* SharedModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CDF58482C0DA12B00C7E9F6 /* SharedModels.framework */; };
 		4C0897162C0DA2970042A6D1 /* SharedModels.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4CDF58482C0DA12B00C7E9F6 /* SharedModels.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		4C08971B2C0DA2CD0042A6D1 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C08971A2C0DA2CD0042A6D1 /* SettingsViewModel.swift */; };
 		4C08971D2C0DBBD20042A6D1 /* SymptomModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C08971C2C0DBBD20042A6D1 /* SymptomModel.swift */; };
 		4C0897202C0E01E90042A6D1 /* SymptomGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C08971F2C0E01E90042A6D1 /* SymptomGraph.swift */; };
 		4C0897222C0E04670042A6D1 /* SymptomInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0897212C0E04670042A6D1 /* SymptomInsightsView.swift */; };
@@ -218,7 +217,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4C08971A2C0DA2CD0042A6D1 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		4C08971C2C0DBBD20042A6D1 /* SymptomModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomModel.swift; sourceTree = "<group>"; };
 		4C08971F2C0E01E90042A6D1 /* SymptomGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomGraph.swift; sourceTree = "<group>"; };
 		4C0897212C0E04670042A6D1 /* SymptomInsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomInsightsView.swift; sourceTree = "<group>"; };
@@ -623,7 +621,6 @@
 			isa = PBXGroup;
 			children = (
 				4CDF57F52C0D95B400C7E9F6 /* SelfReportViewModel.swift */,
-				4C08971A2C0DA2CD0042A6D1 /* SettingsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1119,7 +1116,6 @@
 				4CDF58152C0D9CF600C7E9F6 /* SelfReportModel.swift in Sources */,
 				4CDF57F62C0D95B400C7E9F6 /* SelfReportViewModel.swift in Sources */,
 				4CF0155A2BE9560E00BE8DF0 /* iOSConnector.swift in Sources */,
-				4C08971B2C0DA2CD0042A6D1 /* SettingsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

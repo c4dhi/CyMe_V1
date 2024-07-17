@@ -11,12 +11,10 @@ class WatchConnector: NSObject, WCSessionDelegate, ObservableObject{
 
     var session: WCSession
     private var reportingDatabaseService: ReportingDatabaseService
-    @Published var settingsViewModel: SettingsViewModel
     
     init(session: WCSession = .default, reportingDatabaseService: ReportingDatabaseService = ReportingDatabaseService()) {
         self.session = session
         self.reportingDatabaseService = reportingDatabaseService
-        self.settingsViewModel = SettingsViewModel()
         super.init()
         session.delegate = self
         session.activate()
@@ -42,14 +40,14 @@ class WatchConnector: NSObject, WCSessionDelegate, ObservableObject{
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String: Any]) -> Void) {
         Logger.shared.log("WatchConnector: Received message with reply handler: \(message)")
 
-        if let request = message["request"] as? String {
+        /*if let request = message["request"] as? String {
             switch request {
             case "settings":
                 sendSettings()
             default:
                 Logger.shared.log("WatchConnector: Unknown request received from watch app.")
             }
-        }
+        }*/
 
         if let selfReportList = message["selfReportList"] as? Data {
             do {
@@ -71,15 +69,15 @@ class WatchConnector: NSObject, WCSessionDelegate, ObservableObject{
         }
     }
     
-    func sendSettings() {
+    func sendSettings(settings: SettingsModel) {
         guard session.isReachable else {
             Logger.shared.log("WatchConnector: Watch is not reachable.")
             return
         }
 
         do {
-            let jsonData = try JSONEncoder().encode(settingsViewModel.settings.healthDataSettings)
-            Logger.shared.log("WatchConnector: Sending settings: \(settingsViewModel.settings.healthDataSettings)")
+            let jsonData = try JSONEncoder().encode(settings.healthDataSettings)
+            Logger.shared.log("WatchConnector: Sending settings: \(settings.healthDataSettings)")
             try session.updateApplicationContext(["settings": jsonData])
             Logger.shared.log("WatchConnector: Update Application Context successful")
         } catch {

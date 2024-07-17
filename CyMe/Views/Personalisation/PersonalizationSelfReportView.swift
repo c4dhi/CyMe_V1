@@ -141,6 +141,6 @@ struct PersonalizationSelfReportView: View {
 
 struct PersonalizationSelfReportView_Previews: PreviewProvider {
     static var previews: some View {
-        PersonalizationSelfReportView(nextPage: {}, settingsViewModel: SettingsViewModel())
+        PersonalizationSelfReportView(nextPage: {}, settingsViewModel: SettingsViewModel(connector: WatchConnector()))
     }
 }

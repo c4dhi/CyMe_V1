@@ -4,21 +4,73 @@
 //
 //  Created by Marinja Principe on 06.05.24.
 //
+
 import WatchConnectivity
 import SwiftUI
+import Combine
 
 @MainActor
 class iOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     var session: WCSession
     @Published var selfReports: [SelfReportModel] = []
     @Published var isLoading = false
+    @Published var settings: SettingsModel
     
     init(session: WCSession = .default) {
         self.session = session
+        self.settings = SettingsModel(
+            enableHealthKit: false,
+            healthDataSettings: [HealthDataSettingsModel(
+                    name: "menstruationDate",
+                    label: "Menstruation date",
+                    enableDataSync: true,
+                    enableSelfReportingCyMe: true,
+                    dataLocation: .sync,
+                    question: "Did you have your period today?",
+                    questionType: .menstruationEmoticonRating
+                ),
+                HealthDataSettingsModel(
+                    name: "sleepQuality",
+                    label: "Sleep quality",
+                    enableDataSync: false,
+                    enableSelfReportingCyMe: true,
+                    dataLocation: .onlyCyMe,
+                    question: "Rate your sleep quality last night",
+                    questionType: .emoticonRating
+                ),
+                HealthDataSettingsModel(
+                    name: "headache",
+                    label: "Headache",
+                    enableDataSync: false,
+                    enableSelfReportingCyMe: true,
+                    dataLocation: .sync,
+                    question: "Did you experience a headache today?",
+                    questionType: .painEmoticonRating
+                ),
+            ],
+            selfReportWithWatch: false,
+            enableWidget: false,
+            startPeriodReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
+            selfReportReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
+            summaryReminder: ReminderModel(isEnabled: false, frequency: "Each day", times: [Date()], startDate: Date()),
+            selectedTheme: ThemeModel(name: "", backgroundColor: .clear, primaryColor: .clear, accentColor: .clear)
+        )
         super.init()
         session.delegate = self
         session.activate()
+        
+        //loadQuestions()
         loadSelfReports()
+    }
+    
+    private func loadQuestions() {
+        self.requestSettingsFromiOS { [weak self] healthSettings in
+            if let healthSettings = healthSettings {
+                DispatchQueue.main.async {
+                    self?.settings.healthDataSettings = healthSettings
+                }
+            }
+        }
     }
 
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
@@ -36,24 +88,41 @@ class iOSConnector: NSObject, WCSessionDelegate, ObservableObject {
             do {
                 let settings = try JSONDecoder().decode([HealthDataSettingsModel].self, from: settingsData)
                 print("iOS Connector: Updated settings received from iOS app: \(settings)")
-                // Update your settings model or state here
+                DispatchQueue.main.async {
+                    self.settings.healthDataSettings = settings
+                }
             } catch {
                 print("iOS Connector: Error decoding settings data: \(error.localizedDescription)")
             }
         }
     }
 
-    func requestSettingsFromiOS() {
+    func requestSettingsFromiOS(completion: @escaping ([HealthDataSettingsModel]?) -> Void) {
         guard session.isReachable else {
             print("iOS Connector: iOS app is not reachable.")
+            completion(nil)
             return
         }
         
         let requestData: [String: Any] = ["request": "settings"]
         print("iOS Connector: Sending settings request: \(requestData)")
         
-        session.sendMessage(requestData, replyHandler: nil, errorHandler: { error in
+        session.sendMessage(requestData, replyHandler: { response in
+            if let settingsData = response["settings"] as? Data {
+                let decoder = JSONDecoder()
+                if let healthSettings = try? decoder.decode([HealthDataSettingsModel].self, from: settingsData) {
+                    DispatchQueue.main.async {
+                        completion(healthSettings)
+                    }
+                } else {
+                    completion(nil)
+                }
+            } else {
+                completion(nil)
+            }
+        }, errorHandler: { error in
             print("iOS Connector: Error sending message to iOS app: \(error.localizedDescription)")
+            completion(nil)
         })
     }
 
@@ -67,6 +136,8 @@ class iOSConnector: NSObject, WCSessionDelegate, ObservableObject {
         }
         
         do {
+            self.selfReports.append(selfReport)
+            print("reports", selfReports)
             let jsonData = try JSONEncoder().encode(selfReports)
             
             session.sendMessage(["selfReportList": jsonData], replyHandler: { response in
@@ -111,7 +182,7 @@ class iOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     private func loadSelfReports() {
         if let jsonData = UserDefaults.standard.data(forKey: "unsentSelfReports") {
             do {
-                selfReports = try JSONDecoder().decode([SelfReportModel].self, from: jsonData)
+                self.selfReports = try JSONDecoder().decode([SelfReportModel].self, from: jsonData)
                 print("iOS Connector: Loaded unsent self-reports. Total unsent reports: \(selfReports.count)")
             } catch {
                 print("iOS Connector: Error loading unsent self-reports: \(error.localizedDescription)")

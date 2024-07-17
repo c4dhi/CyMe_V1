@@ -30,10 +30,16 @@ func zipFiles(sourceURLs: [URL], destinationURL: URL) {
 
 struct SettingsNavigationView: View {
     @Binding var isPresented: Bool
+    @ObservedObject var settingsViewModel: SettingsViewModel
     @State private var showProfileSheet = false
     @State private var showOnboardingSheet = false
     @State private var databaseURL: URL?
     @State private var documentPickerDelegate = DocumentPickerDelegate()
+    
+    init(settingsViewModel: SettingsViewModel, isPresented: Binding<Bool>) {
+        self.settingsViewModel = settingsViewModel
+        self._isPresented = isPresented
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -42,7 +48,7 @@ struct SettingsNavigationView: View {
             }
             .foregroundColor(.blue)
             .sheet(isPresented: $showProfileSheet) {
-                ProfileViewWrapper(isPresented: $showProfileSheet)
+                ProfileViewWrapper(isPresented: $showProfileSheet, settingsViewModel: settingsViewModel )
             }
 
             Button("CyMe Settings") {
@@ -133,10 +139,11 @@ struct SettingsNavigationView: View {
 
 struct ProfileViewWrapper: View {
     @Binding var isPresented: Bool
+    @ObservedObject var settingsViewModel: SettingsViewModel
 
     var body: some View {
         NavigationView {
-            ProfileView(nextPage: { isPresented = false }, settingsViewModel: SettingsViewModel(), userViewModel: ProfileViewModel())
+            ProfileView(nextPage: { isPresented = false }, settingsViewModel: settingsViewModel, userViewModel: ProfileViewModel())
                 .navigationBarTitle("Profile", displayMode: .inline)
                 .navigationBarItems(leading: Button(action: {
                     isPresented = false
@@ -165,6 +172,8 @@ struct OnboardingViewWrapper: View {
 
 struct SettingsNavigationView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsNavigationView(isPresented: .constant(true))
+        let connector = WatchConnector()
+        let settingsViewModel = SettingsViewModel(connector: connector)
+        SettingsNavigationView(settingsViewModel: settingsViewModel, isPresented: .constant(true))
     }
 }

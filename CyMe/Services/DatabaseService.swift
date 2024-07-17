@@ -43,6 +43,7 @@ class DatabaseService {
             return nil
         } else {
             Logger.shared.log("Successfully opened connection to database at \(fileURL.path)")
+            print("Successfully opened connection to database at \(fileURL.path)")
             return db
         }
     }

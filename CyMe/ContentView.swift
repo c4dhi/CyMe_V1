@@ -1,10 +1,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var connector = WatchConnector()
+    @EnvironmentObject var connector: WatchConnector
+    @EnvironmentObject var settingsViewModel: SettingsViewModel
+    
     @State private var isSettingsPresented = false
     @State private var isSelfReportPresented = false
-    @StateObject var settingsViewModel = SettingsViewModel()
     @State var discoverViewModel = DiscoverViewModel()
     @StateObject var themeManager = ThemeManager()
         
@@ -50,7 +51,6 @@ struct ContentView: View {
                     Spacer()
                     Button(action: {
                         isSelfReportPresented = true
-                        connector.sendSettings()
                     }) {
                         Image(systemName: "plus.circle.fill")
                             .resizable()
@@ -96,7 +96,7 @@ struct ContentView: View {
                         Spacer()
                         Button(action: {
                             // TODO add action which shows random facts about menstrual health
-                            connector.sendSettings()
+                            connector.sendSettings(settings: settingsViewModel.settings)
                         }) {
                             Image("shortIcon")
                                 .resizable()
@@ -114,7 +114,7 @@ struct ContentView: View {
                     VStack {
                         HStack {
                             Spacer()
-                            SettingsNavigationView(isPresented: $isSettingsPresented)
+                            SettingsNavigationView(settingsViewModel: settingsViewModel, isPresented: $isSettingsPresented)
                                 .offset(x: -20, y: 50) // Adjust the offset as needed to position correctly
                         }
                         Spacer()

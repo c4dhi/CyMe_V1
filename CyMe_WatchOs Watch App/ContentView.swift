@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var settingsViewModel = SettingsViewModel()
     @StateObject var connector = iOSConnector()
     
     @State private var isSelfReporting = false
@@ -17,7 +16,7 @@ struct ContentView: View {
         VStack {
             
             if isSelfReporting {
-                SelfReportWatchView(settingsViewModel: settingsViewModel, connector: connector, isSelfReporting: $isSelfReporting)
+                SelfReportWatchView(connector: connector, isSelfReporting: $isSelfReporting)
             } else {
                 Button(action: {
                     isSelfReporting = true

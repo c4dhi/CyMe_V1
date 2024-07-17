@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @ObservedObject var settingsViewModel: SettingsViewModel
     @Binding var isPresented: Bool
-    @StateObject var connector = WatchConnector()
     
     @State private var currentPageIndex = 0
-    @StateObject private var settingsViewModel = SettingsViewModel()
     @StateObject private var profileViewModel = ProfileViewModel()
+    
+    init(settingsViewModel: SettingsViewModel, isPresented: Binding<Bool>) {
+        self.settingsViewModel = settingsViewModel
+        self._isPresented = isPresented
+    }
     
     var body: some View {
         VStack {
@@ -42,6 +46,8 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(isPresented: .constant(true))
+        let connector = WatchConnector()
+        let settingsViewModel = SettingsViewModel(connector: connector)
+        SettingsView(settingsViewModel: settingsViewModel, isPresented: .constant(true))
     }
 }

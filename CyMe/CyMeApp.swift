@@ -17,12 +17,25 @@ import SwiftUI
 @main
 struct CyMeApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
+    @StateObject var connector = WatchConnector()
+    @StateObject var settingsViewModel: SettingsViewModel
+
+    init() {
+        let connector = WatchConnector()
+        _settingsViewModel = StateObject(wrappedValue: SettingsViewModel(connector: connector))
+    }
+    
     var body: some Scene {
         WindowGroup {
             if DatabaseService.shared.userDatabaseService.isUserPresent() {
                 ContentView()
+                    .environmentObject(connector)
+                    .environmentObject(settingsViewModel)
             } else {
                 OnboardingView()
+                    .environmentObject(connector)
+                    .environmentObject(settingsViewModel)
             }
         }
     }

@@ -98,6 +98,6 @@ struct PersonalizationView: View {
 
 struct PersonalizationView_Previews: PreviewProvider {
     static var previews: some View {
-        PersonalizationView(nextPage: {}, settingsViewModel: SettingsViewModel())
+        PersonalizationView(nextPage: {}, settingsViewModel: SettingsViewModel(connector: WatchConnector()))
     }
 }

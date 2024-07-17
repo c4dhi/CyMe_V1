@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct OnboardingView: View {
+    @EnvironmentObject var connector: WatchConnector
+    @EnvironmentObject var settingsViewModel: SettingsViewModel
+    
     @State private var currentPageIndex: Int
-    @StateObject private var settingsViewModel = SettingsViewModel()
     @StateObject private var profileViewModel = ProfileViewModel()
     
     init(startPageIndex: Int = 0) {
