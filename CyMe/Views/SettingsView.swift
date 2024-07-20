@@ -11,8 +11,7 @@ struct SettingsView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
     @Binding var isPresented: Bool
     
-    @State private var currentPageIndex = 0
-    @StateObject private var profileViewModel = ProfileViewModel()
+    @State private var currentPageIndex = 1
     
     init(settingsViewModel: SettingsViewModel, isPresented: Binding<Bool>) {
         self.settingsViewModel = settingsViewModel
@@ -21,9 +20,7 @@ struct SettingsView: View {
     
     var body: some View {
         VStack {
-            if currentPageIndex == 0 {
-                ProfileView(nextPage: goToNextPage, settingsViewModel: settingsViewModel, userViewModel: profileViewModel )
-            } else if currentPageIndex == 1 {
+            if currentPageIndex == 1 {
                 PersonalizationView(nextPage: goToNextPage, settingsViewModel: settingsViewModel)
             } else if currentPageIndex == 2 {
                 PersonalizationSelfReportView(nextPage: goToNextPage, settingsViewModel: settingsViewModel)

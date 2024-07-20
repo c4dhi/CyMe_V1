@@ -56,7 +56,7 @@ struct SettingsNavigationView: View {
             }
             .foregroundColor(.blue)
             .sheet(isPresented: $showOnboardingSheet) {
-                OnboardingViewWrapper(isPresented: $showOnboardingSheet)
+                OnboardingViewWrapper(isPresented: $isPresented, settingsViewModel: settingsViewModel)
             }
 
             Button("Download CyMe data") {
@@ -156,10 +156,11 @@ struct ProfileViewWrapper: View {
 
 struct OnboardingViewWrapper: View {
     @Binding var isPresented: Bool
+    @ObservedObject var settingsViewModel: SettingsViewModel
 
     var body: some View {
         NavigationView {
-            OnboardingView(startPageIndex: 2)
+            SettingsView(settingsViewModel: settingsViewModel, isPresented: $isPresented)
                 .navigationBarTitle("Settings", displayMode: .inline)
                 .navigationBarItems(leading: Button(action: {
                     isPresented = false

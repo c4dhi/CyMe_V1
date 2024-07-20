@@ -45,7 +45,7 @@ struct HomeView: View {
                     .foregroundColor(.black)
                     .font(.headline)
                     .offset(x: 0, y: 130)
-                Text("We're here to help you understand and harmonize with your cycle. Enjoy exploring your personalized tracker!")
+                Text("Enjoy exploring your personalized tracker!")
                     .foregroundColor(.black)
                     .offset(x: 0, y: 190)
             }
@@ -57,7 +57,7 @@ struct HomeView: View {
                     .font(.headline)
                     .foregroundColor(.black)
                     .padding(.top, 10)
-                Text("Total reports today: \(homeViewModel.totalReports)")
+                Text("Total reports today: \(homeViewModel.reports.count)")
                     .foregroundColor(.black)
             }
             .padding()

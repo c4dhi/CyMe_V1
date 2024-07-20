@@ -48,15 +48,16 @@ struct PersonalizationView: View {
                     
                     ForEach(settingsViewModel.settings.healthDataSettings.indices, id: \.self) { index in
                         let healthData = settingsViewModel.settings.healthDataSettings[index]
-                        self.measurementRow(
-                            label: healthData.label,
-                            measure: $settingsViewModel.settings.healthDataSettings[index].enableDataSync,
-                            selfReport: $settingsViewModel.settings.healthDataSettings[index].enableSelfReportingCyMe,
-                            syncIsEnabled: true,
-                            cyMeSelfReportIsEnabled: true
-                        )
+                        if (healthData.name != "menstruationStart"){
+                            self.measurementRow(
+                                label: healthData.label,
+                                measure: $settingsViewModel.settings.healthDataSettings[index].enableDataSync,
+                                selfReport: $settingsViewModel.settings.healthDataSettings[index].enableSelfReportingCyMe,
+                                dataLocation: settingsViewModel.settings.healthDataSettings[index].dataLocation,
+                                isHealthKitEnabled: settingsViewModel.settings.enableHealthKit
+                            )
+                        }
                     }
-
                 }
             }
         }
@@ -70,9 +71,16 @@ struct PersonalizationView: View {
                 .background(theme.accentColor.toColor())
                 .cornerRadius(10)
         }
+        .onChange(of: settingsViewModel.settings.enableHealthKit) { newValue in
+            if !newValue {
+                for index in settingsViewModel.settings.healthDataSettings.indices {
+                    settingsViewModel.settings.healthDataSettings[index].enableDataSync = false
+                }
+            }
+        }
     }
 
-    func measurementRow(label: String, measure: Binding<Bool>, selfReport: Binding<Bool>, syncIsEnabled: Bool, cyMeSelfReportIsEnabled: Bool) -> some View {
+    func measurementRow(label: String, measure: Binding<Bool>, selfReport: Binding<Bool>, dataLocation: DataLocation, isHealthKitEnabled: Bool) -> some View {
         HStack {
             Text(label)
                 .frame(width: 120, alignment: .leading)
@@ -82,14 +90,14 @@ struct PersonalizationView: View {
             Toggle("", isOn: measure)
                 .labelsHidden()
                 .frame(width: 100, alignment: .center)
-                .disabled(!syncIsEnabled)
+                .disabled(!isHealthKitEnabled || dataLocation == .onlyCyMe )
             
             Spacer()
             
             Toggle("", isOn: selfReport)
                 .labelsHidden()
                 .frame(width: 100, alignment: .center)
-                .disabled(!cyMeSelfReportIsEnabled)
+                .disabled(dataLocation == .onlyAppleHealth)
         }
     }
 

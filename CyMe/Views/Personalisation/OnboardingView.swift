@@ -11,12 +11,8 @@ struct OnboardingView: View {
     @EnvironmentObject var connector: WatchConnector
     @EnvironmentObject var settingsViewModel: SettingsViewModel
     
-    @State private var currentPageIndex: Int
+    @State private var currentPageIndex: Int = 0
     @StateObject private var profileViewModel = ProfileViewModel()
-    
-    init(startPageIndex: Int = 0) {
-        self._currentPageIndex = State(initialValue: startPageIndex)
-    }
     
     var body: some View {
         VStack {
