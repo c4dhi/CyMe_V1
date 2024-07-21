@@ -14,7 +14,8 @@ func buildSymptomHints(cycleOverview : [Int?], symptomList : [DataProtocoll], da
     
     // Count Hint
     let count = buildSymptomCountHint(symptomList: symptomList)
-    let countHint = "You have reported \(title) on \(count) days of your chosen menstrual cycle."
+    //let countHint = "You have reported \(title) on \(count) days of your chosen menstrual cycle."
+    let countHint = "Report-Count: \(count)"
     
     if count == 0 { // If there are no symptoms reported we don't want many empty hints
         return [countHint]
@@ -28,7 +29,8 @@ func buildSymptomHints(cycleOverview : [Int?], symptomList : [DataProtocoll], da
     
     if quarter.1 == -1 { quarterAnalysisHint = ""}
     else {
-        quarterAnalysisHint = "You reported \(title) most often in your \(quarter.0) quarter of your chosen menstrual cycle with  \(quarter.1) reports in total."
+        //quarterAnalysisHint = "You reported \(title) most often in your \(quarter.0) quarter of your chosen menstrual cycle with  \(quarter.1) reports in total."
+        quarterAnalysisHint = "Most frequently reported in: \n\(quarter.0) quarter with \(quarter.1) reports "
     }
     
 
@@ -132,7 +134,8 @@ func buildMinMaxHints(cycleOverview : [Int?], title: String) -> [String] { // re
     }
     
     let severityLabels = [1: "mild", 2: "moderate", 3: "severe"]
-    maxText = "The maximal severity of \(title) you reported is \(severityLabels[maxValue]!) which you reported on cycle days \(oxfordComma(list:daysWithMaxValue)). "
+    //maxText = "The maximal severity of \(title) you reported is \(severityLabels[maxValue]!) which you reported on cycle days \(oxfordComma(list:daysWithMaxValue)). "
+    maxText = "Maximal severity: \(severityLabels[maxValue]!) \nReported on days:  \(oxfordComma(list:daysWithMaxValue)) "
 
     
     var uniqueSeverities = Array(Set(cycleOverview))
@@ -150,7 +153,8 @@ func buildMinMaxHints(cycleOverview : [Int?], title: String) -> [String] { // re
             daysWithMinValue.append(index + 1)
         }
     }
-    minText = "The minimal severity of \(title) you reported is \(severityLabels[minValue]!) which you reported on cycle days \(oxfordComma(list:daysWithMinValue)). "
+    //minText = "The minimal severity of \(title) you reported is \(severityLabels[minValue]!) which you reported on cycle days \(oxfordComma(list:daysWithMinValue)). "
+    minText = "Minimal severity: \(severityLabels[minValue]!) \nReported on days: \(oxfordComma(list:daysWithMinValue)) "
     
     return [maxText, minText]
 }
@@ -218,13 +222,16 @@ func buildCollectedQuantityHint(cycleOverview : [Int?], title: String, type: ava
 
     var quarterAnalysisHint = ""
     if type == .sleepLength {
-        quarterAnalysisHint = "You report the highest amount of \(title) in your \(quarter.0) quarter of this menstrual cycle with a total of \(SleepDataModel.formatDuration(duration : Double(quarter.1)))."
+        //quarterAnalysisHint = "You report the highest amount of \(title) in your \(quarter.0) quarter of this menstrual cycle with a total of \(SleepDataModel.formatDuration(duration : Double(quarter.1)))."
+        quarterAnalysisHint = "Highest amount of \(title): \(quarter.0) quarter"
     }
     if type == .stepCount {
-        quarterAnalysisHint = "You report the highest amount of \(title) in your \(quarter.0) quarter of this menstrual cycle with a total of \(quarter.1)."
+        //quarterAnalysisHint = "You report the highest amount of \(title) in your \(quarter.0) quarter of this menstrual cycle with a total of \(quarter.1)."
+        quarterAnalysisHint = "Highest amount of \(title): \(quarter.0) quarter"
     }
     if type == .exerciseTime {
-        quarterAnalysisHint = "You report the highest amount of \(title) in your \(quarter.0) quarter of this menstrual cycle with a total of \(quarter.1) minutes."
+        //quarterAnalysisHint = "You report the highest amount of \(title) in your \(quarter.0) quarter of this menstrual cycle with a total of \(quarter.1) minutes."
+        quarterAnalysisHint = "Highest amount of \(title):  \(quarter.0) quarter"
     }
     
     
@@ -240,13 +247,16 @@ func buildCollectedQuantityHint(cycleOverview : [Int?], title: String, type: ava
     
     var maxText = ""
     if type == .sleepLength {
-        maxText = "The maximal amount of \(title) you reported is \(SleepDataModel.formatDuration(duration: Double(maxValue  ?? -1))) which you reported on cycle day \(oxfordComma(list:daysWithMaxValue)). "
+        //maxText = "The maximal amount of \(title) you reported is \(SleepDataModel.formatDuration(duration: Double(maxValue  ?? -1))) which you reported on cycle day \(oxfordComma(list:daysWithMaxValue)). "
+        maxText = "Maximum: \(SleepDataModel.formatDuration(duration: Double(maxValue  ?? -1))) \nReported on day: \(oxfordComma(list:daysWithMaxValue))"
     }
     if type == .stepCount {
-        maxText = "The maximal amount of \(title) you reported is \(maxValue ?? -1) which you reported on cycle day \(oxfordComma(list:daysWithMaxValue)). "
+        //maxText = "The maximal amount of \(title) you reported is \(maxValue ?? -1) which you reported on cycle day \(oxfordComma(list:daysWithMaxValue)). "
+        maxText = "Maximum:  \(maxValue ?? -1) \nReported on day: \(oxfordComma(list:daysWithMaxValue)) "
     }
     if type == .exerciseTime {
-        maxText = "The maximal amount of \(title) you reported is \(maxValue ?? -1) minutes which you reported on cycle day \(oxfordComma(list:daysWithMaxValue)). "
+        //maxText = "The maximal amount of \(title) you reported is \(maxValue ?? -1) minutes which you reported on cycle day \(oxfordComma(list:daysWithMaxValue)). "
+        maxText = "Maxiumum: \(maxValue ?? -1) minutes \nReported on day: \(oxfordComma(list:daysWithMaxValue)) "
     }
     
     
@@ -263,13 +273,17 @@ func buildCollectedQuantityHint(cycleOverview : [Int?], title: String, type: ava
     }
     var minText = ""
     if type == .sleepLength {
-        minText = "The minimal amount of \(title) you reported is \(SleepDataModel.formatDuration(duration: Double(minValue ?? -1))) which you reported on cycle day \(oxfordComma(list:daysWithMinValue)). "
+        //minText = "The minimal amount of \(title) you reported is \(SleepDataModel.formatDuration(duration: Double(minValue ?? -1))) which you reported on cycle day \(oxfordComma(list:daysWithMinValue)). "
+        minText = "Minimum: \(SleepDataModel.formatDuration(duration: Double(minValue ?? -1))) \nReported on day: \(oxfordComma(list:daysWithMinValue)) "
     }
     if type == .stepCount {
-        minText = "The minimal amount of \(title) you reported is \(minValue ?? -1) which you reported on cycle day \(oxfordComma(list:daysWithMinValue)). "
+        //minText = "The minimal amount of \(title) you reported is \(minValue ?? -1) which you reported on cycle day \(oxfordComma(list:daysWithMinValue)). "
+        minText = "Minimum: \(minValue ?? -1) \nReported on day: \(oxfordComma(list:daysWithMinValue)) "
+        
     }
     if type == .exerciseTime {
-        minText = "The minimal amount of \(title) you reported is \(minValue ?? -1) minutes which you reported on cycle day \(oxfordComma(list:daysWithMinValue)). "
+        //minText = "The minimal amount of \(title) you reported is \(minValue ?? -1) minutes which you reported on cycle day \(oxfordComma(list:daysWithMinValue)). "
+        minText = "Minimum: \(minValue ?? -1) minutes \nReported on day: \(oxfordComma(list:daysWithMinValue)) "
     }
     
     
@@ -287,13 +301,17 @@ func buildCollectedQuantityHint(cycleOverview : [Int?], title: String, type: ava
     var averageText = ""
     
     if type == .sleepLength {
-        averageText = "In this cycle you report on average \(SleepDataModel.formatDuration(duration: Double(average))) of sleep per day. "
+        //averageText = "In this cycle you report on average \(SleepDataModel.formatDuration(duration: Double(average))) of sleep per day. "
+        averageText = "Average: \(SleepDataModel.formatDuration(duration: Double(average)))"
     }
     if type == .stepCount {
-        averageText = "In this cycle you report on average \(String(format: "%.2f", average)) steps per day. "
+        //averageText = "In this cycle you report on average \(String(format: "%.2f", average)) steps per day. "
+        averageText = "Average: \(String(format: "%.2f", average)) steps "
     }
     if type == .exerciseTime {
-        averageText = "In this cycle you report on average \(String(format: "%.2f", average)) minutes of exercise per day. "
+        //averageText = "In this cycle you report on average \(String(format: "%.2f", average)) minutes of exercise per day. "
+        averageText = "Average: \(String(format: "%.2f", average)) minutes"
+
     }
    
     return [quarterAnalysisHint, maxText, minText, averageText]

@@ -246,7 +246,6 @@ class SettingsDatabaseService {
     public func getSettings() -> SettingsModel? {
         let query = "SELECT * FROM settings LIMIT 1;"
         var statement: OpaquePointer?
-
         guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
             Logger.shared.log("Error preparing select statement")
             return nil
