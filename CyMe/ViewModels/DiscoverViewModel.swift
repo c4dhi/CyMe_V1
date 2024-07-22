@@ -28,6 +28,11 @@ enum availableHealthMetrics: String {
     case menstrualStart
 }
 
+enum timeRange : String{
+    case current
+    case last
+    case secondToLast
+}
 
 class DiscoverViewModel: ObservableObject {
     @Published var symptoms: [SymptomModel] = []
@@ -85,17 +90,17 @@ class DiscoverViewModel: ObservableObject {
         }
         
         if(menstruationRanges.currentDateRange.count > 0){
-            combinedDataModelCurrent = await getCombinedDataModel(dateRange: menstruationRanges.currentDateRange)
+            await getCombinedDataModel(dateRange: menstruationRanges.currentDateRange, label: .current)
             availableCycles = 1
         }
         
         if(menstruationRanges.lastFullCycleDateRange.count > 0){
-            combinedDataModelLast = await getCombinedDataModel(dateRange: menstruationRanges.lastFullCycleDateRange)
+            await getCombinedDataModel(dateRange: menstruationRanges.lastFullCycleDateRange, label: .last)
             availableCycles = 2
         }
         
         if(menstruationRanges.secondToLastFullCycleDateRange.count > 0){
-            combinedDataModelSecondToLast = await getCombinedDataModel(dateRange: menstruationRanges.secondToLastFullCycleDateRange)
+            await getCombinedDataModel(dateRange: menstruationRanges.secondToLastFullCycleDateRange, label: .secondToLast)
             availableCycles = 3
         }
         
@@ -130,7 +135,7 @@ class DiscoverViewModel: ObservableObject {
     }
     
     
-    func getCombinedDataModel(dateRange : [Date]) async -> (CombinedDataModel) {
+    func getCombinedDataModel(dateRange : [Date], label: timeRange) async  {
         
         var combinedDataModelToReturn = CombinedDataModel()
         
@@ -138,19 +143,47 @@ class DiscoverViewModel: ObservableObject {
         let endDate =  menstruationRanges.getAppropriateEndDate(lastEntry: dateRange[dateRange.count-1])
         
         await fetchRelevantAppleHealthData(relevantDataList : relevantDataClass.relevantForAppleHealthFetch, startDate: startDate, endDate: endDate, combinedDataModel: &combinedDataModelToReturn)
-        fetchRelevantCyMeData(startDate: startDate, endDate: endDate, combinedDataModel: &combinedDataModelToReturn)
-        return (combinedDataModelToReturn)
-
+        
+        if label == .current{
+            self.combinedDataModelCurrent = combinedDataModelToReturn
+        }
+        if label == .last{
+            self.combinedDataModelLast = combinedDataModelToReturn
+        }
+        if label == .secondToLast{
+            self.combinedDataModelSecondToLast = combinedDataModelToReturn
+        }
+        
+        fetchRelevantCyMeData(startDate: startDate, endDate: endDate, timeRange: label)
     }
     
    
     
-    func fetchRelevantCyMeData(startDate: Date, endDate: Date, combinedDataModel : inout CombinedDataModel)  { // Gets the desired data and stores them in class variables
+    func fetchRelevantCyMeData(startDate: Date, endDate: Date, timeRange: timeRange)  { // Gets the desired data and stores them in class variables
         
         let periodLabelToValue = ["Mild" : 2, "Moderate" : 3, "Severe" : 4, "No" : 5 ]
         let selfreportedLabelToIntensity = ["Mild" : 2, "Moderate" : 3, "Severe" : 4, "No" : 1 ]
         let appetiteLabelToIntensity = ["No" : 1, "Less" : 2, "More" :3]
-            let reports = self.reportingDatabaseService.getReports(from: startDate, to: endDate)
+        
+        var combinedDataModel : CombinedDataModel
+        
+        if timeRange == .current{
+            combinedDataModel = self.combinedDataModelCurrent
+        }
+        else if timeRange == .last{
+            combinedDataModel = self.combinedDataModelLast
+        }
+        else if timeRange == .secondToLast{
+            combinedDataModel = self.combinedDataModelSecondToLast
+        }
+        else{
+            print("Daterange is not defined", timeRange)
+            return
+        }
+ 
+        DispatchQueue.main.async{
+            
+        let reports = self.reportingDatabaseService.getReports(from: startDate, to: endDate)
             
             for report in reports {
                 let startDate : Date = report.startTime
@@ -209,6 +242,7 @@ class DiscoverViewModel: ObservableObject {
                         // We give priority to internal data
                     }
                 }
+            }
         }
             
             if verbose{
