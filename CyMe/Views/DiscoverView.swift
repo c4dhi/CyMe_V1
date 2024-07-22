@@ -10,7 +10,7 @@ import SigmaSwiftStatistics
 struct DiscoverView: View {
     @ObservedObject var viewModel: DiscoverViewModel
     @State private var selectedSymptom: SymptomModel?
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     @State private var selectedCycleOption = 1 // 1 for "This Cycle", 0 for "Last Cycle"
 
     var body: some View {
@@ -25,8 +25,8 @@ struct DiscoverView: View {
             }
             .pickerStyle(MenuPickerStyle())
             Picker(selection: $selectedCycleOption, label: Text("")) {
-                Text("Last Cycle").tag(0)
-                Text("This Cycle").tag(1)
+                Text("Last cycle").tag(0)
+                Text("Current cycle").tag(1)
                 
             }
             .pickerStyle(SegmentedPickerStyle())
@@ -36,35 +36,48 @@ struct DiscoverView: View {
             
             if let symptom = selectedSymptom {
                 List {
-                    Section(header: Text("Symptom graph").padding(.vertical, 8)) {
-                        SymptomGraph(symptom: symptom)
-                            .frame(height: 200)
-                            .padding()
-                            .background(theme.backgroundColor.toColor())
-                            .cornerRadius(10)
+                    // Symptom graph and Insights Section
+                    Section(header: Text("Inisghts to \(selectedCycleOption == 0 ? "last cycle" : "current cycle" )").padding(.vertical, 8)) {
+                        VStack {
+                            Text("Symptom graph")
+                                .font(.headline)
+                                .padding(.bottom, 8)
+                            SymptomGraph(symptom: symptom)
+                                .frame(height: 200)
+                                .padding()
+                                .background(theme.backgroundColor.toColor())
+                                .cornerRadius(10)
+                            Text("CyMe insights")
+                                .font(.headline)
+                            SymptomInsightsView(hints: symptom.hints)
+                                .padding()
+                                .background(theme.backgroundColor.toColor())
+                                .cornerRadius(10)
+                        }
                     }
+                    
+                    // Statistics and Correlation Section
+                    Section(header: Text("Insights over multiple cycles").padding(.vertical, 8)) {
+                        VStack {
+                            Text("Symptom intensity across cycles")
+                                .font(.headline)
+                                .padding(.bottom, 8)
+                            MultiSymptomGraph(symptom: symptom, multiSymptomList: symptom.correlationOverview)
+                                .frame(height: 200)
+                                .padding()
+                                .background(theme.backgroundColor.toColor())
+                                .cornerRadius(10)
+                            MultiGraphLegend()
+                            Text("CyMe insights across cycles")
+                                .font(.headline)
+                                .padding(.bottom, 8)
+                            SymptomStatisticsView(symptom: symptom)
+                                .padding()
+                                .background(theme.backgroundColor.toColor())
+                                .cornerRadius(10)
 
-
-                    Section(header: Text("Insights").padding(.vertical, 8)) {
-                        SymptomInsightsView(hints: symptom.hints)
-                            .padding()
-                            .background(theme.backgroundColor.toColor())
-                            .cornerRadius(10)
-                    }
-
-
-                    Section(header: Text("Statistics").padding(.vertical, 8)) {
-                        SymptomStatisticsView(symptom: symptom)
-                            .padding()
-                            .background(theme.backgroundColor.toColor())
-                            .cornerRadius(10)
-                    }
-                    Section(header: Text("Covariance graph").padding(.vertical, 8)) {
-                        MultiSymptomGraph(multiSymptomList: symptom.covarianceOverview)
-                            .frame(height: 200)
-                            .padding()
-                            .background(theme.backgroundColor.toColor())
-                            .cornerRadius(10)
+                            
+                        }
                     }
                 }
             } else {
@@ -119,7 +132,7 @@ struct DiscoverView_Previews: PreviewProvider {
             max: "3",
             average: "1.5",
             covariance: 0.7,
-            covarianceOverview: [],
+            correlationOverview: [],
             questionType: .painEmoticonRating
         )
         
@@ -132,7 +145,7 @@ struct DiscoverView_Previews: PreviewProvider {
             max: "3",
             average: "2",
             covariance: 0.6,
-            covarianceOverview: [],
+            correlationOverview: [],
             questionType: .painEmoticonRating
         )
         
@@ -145,7 +158,7 @@ struct DiscoverView_Previews: PreviewProvider {
             max: "2",
             average: "1.25",
             covariance: 0.5,
-            covarianceOverview: [],
+            correlationOverview: [],
             questionType: .changeEmoticonRating
         )
         

@@ -183,7 +183,7 @@ struct OverviewTable_Previews: PreviewProvider {
                 max: "3",
                 average: "1",
                 covariance: 2.5,
-                covarianceOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
+                correlationOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
                 questionType: .painEmoticonRating
             ),
             SymptomModel(
@@ -195,7 +195,7 @@ struct OverviewTable_Previews: PreviewProvider {
                 max: "4",
                 average: "2",
                 covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                correlationOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .painEmoticonRating
             ),
             SymptomModel(
@@ -207,7 +207,7 @@ struct OverviewTable_Previews: PreviewProvider {
                 max: "4",
                 average: "2",
                 covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                correlationOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .menstruationEmoticonRating
             ),
             SymptomModel(
@@ -219,7 +219,7 @@ struct OverviewTable_Previews: PreviewProvider {
                 max: "4",
                 average: "2",
                 covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                correlationOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .emoticonRating
             ),
             SymptomModel(
@@ -231,7 +231,7 @@ struct OverviewTable_Previews: PreviewProvider {
                 max: "4",
                 average: "2",
                 covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                correlationOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .amountOfhour
             )
         ])

@@ -66,16 +66,28 @@ struct PersonalizationView: View {
                 }
             }
         }
+        
 
-        Button(action: nextPage) {
+        Button(action: {
+            if hasMenstruationData() {
+                settingsViewModel.settings.healthDataSettings[1].enableSelfReportingCyMe = settingsViewModel.settings.healthDataSettings[0].enableSelfReportingCyMe
+                settingsViewModel.settings.healthDataSettings[1].enableDataSync = settingsViewModel.settings.healthDataSettings[0].enableDataSync
+                nextPage()
+            }
+        }
+        ) {
             Text("Continue")
                 .font(.headline)
                 .foregroundColor(.white)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(theme.accentColor.toColor())
                 .cornerRadius(10)
+                .background(hasMenstruationData() ? theme.accentColor.toColor() : Color.gray)
         }
+    }
+    
+    func hasMenstruationData() -> Bool {
+        return settingsViewModel.settings.healthDataSettings[0].enableSelfReportingCyMe || settingsViewModel.settings.healthDataSettings[0].enableDataSync
     }
        
 

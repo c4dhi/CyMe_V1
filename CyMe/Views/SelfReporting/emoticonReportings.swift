@@ -30,14 +30,13 @@ struct EmoticonRatingQuestionView: View {
                 ForEach(emoticons, id: \.0) { (emoticon, description) in
                     VStack {
                         Button(action: {
-                            selectedEmoticon = description
                             selectedOption = SymptomSelfReportModel(healthDataName: setting.name, healthDataLabel: setting.label, questionType: setting.questionType, reportedValue: description)
                         }) {
                             Text(emoticon)
                                 .font(.title2)
                                 .padding()
-                                .background(selectedEmoticon == description ? Color.blue : Color.clear)
-                                .foregroundColor(selectedEmoticon == description ? .white : .blue)
+                                .background(selectedOption?.reportedValue == description ? Color.blue : Color.clear)
+                                .foregroundColor(selectedOption?.reportedValue == description ? .white : .blue)
                                 .cornerRadius(8)
                         }
                         Text(description)
@@ -139,32 +138,31 @@ struct PainEmoticonRatingQuestionView: View {
             Text(setting.question)
                 .padding(.top, 50)
             HStack(alignment: .center) {
-                    ForEach(emoticons, id: \.0) { (emoticon, description) in
-                        VStack {
-                            Button(action: {
-                                selectedOption = SymptomSelfReportModel(healthDataName: setting.name, healthDataLabel: setting.label, questionType: setting.questionType, reportedValue: description)
-                            }) {
-                                Text(emoticon)
-                                    .font(.title2)
-                                    .padding()
-                                    .background(selectedOption?.reportedValue == description ? Color.blue : Color.clear)
-                                    .foregroundColor(selectedOption?.reportedValue == description ? .white : .blue)
-                                    .cornerRadius(8)
-                            }
-                            if description != "No" {
-                                Text(description)
-                                    .font(.footnote)
-                                    .foregroundColor(.primary)
-                            }
+                ForEach(emoticons, id: \.0) { (emoticon, description) in
+                    VStack {
+                        Button(action: {
+                            selectedOption = SymptomSelfReportModel(healthDataName: setting.name, healthDataLabel: setting.label, questionType: setting.questionType, reportedValue: description)
+                        }) {
+                            Text(emoticon)
+                                .font(.title2)
+                                .padding()
+                                .background(selectedOption?.reportedValue == description ? Color.blue : Color.clear)
+                                .foregroundColor(selectedOption?.reportedValue == description ? .white : .blue)
+                                .cornerRadius(8)
                         }
-                        if emoticon == "No" {
-                            Text("|")
-                                .font(.title)
+                        if description != "No" {
+                            Text(description)
+                                .font(.footnote)
                                 .foregroundColor(.primary)
                         }
                     }
+                    if emoticon == "No" {
+                        Text("|")
+                            .font(.title)
+                            .foregroundColor(.primary)
+                    }
                 }
-            
+            }
         }
     }
 }

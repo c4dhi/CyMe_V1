@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-let lightBlue = Color(red: 0.2, green: 0.7, blue: 1.0)
-let lightGreen = Color(red: 0.5, green: 1.0, blue: 0.5)
-let deepGreen = Color(red: 0.0, green: 0.5, blue: 0.0)
-
 enum ColorType {
     case background, primary, accent
 }

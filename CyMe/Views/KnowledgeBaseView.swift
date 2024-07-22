@@ -15,7 +15,7 @@ struct KnowledgeBaseView: View {
     @State private var isGenerellKnowledgeSectionOpen: Bool = false
     @State private var isSymptomesSectionOpen: Bool = false
     @State private var isCycleSyncSectionOpen: Bool = false
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     
     var body: some View {
         VStack {

@@ -9,8 +9,10 @@ import SwiftUI
 import Charts
 
 struct MultiSymptomGraph: View {
+    var symptom: SymptomModel
     var multiSymptomList: [[Int?]]
     @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
+    private let labels = ["Last Cycle", "Current Cycle"]
 
     var body: some View {
         ScrollView(.horizontal) {
@@ -32,12 +34,12 @@ struct MultiSymptomGraph: View {
                 }
             }
             .chartYAxis {
-                AxisMarks(position: .leading) { value in
+                AxisMarks(position: .leading, values: getAxisValues(questionType: symptom.questionType)) { value in
                     AxisGridLine()
                     AxisTick()
-                    AxisValueLabel(centered: true) {
+                    AxisValueLabel(centered: false) {
                         if let doubleValue = value.as(Double.self) {
-                            Text(String(format: "%.1f", doubleValue))
+                            Text(intensityToString(intensity: doubleValue, questionType: symptom.questionType))
                         }
                     }
                 }
@@ -56,7 +58,7 @@ struct MultiSymptomGraph: View {
 
         ForEach(chartData) { item in
             LineMark(
-                x: .value("Cycle Day", item.day),
+                x: .value("Cycle day", item.day),
                 y: .value("Intensity", item.intensity)
             )
             .foregroundStyle(by: .value("Series", seriesIndex))
@@ -64,7 +66,7 @@ struct MultiSymptomGraph: View {
 
         ForEach(chartData) { item in
             PointMark(
-                x: .value("Cycle Day", item.day),
+                x: .value("Cycle day", item.day),
                 y: .value("Intensity", item.intensity)
             )
             .foregroundStyle(by: .value("Series", seriesIndex))
@@ -74,7 +76,19 @@ struct MultiSymptomGraph: View {
 
 struct MultiSymptomGraph_Previews: PreviewProvider {
     static var previews: some View {
-        MultiSymptomGraph(multiSymptomList: [[1, 2, nil, 4, 3], [2, 3, 4, 3, 2]])
+        let symptom = SymptomModel(
+            title: "Example Symptom Graph",
+            dateRange: [],
+            cycleOverview: [1, 2, nil, 4, 3, 2, 1, nil, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
+            hints: ["Most frequent in luteal phase"],
+            min: "1",
+            max: "4",
+            average: "2",
+            covariance: 1.8,
+            correlationOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+            questionType: .amountOfhour
+        )
+        MultiSymptomGraph(symptom: symptom, multiSymptomList: [[1, 2, nil, 4, 3], [2, 3, 4, 3, 2]])
     }
 }
 

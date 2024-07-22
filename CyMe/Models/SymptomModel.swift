@@ -17,7 +17,7 @@ struct SymptomModel: Identifiable, Hashable {
     var max: String
     var average: String
     var covariance: Float
-    var covarianceOverview: [[Int?]] 
+    var correlationOverview: [[Int?]] 
     var questionType: QuestionType 
 }
 

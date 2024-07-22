@@ -382,7 +382,7 @@ class DiscoverViewModel: ObservableObject {
             max: statistics[1],
             average: statistics[2],
             covariance: covarianceAndList.0,
-            covarianceOverview: covarianceAndList.1,
+            correlationOverview: covarianceAndList.1,
             questionType: questionType
         )
         return symptomModel
@@ -420,7 +420,7 @@ class DiscoverViewModel: ObservableObject {
             max: statistics[1],
             average: statistics[2],
             covariance: covarianceAndList.0,
-            covarianceOverview: covarianceAndList.1,
+            correlationOverview: covarianceAndList.1,
             questionType: .menstruationEmoticonRating)
         symptomListToReturn.append(symptomModel)
         
@@ -497,7 +497,7 @@ class DiscoverViewModel: ObservableObject {
                 max: statistics[1],
                 average: statistics[2],
                 covariance: covarianceAndList.0,
-                covarianceOverview: covarianceAndList.1,
+                correlationOverview: covarianceAndList.1,
                 questionType: .amountOfhour //TODO
             )
             
@@ -522,7 +522,7 @@ class DiscoverViewModel: ObservableObject {
                 max: statistics[1],
                 average: statistics[2],
                 covariance: covarianceAndList.0,
-                covarianceOverview: covarianceAndList.1,
+                correlationOverview: covarianceAndList.1,
                 questionType: .amountOfhour //TODO
             )
             
@@ -549,7 +549,7 @@ class DiscoverViewModel: ObservableObject {
                 max: statistics[1],
                 average: statistics[2],
                 covariance: covarianceAndList.0,
-                covarianceOverview: covarianceAndList.1,
+                correlationOverview: covarianceAndList.1,
                 questionType: .amountOfhour //TODO
             )
             
@@ -576,7 +576,7 @@ class DiscoverViewModel: ObservableObject {
                 max: statistics[1],
                 average: statistics[2],
                 covariance: covarianceAndList.0,
-                covarianceOverview: covarianceAndList.1,
+                correlationOverview: covarianceAndList.1,
                 questionType: .emoticonRating //TODO
             )
             
@@ -603,7 +603,7 @@ class DiscoverViewModel: ObservableObject {
                 max: statistics[1],
                 average: statistics[2],
                 covariance: covarianceAndList.0,
-                covarianceOverview: covarianceAndList.1,
+                correlationOverview: covarianceAndList.1,
                 questionType: .emoticonRating //TODO
             )
             
@@ -630,7 +630,7 @@ class DiscoverViewModel: ObservableObject {
                 max: statistics[1],
                 average: statistics[2],
                 covariance: covarianceAndList.0,
-                covarianceOverview: covarianceAndList.1,
+                correlationOverview: covarianceAndList.1,
                 questionType: .emoticonRating //TODO
             )
             
