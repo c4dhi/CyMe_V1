@@ -12,7 +12,7 @@ class ProfileViewModel: ObservableObject {
     @Published var user: UserModel
 
     init() {
-        self.user = UserModel(name: "", age: nil, lifePhase: "", regularCycle: false, cycleLength: nil, contraceptions: [], fertilityGoal: "")
+        self.user = UserModel(userId: "", name: "", age: nil, lifePhase: "", regularCycle: false, cycleLength: nil, contraceptions: [], fertilityGoal: "")
         loadUser()
     }
 

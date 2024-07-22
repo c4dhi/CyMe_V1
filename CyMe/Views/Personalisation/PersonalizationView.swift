@@ -72,6 +72,7 @@ struct PersonalizationView: View {
                 .cornerRadius(10)
         }
         .onChange(of: settingsViewModel.settings.enableHealthKit) { newValue in
+            print(newValue)
             if !newValue {
                 for index in settingsViewModel.settings.healthDataSettings.indices {
                     settingsViewModel.settings.healthDataSettings[index].enableDataSync = false

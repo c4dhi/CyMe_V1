@@ -27,6 +27,7 @@ struct ProfileView: View {
             Form {
                 Section(header: Text("Personal information")) {
                     TextField("Name", text: $userViewModel.user.name)
+                    TextField("User ID", text: $userViewModel.user.userId)
                     TextField("Age", text: Binding(
                         get: {
                                 if let age = userViewModel.user.age {

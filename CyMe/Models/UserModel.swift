@@ -8,6 +8,7 @@
 import Foundation
 
 struct UserModel {
+    var userId: String
     var name: String
     var age: Int?
     var lifePhase: String

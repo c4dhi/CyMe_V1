@@ -30,8 +30,8 @@ struct OverviewTable: View {
                     
                     HStack {
                         Text("Cycle day").frame(width: 100)
-                        ForEach(0..<minDays()-1, id: \.self) { day in
-                            Text("\(day + 1)")
+                        ForEach(1..<minDays(), id: \.self) { day in
+                            Text("\(day)")
                                 .frame(minWidth: 30)
                                 .frame(maxWidth: .infinity)
                                 .font(.caption)
@@ -47,8 +47,8 @@ struct OverviewTable: View {
                                 .frame(minWidth: 110)
                                 .font(.caption)
                             
-                            ForEach(0..<minDays() - 1, id: \.self) { day in
-                                if let intensity = symptom.cycleOverview[day] {
+                            ForEach(1..<minDays(), id: \.self) { day in
+                                if let intensity = symptom.cycleOverview[day-1] {
                                     getSymbol(for: symptom.questionType, intensity: intensity ?? 0)
                                         .frame(maxWidth: .infinity)
                                 } else {
