@@ -13,11 +13,16 @@ class SelfReportViewModel: ObservableObject {
 
     private var settingsViewModel: SettingsViewModel
     private var reportingDatabaseService: ReportingDatabaseService
+    private var healthKit: HealthKitService = HealthKitService()
 
     init(settingsViewModel: SettingsViewModel) {
             self.settingsViewModel = settingsViewModel
             self.reportingDatabaseService = ReportingDatabaseService()
             loadQuestions()
+            Task{
+                await healthKit.updateSyncList()
+            }
+       
     }
         
     private func loadQuestions() {
@@ -26,16 +31,23 @@ class SelfReportViewModel: ObservableObject {
         }
     }
     
-    func saveReport(selfReports: [SymptomSelfReportModel], startTime: Date) -> Bool {
+    func saveReport(selfReports: [SymptomSelfReportModel], startTime: Date) async -> Bool {
+        healthKit.writeSamplesToAppleHealth(selfReports: selfReports)
         let selfReportModel = createSelfReportModel(selfReports: selfReports, startTime: startTime)
-        let success = reportingDatabaseService.saveReporting(report: selfReportModel)
-        if success {
-            Logger.shared.log("Report saved successfully!")
-            return true
-        } else {
-            Logger.shared.log("Failed to save the report.")
-            return false
+        
+        return await withCheckedContinuation { continuation in
+            DispatchQueue.main.async {
+                let success = self.reportingDatabaseService.saveReporting(report: selfReportModel)
+                if success {
+                    Logger.shared.log("Report saved successfully!")
+                } else {
+                    Logger.shared.log("Failed to save the report.")
+                }
+                continuation.resume(returning: success)
+            }
+            
         }
+        
     }
     
     private func createSelfReportModel(selfReports: [SymptomSelfReportModel], startTime: Date) -> SelfReportModel {

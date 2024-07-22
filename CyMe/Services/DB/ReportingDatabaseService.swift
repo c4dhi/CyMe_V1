@@ -76,6 +76,7 @@ class ReportingDatabaseService {
             """
         
         var statement: OpaquePointer?
+        
         guard sqlite3_prepare_v2(db, insertQuery, -1, &statement, nil) == SQLITE_OK else {
             Logger.shared.log("Error preparing insert statement")
             return false

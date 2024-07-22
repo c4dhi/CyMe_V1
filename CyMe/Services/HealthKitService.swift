@@ -18,6 +18,10 @@ class HealthKitService {
     let sortDescriptorChronological = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
     
     
+    let relevantDataObject = RelevantData()
+    
+    
+    
     private let typesToRead: Set<HKSampleType> = [
         // Must - Read Access - CategoryType
         HKObjectType.categoryType(forIdentifier: .menstrualFlow)!,
@@ -34,7 +38,8 @@ class HealthKitService {
         
         // Should - Read Access - QuantityType
         HKObjectType.quantityType(forIdentifier: .appleExerciseTime)!,
-        HKObjectType.quantityType(forIdentifier: .appleSleepingWristTemperature)!]
+        //HKObjectType.quantityType(forIdentifier: .appleSleepingWristTemperature)!
+        ]
     
     
     private let typesToWrite: Set<HKSampleType> = [
@@ -50,7 +55,7 @@ class HealthKitService {
         HKObjectType.categoryType(forIdentifier: .appetiteChanges)!]
     
     // Variables for development
-    private let enablePrintStatement = false
+    private let enablePrintStatement = true
     
     func requestAuthorization() {
         healthStore.requestAuthorization(toShare: typesToWrite, read: typesToRead) { (success, error) in
@@ -65,82 +70,142 @@ class HealthKitService {
         }
     }
     
-    /* Still necessary??
-    func getSymptomes() -> [SymptomModel]  {
-        // TODO get symptomes
-        return [
-            SymptomModel(
-                title: "Headache",
-                dateRange: [],
-                cycleOverview: [0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1],
-                hints: ["Most frequent in period phase"],
-                min: "1",
-                max: "4",
-                average: "2",
-                covariance: 2.5,
-                covarianceOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
-                questionType: .painEmoticonRating
-            ),
-            SymptomModel(
-                title: "Fatigue",
-                dateRange: [],
-                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-                hints: ["Most frequent in luteal phase"],
-                min: "1",
-                max: "4",
-                average: "2",
-                covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-                questionType: .painEmoticonRating
-            ),
-            SymptomModel(
-                title: "Menstruation",
-                dateRange: [],
-                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-                hints: ["Most frequent in luteal phase"],
-                min: "1",
-                max: "4",
-                average: "2",
-                covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-                questionType: .menstruationEmoticonRating
-            ),
-            SymptomModel(
-                title: "Mood",
-                dateRange: [],
-                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-                hints: ["Most frequent in luteal phase"],
-                min: "1",
-                max: "4",
-                average: "2",
-                covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-                questionType: .emoticonRating
-            ),
-            SymptomModel(
-                title: "Sleep",
-                dateRange: [],
-                cycleOverview: [1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2],
-                hints: ["Most frequent in luteal phase"],
-                min: "1",
-                max: "4",
-                average: "2",
-                covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
-                questionType: .amountOfhour
-            )
-        ]
-        
+    func updateSyncList() async{
+        await relevantDataObject.getRelevantDataLists()
     }
-     */
+   
+    func writeSamplesToAppleHealth(selfReports: [SymptomSelfReportModel]){
+        Task{
+            let syncList = relevantDataObject.relevantForAppleHealthFetch
+            let symptomCyMeLabelToAppleLabel = ["No": 1, "Mild": 2, "Moderate": 3 , "Severe": 4]
+            let appetiteChangeCyMeToAppleLabel = ["No": 1, "Less": 2, "More": 3]
+            let menstruationCyMeToAppleLabel = ["No": 5, "Mild": 2, "Moderate": 3 , "Severe": 4]
+            
+            
+            for selfReport in selfReports {
+                
+                if selfReport.healthDataName == "menstruationDate"{
+                    if selfReport.reportedValue != nil{
+                        if syncList.contains(.menstrualBleeding){
+                            let dataType =  HKObjectType.categoryType(forIdentifier: .menstrualFlow)!
+                            let value =  menstruationCyMeToAppleLabel[selfReport.reportedValue!]!
+                            var periodStart : Bool = false
+                            
+                            for report in selfReports{
+                                if report.healthDataName == "menstruationStart"{
+                                    if report.reportedValue ?? "false" == "true"{
+                                        periodStart = true
+                                    }
+                                    else{
+                                        periodStart = false
+                                    }
+                                }
+                            }
+                            
+                            let metadata: [String: Any] = [
+                                HKMetadataKeyMenstrualCycleStart: periodStart
+                            ]
+                            
+                            let menstrualFlowSample = HKCategorySample(
+                                type: dataType,
+                                value: value,
+                                start: Date(),
+                                end: Date(),
+                                metadata: metadata
+                            )
+                            
+                            healthStore.save(menstrualFlowSample) { (success, error) in
+                                if let error = error {
+                                    print("Error saving menstrual flow sample: \(error.localizedDescription)")
+                                } else {
+                                    print("Successfully saved menstrual flow sample")
+                                }
+                            }
+                        }
+                    }
+                }
+                if selfReport.healthDataName == "headache"{
+                    if selfReport.reportedValue != nil{
+                        if syncList.contains(.headache){
+                            let dataNameIdentifier : HKCategoryTypeIdentifier = .headache
+                            let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                        }
+                    }
+                }
+                
+                if selfReport.healthDataName == "abdominalCramps"{
+                    if selfReport.reportedValue != nil{
+                        if syncList.contains(.abdominalCramps){
+                            let dataNameIdentifier : HKCategoryTypeIdentifier = .abdominalCramps
+                            let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                        }
+                    }
+                }
+                
+                if selfReport.healthDataName == "lowerBackPain"{
+                    if selfReport.reportedValue != nil{
+                        if syncList.contains(.lowerBackPain){
+                            let dataNameIdentifier : HKCategoryTypeIdentifier = .lowerBackPain
+                            let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                        }
+                    }
+                }
+                
+                if selfReport.healthDataName == "pelvicPain"{
+                    if selfReport.reportedValue != nil{
+                        if syncList.contains(.pelvicPain){
+                            let dataNameIdentifier : HKCategoryTypeIdentifier = .pelvicPain
+                            let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                        }
+                    }
+                }
+                
+                if selfReport.healthDataName == "acne"{
+                    if selfReport.reportedValue != nil{
+                        if syncList.contains(.acne){
+                            let dataNameIdentifier : HKCategoryTypeIdentifier = .acne
+                            let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                        }
+                    }
+                }
+                
+                if selfReport.healthDataName == "appetiteChanges"{
+                    if selfReport.reportedValue != nil{
+                        if syncList.contains(.appetiteChange){
+                            let dataNameIdentifier : HKCategoryTypeIdentifier = .appetiteChanges
+                            let value =  appetiteChangeCyMeToAppleLabel[selfReport.reportedValue!]!
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                        }
+                    }
+                }
+                
+                if selfReport.healthDataName == "chestPain"{
+                    if selfReport.reportedValue != nil{
+                        if syncList.contains(.chestTightnessOrPain){
+                            let dataNameIdentifier : HKCategoryTypeIdentifier = .chestTightnessOrPain
+                            let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                        }
+                    }
+                }
+            }
+        }
+    }
     
-    func writeSelfreportedSamples(dataName: HKCategoryTypeIdentifier){
+    
+    
+    func writeSelfreportedSample(dataName: HKCategoryTypeIdentifier, value : Int){
         guard let dataType = HKObjectType.categoryType(forIdentifier: dataName) else {
             print("Data type of name (\(dataName) not available")
             return
         }
+        let selfreportedSample = HKCategorySample(type: dataType, value: value, start: Date(), end: Date())
         
-        let selfreportedSample = HKCategorySample(type: dataType, value: HKCategoryValue.notApplicable.rawValue, start: Date(), end: Date()) // TODO Always gives "vorhanden"
         
         healthStore.save(selfreportedSample) { (success, error) in
             if success {
@@ -282,9 +347,7 @@ class HealthKitService {
                 sleepLengthDict[cutOff] = sleepLengthDict[cutOff]! + tuples.1
             }
         }
-        // We need to remove the last entry since we are artifically adding half a night we don't want to display
-        sleepLengthDict.removeValue(forKey: cutOff)
-        
+
         var sleepLengthDictInt : [Date:Int] = [:]
         for key in sleepLengthDict.keys{
             sleepLengthDictInt[key] = Int(sleepLengthDict[key]!)
