@@ -6,25 +6,29 @@
 //
 
 import SwiftUI
+import WatchKit
 
 struct SelfReportWatchView: View {
-    @ObservedObject var settingsViewModel: SettingsViewModel
-    
-    @StateObject private var selfReportViewModel: SelfReportViewModel
+    @Binding var isSelfReporting: Bool
+    @ObservedObject var connector: iOSConnector
+
     @State private var selectedOption: SymptomSelfReportModel? = nil
     @State var selfReports: [SymptomSelfReportModel] = []
-    @State var isLoading = false
     @State private var currentQuestionIndex: Int = 0
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    @State private var isSubmittedSuccessfully = false
+
     var startTime = Date()
 
-    init(settingsViewModel: SettingsViewModel) {
-        self.settingsViewModel = settingsViewModel
-        _selfReportViewModel = StateObject(wrappedValue: SelfReportViewModel(settingsViewModel: settingsViewModel))
+    init(connector: iOSConnector, isSelfReporting: Binding<Bool>) {
+        self.connector = connector
+        self._isSelfReporting = isSelfReporting
     }
 
     var filteredHealthData: [HealthDataWithoutNilModel] {
-        var filteredSettings = settingsViewModel.settings.healthDataSettings.filter { setting in
-            return setting.question != nil && setting.dataLocation != .onlyAppleHealth && setting.questionType != nil
+        var filteredSettings = connector.settings.healthDataSettings.filter { setting in
+            return setting.question != nil && setting.dataLocation != .onlyAppleHealth && setting.questionType != nil && setting.enableSelfReportingCyMe == true
         }
         filteredSettings.append(HealthDataSettingsModel(
             name: "Open Question",
@@ -35,6 +39,7 @@ struct SelfReportWatchView: View {
             question: "Do you have something else to mention?",
             questionType: .open
         ))
+        print("seetings",filteredSettings)
         return filteredSettings.map { setting in
             HealthDataWithoutNilModel(
                 name: setting.name,
@@ -65,7 +70,7 @@ struct SelfReportWatchView: View {
                         case .amountOfhour:
                             AmountOfHourQuestionView(setting: healthData, selectedOption: $selectedOption)
                         case .open:
-                            OpenTextQuestionView(selfReport: $selfReports)
+                            OpenTextQuestionView(setting: healthData, selectedOption: $selectedOption)
                         case .menstruationStartRating:
                             MenstruationStartRatingQuestionView(setting: healthData, selectedOption: $selectedOption)
                         }
@@ -88,7 +93,10 @@ struct SelfReportWatchView: View {
 
                         Spacer()
                         Button(action: {
-                            currentQuestionIndex += 1
+                            if shouldJumpOver() {
+                                currentQuestionIndex += 1
+                            }
+                            onSkip()
                         }) {
                             Image(systemName: "forward.circle")
                                 .font(.caption)
@@ -97,10 +105,13 @@ struct SelfReportWatchView: View {
                         .background( Color.clear)
 
                         Button(action: {
+                            if shouldJumpOver() {
+                                currentQuestionIndex += 1
+                            }
                             if currentQuestionIndex < filteredHealthData.count - 1 {
                                 onNext()
                             } else {
-                                submitSelfReport(selfReports: selfReports)
+                                submitSelfReport()
                             }
                         }) {
                             Image(systemName: currentQuestionIndex < filteredHealthData.count - 1 ? "arrow.forward.circle" : "checkmark.circle")
@@ -117,12 +128,29 @@ struct SelfReportWatchView: View {
                 }
             }
             
-            if isLoading {
+            if connector.isLoading {
                 Color.primary.opacity(0.7)
                 ProgressView()
             }
         }
         .ignoresSafeArea()
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text(isSubmittedSuccessfully ? "Success" : "Error"),
+                message: Text(alertMessage),
+                dismissButton: .default(Text("OK"), action: {
+                    if isSubmittedSuccessfully {
+                        self.isSelfReporting = false
+                        WKExtension.shared().rootInterfaceController?.popToRootController()
+                    }
+                })
+            )
+        }
+    }
+    
+    func shouldJumpOver() -> Bool {
+        guard let lastReport = selectedOption else { return false }
+        return lastReport.questionType == .menstruationEmoticonRating && (lastReport.reportedValue == "No" || lastReport.reportedValue == nil)
     }
 
     func onNext() {
@@ -141,14 +169,37 @@ struct SelfReportWatchView: View {
         if currentQuestionIndex < filteredHealthData.count - 1 {
             currentQuestionIndex += 1
         } else {
-            submitSelfReport(selfReports: selfReports)
+            submitSelfReport()
         }
     }
 
-    func submitSelfReport(selfReports: [SymptomSelfReportModel]) {
-        isLoading = true
-        _ = selfReportViewModel.saveReport(selfReports: selfReports, startTime: startTime)
-        isLoading = false
+    func submitSelfReport() {
+        if let option = selectedOption {
+            selfReports.append(option)
+        }
+        let selfReportModel = createSelfReportModel(selfReports: selfReports, startTime: startTime)
+        print(selfReports)
+        connector.sendSelfReportDataToiOS(selfReport: selfReportModel) { success, message in
+            DispatchQueue.main.async {
+                self.isSubmittedSuccessfully = success
+                self.alertMessage = message
+                self.showAlert = true
+            }
+        }
+    }
+    private func createSelfReportModel(selfReports: [SymptomSelfReportModel], startTime: Date) -> SelfReportModel {
+        let endTime = Date()
+        let isCyMeSelfReport = true
+        let selfReportMedium = selfReportMediumType.watchApp
+
+        return SelfReportModel(
+            id: nil,
+            startTime: startTime,
+            endTime: endTime,
+            isCyMeSelfReport: isCyMeSelfReport,
+            selfReportMedium: selfReportMedium,
+            reports: selfReports
+        )
     }
 }
 
@@ -156,7 +207,7 @@ struct SelfReportWatchView: View {
 
 struct SelfReportWatchView_Previews: PreviewProvider {
     static var previews: some View {
-        let settingsViewModel = SettingsViewModel()
-        return SelfReportWatchView(settingsViewModel: settingsViewModel)
+        let connector = iOSConnector()
+        return SelfReportWatchView(connector: connector, isSelfReporting: .constant(true))
     }
 }

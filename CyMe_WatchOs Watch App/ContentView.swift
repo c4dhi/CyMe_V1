@@ -8,25 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var settingsViewModel = SettingsViewModel()
+    @StateObject var connector = iOSConnector()
     
+    @State private var isSelfReporting = false
+
     var body: some View {
         VStack {
-            if !settingsViewModel.settings.healthDataSettings.isEmpty {
-                SelfReportWatchView(settingsViewModel: settingsViewModel)
+            
+            if isSelfReporting {
+                SelfReportWatchView(connector: connector, isSelfReporting: $isSelfReporting)
             } else {
-                VStack {
-                    Button(action: {
-                        settingsViewModel.fetchSettings()
-                    }) {
-                        Text("Fetch Settings")
-                    }
+                Button(action: {
+                    isSelfReporting = true
+                }) {
+                    Text("Add New Self-Report")
+                        .font(.caption)
+                        .padding()
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
                 }
             }
         }
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

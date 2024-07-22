@@ -281,7 +281,8 @@ struct AmountOfHourQuestionView: View {
 }
 
 struct OpenTextQuestionView: View {
-    @Binding var selfReport: [SymptomSelfReportModel]
+    var setting: HealthDataWithoutNilModel
+    @Binding var selectedOption : SymptomSelfReportModel?
     @State private var enteredText: String = ""
 
     var body: some View {
@@ -294,6 +295,9 @@ struct OpenTextQuestionView: View {
                 .padding(.top, 50)
             TextField("Enter text", text: $enteredText)
                 .padding()
+                .onChange(of: enteredText) { newText in
+                    selectedOption = SymptomSelfReportModel(healthDataName: "notes", healthDataLabel: "Notes", questionType: .open, reportedValue: newText)
+                }
         }
         .padding()
     }

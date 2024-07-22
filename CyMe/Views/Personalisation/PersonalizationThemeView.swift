@@ -161,6 +161,6 @@ struct PersonalizationThemeView: View {
 
 struct PersonalizationThemeView_Previews: PreviewProvider {
     static var previews: some View {
-        PersonalizationThemeView(nextPage: {}, settingsViewModel: SettingsViewModel())
+        PersonalizationThemeView(nextPage: {}, settingsViewModel: SettingsViewModel(connector: WatchConnector()))
     }
 }

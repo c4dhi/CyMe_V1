@@ -8,13 +8,11 @@
 import SwiftUI
 
 struct OnboardingView: View {
-    @State private var currentPageIndex: Int
-    @StateObject private var settingsViewModel = SettingsViewModel()
-    @StateObject private var profileViewModel = ProfileViewModel()
+    @EnvironmentObject var connector: WatchConnector
+    @EnvironmentObject var settingsViewModel: SettingsViewModel
     
-    init(startPageIndex: Int = 0) {
-        self._currentPageIndex = State(initialValue: startPageIndex)
-    }
+    @State private var currentPageIndex: Int = 0
+    @StateObject private var profileViewModel = ProfileViewModel()
     
     var body: some View {
         VStack {
