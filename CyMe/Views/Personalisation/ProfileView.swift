@@ -93,9 +93,6 @@ struct ProfileView: View {
                 if isInputValid() {
                     userViewModel.saveUser()
                     nextPage()
-                } else {
-                    // Show an alert or message indicating that all fields are required
-                    // You can also highlight the fields that are missing
                 }
             }) {
                 Text("Continue")

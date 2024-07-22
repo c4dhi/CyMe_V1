@@ -13,6 +13,7 @@ struct PersonalizationView: View {
     @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     var healthkit = HealthKitService()
 
+    @State private var hasLoaded = false
     var body: some View {
         Text("Personalize CyMe measuring and reporting")
        .font(.title)
@@ -25,10 +26,14 @@ struct PersonalizationView: View {
             Section(header: Text("Health Data Access")) {
                 Toggle("Allow access to Apple Health", isOn: $settingsViewModel.settings.enableHealthKit)
                     .onChange(of: settingsViewModel.settings.enableHealthKit) { newValue in
-                                if newValue {
-                                    healthkit.requestAuthorization();
+                            if newValue {
+                                healthkit.requestAuthorization()
+                            } else {
+                                for index in settingsViewModel.settings.healthDataSettings.indices {
+                                    settingsViewModel.settings.healthDataSettings[index].enableDataSync = false
                                 }
                             }
+                    }
             }
 
             Section(header: Text("Measurements and reporting")) {
@@ -71,15 +76,8 @@ struct PersonalizationView: View {
                 .background(theme.accentColor.toColor())
                 .cornerRadius(10)
         }
-        .onChange(of: settingsViewModel.settings.enableHealthKit) { newValue in
-            print(newValue)
-            if !newValue {
-                for index in settingsViewModel.settings.healthDataSettings.indices {
-                    settingsViewModel.settings.healthDataSettings[index].enableDataSync = false
-                }
-            }
-        }
     }
+       
 
     func measurementRow(label: String, measure: Binding<Bool>, selfReport: Binding<Bool>, dataLocation: DataLocation, isHealthKitEnabled: Bool) -> some View {
         HStack {
