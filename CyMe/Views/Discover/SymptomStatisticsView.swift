@@ -21,7 +21,7 @@ struct SymptomStatisticsView: View {
             Text("\(symptom.min)")
             Text("\(symptom.max)")
             Text("\(symptom.average)")
-            Text("Covariance: \(String(format: "%.2f", symptom.covariance))")
+            Text("Correlation: \(String(format: "%.2f", symptom.covariance))")
         }
     }
 }
