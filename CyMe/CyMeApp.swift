@@ -28,7 +28,7 @@ struct CyMeApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if DatabaseService.shared.userDatabaseService.isUserPresent() {
+            if DatabaseService.shared.userDatabaseService.isUserPresent() && DatabaseService.shared.settingsService.getSettings() != nil {
                 ContentView()
                     .environmentObject(connector)
                     .environmentObject(settingsViewModel)

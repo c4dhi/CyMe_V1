@@ -2,6 +2,10 @@ import Foundation
 import SwiftUI
 
 
+let lightBlue = Color(red: 0.2, green: 0.7, blue: 1.0)
+let lightGreen = Color(red: 0.5, green: 1.0, blue: 0.5)
+let deepGreen = Color(red: 0.0, green: 0.5, blue: 0.0)
+
 struct ThemeModel: Codable {
     var name: String
     var backgroundColor: CodableColor
@@ -60,12 +64,11 @@ extension UserDefaults {
     }
 }
 
-
 class ThemeManager: ObservableObject {
     @Published var theme: ThemeModel
     
     init() {
-        self.theme = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
+        self.theme = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     }
     
     func saveThemeToUserDefaults(newTheme: ThemeModel) {

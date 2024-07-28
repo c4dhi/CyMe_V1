@@ -17,6 +17,7 @@ class UserDatabaseService {
             let createTableQuery = """
                 CREATE TABLE IF NOT EXISTS user (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    userId TEXT,
                     name TEXT,
                     age INTEGER,
                     lifePhase TEXT,
@@ -117,40 +118,41 @@ class UserDatabaseService {
             defer { sqlite3_finalize(statement) }
 
             if sqlite3_step(statement) == SQLITE_ROW {
-                let name = String(cString: sqlite3_column_text(statement, 1))
-                let age = Int(sqlite3_column_int(statement, 2))
-                let lifePhase = String(cString: sqlite3_column_text(statement, 3))
-                let regularCycle = String(cString: sqlite3_column_text(statement, 4)) == "true"
+                let userId = String(cString: sqlite3_column_text(statement, 1))
+                let name = String(cString: sqlite3_column_text(statement, 2))
+                let age = Int(sqlite3_column_int(statement, 3))
+                let lifePhase = String(cString: sqlite3_column_text(statement, 4))
+                let regularCycle = String(cString: sqlite3_column_text(statement, 5)) == "true"
                 let cycleLength: Int?
-                if sqlite3_column_type(statement, 5) == SQLITE_NULL {
+                if sqlite3_column_type(statement, 6) == SQLITE_NULL {
                     cycleLength = nil
                 } else {
-                    cycleLength = Int(sqlite3_column_int(statement, 5))
+                    cycleLength = Int(sqlite3_column_int(statement, 6))
                 }
 
-                let contraceptionsString = String(cString: sqlite3_column_text(statement, 6))
+                let contraceptionsString = String(cString: sqlite3_column_text(statement, 7))
                 var contraceptions: [String] = []
 
                 if !contraceptionsString.isEmpty {
                     contraceptions = contraceptionsString.split(separator: ",").map { String($0) }
                 }
-                let fertilityGoal = String(cString: sqlite3_column_text(statement, 7))
+                let fertilityGoal = String(cString: sqlite3_column_text(statement, 8))
 
-                return UserModel(name: name, age: age, lifePhase: lifePhase, regularCycle: regularCycle, cycleLength: cycleLength, contraceptions: contraceptions, fertilityGoal: fertilityGoal)
+                return UserModel(userId: userId, name: name, age: age, lifePhase: lifePhase, regularCycle: regularCycle, cycleLength: cycleLength, contraceptions: contraceptions, fertilityGoal: fertilityGoal)
             } else {
                 return defaultUser()
             }
         }
 
         func defaultUser() -> UserModel {
-            return UserModel(name: "", age: nil, lifePhase: "Premenopause", regularCycle: false, cycleLength: nil, contraceptions: [], fertilityGoal: "Avoiding pregnancy")
+            return UserModel(userId: "", name: "", age: nil, lifePhase: "Premenopause", regularCycle: false, cycleLength: nil, contraceptions: [], fertilityGoal: "Avoiding pregnancy")
         }
 
 
         private func insertUser(user: UserModel) -> Bool {
             let insertQuery = """
-                INSERT INTO user (name, age, lifePhase, regularCycle, cycleLength, contraceptions, fertilityGoal)
-                VALUES (?, ?, ?, ?, ?, ?, ?);
+                INSERT INTO user (userId, name, age, lifePhase, regularCycle, cycleLength, contraceptions, fertilityGoal)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?);
                 """
             
             var statement: OpaquePointer?
@@ -164,22 +166,22 @@ class UserDatabaseService {
             }
             
             let contraceptionsString = user.contraceptions.joined(separator: ",")
-            
-            sqlite3_bind_text(statement, 1, (user.name as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 1, (user.userId as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 2, (user.name as NSString).utf8String, -1, nil)
             if let age = user.age {
-                    sqlite3_bind_int(statement, 2, Int32(age))
+                    sqlite3_bind_int(statement, 3, Int32(age))
                 } else {
-                    sqlite3_bind_null(statement, 2)
+                    sqlite3_bind_null(statement, 3)
                 }
-            sqlite3_bind_text(statement, 3, (user.lifePhase as NSString).utf8String, -1, nil)
-            sqlite3_bind_text(statement, 4, (user.regularCycle ? "true" : "false" as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 4, (user.lifePhase as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 5, (user.regularCycle ? "true" : "false" as NSString).utf8String, -1, nil)
             if let cycleLength = user.cycleLength {
-                    sqlite3_bind_int(statement, 5, Int32(cycleLength))
+                    sqlite3_bind_int(statement, 6, Int32(cycleLength))
                 } else {
-                    sqlite3_bind_null(statement, 5)
+                    sqlite3_bind_null(statement, 6)
                 }
-            sqlite3_bind_text(statement, 6, (contraceptionsString as NSString).utf8String, -1, nil)
-            sqlite3_bind_text(statement, 7, (user.fertilityGoal as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 7, (contraceptionsString as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 8, (user.fertilityGoal as NSString).utf8String, -1, nil)
             
             if sqlite3_step(statement) == SQLITE_DONE {
                 Logger.shared.log("Successfully inserted user")
@@ -195,7 +197,7 @@ class UserDatabaseService {
         private func updateUser(user: UserModel) -> Bool {
             let updateQuery = """
                 UPDATE user SET
-                    name = ?, age = ?, lifePhase = ?, regularCycle = ?, cycleLength = ?,
+                    userId = ?, name = ?, age = ?, lifePhase = ?, regularCycle = ?, cycleLength = ?,
                     contraceptions = ?, fertilityGoal = ?
                 WHERE id = 1;
                 """
@@ -206,23 +208,23 @@ class UserDatabaseService {
             }
 
             defer { sqlite3_finalize(statement) }
-
-            sqlite3_bind_text(statement, 1, (user.name as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 1, (user.userId as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 2, (user.name as NSString).utf8String, -1, nil)
             if let age = user.age {
-                    sqlite3_bind_int(statement, 2, Int32(age))
+                    sqlite3_bind_int(statement, 3, Int32(age))
                 } else {
-                    sqlite3_bind_null(statement, 2)
+                    sqlite3_bind_null(statement, 3)
                 }
-            sqlite3_bind_text(statement, 3, (user.lifePhase as NSString).utf8String, -1, nil)
-            sqlite3_bind_text(statement, 4, (user.regularCycle ? "true" : "false" as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 4, (user.lifePhase as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 5, (user.regularCycle ? "true" : "false" as NSString).utf8String, -1, nil)
             if let cycleLength = user.cycleLength {
-                    sqlite3_bind_int(statement, 5, Int32(cycleLength))
+                    sqlite3_bind_int(statement, 6, Int32(cycleLength))
                 } else {
-                    sqlite3_bind_null(statement, 5)
+                    sqlite3_bind_null(statement, 6)
                 }
             let contraceptionsString = user.contraceptions.joined(separator: ",")
-            sqlite3_bind_text(statement, 6, (contraceptionsString as NSString).utf8String, -1, nil)
-            sqlite3_bind_text(statement, 7, (user.fertilityGoal as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 7, (contraceptionsString as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 8, (user.fertilityGoal as NSString).utf8String, -1, nil)
 
             if sqlite3_step(statement) == SQLITE_DONE {
                 Logger.shared.log("Successfully updated user")

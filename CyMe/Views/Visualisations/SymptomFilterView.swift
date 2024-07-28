@@ -11,7 +11,7 @@ struct SymptomFilterView: View {
     var symptoms: [SymptomModel]
     @Binding var selectedSymptoms: Set<SymptomModel>
     @Binding var showingFilterSheet : Bool
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
 
     var body: some View {
         NavigationView {
@@ -60,7 +60,7 @@ struct SymptomFilterView_Previews: PreviewProvider {
                 max: "3",
                 average: "1",
                 covariance: 2.5,
-                covarianceOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
+                correlationOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
                 questionType: .painEmoticonRating
             )
         ], selectedSymptoms: .constant([]), showingFilterSheet: .constant(true))

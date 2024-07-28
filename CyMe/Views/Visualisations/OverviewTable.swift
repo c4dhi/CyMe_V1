@@ -30,8 +30,8 @@ struct OverviewTable: View {
                     
                     HStack {
                         Text("Cycle day").frame(width: 100)
-                        ForEach(0..<minDays()-1, id: \.self) { day in
-                            Text("\(day + 1)")
+                        ForEach(1..<minDays(), id: \.self) { day in
+                            Text("\(day)")
                                 .frame(minWidth: 30)
                                 .frame(maxWidth: .infinity)
                                 .font(.caption)
@@ -47,9 +47,9 @@ struct OverviewTable: View {
                                 .frame(minWidth: 110)
                                 .font(.caption)
                             
-                            ForEach(0..<minDays() - 1, id: \.self) { day in
-                                if let intensity = symptom.cycleOverview[day] {
-                                    getSymbol(for: symptom.questionType, intensity: intensity ?? 0)
+                            ForEach(1..<minDays(), id: \.self) { day in
+                                if let intensity = symptom.cycleOverview[day-1] {
+                                    getSymbol(for: symptom.questionType, intensity: intensity)
                                         .frame(maxWidth: .infinity)
                                 } else {
                                     Text("-")
@@ -83,6 +83,12 @@ struct OverviewTable: View {
         case .amountOfhour:
             return AnyView(
                 Text("\(intensity)h")
+                    .font(.system(size: 10))
+                    .foregroundColor(.blue)
+            )
+        case .amountOfSteps:
+            return AnyView(
+                Text("\(intensity)")
                     .font(.system(size: 10))
                     .foregroundColor(.blue)
             )
@@ -183,7 +189,7 @@ struct OverviewTable_Previews: PreviewProvider {
                 max: "3",
                 average: "1",
                 covariance: 2.5,
-                covarianceOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
+                correlationOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
                 questionType: .painEmoticonRating
             ),
             SymptomModel(
@@ -195,7 +201,7 @@ struct OverviewTable_Previews: PreviewProvider {
                 max: "4",
                 average: "2",
                 covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                correlationOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .painEmoticonRating
             ),
             SymptomModel(
@@ -207,7 +213,7 @@ struct OverviewTable_Previews: PreviewProvider {
                 max: "4",
                 average: "2",
                 covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                correlationOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .menstruationEmoticonRating
             ),
             SymptomModel(
@@ -219,7 +225,7 @@ struct OverviewTable_Previews: PreviewProvider {
                 max: "4",
                 average: "2",
                 covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                correlationOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .emoticonRating
             ),
             SymptomModel(
@@ -231,7 +237,7 @@ struct OverviewTable_Previews: PreviewProvider {
                 max: "4",
                 average: "2",
                 covariance: 1.8,
-                covarianceOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
+                correlationOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .amountOfhour
             )
         ])

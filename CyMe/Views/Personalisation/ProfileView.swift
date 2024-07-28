@@ -27,6 +27,7 @@ struct ProfileView: View {
             Form {
                 Section(header: Text("Personal information")) {
                     TextField("Name", text: $userViewModel.user.name)
+                    TextField("User ID", text: $userViewModel.user.userId)
                     TextField("Age", text: Binding(
                         get: {
                                 if let age = userViewModel.user.age {
@@ -92,9 +93,6 @@ struct ProfileView: View {
                 if isInputValid() {
                     userViewModel.saveUser()
                     nextPage()
-                } else {
-                    // Show an alert or message indicating that all fields are required
-                    // You can also highlight the fields that are missing
                 }
             }) {
                 Text("Continue")

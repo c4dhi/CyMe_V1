@@ -42,14 +42,13 @@ struct EmoticonRatingQuestionView: View {
                     ForEach(emoticons, id: \.0) { (emoticon, description) in
                         VStack {
                             Button(action: {
-                                selectedEmoticon = description
                                 selectedOption = SymptomSelfReportModel(healthDataName: setting.name, healthDataLabel: setting.label, questionType: setting.questionType, reportedValue: description)
                             }) {
                                 Text(emoticon)
                                     .font(.caption)
                                     .padding()
-                                    .background(selectedEmoticon == description ? Color.blue : Color.clear)
-                                    .foregroundColor(selectedEmoticon == description ? .white : .blue)
+                                    .background(selectedOption?.reportedValue == description ? Color.blue : Color.clear)
+                                    .foregroundColor(selectedOption?.reportedValue == description ? .white : .blue)
                                     .cornerRadius(8)
                             }
                         }
@@ -200,14 +199,13 @@ struct ChangeEmoticonRatingQuestionView: View {
                     ForEach(emoticons, id: \.0) { (emoticon, description) in
                         VStack {
                             Button(action: {
-                                selectedEmoticon = description
                                 selectedOption = SymptomSelfReportModel(healthDataName: setting.name, healthDataLabel: setting.label, questionType: setting.questionType, reportedValue: description)
                             }) {
                                 Text(emoticon)
                                     .font(.caption)
                                     .padding()
-                                    .background(selectedEmoticon == description ? Color.blue : Color.clear)
-                                    .foregroundColor(selectedEmoticon == description ? .white : .blue)
+                                    .background(selectedOption?.reportedValue == description ? Color.blue : Color.clear)
+                                    .foregroundColor(selectedOption?.reportedValue == description ? .white : .blue)
                                     .cornerRadius(8)
                             }
                         }

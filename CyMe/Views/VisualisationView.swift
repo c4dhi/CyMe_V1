@@ -4,7 +4,7 @@ struct VisualisationView: View {
     @ObservedObject var viewModel: DiscoverViewModel
     @State private var selectedSymptoms: Set<SymptomModel> = []
     @State private var showingFilterSheet = false
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: .blue, accentColor: .blue)
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     @State private var selectedCycleOption = 1 // 1 for "This Cycle", 0 for "Last Cycle"
 
     var body: some View {

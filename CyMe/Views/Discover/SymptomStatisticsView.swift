@@ -15,13 +15,32 @@ import SwiftUI
 
 struct SymptomStatisticsView: View {
     var symptom: SymptomModel
+    @State private var showingPopover = false
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
 
     var body: some View {
         VStack {
             Text("\(symptom.min)")
             Text("\(symptom.max)")
             Text("\(symptom.average)")
-            Text("Correlation: \(String(format: "%.2f", symptom.covariance))")
+            HStack {
+                Text("Correlation: \(String(format: "%.2f", symptom.covariance))")
+                Button(action: {
+                    showingPopover.toggle()
+                }) {
+                    Image(systemName: "questionmark.circle")
+                        .foregroundColor(theme.primaryColor.toColor())
+                }
+                .popover(isPresented: $showingPopover) {
+                    VStack {
+                        Text("Correlation Explanation")
+                            .font(.headline)
+                        Text("The correlation value indicates how strongly the symptoms are related to each other. A value closer to 1 means a strong positive correlation, while a value closer to -1 means a strong negative correlation. A value around 0 indicates no correlation.")
+                            .padding()
+                    }
+                    .padding()
+                }
+            }
         }
     }
 }
@@ -37,7 +56,7 @@ struct SymptomStatisticsView_Previews: PreviewProvider {
             max: "10",
             average: "5",
             covariance: 2.5,
-            covarianceOverview: [
+            correlationOverview: [
                 [2, 3, 4, 6, 5],
                 [1, 2, 3, 4, 5]
             ],

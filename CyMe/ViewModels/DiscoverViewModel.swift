@@ -36,6 +36,7 @@ enum timeRange : String{
 
 class DiscoverViewModel: ObservableObject {
     @Published var symptoms: [SymptomModel] = []
+    var selfReports: [ReviewReportModel] = []
     
     var healthKitService: HealthKitService
     var reportingDatabaseService: ReportingDatabaseService
@@ -72,6 +73,10 @@ class DiscoverViewModel: ObservableObject {
         Task {
             await self.updateSymptoms()
         }
+    }
+    
+    func loadCyMeSelfReports() async {
+        
     }
     
     
@@ -239,8 +244,8 @@ class DiscoverViewModel: ObservableObject {
         return await withCheckedContinuation { continuation in
             DispatchQueue.main.async {
                 let reports = self.reportingDatabaseService.getReports(from: startDate, to: endDate)
-                    
                     for report in reports {
+                        self.selfReports.append(report)
                         let startDate : Date = report.startTime
                         
                         if let menstruationDate = report.menstruationDate{
@@ -382,7 +387,7 @@ class DiscoverViewModel: ObservableObject {
             max: statistics[1],
             average: statistics[2],
             covariance: covarianceAndList.0,
-            covarianceOverview: covarianceAndList.1,
+            correlationOverview: covarianceAndList.1,
             questionType: questionType
         )
         return symptomModel
@@ -420,7 +425,7 @@ class DiscoverViewModel: ObservableObject {
             max: statistics[1],
             average: statistics[2],
             covariance: covarianceAndList.0,
-            covarianceOverview: covarianceAndList.1,
+            correlationOverview: covarianceAndList.1,
             questionType: .menstruationEmoticonRating)
         symptomListToReturn.append(symptomModel)
         
@@ -497,7 +502,7 @@ class DiscoverViewModel: ObservableObject {
                 max: statistics[1],
                 average: statistics[2],
                 covariance: covarianceAndList.0,
-                covarianceOverview: covarianceAndList.1,
+                correlationOverview: covarianceAndList.1,
                 questionType: .amountOfhour //TODO
             )
             
@@ -522,7 +527,7 @@ class DiscoverViewModel: ObservableObject {
                 max: statistics[1],
                 average: statistics[2],
                 covariance: covarianceAndList.0,
-                covarianceOverview: covarianceAndList.1,
+                correlationOverview: covarianceAndList.1,
                 questionType: .amountOfhour //TODO
             )
             
@@ -549,7 +554,7 @@ class DiscoverViewModel: ObservableObject {
                 max: statistics[1],
                 average: statistics[2],
                 covariance: covarianceAndList.0,
-                covarianceOverview: covarianceAndList.1,
+                correlationOverview: covarianceAndList.1,
                 questionType: .amountOfhour //TODO
             )
             
@@ -576,7 +581,7 @@ class DiscoverViewModel: ObservableObject {
                 max: statistics[1],
                 average: statistics[2],
                 covariance: covarianceAndList.0,
-                covarianceOverview: covarianceAndList.1,
+                correlationOverview: covarianceAndList.1,
                 questionType: .emoticonRating //TODO
             )
             
@@ -603,7 +608,7 @@ class DiscoverViewModel: ObservableObject {
                 max: statistics[1],
                 average: statistics[2],
                 covariance: covarianceAndList.0,
-                covarianceOverview: covarianceAndList.1,
+                correlationOverview: covarianceAndList.1,
                 questionType: .emoticonRating //TODO
             )
             
@@ -630,7 +635,7 @@ class DiscoverViewModel: ObservableObject {
                 max: statistics[1],
                 average: statistics[2],
                 covariance: covarianceAndList.0,
-                covarianceOverview: covarianceAndList.1,
+                correlationOverview: covarianceAndList.1,
                 questionType: .emoticonRating //TODO
             )
             
@@ -640,4 +645,3 @@ class DiscoverViewModel: ObservableObject {
         return symptomListToReturn
     }
 }
-
