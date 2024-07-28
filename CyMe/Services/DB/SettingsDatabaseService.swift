@@ -11,9 +11,11 @@ class SettingsDatabaseService {
         self.db = DatabaseService.shared.db
         createSettingsTableIfNeeded()
         createHealthDataSettingsTableIfNeeded()
-        if getSettings() == nil {
-            let defaultSettings = getDefaultSettings()
-            saveSettings(settings: defaultSettings)
+        DispatchQueue.main.async {
+            if self.getSettings() == nil {
+                let defaultSettings = self.getDefaultSettings()
+                self.saveSettings(settings: defaultSettings)
+            }
         }
     }
     

@@ -152,6 +152,7 @@ struct SelfReportView: View {
             currentQuestionIndex += 1
         } else {
             submitSelfReport()
+            
         }
     }
 
@@ -161,15 +162,17 @@ struct SelfReportView: View {
         }
         isLoading = true
         DispatchQueue.global(qos: .background).async {
-            let success = selfReportViewModel.saveReport(selfReports: selfReports, startTime: startTime)
-            
-            DispatchQueue.main.async {
-                isLoading = false
-                if success {
-                    isPresented = false
-                    Logger.shared.log("Report saved successfully!")
-                } else {
-                    Logger.shared.log("Failed to save the report.")
+            Task{
+                let success = await selfReportViewModel.saveReport(selfReports: selfReports, startTime: startTime)
+                
+                DispatchQueue.main.async {
+                    isLoading = false
+                    if success {
+                        isPresented = false
+                        Logger.shared.log("Report saved successfully!")
+                    } else {
+                        Logger.shared.log("Failed to save the report.")
+                    }
                 }
             }
         }

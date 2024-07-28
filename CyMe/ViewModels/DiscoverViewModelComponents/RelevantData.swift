@@ -33,7 +33,7 @@ class RelevantData {
     
     
     
-    func getRelevantDataLists(){
+    func getRelevantDataLists() async {
     
         relevantForDisplay  = []
         relevantForAppleHealthFetch  = []

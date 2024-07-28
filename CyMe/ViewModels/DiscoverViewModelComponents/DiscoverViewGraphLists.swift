@@ -33,8 +33,15 @@ func buildcollectedDataGraphArray(symptomList: [Date: Int], dateRange: [Date], s
         else {
             dateToCheck = date
         }
+        var toAppend : Int?
+        if symptomList[dateToCheck] != 0 {
+            toAppend = symptomList[dateToCheck] ?? nil
+        }
+        else {
+            toAppend = nil
+        }
         
-        dataGraphArray.append(symptomList[dateToCheck] ?? nil)
+        dataGraphArray.append(toAppend)
         }
     if !sleepLength {
         dataGraphArray.removeLast() // Ignore the last 0 entry since it belongs to the next day

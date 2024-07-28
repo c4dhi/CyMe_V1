@@ -27,5 +27,20 @@ struct CombinedDataModel  { // Holds all Data of a selected Cycle (AppleHealth a
     
     
     
+    mutating func append(otherModel: CombinedDataModel){
+        periodDataList += otherModel.periodDataList
+        headacheDataList += otherModel.headacheDataList
+        abdominalCrampsDataList += otherModel.abdominalCrampsDataList
+        lowerBackPainDataList += otherModel.lowerBackPainDataList
+        pelvicPainDataList += otherModel.pelvicPainDataList
+        acneDataList += otherModel.acneDataList
+        chestTightnessOrPainDataList += otherModel.chestTightnessOrPainDataList
+        appetiteChangeDataList += otherModel.appetiteChangeDataList
+        //sleepLengthDataList : [Date : Int] = [:]
+        sleepQualityDataList += otherModel.sleepQualityDataList
+        stressDataList += otherModel.stressDataList
+        moodDataList += otherModel.moodDataList
+    }
+    
 }
 
