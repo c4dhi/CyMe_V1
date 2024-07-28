@@ -16,6 +16,7 @@ import SwiftUI
 struct SymptomStatisticsView: View {
     var symptom: SymptomModel
     @State private var showingPopover = false
+    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
 
     var body: some View {
         VStack {
@@ -28,7 +29,7 @@ struct SymptomStatisticsView: View {
                     showingPopover.toggle()
                 }) {
                     Image(systemName: "questionmark.circle")
-                        .foregroundColor(.blue)
+                        .foregroundColor(theme.primaryColor.toColor())
                 }
                 .popover(isPresented: $showingPopover) {
                     VStack {

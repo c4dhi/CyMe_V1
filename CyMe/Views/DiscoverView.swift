@@ -12,6 +12,8 @@ struct DiscoverView: View {
     @State private var selectedSymptom: SymptomModel?
     @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     @State private var selectedCycleOption = 1 // 1 for "This Cycle", 0 for "Last Cycle"
+    @State private var isShowingSelfReports = false
+    @State private var selectedDate = Date()
 
     var body: some View {
         VStack(spacing: 5) {
@@ -22,8 +24,13 @@ struct DiscoverView: View {
                 ForEach(viewModel.symptoms, id: \.title) { symptom in
                     Text(symptom.title).tag(symptom as SymptomModel?)
                 }
+                Text("Self-reports").tag(nil as SymptomModel?)
             }
             .pickerStyle(MenuPickerStyle())
+            .onChange(of: selectedSymptom) { newValue in
+                            isShowingSelfReports = (newValue == nil)
+                        }
+            
             Picker(selection: $selectedCycleOption, label: Text("")) {
                 Text("Last cycle").tag(0)
                 Text("Current cycle").tag(1)
@@ -31,10 +38,11 @@ struct DiscoverView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             
-            
-
-            
-            if let symptom = selectedSymptom {
+            if isShowingSelfReports {
+               let groupedReports = groupReportsByDay(reports: viewModel.selfReports)
+               ReportsByDayView(reportsByDay: groupedReports, selectedDate: $selectedDate)
+                   .transition(.slide)
+           }  else if let symptom = selectedSymptom {
                 List {
                     // Symptom graph and Insights Section
                     Section(header: Text("Inisghts to \(selectedCycleOption == 0 ? "last cycle" : "current cycle" )").padding(.vertical, 8)) {
@@ -92,6 +100,7 @@ struct DiscoverView: View {
         .padding()
         .onAppear {
             Task{
+                viewModel.selfReports.removeAll()
                 await viewModel.updateSymptoms()
                 selectedSymptom = viewModel.symptoms.first
             }
@@ -100,6 +109,7 @@ struct DiscoverView: View {
         .onChange(of: selectedCycleOption){ newValue in
             let rememberSelectedSymptom = selectedSymptom?.title
             Task{
+                viewModel.selfReports.removeAll()
                 await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1))
                 
                 for symptom in viewModel.symptoms{
@@ -111,7 +121,26 @@ struct DiscoverView: View {
             }
         }
     }
+    
+    func groupReportsByDay(reports: [ReviewReportModel]) -> [Date: [ReviewReportModel]] {
+            var groupedReports = [Date: [ReviewReportModel]]()
+            let calendar = Calendar.current
+
+            for report in reports {
+                let startOfDay = calendar.startOfDay(for: report.startTime)
+                if groupedReports[startOfDay] != nil {
+                    groupedReports[startOfDay]?.append(report)
+                } else {
+                    groupedReports[startOfDay] = [report]
+                }
+            }
+
+            return groupedReports
+        }
+
 }
+
+
 
 struct DiscoverView_Previews: PreviewProvider {
     static var previews: some View {
@@ -165,3 +194,4 @@ struct DiscoverView_Previews: PreviewProvider {
         return [headacheModel, abdominalCrampsModel, appetiteChangeModel]
     }
 }
+

@@ -49,7 +49,7 @@ struct OverviewTable: View {
                             
                             ForEach(1..<minDays(), id: \.self) { day in
                                 if let intensity = symptom.cycleOverview[day-1] {
-                                    getSymbol(for: symptom.questionType, intensity: intensity ?? 0)
+                                    getSymbol(for: symptom.questionType, intensity: intensity)
                                         .frame(maxWidth: .infinity)
                                 } else {
                                     Text("-")
@@ -83,6 +83,12 @@ struct OverviewTable: View {
         case .amountOfhour:
             return AnyView(
                 Text("\(intensity)h")
+                    .font(.system(size: 10))
+                    .foregroundColor(.blue)
+            )
+        case .amountOfSteps:
+            return AnyView(
+                Text("\(intensity)")
                     .font(.system(size: 10))
                     .foregroundColor(.blue)
             )

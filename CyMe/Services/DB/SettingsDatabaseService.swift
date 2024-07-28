@@ -143,7 +143,7 @@ class SettingsDatabaseService {
                 enableSelfReportingCyMe: false,
                 dataLocation: .onlyAppleHealth,
                 question: nil,
-                questionType: nil
+                questionType: .amountOfSteps
             ),
             HealthDataSettingsModel(
                 name: "mood",
@@ -161,7 +161,7 @@ class SettingsDatabaseService {
                 enableSelfReportingCyMe: false,
                 dataLocation: .onlyAppleHealth,
                 question: nil,
-                questionType: nil
+                questionType: .amountOfhour
             )
         ]
         return defaultValues

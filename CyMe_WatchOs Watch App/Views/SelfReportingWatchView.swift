@@ -73,7 +73,11 @@ struct SelfReportWatchView: View {
                             OpenTextQuestionView(setting: healthData, selectedOption: $selectedOption)
                         case .menstruationStartRating:
                             MenstruationStartRatingQuestionView(setting: healthData, selectedOption: $selectedOption)
+                        default:
+                            PainEmoticonRatingQuestionView(setting: healthData,selectedOption: $selectedOption)
+                        
                         }
+                    
                     }
 
                     Spacer()

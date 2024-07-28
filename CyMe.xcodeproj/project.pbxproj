@@ -96,6 +96,8 @@
 		4CF0155C2BEB479000BE8DF0 /* CyMe_WatchOs Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4C1354AC2BCFC6A40078A84B /* CyMe_WatchOs Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4CF16AC62C4EEE0F00DB1263 /* discoverUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF16AC52C4EEE0F00DB1263 /* discoverUtils.swift */; };
 		4CF16AC82C5190FF00DB1263 /* MultiGraphLegend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF16AC72C5190FF00DB1263 /* MultiGraphLegend.swift */; };
+		4CF16ACA2C567C6C00DB1263 /* ReviewReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF16AC92C567C6C00DB1263 /* ReviewReportView.swift */; };
+		4CF16ACC2C567FD100DB1263 /* ReportsByDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF16ACB2C567FD100DB1263 /* ReportsByDayView.swift */; };
 		4CFDC37F2C04F24500DD3295 /* DatabaseUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC37E2C04F24500DD3295 /* DatabaseUtils.swift */; };
 		4CFDC3812C072D6400DD3295 /* HealthDataSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3802C072D6400DD3295 /* HealthDataSettingsModel.swift */; };
 		4CFDC3862C0C49ED00DD3295 /* SelfReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */; };
@@ -296,6 +298,8 @@
 		4CF015592BE9560E00BE8DF0 /* iOSConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSConnector.swift; sourceTree = "<group>"; };
 		4CF16AC52C4EEE0F00DB1263 /* discoverUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = discoverUtils.swift; sourceTree = "<group>"; };
 		4CF16AC72C5190FF00DB1263 /* MultiGraphLegend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiGraphLegend.swift; sourceTree = "<group>"; };
+		4CF16AC92C567C6C00DB1263 /* ReviewReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewReportView.swift; sourceTree = "<group>"; };
+		4CF16ACB2C567FD100DB1263 /* ReportsByDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsByDayView.swift; sourceTree = "<group>"; };
 		4CFDC37E2C04F24500DD3295 /* DatabaseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseUtils.swift; sourceTree = "<group>"; };
 		4CFDC3802C072D6400DD3295 /* HealthDataSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataSettingsModel.swift; sourceTree = "<group>"; };
 		4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportViewModel.swift; sourceTree = "<group>"; };
@@ -391,6 +395,8 @@
 				4C3816912C3868A10079A48B /* MultiSymptomeGraph.swift */,
 				4CF16AC52C4EEE0F00DB1263 /* discoverUtils.swift */,
 				4CF16AC72C5190FF00DB1263 /* MultiGraphLegend.swift */,
+				4CF16AC92C567C6C00DB1263 /* ReviewReportView.swift */,
+				4CF16ACB2C567FD100DB1263 /* ReportsByDayView.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -1033,7 +1039,9 @@
 				4CFDC3892C0C66D000DD3295 /* HealthDataWithoutNilModel.swift in Sources */,
 				4C1354532BCFC6060078A84B /* ContentView.swift in Sources */,
 				4C1A36E12C19839F006E50D8 /* EmoticonReportings.swift in Sources */,
+				4CF16ACC2C567FD100DB1263 /* ReportsByDayView.swift in Sources */,
 				4CDD2FD22BECAAA5005995B5 /* WelcomeView.swift in Sources */,
+				4CF16ACA2C567C6C00DB1263 /* ReviewReportView.swift in Sources */,
 				500D9B6A2C2D943500B26D27 /* DiscoverViewStatistics.swift in Sources */,
 				4CFDC3812C072D6400DD3295 /* HealthDataSettingsModel.swift in Sources */,
 				4C5A49B82BFE1A79008253FD /* ThemeModel.swift in Sources */,

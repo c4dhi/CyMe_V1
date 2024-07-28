@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct ReviewReportModel: Codable {
+struct ReviewReportModel: Codable, Identifiable {
     var id: Int?
     var startTime: Date
     var endTime: Date

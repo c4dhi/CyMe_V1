@@ -9,12 +9,14 @@ import SwiftUI
 
 struct MultiGraphLegend: View {
     @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
+    let customColor = Color(red: 211 / 255.0, green: 231 / 255.0, blue: 255 / 255.0)
+
     
     var body: some View {
         HStack {
             HStack {
                 Circle()
-                    .fill(theme.primaryColor.toColor())
+                    .fill(customColor)
                     .frame(width: 10, height: 10)
                 Text("Last cycle")
                     .font(.subheadline)
@@ -24,7 +26,7 @@ struct MultiGraphLegend: View {
             
             HStack {
                 Circle()
-                    .fill(theme.accentColor.toColor())
+                    .fill(.blue)
                     .frame(width: 10, height: 10)
                 Text("Current cycle")
                     .font(.subheadline)

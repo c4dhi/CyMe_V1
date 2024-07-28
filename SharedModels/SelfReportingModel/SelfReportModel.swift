@@ -14,7 +14,7 @@ enum selfReportMediumType: String,  Codable {
     case appleHealth = "painEmotappleHealthiconRating"
 }
 
-struct SelfReportModel: Codable {
+struct SelfReportModel: Codable, Identifiable {
     var id: Int?
     var startTime: Date
     var endTime: Date

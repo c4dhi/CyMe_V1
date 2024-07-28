@@ -70,6 +70,8 @@ struct SelfReportView: View {
                             AmountOfHourQuestionView(setting: healthData, selectedOption: $selectedOption)
                         case .open:
                             OpenTextQuestionView(setting: healthData, selectedOption: $selectedOption)
+                        default:
+                            PainEmoticonRatingQuestionView(setting: healthData, selectedOption: $selectedOption)
                         }
                     }
 
