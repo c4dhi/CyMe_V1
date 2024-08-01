@@ -12,7 +12,7 @@ class HealthKitService {
     
     
     // General Objects
-    private let healthStore = HKHealthStore()
+    let healthStore = HKHealthStore()
     
     // Create a sort descriptor for a chronological sort
     let sortDescriptorChronological = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
