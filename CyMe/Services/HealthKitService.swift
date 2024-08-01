@@ -76,7 +76,7 @@ class HealthKitService {
    
     func writeSamplesToAppleHealth(selfReports: [SymptomSelfReportModel]){
         Task{
-            let syncList = relevantDataObject.relevantForAppleHealthFetch
+            let syncList = relevantDataObject.relevantForAppleHealth
             let symptomCyMeLabelToAppleLabel = ["No": 1, "Mild": 2, "Moderate": 3 , "Severe": 4]
             let appetiteChangeCyMeToAppleLabel = ["No": 1, "Less": 2, "More": 3]
             let menstruationCyMeToAppleLabel = ["No": 5, "Mild": 2, "Moderate": 3 , "Severe": 4]

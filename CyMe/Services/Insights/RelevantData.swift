@@ -9,8 +9,8 @@ import Foundation
 
 class RelevantData {
     var relevantForDisplay : [availableHealthMetrics] = []
-    var relevantForAppleHealthFetch : [availableHealthMetrics] = []
-    var relevantForCyMeFetch : [availableHealthMetrics] = []
+    var relevantForAppleHealth : [availableHealthMetrics] = []
+    var relevantForCyMeSelfReport : [availableHealthMetrics] = []
     
     var settingsDatabaseService = SettingsDatabaseService()
     
@@ -36,18 +36,18 @@ class RelevantData {
     func getRelevantDataLists() async {
     
         relevantForDisplay  = []
-        relevantForAppleHealthFetch  = []
-        relevantForCyMeFetch  = []
+        relevantForAppleHealth  = []
+        relevantForCyMeSelfReport = []
         
         DispatchQueue.main.async {
             let healthDataSettings = self.settingsDatabaseService.getSettings()?.healthDataSettings
             
             for setting in healthDataSettings! {
                 if(setting.enableDataSync){
-                    self.relevantForAppleHealthFetch.append(self.dBtoAvailableHealthMetrics[setting.name]!)
+                    self.relevantForAppleHealth.append(self.dBtoAvailableHealthMetrics[setting.name]!)
                 }
                 if(setting.enableSelfReportingCyMe){
-                    self.relevantForCyMeFetch.append(self.dBtoAvailableHealthMetrics[setting.name]!)
+                    self.relevantForCyMeSelfReport.append(self.dBtoAvailableHealthMetrics[setting.name]!)
                 }
                 if(setting.enableSelfReportingCyMe) || (setting.enableDataSync){
                     self.relevantForDisplay.append(self.dBtoAvailableHealthMetrics[setting.name]!)

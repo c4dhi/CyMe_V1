@@ -10,30 +10,6 @@ import HealthKit
 
 
 
-enum availableHealthMetrics: String {
-    case headache
-    case abdominalCramps
-    case lowerBackPain
-    case pelvicPain
-    case acne
-    case chestTightnessOrPain
-    case appetiteChange
-    case sleepLength
-    case exerciseTime
-    case stepCount
-    case stress
-    case sleepQuality
-    case mood
-    case menstrualBleeding
-    case menstrualStart
-}
-
-enum timeRange : String{
-    case current
-    case last
-    case secondToLast
-}
-
 class DiscoverViewModel: ObservableObject {
     @Published var symptoms: [SymptomModel] = []
     var selfReports: [ReviewReportModel] = []
@@ -190,14 +166,14 @@ class DiscoverViewModel: ObservableObject {
     }
     
     
-    func getCombinedDataModel(dateRange : [Date], label: timeRange) async  {
+    func getCombinedDataModel(dateRange : [Date], label: cycleTimeOptions) async  {
         
         var combinedDataModelToReturn = CombinedDataModel()
         
         let startDate = menstruationRanges.getAppropriateStartDate(firstEntry: dateRange[0])
         let endDate =  menstruationRanges.getAppropriateEndDate(lastEntry: dateRange[dateRange.count-1])
         
-        await fetchRelevantAppleHealthData(relevantDataList : relevantDataClass.relevantForAppleHealthFetch, startDate: startDate, endDate: endDate, combinedDataModel: &combinedDataModelToReturn)
+        await fetchRelevantAppleHealthData(relevantDataList : relevantDataClass.relevantForAppleHealth, startDate: startDate, endDate: endDate, combinedDataModel: &combinedDataModelToReturn)
         
         if label == .current{
             self.combinedDataModelCurrent = combinedDataModelToReturn
@@ -219,7 +195,7 @@ class DiscoverViewModel: ObservableObject {
     
    
     
-    func fetchRelevantCyMeData(startDate: Date, endDate: Date, timeRange: timeRange) async -> CombinedDataModel  { // Gets the desired data and stores them in class variables
+    func fetchRelevantCyMeData(startDate: Date, endDate: Date, timeRange: cycleTimeOptions) async -> CombinedDataModel  { // Gets the desired data and stores them in class variables
         
         let periodLabelToValue = ["Mild" : 2, "Moderate" : 3, "Severe" : 4, "No" : 5 ]
         let selfreportedLabelToIntensity = ["Mild" : 2, "Moderate" : 3, "Severe" : 4, "No" : 1 ]

@@ -5,6 +5,10 @@
 //  Created by Marinja Principe on 17.04.24.
 //
 
+// Test all of Insights
+// Test DiscoverView
+// Test Healthkit
+
 import XCTest
 @testable import CyMe
 
