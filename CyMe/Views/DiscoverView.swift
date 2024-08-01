@@ -99,6 +99,7 @@ struct DiscoverView: View {
         }
         .padding()
         .onAppear {
+            Logger.shared.log("Discover view is shown")
             Task{
                 viewModel.selfReports.removeAll()
                 await viewModel.updateSymptoms()

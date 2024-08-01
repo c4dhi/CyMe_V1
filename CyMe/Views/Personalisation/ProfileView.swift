@@ -105,6 +105,9 @@ struct ProfileView: View {
             }
             .disabled(!isInputValid())
             .padding()
+            .onAppear {
+                Logger.shared.log("Onboarding view is shown")
+            }
     }
 
     func isInputValid() -> Bool {

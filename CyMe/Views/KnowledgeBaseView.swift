@@ -88,6 +88,9 @@ struct KnowledgeBaseView: View {
                     .background(RoundedRectangle(cornerRadius: 10).fill(theme.primaryColor.toColor()))
                 }
                 .padding()
+                .onAppear {
+                    Logger.shared.log("Knowledgbase view is shown")
+                }
             }
         }
     }

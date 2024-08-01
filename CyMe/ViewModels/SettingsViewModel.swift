@@ -22,6 +22,7 @@ class SettingsViewModel: ObservableObject {
     }
     
     func saveSettings() {
+        Logger.shared.log("Following settings are saved: \(settings)")
         themeManager.saveThemeToUserDefaults(newTheme: settings.selectedTheme)
         settingsDatabaseService.saveSettings(settings: settings)
         connector.sendSettings(settings: settings)
