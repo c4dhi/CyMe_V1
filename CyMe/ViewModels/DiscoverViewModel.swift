@@ -30,7 +30,7 @@ class DiscoverViewModel: ObservableObject {
     
     var availableCycles = 0
     
-    let verbose = false
+    let verbose = true
 
     
 
@@ -170,8 +170,8 @@ class DiscoverViewModel: ObservableObject {
         
         var combinedDataModelToReturn = CombinedDataModel()
         
-        let startDate = menstruationRanges.getAppropriateStartDate(firstEntry: dateRange[0])
-        let endDate =  menstruationRanges.getAppropriateEndDate(lastEntry: dateRange[dateRange.count-1])
+        let startDate = dateRange[0]
+        let endDate = dateRange[dateRange.count-1]
         
         await fetchRelevantAppleHealthData(relevantDataList : relevantDataClass.relevantForAppleHealth, startDate: startDate, endDate: endDate, combinedDataModel: &combinedDataModelToReturn)
         
