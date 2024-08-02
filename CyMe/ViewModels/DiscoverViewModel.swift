@@ -14,7 +14,6 @@ class DiscoverViewModel: ObservableObject {
     @Published var symptoms: [SymptomModel] = []
     var selfReports: [ReviewReportModel] = []
     
-    var healthKitService: HealthKitService
     var reportingDatabaseService: ReportingDatabaseService
     
     var symptomsCurrentCycle : [SymptomModel] = []
@@ -24,137 +23,66 @@ class DiscoverViewModel: ObservableObject {
     var combinedDataModelCurrent : CombinedDataModel
     var combinedDataModelLast : CombinedDataModel
     var combinedDataModelSecondToLast : CombinedDataModel
-    
+    var availableCycles : Int = 0
+     
     var relevantDataClass : RelevantData
     var menstruationRanges : MenstruationRanges
     
-    var availableCycles = 0
-    
-    let verbose = true
-
-    
 
     init() {
-        healthKitService = HealthKitService()
         reportingDatabaseService =  ReportingDatabaseService()
         
         combinedDataModelCurrent = CombinedDataModel()
         combinedDataModelLast = CombinedDataModel()
         combinedDataModelSecondToLast = CombinedDataModel()
         
-        
         relevantDataClass = RelevantData()
         menstruationRanges = MenstruationRanges()
         
-        Task {
-            await self.updateSymptoms()
+        Task{
+            await updateSymptoms()
         }
     }
-    
-    func loadCyMeSelfReports() async {
-        
-    }
-    
     
     
     func updateSymptoms (currentCycle : Bool = true) async {
         
-        if self.verbose{
-            let combinedDataModel = self.combinedDataModelCurrent
-            print(combinedDataModel)
-            
-            print(" Period")
-            for period in combinedDataModel.periodDataList { period.print() }
-            
-            print("\n Headache")
-            for data in combinedDataModel.headacheDataList { data.print() }
-            
-            print("\n Abdominal Cramps")
-            for data in combinedDataModel.abdominalCrampsDataList { data.print() }
-            
-            print("\n Lower Back Pain")
-            for data in combinedDataModel.lowerBackPainDataList { data.print() }
-            
-            print("\n Pelvic Pain")
-            for data in combinedDataModel.pelvicPainDataList { data.print() }
-            
-            print("\n Acne")
-            for data in combinedDataModel.acneDataList { data.print() }
-            
-            print("\n Chest Tightness or Pain")
-            for data in combinedDataModel.chestTightnessOrPainDataList { data.print() }
-            
-            print("\n Appetite Change")
-            for data in combinedDataModel.appetiteChangeDataList { data.print() }
-            
-            print("\n Sleep Length")
-            for date in combinedDataModel.sleepLengthDataList.keys.sorted() {
-                print(DateFormatter.localizedString(from: date, dateStyle: .short, timeStyle: .none), SleepDataModel.formatDuration(duration: Double(combinedDataModel.sleepLengthDataList[date]!))) }
-            
-            print("\n Exercise Time")
-            displayDateDictionary(dict: combinedDataModel.exerciseTimeDataList)
-            
-            print("\n Step Count")
-            displayDateDictionary(dict: combinedDataModel.stepCountDataList)
-            
-            print("\n Sleep Quality")
-            for data in combinedDataModel.sleepQualityDataList { data.print() }
-            
-            print("\n Mood")
-            for data in combinedDataModel.moodDataList { data.print() }
-            
-            print("\n Stress")
-            for data in combinedDataModel.stressDataList { data.print() }
-        }
+        //await menstruationRanges.getLastPeriodDates()
+        //await relevantDataClass.getRelevantDataLists()
         
+        let fillCombinedDataModel = await fillCombinedDataModel(menstruationRanges: menstruationRanges, relevantData: relevantDataClass)
+            
+        combinedDataModelCurrent = fillCombinedDataModel.combinedDataDict[.current]!
+        combinedDataModelLast = fillCombinedDataModel.combinedDataDict[.last]!
+        combinedDataModelSecondToLast = fillCombinedDataModel.combinedDataDict[.secondToLast]!
         
-        combinedDataModelCurrent = CombinedDataModel()
-        combinedDataModelLast = CombinedDataModel()
-        combinedDataModelSecondToLast = CombinedDataModel()
-        await relevantDataClass.getRelevantDataLists()
+        selfReports = fillCombinedDataModel.selfReports
+        availableCycles = fillCombinedDataModel.availableCycles
         
-        
-        await menstruationRanges.getLastPeriodDates()
-        if menstruationRanges.currentDateRange.count == 0 {
-            return // There is no period date to be detected
-        }
-        
-        if(menstruationRanges.currentDateRange.count > 0){
-            await getCombinedDataModel(dateRange: menstruationRanges.currentDateRange, label: .current)
-            availableCycles = 1
-        }
-        
-        if(menstruationRanges.lastFullCycleDateRange.count > 0){
-            await getCombinedDataModel(dateRange: menstruationRanges.lastFullCycleDateRange, label: .last)
-            availableCycles = 2
-        }
-        
-        if(menstruationRanges.secondToLastFullCycleDateRange.count > 0){
-            await getCombinedDataModel(dateRange: menstruationRanges.secondToLastFullCycleDateRange, label: .secondToLast)
-            availableCycles = 3
-        }
         
         if availableCycles >= 1 {
-            symptomsCurrentCycle = buildSymptomModels(relevantDataList : relevantDataClass.relevantForDisplay, dateRange: menstruationRanges.currentDateRange, combinedDataModel : combinedDataModelCurrent)
-        }
-        else {
-            symptomsCurrentCycle = []
-        }
+                    symptomsCurrentCycle = buildSymptomModels(relevantDataList : relevantDataClass.relevantForDisplay, dateRange: menstruationRanges.currentDateRange, combinedDataModel : combinedDataModelCurrent)
+                }
+                else {
+                    symptomsCurrentCycle = []
+                }
+                
+                if availableCycles >= 2 {
+                    symptomsLastFullCycle = buildSymptomModels(relevantDataList : relevantDataClass.relevantForDisplay, dateRange: menstruationRanges.lastFullCycleDateRange, combinedDataModel : combinedDataModelLast)
+                }
+                else {
+                    symptomsLastFullCycle = []
+                }
+                if availableCycles >= 3 {
+                    symptomsSecondToLastFullCycle = buildSymptomModels(relevantDataList : relevantDataClass.relevantForDisplay, dateRange: menstruationRanges.secondToLastFullCycleDateRange, combinedDataModel : combinedDataModelSecondToLast)
+                }
+                else{
+                    symptomsSecondToLastFullCycle = []
+                }
         
-        if availableCycles >= 2 {
-            symptomsLastFullCycle = buildSymptomModels(relevantDataList : relevantDataClass.relevantForDisplay, dateRange: menstruationRanges.lastFullCycleDateRange, combinedDataModel : combinedDataModelLast)
-        }
-        else {
-            symptomsLastFullCycle = []
-        }
-        if availableCycles >= 3 {
-            symptomsSecondToLastFullCycle = buildSymptomModels(relevantDataList : relevantDataClass.relevantForDisplay, dateRange: menstruationRanges.secondToLastFullCycleDateRange, combinedDataModel : combinedDataModelSecondToLast)
-        }
-        else{
-            symptomsSecondToLastFullCycle = []
-        }
-        
+        // Refactor from here
         DispatchQueue.main.async {
+            print("Hi")
             if currentCycle{
                 self.symptoms = self.symptomsCurrentCycle
             }
@@ -162,188 +90,7 @@ class DiscoverViewModel: ObservableObject {
                 self.symptoms = self.symptomsLastFullCycle
             }
         }
-        
     }
-    
-    
-    func getCombinedDataModel(dateRange : [Date], label: cycleTimeOptions) async  {
-        
-        var combinedDataModelToReturn = CombinedDataModel()
-        
-        let startDate = dateRange[0]
-        let endDate = dateRange[dateRange.count-1]
-        
-        await fetchRelevantAppleHealthData(relevantDataList : relevantDataClass.relevantForAppleHealth, startDate: startDate, endDate: endDate, combinedDataModel: &combinedDataModelToReturn)
-        
-        if label == .current{
-            self.combinedDataModelCurrent = combinedDataModelToReturn
-            let cyMeModel = await fetchRelevantCyMeData(startDate: startDate, endDate: endDate, timeRange: label)
-            self.combinedDataModelCurrent.append(otherModel: cyMeModel)
-        }
-        if label == .last{
-            self.combinedDataModelLast = combinedDataModelToReturn
-            let cyMeModel = await fetchRelevantCyMeData(startDate: startDate, endDate: endDate, timeRange: label)
-            self.combinedDataModelLast.append(otherModel: cyMeModel)
-            
-        }
-        if label == .secondToLast{
-            self.combinedDataModelSecondToLast = combinedDataModelToReturn
-            let cyMeModel = await fetchRelevantCyMeData(startDate: startDate, endDate: endDate, timeRange: label)
-            self.combinedDataModelSecondToLast.append(otherModel: cyMeModel)
-        }
-    }
-    
-   
-    
-    func fetchRelevantCyMeData(startDate: Date, endDate: Date, timeRange: cycleTimeOptions) async -> CombinedDataModel  { // Gets the desired data and stores them in class variables
-        
-        let periodLabelToValue = ["Mild" : 2, "Moderate" : 3, "Severe" : 4, "No" : 5 ]
-        let selfreportedLabelToIntensity = ["Mild" : 2, "Moderate" : 3, "Severe" : 4, "No" : 1 ]
-        let appetiteLabelToIntensity = ["No" : 1, "Less" : 2, "More" :3]
-        
-        var combinedDataModel : CombinedDataModel
-        
-        if timeRange == .current{
-            combinedDataModel = self.combinedDataModelCurrent
-        }
-        else if timeRange == .last{
-            combinedDataModel = self.combinedDataModelLast
-        }
-        else if timeRange == .secondToLast{
-            combinedDataModel = self.combinedDataModelSecondToLast
-        }
-        else{
-            print("Daterange is not defined", timeRange)
-            return CombinedDataModel()
-        }
- 
-        return await withCheckedContinuation { continuation in
-            DispatchQueue.main.async {
-                let reports = self.reportingDatabaseService.getReports(from: startDate, to: endDate)
-                    for report in reports {
-                        self.selfReports.append(report)
-                        let startDate : Date = report.startTime
-                        
-                        if let menstruationDate = report.menstruationDate{
-                            combinedDataModel.periodDataList.append(PeriodSampleModel(startdate: startDate, value: periodLabelToValue[menstruationDate]!, startofPeriod: -1))
-                        }
-                        
-                        if let headache = report.headache{
-                            combinedDataModel.headacheDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[headache]!))
-                        }
-                        
-                        if let abdominalCramps = report.abdominalCramps {
-                            combinedDataModel.abdominalCrampsDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[abdominalCramps]!))
-                        }
-                        
-                        if let lowerBackPain = report.lowerBackPain {
-                            combinedDataModel.lowerBackPainDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[lowerBackPain]!))
-                        }
-                        
-                        if let pelvicPain = report.pelvicPain   {
-                            combinedDataModel.pelvicPainDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[pelvicPain]!))
-                        }
-                        
-                        if let acne = report.acne   {
-                            combinedDataModel.acneDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[acne]!))
-                        }
-                        
-                        if let chestPain = report.chestPain   {
-                            combinedDataModel.chestTightnessOrPainDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[chestPain]!))
-                        }
-                        
-                        if let appetiteChanges = report.appetiteChanges   {
-                            combinedDataModel.appetiteChangeDataList.append(AppetiteChangeModel(startdate: startDate, intensity: appetiteLabelToIntensity[appetiteChanges]!))
-                        }
-                        
-                        if let sleepQuality = report.sleepQuality {
-                            combinedDataModel.sleepQualityDataList.append(CyMeSefReportModel(startdate: startDate, label: sleepQuality))
-                        }
-                        
-                        if let stress = report.stress {
-                            combinedDataModel.stressDataList.append(CyMeSefReportModel(startdate: startDate, label: stress))
-                        }
-                        
-                        if let mood = report.mood {
-                            combinedDataModel.moodDataList.append(CyMeSefReportModel(startdate: startDate, label: mood))
-                        }
-                        
-                        if let sleepLenght = report.sleepLenght {
-                            let sleepLengthInMinutes = getTimeRepresentationFromString(timeString : sleepLenght)
-                            if sleepLengthInMinutes != -1 {
-                                let dateComponents = Calendar.current.dateComponents([.day, .month, .year], from: startDate)
-                                let noonOfSelfreportDate = Calendar.current.date(from: DateComponents(year: dateComponents.year, month: dateComponents.month, day: dateComponents.day, hour: 12, minute: 00, second: 00))!
-                                let nightDate = Calendar.current.date(byAdding: .hour, value: -24, to: noonOfSelfreportDate)!
-                                combinedDataModel.sleepLengthDataList[nightDate] = sleepLengthInMinutes*60 // We consider seconds
-                                // We give priority to internal data
-                            }
-                        }
-                    }
-                continuation.resume(returning: combinedDataModel)
-            }
-        }
-        
-        }
-
-    func fetchRelevantAppleHealthData(relevantDataList : [availableHealthMetrics], startDate: Date, endDate: Date, combinedDataModel : inout CombinedDataModel) async { // Gets the desired data and stores them in class variables
-        
-        do { combinedDataModel.periodDataList  = try await healthKitService.fetchPeriodData(startDate : startDate, endDate : endDate) }
-        catch { print("Error: \(error)") }
-        
-        
-        if relevantDataList.contains(.headache){
-            do { combinedDataModel.headacheDataList = try await healthKitService.fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.headache, startDate: startDate, endDate: endDate) }
-            catch { print("Error: \(error)") }
-        }
-        
-        if relevantDataList.contains(.abdominalCramps){
-            do { combinedDataModel.abdominalCrampsDataList = try await healthKitService.fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.abdominalCramps, startDate: startDate, endDate: endDate) }
-            catch { print("Error: \(error)") }
-        }
-        
-        if relevantDataList.contains(.lowerBackPain){
-            do { combinedDataModel.lowerBackPainDataList = try await healthKitService.fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.lowerBackPain, startDate: startDate, endDate: endDate) }
-            catch { print("Error: \(error)") }
-        }
-        if relevantDataList.contains(.pelvicPain){
-            do { combinedDataModel.pelvicPainDataList = try await healthKitService.fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.pelvicPain, startDate: startDate, endDate: endDate) }
-            catch { print("Error: \(error)") }
-        }
-        
-        if relevantDataList.contains(.acne){
-            do { combinedDataModel.acneDataList = try await healthKitService.fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.acne, startDate: startDate, endDate: endDate) }
-            catch { print("Error: \(error)") }
-        }
-        
-        if relevantDataList.contains(.chestTightnessOrPain){
-            do { combinedDataModel.chestTightnessOrPainDataList = try await healthKitService.fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.chestTightnessOrPain, startDate: startDate, endDate: endDate) }
-            catch { print("Error: \(error)") }
-        }
-        
-        if relevantDataList.contains(.appetiteChange){
-            do { combinedDataModel.appetiteChangeDataList = try await healthKitService.fetchAppetiteChanges(startDate: startDate, endDate: endDate) }
-            catch { print("Error: \(error)") }
-        }
-        
-        if relevantDataList.contains(.sleepLength){
-            var sleepDetailList : [SleepDataModel] = []
-            do { sleepDetailList = try await healthKitService.fetchSleepData(startDate: startDate, endDate: endDate)}
-            catch { print("Error: \(error)") }
-            combinedDataModel.sleepLengthDataList = healthKitService.simplifySleepDataToSleepLength(sleepDataModel: sleepDetailList)
-        }
-        
-        if relevantDataList.contains(.exerciseTime){
-            do { combinedDataModel.exerciseTimeDataList = try await healthKitService.fetchCollectedQuantityData(startDate: startDate, endDate: endDate, dataName: HKQuantityTypeIdentifier.appleExerciseTime) }
-            catch { print("Error: \(error)") }
-            
-        }
-        
-        if relevantDataList.contains(.stepCount){
-            do { combinedDataModel.stepCountDataList = try await healthKitService.fetchCollectedQuantityData(startDate: startDate, endDate: endDate, dataName: HKQuantityTypeIdentifier.stepCount) }
-            catch { print("Error: \(error)") }
-        }
-    }
-    
     
     func buildSingleSymptomModel (title: String, symptomList : [DataProtocoll], dateRange : [Date], appetiteChange : Bool = false, statistics : [String], covarianceAndList : (Float, [[Int?]])) -> SymptomModel {
         let cycleOverview : [Int?] =  buildSymptomGraphArray(symptomList: symptomList, dateRange: dateRange, appetiteChange: appetiteChange)

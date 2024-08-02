@@ -28,7 +28,7 @@ struct CyMeSefReportModel : DataProtocoll {
         }
     
     func print() {
-        let formatedDate = DateFormatter.localizedString(from: startdate, dateStyle: .short, timeStyle: .short)
+        let formatedDate = DateFormatter.localizedString(from: startdate, dateStyle: .short, timeStyle: .medium)
         Swift.print("(\(formatedDate), \(label), Symptom present: \(symptomPresent))")
     }
 

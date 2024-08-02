@@ -102,7 +102,7 @@ struct DiscoverView: View {
             Logger.shared.log("Discover view is shown")
             Task{
                 viewModel.selfReports.removeAll()
-                await viewModel.updateSymptoms()
+                //await viewModel.updateSymptoms()
                 selectedSymptom = viewModel.symptoms.first
             }
             selectedCycleOption = 1

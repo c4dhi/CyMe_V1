@@ -70,11 +70,11 @@ class HealthKitService {
         }
     }
     
-    func updateSyncList() async{
+    func updateSyncList() async {
         await relevantDataObject.getRelevantDataLists()
     }
    
-    func writeSamplesToAppleHealth(selfReports: [SymptomSelfReportModel]){
+    func writeSamplesToAppleHealth(selfReports: [SymptomSelfReportModel], startTime : Date){
         Task{
             let syncList = relevantDataObject.relevantForAppleHealth
             let symptomCyMeLabelToAppleLabel = ["No": 1, "Mild": 2, "Moderate": 3 , "Severe": 4]
@@ -83,7 +83,7 @@ class HealthKitService {
             
             
             for selfReport in selfReports {
-                
+            
                 if selfReport.healthDataName == "menstruationDate"{
                     if selfReport.reportedValue != nil{
                         if syncList.contains(.menstrualBleeding){
@@ -109,8 +109,8 @@ class HealthKitService {
                             let menstrualFlowSample = HKCategorySample(
                                 type: dataType,
                                 value: value,
-                                start: Date(),
-                                end: Date(),
+                                start: startTime,
+                                end: startTime,
                                 metadata: metadata
                             )
                             
@@ -129,7 +129,7 @@ class HealthKitService {
                         if syncList.contains(.headache){
                             let dataNameIdentifier : HKCategoryTypeIdentifier = .headache
                             let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
-                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value, startTime: startTime)
                         }
                     }
                 }
@@ -139,7 +139,7 @@ class HealthKitService {
                         if syncList.contains(.abdominalCramps){
                             let dataNameIdentifier : HKCategoryTypeIdentifier = .abdominalCramps
                             let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
-                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value, startTime: startTime)
                         }
                     }
                 }
@@ -149,7 +149,7 @@ class HealthKitService {
                         if syncList.contains(.lowerBackPain){
                             let dataNameIdentifier : HKCategoryTypeIdentifier = .lowerBackPain
                             let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
-                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value, startTime: startTime)
                         }
                     }
                 }
@@ -159,7 +159,7 @@ class HealthKitService {
                         if syncList.contains(.pelvicPain){
                             let dataNameIdentifier : HKCategoryTypeIdentifier = .pelvicPain
                             let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
-                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value, startTime: startTime)
                         }
                     }
                 }
@@ -169,7 +169,7 @@ class HealthKitService {
                         if syncList.contains(.acne){
                             let dataNameIdentifier : HKCategoryTypeIdentifier = .acne
                             let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
-                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value, startTime: startTime)
                         }
                     }
                 }
@@ -179,7 +179,7 @@ class HealthKitService {
                         if syncList.contains(.appetiteChange){
                             let dataNameIdentifier : HKCategoryTypeIdentifier = .appetiteChanges
                             let value =  appetiteChangeCyMeToAppleLabel[selfReport.reportedValue!]!
-                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value, startTime: startTime)
                         }
                     }
                 }
@@ -189,7 +189,7 @@ class HealthKitService {
                         if syncList.contains(.chestTightnessOrPain){
                             let dataNameIdentifier : HKCategoryTypeIdentifier = .chestTightnessOrPain
                             let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
-                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value, startTime: startTime)
                         }
                     }
                 }
@@ -199,12 +199,12 @@ class HealthKitService {
     
     
     
-    func writeSelfreportedSample(dataName: HKCategoryTypeIdentifier, value : Int){
+    func writeSelfreportedSample(dataName: HKCategoryTypeIdentifier, value : Int, startTime : Date){
         guard let dataType = HKObjectType.categoryType(forIdentifier: dataName) else {
             print("Data type of name (\(dataName) not available")
             return
         }
-        let selfreportedSample = HKCategorySample(type: dataType, value: value, start: Date(), end: Date())
+        let selfreportedSample = HKCategorySample(type: dataType, value: value, start: startTime, end: startTime)
         
         
         healthStore.save(selfreportedSample) { (success, error) in

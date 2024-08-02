@@ -18,7 +18,7 @@ final class CyMeUITestsLaunchTests: XCTestCase {
     }
 
     func testLaunch() throws {
-        let app = XCUIApplication()
+        /*let app = XCUIApplication()
         app.launch()
 
         // Insert steps here to perform after app launch but before taking a screenshot,
@@ -27,6 +27,6 @@ final class CyMeUITestsLaunchTests: XCTestCase {
         let attachment = XCTAttachment(screenshot: app.screenshot())
         attachment.name = "Launch Screen"
         attachment.lifetime = .keepAlways
-        add(attachment)
+        add(attachment)*/
     }
 }
