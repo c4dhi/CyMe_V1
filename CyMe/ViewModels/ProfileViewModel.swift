@@ -21,6 +21,7 @@ class ProfileViewModel: ObservableObject {
     }
 
     func saveUser() {
+        Logger.shared.log("Following profile is saved: \(user)")
         UserDefaults.standard.set(user.name, forKey: "name")
         DatabaseService.shared.userDatabaseService.saveUser(user: user)
     }

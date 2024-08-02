@@ -85,6 +85,7 @@ struct HomeView: View {
                 .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
                 .padding(.horizontal)
                 .onAppear {
+                    Logger.shared.log("Home view is shown")
                     homeViewModel.fetchReports()
                 }
                

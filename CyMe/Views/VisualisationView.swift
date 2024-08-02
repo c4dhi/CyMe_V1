@@ -55,6 +55,7 @@ struct VisualisationView: View {
         }
         .padding()
         .onAppear {
+            Logger.shared.log("Visualisation view is shown")
             Task{
                 await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1))
                 selectedSymptoms = Set(viewModel.symptoms)

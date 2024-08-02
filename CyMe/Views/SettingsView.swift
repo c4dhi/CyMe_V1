@@ -28,6 +28,9 @@ struct SettingsView: View {
                 PersonalizationThemeView(nextPage: goToNextPage, settingsViewModel: settingsViewModel)
             }
         }
+        .onAppear {
+            Logger.shared.log("Settings view is shown")
+        }
         .onChange(of: currentPageIndex) { newValue in
             if newValue >= 4 {
                 isPresented = false

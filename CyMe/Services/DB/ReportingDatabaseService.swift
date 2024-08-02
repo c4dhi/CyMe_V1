@@ -50,6 +50,7 @@ class ReportingDatabaseService {
     }
     
     func saveReporting(report: SelfReportModel) -> Bool {
+        Logger.shared.log("Following self-report will be saved: \(report)")
         let insertQuery = """
             INSERT INTO reports (
                 timeStarted,

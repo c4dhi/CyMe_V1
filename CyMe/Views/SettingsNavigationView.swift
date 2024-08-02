@@ -60,6 +60,7 @@ struct SettingsNavigationView: View {
             }
 
             Button("Download CyMe data") {
+                Logger.shared.log("User is downloading the user data")
                 downloadDatabaseFile()
             }
             .foregroundColor(.blue)
