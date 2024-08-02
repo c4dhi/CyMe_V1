@@ -294,6 +294,7 @@ class HealthKitService {
              print("Sleep Analysis type not available")
              return []
          }
+        let startDate = Calendar.current.date(byAdding: .hour, value: -12, to: startDate)!
             
         return try await withCheckedThrowingContinuation { continuation in
             let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: [.strictStartDate, .strictEndDate])
@@ -352,6 +353,10 @@ class HealthKitService {
         for key in sleepLengthDict.keys{
             sleepLengthDictInt[key] = Int(sleepLengthDict[key]!)
         }
+    
+        sleepLengthDictInt.removeValue(forKey: sleepLengthDictInt.keys.sorted()[0])
+        sleepLengthDictInt.removeValue(forKey: sleepLengthDictInt.keys.sorted()[sleepLengthDictInt.keys.count - 1])
+        
         return sleepLengthDictInt
     }
         

@@ -56,7 +56,11 @@ class fillCombinedDataModel {
         var combinedDataModelToReturn = CombinedDataModel()
         
         let startDate = dateRange[0]
-        let endDate = dateRange[dateRange.count-1]
+        var endDate = dateRange[dateRange.count-1]
+        
+        if endDate > Date(){
+            endDate = Date()
+        }
         
         let appleHealthData = await fetchRelevantAppleHealthData(startDate: startDate, endDate: endDate)
         let cyMeHealthData = await fetchRelevantCyMeData(startDate: startDate, endDate: endDate)
@@ -194,64 +198,89 @@ class fillCombinedDataModel {
         
         return await withCheckedContinuation { continuation in
             DispatchQueue.main.async {
+                let relevantDataList = self.relevantData.relevantForCyMeSelfReport
                 let reports = self.reportingDatabaseService.getReports(from: startDate, to: endDate)
                 for report in reports {
                     self.selfReports.append(report)
                     
                     let startDate : Date = report.startTime
                     
-                    if let menstruationDate = report.menstruationDate{
-                        combinedDataModelToReturn.periodDataList.append(PeriodSampleModel(startdate: startDate, value: periodLabelToValue[menstruationDate]!, startofPeriod: -1)) // Here the startOfPeriod label is not considered or important
+                    if relevantDataList.contains(.menstrualStart){
+                        if let menstruationDate = report.menstruationDate{
+                            combinedDataModelToReturn.periodDataList.append(PeriodSampleModel(startdate: startDate, value: periodLabelToValue[menstruationDate]!, startofPeriod: -1)) // Here the startOfPeriod label is not considered or important
+                        }
                     }
                     
-                    if let headache = report.headache{
-                        combinedDataModelToReturn.headacheDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[headache]!))
+                    if relevantDataList.contains(.headache){
+                        if let headache = report.headache{
+                            combinedDataModelToReturn.headacheDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[headache]!))
+                        }
                     }
                     
-                    if let abdominalCramps = report.abdominalCramps {
-                        combinedDataModelToReturn.abdominalCrampsDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[abdominalCramps]!))
+                    if relevantDataList.contains(.abdominalCramps){
+                        if let abdominalCramps = report.abdominalCramps {
+                            combinedDataModelToReturn.abdominalCrampsDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[abdominalCramps]!))
+                        }
                     }
                     
-                    if let lowerBackPain = report.lowerBackPain {
-                        combinedDataModelToReturn.lowerBackPainDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[lowerBackPain]!))
+                    if relevantDataList.contains(.lowerBackPain){
+                        if let lowerBackPain = report.lowerBackPain {
+                            combinedDataModelToReturn.lowerBackPainDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[lowerBackPain]!))
+                        }
                     }
                     
-                    if let pelvicPain = report.pelvicPain   {
-                        combinedDataModelToReturn.pelvicPainDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[pelvicPain]!))
+                    if relevantDataList.contains(.pelvicPain){
+                        if let pelvicPain = report.pelvicPain   {
+                            combinedDataModelToReturn.pelvicPainDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[pelvicPain]!))
+                        }
                     }
                     
-                    if let acne = report.acne   {
-                        combinedDataModelToReturn.acneDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[acne]!))
+                    if relevantDataList.contains(.acne){
+                        if let acne = report.acne   {
+                            combinedDataModelToReturn.acneDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[acne]!))
+                        }
                     }
                     
-                    if let chestPain = report.chestPain   {
-                        combinedDataModelToReturn.chestTightnessOrPainDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[chestPain]!))
+                    if relevantDataList.contains(.chestTightnessOrPain){
+                        if let chestPain = report.chestPain   {
+                            combinedDataModelToReturn.chestTightnessOrPainDataList.append(AppleHealthSefReportModel(startdate: startDate, intensity: selfreportedLabelToIntensity[chestPain]!))
+                        }
                     }
                     
-                    if let appetiteChanges = report.appetiteChanges   {
-                        combinedDataModelToReturn.appetiteChangeDataList.append(AppetiteChangeModel(startdate: startDate, intensity: appetiteLabelToIntensity[appetiteChanges]!))
+                    if relevantDataList.contains(.appetiteChange){
+                        if let appetiteChanges = report.appetiteChanges   {
+                            combinedDataModelToReturn.appetiteChangeDataList.append(AppetiteChangeModel(startdate: startDate, intensity: appetiteLabelToIntensity[appetiteChanges]!))
+                        }
                     }
                     
-                    if let sleepQuality = report.sleepQuality {
-                        combinedDataModelToReturn.sleepQualityDataList.append(CyMeSefReportModel(startdate: startDate, label: sleepQuality))
+                    if relevantDataList.contains(.sleepQuality){
+                        if let sleepQuality = report.sleepQuality {
+                            combinedDataModelToReturn.sleepQualityDataList.append(CyMeSefReportModel(startdate: startDate, label: sleepQuality))
+                        }
                     }
                     
-                    if let stress = report.stress {
-                        combinedDataModelToReturn.stressDataList.append(CyMeSefReportModel(startdate: startDate, label: stress))
+                    if relevantDataList.contains(.stress){
+                        if let stress = report.stress {
+                            combinedDataModelToReturn.stressDataList.append(CyMeSefReportModel(startdate: startDate, label: stress))
+                        }
                     }
                     
-                    if let mood = report.mood {
-                        combinedDataModelToReturn.moodDataList.append(CyMeSefReportModel(startdate: startDate, label: mood))
+                    if relevantDataList.contains(.mood){
+                        if let mood = report.mood {
+                            combinedDataModelToReturn.moodDataList.append(CyMeSefReportModel(startdate: startDate, label: mood))
+                        }
                     }
                     
-                    if let sleepLenght = report.sleepLenght {
-                        let sleepLengthInMinutes = getTimeRepresentationFromString(timeString : sleepLenght)
-                        if sleepLengthInMinutes != -1 {
-                            let dateComponents = Calendar.current.dateComponents([.day, .month, .year], from: startDate)
-                            let noonOfSelfreportDate = Calendar.current.date(from: DateComponents(year: dateComponents.year, month: dateComponents.month, day: dateComponents.day, hour: 12, minute: 00, second: 00))!
-                            let nightDate = Calendar.current.date(byAdding: .hour, value: -24, to: noonOfSelfreportDate)!
-                            combinedDataModelToReturn.sleepLengthDataList[nightDate] = sleepLengthInMinutes*60 // We consider seconds
-                            // We give priority to internal data
+                    if relevantDataList.contains(.sleepLength){
+                        if let sleepLenght = report.sleepLenght {
+                            let sleepLengthInMinutes = getTimeRepresentationFromString(timeString : sleepLenght)
+                            if sleepLengthInMinutes != -1 {
+                                let dateComponents = Calendar.current.dateComponents([.day, .month, .year], from: startDate)
+                                let noonOfSelfreportDate = Calendar.current.date(from: DateComponents(year: dateComponents.year, month: dateComponents.month, day: dateComponents.day, hour: 12, minute: 00, second: 00))!
+                                let nightDate = Calendar.current.date(byAdding: .hour, value: -24, to: noonOfSelfreportDate)!
+                                combinedDataModelToReturn.sleepLengthDataList[nightDate] = sleepLengthInMinutes*60 // We consider seconds
+                                // We give priority to internal data
+                            }
                         }
                     }
                 }

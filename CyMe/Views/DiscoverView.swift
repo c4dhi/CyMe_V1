@@ -101,8 +101,7 @@ struct DiscoverView: View {
         .onAppear {
             Logger.shared.log("Discover view is shown")
             Task{
-                viewModel.selfReports.removeAll()
-                //await viewModel.updateSymptoms()
+                await viewModel.updateSymptoms()
                 selectedSymptom = viewModel.symptoms.first
             }
             selectedCycleOption = 1
@@ -110,7 +109,6 @@ struct DiscoverView: View {
         .onChange(of: selectedCycleOption){ newValue in
             let rememberSelectedSymptom = selectedSymptom?.title
             Task{
-                viewModel.selfReports.removeAll()
                 await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1))
                 
                 for symptom in viewModel.symptoms{

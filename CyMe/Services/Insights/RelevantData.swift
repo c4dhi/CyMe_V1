@@ -34,45 +34,32 @@ class RelevantData {
     
     
     func getRelevantDataLists() async {
-        
         relevantForDisplay  = []
         relevantForAppleHealth  = []
         relevantForCyMeSelfReport = []
         
-        /*guard let healthDataSettings = await self.settingsDatabaseService.getSettings()?.healthDataSettings else {
-         print("Relevant Data Settings not available")
-         return
-         }
-         
-         for setting in healthDataSettings {
-         if(setting.enableDataSync){
-         self.relevantForAppleHealth.append(self.dBtoAvailableHealthMetrics[setting.name]!)
-         }
-         if(setting.enableSelfReportingCyMe){
-         self.relevantForCyMeSelfReport.append(self.dBtoAvailableHealthMetrics[setting.name]!)
-         }
-         if(setting.enableSelfReportingCyMe) || (setting.enableDataSync){
-         self.relevantForDisplay.append(self.dBtoAvailableHealthMetrics[setting.name]!)
-         }
-         }
-         }*/
+        let healthDataSettings = await getSettingLists()
         
-        DispatchQueue.main.async {
-            let healthDataSettings = self.settingsDatabaseService.getSettings()?.healthDataSettings
-            
-            for setting in healthDataSettings! {
-                if(setting.enableDataSync){
-                    self.relevantForAppleHealth.append(self.dBtoAvailableHealthMetrics[setting.name]!)
-                }
-                if(setting.enableSelfReportingCyMe){
-                    self.relevantForCyMeSelfReport.append(self.dBtoAvailableHealthMetrics[setting.name]!)
-                }
-                if(setting.enableSelfReportingCyMe) || (setting.enableDataSync){
-                    self.relevantForDisplay.append(self.dBtoAvailableHealthMetrics[setting.name]!)
-                }
+        for setting in healthDataSettings {
+            if(setting.enableDataSync){
+                self.relevantForAppleHealth.append(self.dBtoAvailableHealthMetrics[setting.name]!)
+            }
+            if(setting.enableSelfReportingCyMe){
+                self.relevantForCyMeSelfReport.append(self.dBtoAvailableHealthMetrics[setting.name]!)
+            }
+            if(setting.enableSelfReportingCyMe) || (setting.enableDataSync){
+                self.relevantForDisplay.append(self.dBtoAvailableHealthMetrics[setting.name]!)
             }
         }
     }
-    
-    
+        
+        
+    func getSettingLists() async -> [HealthDataSettingsModel]  {
+        return await withCheckedContinuation { continuation in
+            DispatchQueue.main.async {
+                let healthDataSettings = self.settingsDatabaseService.getSettings()?.healthDataSettings
+                continuation.resume(returning: healthDataSettings!)
+            }
+        }
+    }
 }
