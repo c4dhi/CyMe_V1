@@ -116,6 +116,9 @@
 		5065837E2C5B7EB30058E4AD /* RelevantDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5065837D2C5B7EB30058E4AD /* RelevantDataTests.swift */; };
 		506583802C5B88CE0058E4AD /* MenstrualRangesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5065837F2C5B88CE0058E4AD /* MenstrualRangesTests.swift */; };
 		506583822C5BB9E70058E4AD /* fillCombinedDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506583812C5BB9E70058E4AD /* fillCombinedDataModel.swift */; };
+		506583882C5D07BD0058E4AD /* BuildCollectedSymptoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506583872C5D07BD0058E4AD /* BuildCollectedSymptoms.swift */; };
+		5065838A2C5D1E780058E4AD /* BuildAHSelfReportedSymptoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506583892C5D1E780058E4AD /* BuildAHSelfReportedSymptoms.swift */; };
+		5065838C2C5D23E60058E4AD /* BuildCMSelfReportedSymptoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5065838B2C5D23E60058E4AD /* BuildCMSelfReportedSymptoms.swift */; };
 		507845402C36F0D900B8D019 /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 5078453F2C36F0D900B8D019 /* SigmaSwiftStatistics */; };
 		50966ECF2C342715006BBE84 /* CyMeSelfreportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50966ECE2C342715006BBE84 /* CyMeSelfreportModel.swift */; };
 		50E115312C072ECF002C1333 /* SleepDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E115302C072ECF002C1333 /* SleepDataModel.swift */; };
@@ -324,6 +327,9 @@
 		5065837D2C5B7EB30058E4AD /* RelevantDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelevantDataTests.swift; sourceTree = "<group>"; };
 		5065837F2C5B88CE0058E4AD /* MenstrualRangesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenstrualRangesTests.swift; sourceTree = "<group>"; };
 		506583812C5BB9E70058E4AD /* fillCombinedDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = fillCombinedDataModel.swift; path = CyMe/Services/Insights/fillCombinedDataModel.swift; sourceTree = SOURCE_ROOT; };
+		506583872C5D07BD0058E4AD /* BuildCollectedSymptoms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildCollectedSymptoms.swift; sourceTree = "<group>"; };
+		506583892C5D1E780058E4AD /* BuildAHSelfReportedSymptoms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildAHSelfReportedSymptoms.swift; sourceTree = "<group>"; };
+		5065838B2C5D23E60058E4AD /* BuildCMSelfReportedSymptoms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildCMSelfReportedSymptoms.swift; sourceTree = "<group>"; };
 		50966ECE2C342715006BBE84 /* CyMeSelfreportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyMeSelfreportModel.swift; sourceTree = "<group>"; };
 		50D4A8CE2BFE2E2F008FDE58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		50D4A8CF2BFE3060008FDE58 /* CyMe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CyMe.entitlements; sourceTree = "<group>"; };
@@ -585,7 +591,6 @@
 			children = (
 				500D9B602C2D5BEA00B26D27 /* DiscoverViewModelComponents */,
 				4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */,
-				506583812C5BB9E70058E4AD /* fillCombinedDataModel.swift */,
 				4C5A49B32BFDEFF6008253FD /* SettingsViewModel.swift */,
 				4C5A49B92BFFD07C008253FD /* ProfileViewModel.swift */,
 				4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */,
@@ -741,7 +746,11 @@
 			children = (
 				506583762C5B70270058E4AD /* Enums_Protocolls */,
 				503481332C36B26400A49903 /* RelevantData.swift */,
+				506583812C5BB9E70058E4AD /* fillCombinedDataModel.swift */,
 				5034812F2C36AD7D00A49903 /* MenstruationRanges.swift */,
+				506583872C5D07BD0058E4AD /* BuildCollectedSymptoms.swift */,
+				506583892C5D1E780058E4AD /* BuildAHSelfReportedSymptoms.swift */,
+				5065838B2C5D23E60058E4AD /* BuildCMSelfReportedSymptoms.swift */,
 			);
 			path = Insights;
 			sourceTree = "<group>";
@@ -1095,6 +1104,7 @@
 				4CF015542BE955B300BE8DF0 /* WatchConnector.swift in Sources */,
 				4C5A49B62BFDF4A9008253FD /* ReminderModel.swift in Sources */,
 				4C5A49B22BFDEF49008253FD /* SettingsModel.swift in Sources */,
+				5065838A2C5D1E780058E4AD /* BuildAHSelfReportedSymptoms.swift in Sources */,
 				4C0897202C0E01E90042A6D1 /* SymptomGraph.swift in Sources */,
 				4C5A49BC2BFFD184008253FD /* UserModel.swift in Sources */,
 				4CC462082C44E64A006B5933 /* Logger.swift in Sources */,
@@ -1110,9 +1120,11 @@
 				4C3816902C3568960079A48B /* OverviewTable.swift in Sources */,
 				4C1A36EE2C30581B006E50D8 /* HomeViewModel.swift in Sources */,
 				4CDD2FDB2BF25023005995B5 /* OnboardingView.swift in Sources */,
+				506583882C5D07BD0058E4AD /* BuildCollectedSymptoms.swift in Sources */,
 				4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */,
 				4CFDC37F2C04F24500DD3295 /* DatabaseUtils.swift in Sources */,
 				4C1354E32BCFCE320078A84B /* HomeView.swift in Sources */,
+				5065838C2C5D23E60058E4AD /* BuildCMSelfReportedSymptoms.swift in Sources */,
 				4C3816922C3868A10079A48B /* MultiSymptomeGraph.swift in Sources */,
 				500D9B662C2D5CC900B26D27 /* StringUtils.swift in Sources */,
 				4CDF57F22C0CF8D700C7E9F6 /* PopupView.swift in Sources */,

@@ -26,6 +26,71 @@ struct CombinedDataModel  { // Holds all Data of a selected Cycle (AppleHealth a
     var moodDataList : [CyMeSefReportModel] = []
     
     
+    func getDataList (healthMetric : availableHealthMetrics) -> [DataProtocoll]{
+        if (healthMetric == .headache){
+            return headacheDataList
+        }
+        
+        if (healthMetric == .abdominalCramps){
+            return abdominalCrampsDataList
+        }
+        
+        if (healthMetric == .lowerBackPain){
+            return lowerBackPainDataList
+        }
+        
+        if (healthMetric == .pelvicPain){
+            return pelvicPainDataList
+        }
+        
+        if (healthMetric == .acne){
+            return acneDataList
+        }
+        
+        if (healthMetric == .chestTightnessOrPain){
+            return chestTightnessOrPainDataList
+        }
+        
+        if (healthMetric == .appetiteChange){
+            return appetiteChangeDataList
+        }
+        
+        if (healthMetric == .stress){
+            return stressDataList
+        }
+        
+        if (healthMetric == .sleepQuality){
+            return sleepQualityDataList
+        }
+        
+        if (healthMetric == .mood){
+            return moodDataList
+        }
+        
+        if (healthMetric == .menstrualBleeding){
+            return periodDataList
+        }
+        
+        return []
+        
+    }
+    
+    func getDataDict (healthMetric : availableHealthMetrics) -> [Date : Int]{
+        if (healthMetric == .sleepLength){
+            return sleepLengthDataList
+        }
+        
+        if (healthMetric == .exerciseTime){
+            return exerciseTimeDataList
+        }
+        
+        if (healthMetric == .stepCount){
+            return stepCountDataList
+        }
+        
+        return [:]
+    }
+    
     func reportsAreTheSame(report1: DataProtocoll, report2: DataProtocoll) -> Bool{
         // Reports are considered the same if they have the same intensity and same timestamp (less than a second apart)
         if report1.intensity == report2.intensity {
