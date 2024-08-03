@@ -143,10 +143,7 @@ struct SelfReportWatchView: View {
                 title: Text(isSubmittedSuccessfully ? "Success" : "Error"),
                 message: Text(alertMessage),
                 dismissButton: .default(Text("OK"), action: {
-                    if isSubmittedSuccessfully {
                         self.isSelfReporting = false
-                        WKExtension.shared().rootInterfaceController?.popToRootController()
-                    }
                 })
             )
         }
