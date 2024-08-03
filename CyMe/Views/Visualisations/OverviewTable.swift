@@ -92,6 +92,12 @@ struct OverviewTable: View {
                     .font(.system(size: 10))
                     .foregroundColor(.blue)
             )
+        case .amountOfMin:
+            return AnyView(
+                Text("\(intensity)m")
+                    .font(.system(size: 10))
+                    .foregroundColor(.blue)
+            )
         case .menstruationEmoticonRating:
             return AnyView(
                 Circle()

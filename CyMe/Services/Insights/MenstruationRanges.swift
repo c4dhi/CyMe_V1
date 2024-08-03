@@ -28,6 +28,17 @@ class MenstruationRanges : ObservableObject {
     
     let periodLabelToValue = ["Mild" : 2, "Moderate" : 3, "Severe" : 4, "No" : 5 ]
     
+    
+    
+    func getCyMePeriodReports(startDate : Date) async -> [ReviewReportModel]  {
+        return await withCheckedContinuation { continuation in
+            DispatchQueue.main.async {
+                let reports = self.reportingDatabaseService.getReports(from: startDate, to: Date())
+                continuation.resume(returning: reports)
+            }
+        }
+    }
+        
     func updateData() async {
         
         var periodDataListFull :[PeriodSampleModel]  = []
@@ -39,24 +50,23 @@ class MenstruationRanges : ObservableObject {
         
         periodStartDataList = periodDataListFull.filterByPeriodStart(isStart: true)
         
-        DispatchQueue.main.async {
-            let reports = self.reportingDatabaseService.getReports(from: aYearAgo, to: Date())
+        let reports = await getCyMePeriodReports(startDate: aYearAgo)
         
-            for report in reports {
-                let startDate : Date = report.startTime
+        for report in reports {
+            let startDate : Date = report.startTime
+            
+            if let menstruationDate = report.menstruationDate{
                 
-                if let menstruationDate = report.menstruationDate{
+                let menstruationStart = report.menstruationStart
+                
+                if menstruationStart == "true" {
+                    self.periodStartDataList.append(PeriodSampleModel(startdate: startDate, value: self.periodLabelToValue[menstruationDate]!, startofPeriod: 1))
                     
-                    let menstruationStart = report.menstruationStart
-                    
-                    if menstruationStart == "true" {
-                        self.periodStartDataList.append(PeriodSampleModel(startdate: startDate, value: self.periodLabelToValue[menstruationDate]!, startofPeriod: 1))
-                        
-                    }
                 }
             }
         }
     }
+
     
     func cleanDuplicates(dates: [Date]) -> [Date] {
         var uniqueDays = Set<DateComponents>()

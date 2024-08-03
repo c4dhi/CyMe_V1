@@ -112,7 +112,6 @@
 		503481342C36B26400A49903 /* RelevantData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503481332C36B26400A49903 /* RelevantData.swift */; };
 		506583782C5B70400058E4AD /* availableHealthMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506583772C5B70400058E4AD /* availableHealthMetrics.swift */; };
 		5065837A2C5B70A40058E4AD /* cycleTimeOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506583792C5B70A40058E4AD /* cycleTimeOptions.swift */; };
-		5065837C2C5B72A30058E4AD /* fillSymptomsProtocoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5065837B2C5B72A30058E4AD /* fillSymptomsProtocoll.swift */; };
 		5065837E2C5B7EB30058E4AD /* RelevantDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5065837D2C5B7EB30058E4AD /* RelevantDataTests.swift */; };
 		506583802C5B88CE0058E4AD /* MenstrualRangesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5065837F2C5B88CE0058E4AD /* MenstrualRangesTests.swift */; };
 		506583822C5BB9E70058E4AD /* fillCombinedDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506583812C5BB9E70058E4AD /* fillCombinedDataModel.swift */; };
@@ -323,7 +322,6 @@
 		503481332C36B26400A49903 /* RelevantData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelevantData.swift; sourceTree = "<group>"; };
 		506583772C5B70400058E4AD /* availableHealthMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = availableHealthMetrics.swift; sourceTree = "<group>"; };
 		506583792C5B70A40058E4AD /* cycleTimeOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cycleTimeOptions.swift; sourceTree = "<group>"; };
-		5065837B2C5B72A30058E4AD /* fillSymptomsProtocoll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fillSymptomsProtocoll.swift; sourceTree = "<group>"; };
 		5065837D2C5B7EB30058E4AD /* RelevantDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelevantDataTests.swift; sourceTree = "<group>"; };
 		5065837F2C5B88CE0058E4AD /* MenstrualRangesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenstrualRangesTests.swift; sourceTree = "<group>"; };
 		506583812C5BB9E70058E4AD /* fillCombinedDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = fillCombinedDataModel.swift; path = CyMe/Services/Insights/fillCombinedDataModel.swift; sourceTree = SOURCE_ROOT; };
@@ -760,7 +758,6 @@
 			children = (
 				506583772C5B70400058E4AD /* availableHealthMetrics.swift */,
 				506583792C5B70A40058E4AD /* cycleTimeOptions.swift */,
-				5065837B2C5B72A30058E4AD /* fillSymptomsProtocoll.swift */,
 			);
 			path = Enums_Protocolls;
 			sourceTree = "<group>";
@@ -1088,7 +1085,6 @@
 				4CF16ACA2C567C6C00DB1263 /* ReviewReportView.swift in Sources */,
 				500D9B6A2C2D943500B26D27 /* DiscoverViewStatistics.swift in Sources */,
 				4CFDC3812C072D6400DD3295 /* HealthDataSettingsModel.swift in Sources */,
-				5065837C2C5B72A30058E4AD /* fillSymptomsProtocoll.swift in Sources */,
 				4C5A49B82BFE1A79008253FD /* ThemeModel.swift in Sources */,
 				4CDD2FE12BF4F2B9005995B5 /* SelfReportView.swift in Sources */,
 				4C1A36F42C3280CB006E50D8 /* NotificationService.swift in Sources */,

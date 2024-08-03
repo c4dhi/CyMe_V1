@@ -20,8 +20,8 @@ struct CyMeSefReportModel : DataProtocoll {
         self.label = label
 
         
-        let selfreportIntensityLabels = ["Very bad" : -2, "Bad" : -1, "Neutral" : 0, "Well" : 1, "Very well" : 2]
-            
+        let selfreportIntensityLabels = ["Very bad" : 0, "Bad" : 1, "Neutral" : 2, "Well" : 3, "Very well" : 4]
+    
         self.intensity = selfreportIntensityLabels[label]!
         
         self.symptomPresent = true // Here we only record the symptoms that exist - there is no recording of a null-quality/a non-report

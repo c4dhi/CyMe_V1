@@ -15,7 +15,7 @@ class DiscoverViewModel: ObservableObject {
     
     var reportingDatabaseService: ReportingDatabaseService
 
-    var relevantDataClass : RelevantData
+    //var relevantDataClass : RelevantData
     var menstruationRanges : MenstruationRanges
     
     var combinedDataDict : [cycleTimeOptions : CombinedDataModel] = [:]
@@ -27,18 +27,17 @@ class DiscoverViewModel: ObservableObject {
 
     init() {
         reportingDatabaseService =  ReportingDatabaseService()
-        
-        relevantDataClass = RelevantData()
         menstruationRanges = MenstruationRanges()
-        
+        /*
         Task{
             await updateSymptoms()
-        }
+        }*/
     }
     
     
-    func updateSymptoms (currentCycle : Bool = true) async {
+    func updateSymptoms (currentCycle : Bool = true, settingsViewModel : SettingsViewModel) async {
         
+        let relevantDataClass = RelevantData(settingsViewModel: settingsViewModel)
         
         let fillCombinedDataModel = await fillCombinedDataModel(menstruationRanges: menstruationRanges, relevantData: relevantDataClass)
             

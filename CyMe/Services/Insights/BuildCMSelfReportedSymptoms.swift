@@ -61,8 +61,15 @@ class BuildCMSelfReportedSymptoms{
                 if availableCycles >= 3 {
                     cycleOverviewSecondToLast = buildCyMeGraphArray(symptomList: combinedDataDict[.secondToLast]!.getDataList(healthMetric: healthMetric), dateRange: dateRangeDict[.secondToLast]!, period: healthMetric == .menstrualBleeding)
                 }
-            
-                let statistics = buildSymptomMinMaxAverage(symptomListCurrent: combinedDataDict[.current]!.getDataList(healthMetric: healthMetric), symptomListLast:combinedDataDict[.last]!.getDataList(healthMetric: healthMetric), symptomListSecondToLast: combinedDataDict[.secondToLast]!.getDataList(healthMetric: healthMetric), title: title, availableCycles: availableCycles)
+                
+                var statistics : [String]
+                
+                if availableCycles < 2 {
+                    statistics = ["You don't have two cycles started to compare :(", "", ""]
+                }
+                else {
+                    statistics = buildSymptomMinMaxAverage(symptomListCurrent: combinedDataDict[.current]!.getDataList(healthMetric: healthMetric), symptomListLast:combinedDataDict[.last]!.getDataList(healthMetric: healthMetric), symptomListSecondToLast: combinedDataDict[.secondToLast]!.getDataList(healthMetric: healthMetric), title: title, availableCycles: availableCycles)
+                }
                 let covarianceAndList =  buildCorrelation(cycleOverviewCurrent: cycleOverviewCurrent, cycleOverviewLast:  cycleOverviewLast, cycleOverviewSecondToLast:  cycleOverviewSecondToLast, cyclesAvailable: availableCycles)
                 
                 

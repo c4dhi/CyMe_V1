@@ -59,3 +59,22 @@ func getTimeRepresentationFromString(timeString: String) -> Int {
     return -1
 }
 
+func sleepSecondsToHours(seconds : Int?) -> Int?{
+    if seconds == nil{
+        return nil
+    }
+    else{
+        let seconds = Double(seconds!)
+        
+        let sec = seconds.truncatingRemainder(dividingBy: 60)
+        let min_incl_h = (seconds - sec)/60
+        let min = min_incl_h.truncatingRemainder(dividingBy: 60)
+        var hours = (min_incl_h - min)/60
+        
+        if min > 30 {
+            hours += 1
+        }
+                
+        return Int(hours)
+    }
+}

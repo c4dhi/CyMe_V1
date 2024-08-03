@@ -13,6 +13,7 @@ class RelevantData {
     var relevantForCyMeSelfReport : [availableHealthMetrics] = []
     
     var settingsDatabaseService = SettingsDatabaseService()
+    var settingsViewModel : SettingsViewModel?
     
     let dBtoAvailableHealthMetrics : [String : availableHealthMetrics] =
                                     ["menstruationDate" : .menstrualBleeding,
@@ -30,15 +31,25 @@ class RelevantData {
                                     "mood" : .mood,
                                     "exerciseTime" : .exerciseTime,
                                     "menstruationStart" : .menstrualStart]
-    
-    
+
+    init(settingsViewModel: SettingsViewModel? = nil) {
+        self.settingsViewModel = settingsViewModel
+    }
     
     func getRelevantDataLists() async {
         relevantForDisplay  = []
         relevantForAppleHealth  = []
         relevantForCyMeSelfReport = []
         
-        let healthDataSettings = await getSettingLists()
+        var healthDataSettings : [HealthDataSettingsModel]
+        
+        if settingsViewModel == nil{
+            healthDataSettings = await getSettingLists()
+        }
+        else {
+            healthDataSettings = settingsViewModel!.settings.healthDataSettings
+        }
+       
         
         for setting in healthDataSettings {
             if(setting.enableDataSync){
@@ -52,8 +63,7 @@ class RelevantData {
             }
         }
     }
-        
-        
+    
     func getSettingLists() async -> [HealthDataSettingsModel]  {
         return await withCheckedContinuation { continuation in
             DispatchQueue.main.async {

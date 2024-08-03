@@ -9,6 +9,7 @@ import SigmaSwiftStatistics
 
 struct DiscoverView: View {
     @ObservedObject var viewModel: DiscoverViewModel
+    @ObservedObject var settingsViewModel: SettingsViewModel
     @State private var selectedSymptom: SymptomModel?
     @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     @State private var selectedCycleOption = 1 // 1 for "This Cycle", 0 for "Last Cycle"
@@ -101,7 +102,7 @@ struct DiscoverView: View {
         .onAppear {
             Logger.shared.log("Discover view is shown")
             Task{
-                await viewModel.updateSymptoms()
+                await viewModel.updateSymptoms(settingsViewModel: settingsViewModel)
                 selectedSymptom = viewModel.symptoms.first
             }
             selectedCycleOption = 1
@@ -109,7 +110,7 @@ struct DiscoverView: View {
         .onChange(of: selectedCycleOption){ newValue in
             let rememberSelectedSymptom = selectedSymptom?.title
             Task{
-                await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1))
+                await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1), settingsViewModel: settingsViewModel)
                 
                 for symptom in viewModel.symptoms{
                     if symptom.title == rememberSelectedSymptom{
@@ -146,7 +147,7 @@ struct DiscoverView_Previews: PreviewProvider {
         let mockViewModel = DiscoverViewModel()
         mockViewModel.symptoms = generateMockSymptoms()
         
-        return DiscoverView(viewModel: mockViewModel)
+        return DiscoverView(viewModel: mockViewModel, settingsViewModel: SettingsViewModel(connector: WatchConnector()))
     }
     
     static func generateMockSymptoms() -> [SymptomModel] {

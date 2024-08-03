@@ -2,6 +2,7 @@ import SwiftUI
 
 struct VisualisationView: View {
     @ObservedObject var viewModel: DiscoverViewModel
+    @ObservedObject var settingsViewModel: SettingsViewModel
     @State private var selectedSymptoms: Set<SymptomModel> = []
     @State private var showingFilterSheet = false
     @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
@@ -57,7 +58,7 @@ struct VisualisationView: View {
         .onAppear {
             Logger.shared.log("Visualisation view is shown")
             Task{
-                await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1))
+                await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1), settingsViewModel: settingsViewModel)
                 selectedSymptoms = Set(viewModel.symptoms)
             }
         }
@@ -71,7 +72,7 @@ struct VisualisationView: View {
         }
         .onChange(of: selectedCycleOption){ newValue in
             Task{
-                await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1))
+                await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1), settingsViewModel: settingsViewModel)
                 selectedSymptoms = Set(viewModel.symptoms)
                 }
         }
@@ -80,6 +81,6 @@ struct VisualisationView: View {
 
 struct VisualisationView_Previews: PreviewProvider {
     static var previews: some View {
-        VisualisationView(viewModel: DiscoverViewModel())
+        VisualisationView(viewModel: DiscoverViewModel(), settingsViewModel: SettingsViewModel(connector: WatchConnector()))
     }
 }

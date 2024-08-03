@@ -16,7 +16,7 @@ class BuildCollectedSymptoms{
     var menstruationRanges : MenstruationRanges
     
     let healthMetricToTitle : [availableHealthMetrics : String] = [.sleepLength : "Sleep Length", .exerciseTime : "Exercise Time", .stepCount : "Step Count"]
-    let healthMetricToQuestionType : [availableHealthMetrics : QuestionType] =  [.sleepLength : .amountOfhour, .exerciseTime : .amountOfhour, .stepCount : .amountOfSteps]
+    let healthMetricToQuestionType : [availableHealthMetrics : QuestionType] =  [.sleepLength : .amountOfhour, .exerciseTime : .amountOfMin, .stepCount : .amountOfSteps]
     
     
     
@@ -62,7 +62,15 @@ class BuildCollectedSymptoms{
                     cycleOverviewSecondToLast = buildcollectedDataGraphArray(symptomList: combinedDataDict[.secondToLast]!.getDataDict(healthMetric: healthMetric), dateRange: dateRangeDict[.secondToLast]!, sleepLength : healthMetric == .sleepLength)
                 }
                 
-                let statistics = buildCollectedQuantityMinMaxAverage(cycleOverviewCurrent: cycleOverviewCurrent, cycleOverviewLast: cycleOverviewLast, cycleOverviewSecondToLast: cycleOverviewSecondToLast, availableCycles: availableCycles, title: title, type: healthMetric)
+                
+                var statistics : [String]
+                if availableCycles < 2 {
+                    statistics = ["You don't have two cycles started to compare :(", "", ""]
+                }
+                else {
+                    statistics = buildCollectedQuantityMinMaxAverage(cycleOverviewCurrent: cycleOverviewCurrent, cycleOverviewLast: cycleOverviewLast, cycleOverviewSecondToLast: cycleOverviewSecondToLast, availableCycles: availableCycles, title: title, type: healthMetric)
+                }
+                
                 let covarianceAndList =  buildCorrelation(cycleOverviewCurrent: cycleOverviewCurrent, cycleOverviewLast:  cycleOverviewLast, cycleOverviewSecondToLast:  cycleOverviewSecondToLast, cyclesAvailable: availableCycles)
                 
                 

@@ -128,9 +128,10 @@ class fillCombinedDataModel {
         var combinedDataModelToReturn = CombinedDataModel()
         let relevantDataList = relevantData.relevantForAppleHealth
         
-        do { combinedDataModelToReturn.periodDataList  = try await healthKitService.fetchPeriodData(startDate : startDate, endDate : endDate) }
-        catch { print("Error: \(error)") }
-        
+        if relevantDataList.contains(.menstrualBleeding){
+            do { combinedDataModelToReturn.periodDataList  = try await healthKitService.fetchPeriodData(startDate : startDate, endDate : endDate) }
+            catch { print("Error: \(error)") }
+        }
         
         if relevantDataList.contains(.headache){
             do { combinedDataModelToReturn.headacheDataList = try await healthKitService.fetchSelfreportedSamples(dataName: HKCategoryTypeIdentifier.headache, startDate: startDate, endDate: endDate)}

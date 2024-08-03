@@ -142,16 +142,19 @@ func buildCollectedQuantityMinMaxAverage(cycleOverviewCurrent: [Int?], cycleOver
     
     if type == .sleepLength {
         //averageText = "On average you have a sum of \(SleepDataModel.formatDuration(duration: average)) over the last \(consideredCycles) cycles"
-        averageText = "Average sum over cycles: \(SleepDataModel.formatDuration(duration: average))\n"
+        //averageText = "Average sum over cycles: \(String(format: "%.2f", average))h\n"
+        averageText = ""
         
     }
     if type == .stepCount {
         //averageText = "On average you have a sum of \(String(format: "%.2f", average)) steps over the last \(consideredCycles) cycles"
-        averageText = "Average sum over cycles: \(String(format: "%.2f", average)) steps\n"
+        //averageText = "Average sum over cycles: \(String(format: "%.2f", average)) steps\n"
+        averageText = ""
     }
     if type == .exerciseTime {
         //averageText = "On average you have a sum of \(String(format: "%.2f", average)) exercise minutes over the last \(consideredCycles) cycles"
-        averageText = "Average sum over cycles: \(String(format: "%.2f", average)) minutes\n"
+        //averageText = "Average sum over cycles: \(String(format: "%.2f", average)) minutes\n"
+        averageText = ""
     }
    
     return [minText, maxText, averageText]
@@ -164,7 +167,7 @@ func buildCorrelation(cycleOverviewCurrent: [Int?], cycleOverviewLast : [Int?], 
     
     if cyclesAvailable < 2 {
         print( "You need at least two cycles that are started to compute the covariance.")
-        return (-1, [[]])
+        return (0, [[nil], [nil]])
     }
     
     var list1 : [Int?]

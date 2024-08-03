@@ -248,7 +248,7 @@ func buildCollectedQuantityHint(cycleOverview : [Int?], title: String, type: ava
     var maxText = ""
     if type == .sleepLength {
         //maxText = "The maximal amount of \(title) you reported is \(SleepDataModel.formatDuration(duration: Double(maxValue  ?? -1))) which you reported on cycle day \(oxfordComma(list:daysWithMaxValue)). "
-        maxText = "Maximum: \(SleepDataModel.formatDuration(duration: Double(maxValue  ?? -1))) \nReported on day: \(oxfordComma(list:daysWithMaxValue))"
+        maxText = "Maximum: \(maxValue ?? -1)h \nReported on day: \(oxfordComma(list:daysWithMaxValue))"
     }
     if type == .stepCount {
         //maxText = "The maximal amount of \(title) you reported is \(maxValue ?? -1) which you reported on cycle day \(oxfordComma(list:daysWithMaxValue)). "
@@ -274,7 +274,7 @@ func buildCollectedQuantityHint(cycleOverview : [Int?], title: String, type: ava
     var minText = ""
     if type == .sleepLength {
         //minText = "The minimal amount of \(title) you reported is \(SleepDataModel.formatDuration(duration: Double(minValue ?? -1))) which you reported on cycle day \(oxfordComma(list:daysWithMinValue)). "
-        minText = "Minimum: \(SleepDataModel.formatDuration(duration: Double(minValue ?? -1))) \nReported on day: \(oxfordComma(list:daysWithMinValue)) "
+        minText = "Minimum:  \(minValue ?? -1)h \nReported on day: \(oxfordComma(list:daysWithMinValue)) "
     }
     if type == .stepCount {
         //minText = "The minimal amount of \(title) you reported is \(minValue ?? -1) which you reported on cycle day \(oxfordComma(list:daysWithMinValue)). "
@@ -302,7 +302,7 @@ func buildCollectedQuantityHint(cycleOverview : [Int?], title: String, type: ava
     
     if type == .sleepLength {
         //averageText = "In this cycle you report on average \(SleepDataModel.formatDuration(duration: Double(average))) of sleep per day. "
-        averageText = "Average: \(SleepDataModel.formatDuration(duration: Double(average)))"
+        averageText = "Average: \(String(format: "%.2f", average)) h"
     }
     if type == .stepCount {
         //averageText = "In this cycle you report on average \(String(format: "%.2f", average)) steps per day. "

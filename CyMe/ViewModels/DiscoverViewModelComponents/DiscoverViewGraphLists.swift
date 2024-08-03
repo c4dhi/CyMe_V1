@@ -36,7 +36,12 @@ func buildcollectedDataGraphArray(symptomList: [Date: Int], dateRange: [Date], s
         
     
         if symptomList[dateToCheck] != 0 {
-            toAppend = symptomList[dateToCheck] ?? nil
+            if !sleepLength{
+                toAppend = symptomList[dateToCheck] ?? nil
+            }
+            else{
+                toAppend = sleepSecondsToHours(seconds : symptomList[dateToCheck] ?? nil)
+            }
         }
         else {
             toAppend = nil
