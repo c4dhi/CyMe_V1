@@ -184,6 +184,8 @@ class fillCombinedDataModel {
             do { combinedDataModelToReturn.stepCountDataList = try await healthKitService.fetchCollectedQuantityData(startDate: startDate, endDate: endDate, dataName: HKQuantityTypeIdentifier.stepCount) }
             catch { print("Error: \(error)") }
         }
+        
+        Logger.shared.log("Data from Apple Health: \(combinedDataModelToReturn.getContentAmounts())")
         return combinedDataModelToReturn
     }
     

@@ -12,7 +12,7 @@ class RelevantData {
     var relevantForAppleHealth : [availableHealthMetrics] = []
     var relevantForCyMeSelfReport : [availableHealthMetrics] = []
     
-    var settingsDatabaseService = SettingsDatabaseService()
+    var settingsDatabaseService : SettingsDatabaseService? = nil
     var settingsViewModel : SettingsViewModel?
     
     let dBtoAvailableHealthMetrics : [String : availableHealthMetrics] =
@@ -44,6 +44,7 @@ class RelevantData {
         var healthDataSettings : [HealthDataSettingsModel]
         
         if settingsViewModel == nil{
+            settingsDatabaseService = SettingsDatabaseService()
             healthDataSettings = await getSettingLists()
         }
         else {
@@ -67,7 +68,7 @@ class RelevantData {
     func getSettingLists() async -> [HealthDataSettingsModel]  {
         return await withCheckedContinuation { continuation in
             DispatchQueue.main.async {
-                let healthDataSettings = self.settingsDatabaseService.getSettings()?.healthDataSettings
+                let healthDataSettings = self.settingsDatabaseService!.getSettings()?.healthDataSettings
                 continuation.resume(returning: healthDataSettings!)
             }
         }

@@ -26,6 +26,10 @@ struct CombinedDataModel  { // Holds all Data of a selected Cycle (AppleHealth a
     var moodDataList : [CyMeSefReportModel] = []
     
     
+    func getContentAmounts() -> String{
+        return "Period: \(periodDataList.count), Headache: \(headacheDataList.count), AbdominalCramps: \(abdominalCrampsDataList.count), LowerBackPain: \(lowerBackPainDataList.count), PelvicPain: \(pelvicPainDataList.count), Acne: \(acneDataList.count), ChestTightnessAndPain: \(chestTightnessOrPainDataList.count), AppetiteChange: \(appetiteChangeDataList.count), SleepLength: \(sleepLengthDataList.count), ExerciseTime: \(exerciseTimeDataList.count), StepCount: \(stepCountDataList.count)"
+    }
+   
     func getDataList (healthMetric : availableHealthMetrics) -> [DataProtocoll]{
         if (healthMetric == .headache){
             return headacheDataList
