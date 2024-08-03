@@ -76,7 +76,7 @@ struct DiscoverView: View {
                                 .padding()
                                 .background(theme.backgroundColor.toColor())
                                 .cornerRadius(10)
-                            MultiGraphLegend()
+                            MultiGraphLegend(availableCycles: viewModel.availableCycles)
                             Text("CyMe insights across cycles")
                                 .font(.headline)
                                 .padding(.bottom, 8)

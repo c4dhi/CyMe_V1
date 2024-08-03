@@ -180,8 +180,8 @@ func buildCorrelation(cycleOverviewCurrent: [Int?], cycleOverviewLast : [Int?], 
         list2 = cycleOverviewLast
     }
     else {
-        list1 = cycleOverviewSecondToLast
-        list2 = cycleOverviewLast
+        list1 = cycleOverviewLast
+        list2 = cycleOverviewSecondToLast
     }
     
     var averageSum1 = 0
