@@ -10,7 +10,7 @@ import Charts
 
 struct SymptomGraph: View {
     var symptom: SymptomModel
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
+    @EnvironmentObject var themeManager: ThemeManager
     
     var body: some View {
             ScrollView(.horizontal) {
@@ -21,7 +21,7 @@ struct SymptomGraph: View {
                             x: .value("Cycle day", item.day),
                             y: .value("Intensity", item.intensity )
                         )
-                        .foregroundStyle(theme.accentColor.toColor())
+                        .foregroundStyle(themeManager.theme.primaryColor.toColor())
                     }
                     
                     ForEach(chartData) { item in
@@ -29,7 +29,7 @@ struct SymptomGraph: View {
                             x: .value("Cycle day", item.day),
                             y: .value("Intensity", item.intensity)
                         )
-                        .foregroundStyle(theme.accentColor.toColor())
+                        .foregroundStyle(themeManager.theme.primaryColor.toColor())
                     }
                 }
                 .chartXAxis {

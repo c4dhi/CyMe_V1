@@ -11,7 +11,6 @@ import Charts
 struct MultiSymptomGraph: View {
     var symptom: SymptomModel
     var multiSymptomList: [[Int?]]
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     private let labels = ["Last Cycle", "Current Cycle"]
 
     var body: some View {

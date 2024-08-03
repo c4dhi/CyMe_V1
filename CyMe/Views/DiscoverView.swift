@@ -11,7 +11,7 @@ struct DiscoverView: View {
     @ObservedObject var viewModel: DiscoverViewModel
     @ObservedObject var settingsViewModel: SettingsViewModel
     @State private var selectedSymptom: SymptomModel?
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
+    @EnvironmentObject var themeManager: ThemeManager
     @State private var selectedCycleOption = 1 // 1 for "This Cycle", 0 for "Last Cycle"
     @State private var isShowingSelfReports = false
     @State private var selectedDate = Date()
@@ -54,13 +54,11 @@ struct DiscoverView: View {
                             SymptomGraph(symptom: symptom)
                                 .frame(height: 200)
                                 .padding()
-                                .background(theme.backgroundColor.toColor())
                                 .cornerRadius(10)
                             Text("CyMe insights")
                                 .font(.headline)
                             SymptomInsightsView(hints: symptom.hints)
-                                .padding()
-                                .background(theme.backgroundColor.toColor())
+                                .background(themeManager.theme.backgroundColor.toColor())
                                 .cornerRadius(10)
                         }
                     }
@@ -74,15 +72,13 @@ struct DiscoverView: View {
                             MultiSymptomGraph(symptom: symptom, multiSymptomList: symptom.correlationOverview)
                                 .frame(height: 200)
                                 .padding()
-                                .background(theme.backgroundColor.toColor())
                                 .cornerRadius(10)
                             MultiGraphLegend(availableCycles: viewModel.availableCycles)
                             Text("CyMe insights across cycles")
                                 .font(.headline)
-                                .padding(.bottom, 8)
                             SymptomStatisticsView(symptom: symptom)
                                 .padding()
-                                .background(theme.backgroundColor.toColor())
+                                .background(themeManager.theme.backgroundColor.toColor())
                                 .cornerRadius(10)
 
                             
@@ -101,6 +97,7 @@ struct DiscoverView: View {
         .padding()
         .onAppear {
             Logger.shared.log("Discover view is shown")
+            themeManager.loadTheme()
             Task{
                 await viewModel.updateSymptoms(settingsViewModel: settingsViewModel)
                 selectedSymptom = viewModel.symptoms.first
@@ -124,6 +121,7 @@ struct DiscoverView: View {
                 
             }
         }
+        .background(themeManager.theme.backgroundColor.toColor())
     }
     
     func groupReportsByDay(reports: [ReviewReportModel]) -> [Date: [ReviewReportModel]] {

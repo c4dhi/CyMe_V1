@@ -14,17 +14,18 @@ enum ColorType {
 struct PersonalizationThemeView: View {
     var nextPage: () -> Void
     @ObservedObject var settingsViewModel: SettingsViewModel
+    @EnvironmentObject var themeManager: ThemeManager
     
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     @State private var selectedThemeIndex = 0
     @State private var selectedColorType: ColorType? = nil
     @State private var isCustomColorPickerShown = false
 
     @State private var themes: [ThemeModel] = [
-        ThemeModel(name: "Deep blue", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue),  // Deep blue
-        ThemeModel(name: "Girly girl", backgroundColor: .white, primaryColor: .purple, accentColor: .pink),    // Girly girl
-        ThemeModel(name: "Plant green", backgroundColor: .white, primaryColor: deepGreen, accentColor: lightGreen),    // Plant green
-        ThemeModel(name: "Blood red", backgroundColor: .white, primaryColor: .red, accentColor: .orange),    // Blood red
+        ThemeModel(name: "Deep blue", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue),
+        ThemeModel(name: "Girly girl", backgroundColor: .white, primaryColor: lightPink, accentColor: deepViolett),
+        ThemeModel(name: "Plant green", backgroundColor: .white, primaryColor: lightGreen, accentColor: deepGreen),
+        ThemeModel(name: "Blood red", backgroundColor: .white, primaryColor: lightOrange, accentColor: bloodRed),
+        ThemeModel(name: "Candy", backgroundColor: candyGreen, primaryColor: candyBlue, accentColor: candyPink),
         ThemeModel(name: "Custom", backgroundColor: .white, primaryColor: .white, accentColor: .white)    // Custom (initially white)
     ]
 
@@ -92,32 +93,35 @@ struct PersonalizationThemeView: View {
                         .padding(.horizontal)
                 }
             }
+            .background(themeManager.theme.backgroundColor.toColor())
             .onChange(of: selectedThemeIndex) { newValue in
                 settingsViewModel.settings.selectedTheme = themes[newValue]
             }
             .onAppear {
-                if let savedTheme = UserDefaults.standard.themeModel(forKey: "theme") {
-                    settingsViewModel.settings.selectedTheme = savedTheme
-                    if let index = themes.firstIndex(where: { $0.name == savedTheme.name }) {
+                setupThemes()
+                settingsViewModel.settings.selectedTheme = themeManager.theme
+                    if let index = themes.firstIndex(where: { $0.name == themeManager.theme.name }) {
                         selectedThemeIndex = index
                     } else {
-                        themes[themes.count - 1] = savedTheme // Set the custom theme
+                        themes[themes.count - 1] = themeManager.theme
                         selectedThemeIndex = themes.count - 1
                     }
-                }
             }
+            .scrollContentBackground(.hidden)
+            .background(settingsViewModel.settings.selectedTheme.backgroundColor.toColor())
 
             Button(action: {
-                // TODO add validation
-                settingsViewModel.saveSettings()
-                nextPage()
+                if isInputValid() {
+                    settingsViewModel.saveSettings()
+                    nextPage()
+                }
             }) {
                 Text("Finished")
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(settingsViewModel.settings.selectedTheme.accentColor.toColor())
+                    .background(isInputValid() ? settingsViewModel.settings.selectedTheme.accentColor.toColor() : Color.gray)
                     .cornerRadius(10)
             }
             .popover(isPresented: $isCustomColorPickerShown) {
@@ -134,8 +138,11 @@ struct PersonalizationThemeView: View {
                         set: { newValue in
                             switch selectedColorType {
                             case .background: themes[selectedThemeIndex].backgroundColor = CodableColor(color: newValue)
+                                settingsViewModel.settings.selectedTheme = themes[selectedThemeIndex]
                             case .primary: themes[selectedThemeIndex].primaryColor = CodableColor(color: newValue)
+                                settingsViewModel.settings.selectedTheme = themes[selectedThemeIndex]
                             case .accent: themes[selectedThemeIndex].accentColor = CodableColor(color: newValue)
+                                settingsViewModel.settings.selectedTheme = themes[selectedThemeIndex]
                             case .none: break
                             }
                         }
@@ -146,11 +153,30 @@ struct PersonalizationThemeView: View {
                         isCustomColorPickerShown = false
                     }) {
                         Text("Done")
-                            .foregroundColor(.blue)
+                            .foregroundColor(themeManager.theme.primaryColor.toColor())
                     }
                     .padding()
                 }
         }
+    }
+    func setupThemes() {
+        themes = [
+            ThemeModel(name: "Deep blue", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue),
+            ThemeModel(name: "Girly girl", backgroundColor: .white, primaryColor: lightPink, accentColor: deepViolett),
+            ThemeModel(name: "Plant green", backgroundColor: .white, primaryColor: lightGreen, accentColor: deepGreen),
+            ThemeModel(name: "Blood red", backgroundColor: .white, primaryColor: lightOrange, accentColor: bloodRed),
+            ThemeModel(name: "Candy", backgroundColor: candyGreen, primaryColor: candyBlue, accentColor: candyPink),
+            ThemeModel(
+                name: "Custom",
+                backgroundColor: themeManager.theme.name == "Custom" ? themeManager.theme.backgroundColor.toColor() : .white,
+                primaryColor: themeManager.theme.name == "Custom" ? themeManager.theme.primaryColor.toColor() : .white,
+                accentColor: themeManager.theme.name == "Custom" ? themeManager.theme.accentColor.toColor() : .white
+            )    // Custom (using custom colors)
+        ]
+    }
+    
+    func isInputValid() -> Bool {
+        return settingsViewModel.settings.selectedTheme.accentColor.toColor() != .white && settingsViewModel.settings.selectedTheme.primaryColor.toColor() != .white
     }
 }
 

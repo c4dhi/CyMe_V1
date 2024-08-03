@@ -17,7 +17,7 @@ struct OnboardingView: View {
     var body: some View {
         VStack {
             if currentPageIndex == 0 {
-                WelcomeView(nextPage: goToNextPage, settingsViewModel: settingsViewModel)
+                WelcomeView(nextPage: goToNextPage)
             } else if currentPageIndex == 1 {
                 ProfileView(nextPage: goToNextPage, settingsViewModel: settingsViewModel, userViewModel: profileViewModel )
             } else if currentPageIndex == 2 {

@@ -5,7 +5,7 @@ struct VisualisationView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
     @State private var selectedSymptoms: Set<SymptomModel> = []
     @State private var showingFilterSheet = false
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
+    @EnvironmentObject var themeManager: ThemeManager
     @State private var selectedCycleOption = 1 // 1 for "This Cycle", 0 for "Last Cycle"
 
     var body: some View {
@@ -34,7 +34,7 @@ struct VisualisationView: View {
                         Image(systemName: "slider.horizontal.3")
                             .font(.title2)
                             .padding()
-                            .foregroundColor(theme.primaryColor.toColor())
+                            .foregroundColor(themeManager.theme.primaryColor.toColor())
                     }
                     
                 }
@@ -57,6 +57,7 @@ struct VisualisationView: View {
         .padding()
         .onAppear {
             Logger.shared.log("Visualisation view is shown")
+            themeManager.loadTheme()
             Task{
                 await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1), settingsViewModel: settingsViewModel)
                 selectedSymptoms = Set(viewModel.symptoms)
@@ -76,6 +77,7 @@ struct VisualisationView: View {
                 selectedSymptoms = Set(viewModel.symptoms)
                 }
         }
+        .background(themeManager.theme.backgroundColor.toColor())
     }
 }
 

@@ -3,8 +3,19 @@ import SwiftUI
 
 
 let lightBlue = Color(red: 0.2, green: 0.7, blue: 1.0)
-let lightGreen = Color(red: 0.5, green: 1.0, blue: 0.5)
-let deepGreen = Color(red: 0.0, green: 0.5, blue: 0.0)
+
+let lightGreen = Color(red: 151/255, green: 188/255, blue: 98/255)
+let deepGreen = Color(red: 44/255, green: 95/255, blue: 45/255)
+
+let lightPink = Color(red: 223/255, green: 101/255, blue: 137/255)
+let deepViolett = Color(red: 60/255, green: 16/255, blue: 83/255)
+
+let lightOrange = Color(red: 221/255, green: 65/255, blue: 50/255)
+let bloodRed = Color(red: 158/255, green: 16/255, blue: 48/255)
+
+let candyPink = Color(red: 215/255, green: 169/255, blue: 227/255) // #D7A9E3FF
+let candyBlue = Color(red: 139/255, green: 190/255, blue: 232/255) // #8BBEE8FF
+let candyGreen = Color(red: 224/255, green: 252/255, blue: 230/255)
 
 struct ThemeModel: Codable {
     var name: String
@@ -73,7 +84,11 @@ class ThemeManager: ObservableObject {
     
     func saveThemeToUserDefaults(newTheme: ThemeModel) {
         UserDefaults.standard.setThemeModel(newTheme, forKey: "theme")
-        self.theme = newTheme
+        self.theme = UserDefaults.standard.themeModel(forKey: "theme") ?? newTheme
     }
+    
+    func loadTheme() {
+        self.theme = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
+        }
 }
 

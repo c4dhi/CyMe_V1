@@ -12,6 +12,59 @@
 //
 import SwiftUI
 
+struct PersonalizationSelfReportView: View {
+    var nextPage: () -> Void
+    
+    @ObservedObject var settingsViewModel: SettingsViewModel
+    @EnvironmentObject var themeManager: ThemeManager
+    
+    var body: some View {
+        Text("Personalize CyMe reminders")
+       .font(.title)
+       .fontWeight(.bold)
+       .padding()
+       .frame(maxWidth: .infinity, alignment: .leading)
+       .background(themeManager.theme.primaryColor.toColor())
+        Form {
+            Section(header: Text("Self-Reporting Settings")) {
+                Toggle("Enable self-reporting on Apple Watch", isOn: $settingsViewModel.settings.selfReportWithWatch)
+            }
+            
+            Section(header: Text("Reminders")) {
+                
+                ReminderOptionView(
+                    title: "Time to self-report",
+                    isEnabled: $settingsViewModel.settings.selfReportReminder.isEnabled,
+                    frequency: $settingsViewModel.settings.selfReportReminder.frequency,
+                    timesPerDay: $settingsViewModel.settings.selfReportReminder.times,
+                    startDate: $settingsViewModel.settings.selfReportReminder.startDate
+                )
+                
+            }
+        }
+        .scrollContentBackground(.hidden)
+        .background(themeManager.theme.backgroundColor.toColor())
+        
+        Button(action: nextPage) {
+            Text("Continue")
+                .font(.headline)
+                .foregroundColor(.white)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(themeManager.theme.accentColor.toColor())
+                .cornerRadius(10)
+        }
+        .background(themeManager.theme.backgroundColor.toColor())
+    }
+}
+
+struct PersonalizationSelfReportView_Previews: PreviewProvider {
+    static var previews: some View {
+        PersonalizationSelfReportView(nextPage: {}, settingsViewModel: SettingsViewModel(connector: WatchConnector()))
+    }
+}
+
+
 struct ReminderOptionView: View {
     var title: String
     @Binding var isEnabled: Bool
@@ -94,53 +147,5 @@ struct TimePicker: View {
             Spacer()
             DatePicker("", selection: $time, displayedComponents: .hourAndMinute)
         }
-    }
-}
-
-struct PersonalizationSelfReportView: View {
-    var nextPage: () -> Void
-    
-    @ObservedObject var settingsViewModel: SettingsViewModel
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
-    
-    var body: some View {
-        Text("Personalize CyMe reminders")
-       .font(.title)
-       .fontWeight(.bold)
-       .padding()
-       .frame(maxWidth: .infinity, alignment: .leading)
-       .background(theme.primaryColor.toColor())
-        Form {
-            Section(header: Text("Self-Reporting Settings")) {
-                Toggle("Enable self-reporting on Apple Watch", isOn: $settingsViewModel.settings.selfReportWithWatch)
-            }
-            
-            Section(header: Text("Reminders")) {
-                
-                ReminderOptionView(
-                    title: "Time to self-report",
-                    isEnabled: $settingsViewModel.settings.selfReportReminder.isEnabled,
-                    frequency: $settingsViewModel.settings.selfReportReminder.frequency,
-                    timesPerDay: $settingsViewModel.settings.selfReportReminder.times,
-                    startDate: $settingsViewModel.settings.selfReportReminder.startDate
-                )
-                
-            }
-        }
-        Button(action: nextPage) {
-            Text("Continue")
-                .font(.headline)
-                .foregroundColor(.white)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(theme.accentColor.toColor())
-                .cornerRadius(10)
-        }
-    }
-}
-
-struct PersonalizationSelfReportView_Previews: PreviewProvider {
-    static var previews: some View {
-        PersonalizationSelfReportView(nextPage: {}, settingsViewModel: SettingsViewModel(connector: WatchConnector()))
     }
 }

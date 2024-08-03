@@ -11,8 +11,8 @@ struct ProfileView: View {
     var nextPage: () -> Void
     @ObservedObject var settingsViewModel: SettingsViewModel
     @ObservedObject var userViewModel: ProfileViewModel
-
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
+    @EnvironmentObject var themeManager: ThemeManager
+    
     let lifePhaseOptions = ["Premenopause", "Menopause", "Postmenopause"]
     let fertilityGoalOptions = ["Avoiding pregnancy", "Pregnancy", "Exploring options"]
 
@@ -22,7 +22,7 @@ struct ProfileView: View {
                 .fontWeight(.bold)
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(theme.primaryColor.toColor())
+                .background(themeManager.theme.primaryColor.toColor())
             
             Form {
                 Section(header: Text("Personal information")) {
@@ -88,6 +88,8 @@ struct ProfileView: View {
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(themeManager.theme.backgroundColor.toColor())
             
             Button(action: {
                 if isInputValid() {
@@ -100,7 +102,7 @@ struct ProfileView: View {
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(isInputValid() ? theme.accentColor.toColor() : Color.gray)
+                    .background(isInputValid() ? themeManager.theme.accentColor.toColor() : Color.gray)
                     .cornerRadius(10)
             }
             .disabled(!isInputValid())

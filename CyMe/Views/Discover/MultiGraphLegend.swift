@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MultiGraphLegend: View {
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     let customColor = Color(red: 211 / 255.0, green: 231 / 255.0, blue: 255 / 255.0)
     var availableCycles : Int
     
