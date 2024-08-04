@@ -10,7 +10,7 @@ import SwiftUI
 struct PersonalizationView: View {
     var nextPage: () -> Void
     @ObservedObject var settingsViewModel: SettingsViewModel
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
+    @EnvironmentObject var themeManager: ThemeManager
     var healthkit = HealthKitService()
 
     @State private var hasLoaded = false
@@ -20,7 +20,7 @@ struct PersonalizationView: View {
        .fontWeight(.bold)
        .padding()
        .frame(maxWidth: .infinity, alignment: .leading)
-       .background(theme.primaryColor.toColor())
+       .background(themeManager.theme.primaryColor.toColor())
     
         Form {
             Section(header: Text("Health Data Access")) {
@@ -66,7 +66,8 @@ struct PersonalizationView: View {
                 }
             }
         }
-        
+        .scrollContentBackground(.hidden)
+        .background(themeManager.theme.backgroundColor.toColor())
 
         Button(action: {
             if hasMenstruationData() {
@@ -81,8 +82,8 @@ struct PersonalizationView: View {
                 .foregroundColor(.white)
                 .padding()
                 .frame(maxWidth: .infinity)
+                .background(hasMenstruationData() ? themeManager.theme.accentColor.toColor() : Color.gray)
                 .cornerRadius(10)
-                .background(hasMenstruationData() ? theme.accentColor.toColor() : Color.gray)
         }
     }
     

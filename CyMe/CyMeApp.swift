@@ -20,6 +20,7 @@ struct CyMeApp: App {
     
     @StateObject var connector = WatchConnector()
     @StateObject var settingsViewModel: SettingsViewModel
+    @StateObject var themeManager = ThemeManager()
 
     init() {
         let connector = WatchConnector()
@@ -32,10 +33,12 @@ struct CyMeApp: App {
                 ContentView()
                     .environmentObject(connector)
                     .environmentObject(settingsViewModel)
+                    .environmentObject(themeManager)
             } else {
                 OnboardingView()
                     .environmentObject(connector)
                     .environmentObject(settingsViewModel)
+                    .environmentObject(themeManager)
             }
         }
     }

@@ -11,7 +11,6 @@ import Charts
 struct MultiSymptomGraph: View {
     var symptom: SymptomModel
     var multiSymptomList: [[Int?]]
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     private let labels = ["Last Cycle", "Current Cycle"]
 
     var body: some View {
@@ -85,7 +84,7 @@ struct MultiSymptomGraph_Previews: PreviewProvider {
             min: "1",
             max: "4",
             average: "2",
-            covariance: 1.8,
+            correlation: 1.8,
             correlationOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
             questionType: .amountOfhour
         )

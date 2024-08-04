@@ -8,7 +8,7 @@ struct KnowledgeBaseView: View {
     @State private var isGeneralKnowledgeSectionOpen: Bool = false
     @State private var isSymptomsSectionOpen: Bool = false
     @State private var isCycleSyncSectionOpen: Bool = false
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
+    @EnvironmentObject var themeManager: ThemeManager
     
     // Sample data for the knowledge base
     let generalKnowledge = [
@@ -59,7 +59,7 @@ struct KnowledgeBaseView: View {
                     .accentColor(.white)
                     .foregroundColor(.white)
                     .padding()
-                    .background(RoundedRectangle(cornerRadius: 10).fill(theme.primaryColor.toColor()))
+                    .background(RoundedRectangle(cornerRadius: 10).fill(themeManager.theme.primaryColor.toColor()))
                     
                     DisclosureGroup("Symptoms", isExpanded: $isSymptomsSectionOpen) {
                         ForEach(symptoms.keys.filter { self.searchQuery.isEmpty ? true : $0.localizedCaseInsensitiveContains(self.searchQuery) }, id: \.self) { key in
@@ -72,7 +72,7 @@ struct KnowledgeBaseView: View {
                     .accentColor(.white)
                     .foregroundColor(.white)
                     .padding()
-                    .background(RoundedRectangle(cornerRadius: 10).fill(theme.primaryColor.toColor()))
+                    .background(RoundedRectangle(cornerRadius: 10).fill(themeManager.theme.primaryColor.toColor()))
                     
                     DisclosureGroup("Cycle Sync", isExpanded: $isCycleSyncSectionOpen) {
                         ForEach(cycleSync.keys.filter { self.searchQuery.isEmpty ? true : $0.localizedCaseInsensitiveContains(self.searchQuery) }, id: \.self) { key in
@@ -85,14 +85,18 @@ struct KnowledgeBaseView: View {
                     .accentColor(.white)
                     .foregroundColor(.white)
                     .padding()
-                    .background(RoundedRectangle(cornerRadius: 10).fill(theme.primaryColor.toColor()))
+                    .background(RoundedRectangle(cornerRadius: 10).fill(themeManager.theme.primaryColor.toColor()))
                 }
                 .padding()
                 .onAppear {
                     Logger.shared.log("Knowledgbase view is shown")
+                    themeManager.loadTheme()
                 }
+                
             }
+            .padding(.top, 20)
         }
+        .background(themeManager.theme.backgroundColor.toColor())
     }
     
     func searchContent() {

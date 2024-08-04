@@ -16,21 +16,25 @@ import SwiftUI
 struct SymptomStatisticsView: View {
     var symptom: SymptomModel
     @State private var showingPopover = false
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
+    @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Text("\(symptom.min)")
+                .frame(maxWidth: .infinity, alignment: .leading)
             Text("\(symptom.max)")
+                .frame(maxWidth: .infinity, alignment: .leading)
             Text("\(symptom.average)")
+                .frame(maxWidth: .infinity, alignment: .leading)
             HStack {
-                let symptomCovariance = symptom.covariance == nil ? "" : String(format: "%.2f", symptom.covariance!)
-                Text("Correlation: \(symptomCovariance)")
+                let symptomCorrelation = symptom.correlation == nil ? "" : String(format: "%.2f", symptom.correlation!)
+                Text("Correlation: \(symptomCorrelation)")
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 Button(action: {
                     showingPopover.toggle()
                 }) {
                     Image(systemName: "questionmark.circle")
-                        .foregroundColor(theme.primaryColor.toColor())
+                        .foregroundColor(themeManager.theme.primaryColor.toColor())
                 }
                 .popover(isPresented: $showingPopover) {
                     VStack {
@@ -42,6 +46,7 @@ struct SymptomStatisticsView: View {
                     .padding()
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }
@@ -56,12 +61,13 @@ struct SymptomStatisticsView_Previews: PreviewProvider {
             min: "2",
             max: "10",
             average: "5",
-            covariance: 2.5,
+            correlation: 2.5,
             correlationOverview: [
                 [2, 3, 4, 6, 5],
                 [1, 2, 3, 4, 5]
             ],
             questionType: .painEmoticonRating
         ))
+        .environmentObject(ThemeManager())
     }
 }

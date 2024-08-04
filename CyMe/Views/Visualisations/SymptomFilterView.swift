@@ -11,7 +11,7 @@ struct SymptomFilterView: View {
     var symptoms: [SymptomModel]
     @Binding var selectedSymptoms: Set<SymptomModel>
     @Binding var showingFilterSheet : Bool
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
+    @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
         NavigationView {
@@ -20,9 +20,9 @@ struct SymptomFilterView: View {
                     HStack {
                         Text(symptom.title)
                         Spacer()
-                        if selectedSymptoms.contains(symptom) {
+                        if selectedSymptoms.contains(where: { $0.title == symptom.title }) {
                             Image(systemName: "checkmark")
-                                .foregroundColor(theme.primaryColor.toColor())
+                                .foregroundColor(themeManager.theme.primaryColor.toColor())
                         }
                     }
                     .contentShape(Rectangle())
@@ -35,12 +35,13 @@ struct SymptomFilterView: View {
                     }
                 }
             }
-            .navigationTitle("Select Symptoms")
+            .navigationTitle("Select symptoms")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Done") {
                         showingFilterSheet = false
                     }
+                    .foregroundColor(themeManager.theme.primaryColor.toColor())
                 }
             }
         }
@@ -59,7 +60,7 @@ struct SymptomFilterView_Previews: PreviewProvider {
                 min: "0",
                 max: "3",
                 average: "1",
-                covariance: 2.5,
+                correlation: 2.5,
                 correlationOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
                 questionType: .painEmoticonRating
             )

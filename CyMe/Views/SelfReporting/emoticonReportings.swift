@@ -98,12 +98,21 @@ struct MenstruationEmoticonRatingQuestionView: View {
 struct MenstruationStartRatingQuestionView: View {
     var setting: HealthDataWithoutNilModel
     @Binding var selectedOption: SymptomSelfReportModel?
-    @State var isFirstDayOfPeriod = false
+
+    @State private var isFirstDayOfPeriod: Bool
+
+    init(setting: HealthDataWithoutNilModel, selectedOption: Binding<SymptomSelfReportModel?>) {
+        self.setting = setting
+        self._selectedOption = selectedOption
+        
+        // Initialize isFirstDayOfPeriod based on selectedOption
+        _isFirstDayOfPeriod = State(initialValue: selectedOption.wrappedValue?.reportedValue == "true")
+    }
 
 
     var body: some View {
         VStack(alignment: .center) {
-                Toggle(setting.question, isOn: $isFirstDayOfPeriod)
+            Toggle(setting.question, isOn: $isFirstDayOfPeriod)
                     .padding(.bottom, 10)
                     .padding(.top, 50)
                     .padding(.horizontal)

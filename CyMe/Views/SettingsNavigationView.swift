@@ -31,6 +31,7 @@ func zipFiles(sourceURLs: [URL], destinationURL: URL) {
 struct SettingsNavigationView: View {
     @Binding var isPresented: Bool
     @ObservedObject var settingsViewModel: SettingsViewModel
+    @EnvironmentObject var themeManager: ThemeManager
     @State private var showProfileSheet = false
     @State private var showOnboardingSheet = false
     @State private var databaseURL: URL?
@@ -46,15 +47,15 @@ struct SettingsNavigationView: View {
             Button("Profile") {
                 showProfileSheet = true
             }
-            .foregroundColor(.blue)
+            .foregroundColor(themeManager.theme.accentColor.toColor())
             .sheet(isPresented: $showProfileSheet) {
                 ProfileViewWrapper(isPresented: $showProfileSheet, settingsViewModel: settingsViewModel )
             }
 
-            Button("CyMe Settings") {
+            Button("CyMe settings") {
                 showOnboardingSheet = true
             }
-            .foregroundColor(.blue)
+            .foregroundColor(themeManager.theme.accentColor.toColor())
             .sheet(isPresented: $showOnboardingSheet) {
                 OnboardingViewWrapper(isPresented: $isPresented, settingsViewModel: settingsViewModel)
             }
@@ -63,10 +64,10 @@ struct SettingsNavigationView: View {
                 Logger.shared.log("User is downloading the user data")
                 downloadDatabaseFile()
             }
-            .foregroundColor(.blue)
+            .foregroundColor(themeManager.theme.accentColor.toColor())
         }
         .padding()
-        .background(Color.white)
+        .background(.white)
         .cornerRadius(10)
         .shadow(radius: 10)
     }
@@ -141,15 +142,16 @@ struct SettingsNavigationView: View {
 struct ProfileViewWrapper: View {
     @Binding var isPresented: Bool
     @ObservedObject var settingsViewModel: SettingsViewModel
+    @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
         NavigationView {
             ProfileView(nextPage: { isPresented = false }, settingsViewModel: settingsViewModel, userViewModel: ProfileViewModel())
-                .navigationBarTitle("Profile", displayMode: .inline)
                 .navigationBarItems(leading: Button(action: {
                     isPresented = false
                 }) {
                     Image(systemName: "xmark")
+                        .foregroundColor(themeManager.theme.accentColor.toColor())
                 })
         }
     }
@@ -158,6 +160,7 @@ struct ProfileViewWrapper: View {
 struct OnboardingViewWrapper: View {
     @Binding var isPresented: Bool
     @ObservedObject var settingsViewModel: SettingsViewModel
+    @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
         NavigationView {
@@ -167,6 +170,7 @@ struct OnboardingViewWrapper: View {
                     isPresented = false
                 }) {
                     Image(systemName: "xmark")
+                        .foregroundColor(themeManager.theme.accentColor.toColor())
                 })
         }
     }

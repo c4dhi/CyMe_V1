@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WelcomeView: View {
     var nextPage: () -> Void
-    @ObservedObject var settingsViewModel: SettingsViewModel
+    @EnvironmentObject var themeManager: ThemeManager
     
     var body: some View {
         VStack(spacing: 20) {
@@ -32,7 +32,7 @@ struct WelcomeView: View {
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(settingsViewModel.settings.selectedTheme.accentColor.toColor())
+                    .background(themeManager.theme.accentColor.toColor())
                     .cornerRadius(10)
             }
             .padding(.horizontal)
@@ -44,6 +44,6 @@ struct WelcomeView: View {
 
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView(nextPage: {}, settingsViewModel: SettingsViewModel(connector: WatchConnector()))
+        WelcomeView(nextPage: {})
     }
 }

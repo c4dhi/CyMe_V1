@@ -111,7 +111,7 @@ func buildMinMaxAverage(cycleOverviewCurrent: [Int?], cycleOverviewLast : [Int?]
 func buildCorrelation(cycleOverviewCurrent: [Int?], cycleOverviewLast : [Int?], cycleOverviewSecondToLast : [Int?], cyclesAvailable : Int ) -> (Float?, [[Int?]]) {
     
     if cyclesAvailable < 2 {
-        print( "You need at least two cycles that are started to compute the covariance.")
+        print( "You need at least two cycles that are started to compute the correlation.")
         return (nil, [[nil], [nil]])
     }
     

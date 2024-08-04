@@ -27,6 +27,7 @@ struct SymptomInsightsView: View {
                         .padding(.vertical, 5)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }

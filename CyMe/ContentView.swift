@@ -3,12 +3,12 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var connector: WatchConnector
     @EnvironmentObject var settingsViewModel: SettingsViewModel
+    @EnvironmentObject var themeManager: ThemeManager
     
     @State private var isSettingsPresented = false
     @State private var isSelfReportPresented = false
     @State var discoverViewModel = DiscoverViewModel()
-                
-    @StateObject var themeManager = ThemeManager()
+    
         
     var body: some View {
         ZStack {
@@ -35,7 +35,6 @@ struct ContentView: View {
                     }
             }
             .accentColor(themeManager.theme.primaryColor.toColor())
-            .environmentObject(themeManager)
             .overlay(
                 // CyMe Icon
                 VStack {

@@ -34,7 +34,7 @@ struct HomeView: View {
                     .stroke(Color.gray, lineWidth: 15)
                     .frame(width: 200, height: 200)
                 Circle()
-                    .fill(themeManager.theme.accentColor.toColor())
+                    .fill(themeManager.theme.primaryColor.toColor())
                     .frame(width: 20, height: 20)
                     .offset(x: circlePosition.x, y: circlePosition.y)
                 Text("Day \(homeViewModel.cycleDay)")
@@ -61,7 +61,7 @@ struct HomeView: View {
                     .foregroundColor(.black)
             }
             .padding()
-            .background(themeManager.theme.accentColor.toColor().opacity(0.2))
+            .background(themeManager.theme.primaryColor.toColor().opacity(0.2))
             .cornerRadius(10)
             .padding(.top, 150)
             
@@ -87,11 +87,13 @@ struct HomeView: View {
                 .onAppear {
                     Logger.shared.log("Home view is shown")
                     homeViewModel.fetchReports()
+                    themeManager.loadTheme()
                 }
                
             }
             .padding(.bottom, 40)
         }
+        .background(themeManager.theme.backgroundColor.toColor())
     }
 }
 

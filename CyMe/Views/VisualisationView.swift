@@ -5,7 +5,7 @@ struct VisualisationView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
     @State private var selectedSymptoms: Set<SymptomModel> = []
     @State private var showingFilterSheet = false
-    @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
+    @EnvironmentObject var themeManager: ThemeManager
     @State private var selectedCycleOption = 1 // 1 for "This Cycle", 0 for "Last Cycle"
 
     var body: some View {
@@ -21,8 +21,8 @@ struct VisualisationView: View {
             VStack {
                 HStack {
                     Picker(selection: $selectedCycleOption, label: Text("")) {
-                        Text("Last Cycle").tag(0)
-                        Text("This Cycle").tag(1)
+                        Text("Last cycle").tag(0)
+                        Text("This cycle").tag(1)
                         
                     }
                     .pickerStyle(SegmentedPickerStyle())
@@ -34,7 +34,7 @@ struct VisualisationView: View {
                         Image(systemName: "slider.horizontal.3")
                             .font(.title2)
                             .padding()
-                            .foregroundColor(theme.primaryColor.toColor())
+                            .foregroundColor(themeManager.theme.primaryColor.toColor())
                     }
                     
                 }
@@ -57,27 +57,27 @@ struct VisualisationView: View {
         .padding()
         .onAppear {
             Logger.shared.log("Visualisation view is shown")
+            themeManager.loadTheme()
             Task{
                 await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1), settingsViewModel: settingsViewModel)
                 selectedSymptoms = Set(viewModel.symptoms)
             }
         }
-        .onReceive([selectedCycleOption].publisher.first()) { _ in
-            // Logic to handle selection change (this cycle or last cycle)
-            // You can update your data or perform any necessary actions here
-            // For example, you might want to fetch different data based on the selectedCycleOption
-        }
         .sheet(isPresented: $showingFilterSheet) {
             SymptomFilterView(symptoms: viewModel.symptoms, selectedSymptoms: $selectedSymptoms, showingFilterSheet: $showingFilterSheet)
         }
         .onChange(of: selectedCycleOption){ newValue in
+            let rememberSelectedSymptoms = selectedSymptoms
             Task{
                 await viewModel.updateChoice(currentCycle: (selectedCycleOption == 1))
-                selectedSymptoms = Set(viewModel.symptoms)
-                }
+                selectedSymptoms = Set(rememberSelectedSymptoms)
+            }
+            
         }
+        .background(themeManager.theme.backgroundColor.toColor())
     }
 }
+
 
 struct VisualisationView_Previews: PreviewProvider {
     static var previews: some View {
