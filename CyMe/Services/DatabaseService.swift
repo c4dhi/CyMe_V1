@@ -38,7 +38,7 @@ class DatabaseService {
             .appendingPathComponent("CyMe.sqlite")
 
         var db: OpaquePointer? = nil
-        if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
+        if sqlite3_open_v2(fileURL.path, &db, SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX, nil) != SQLITE_OK {
             Logger.shared.log("Error opening database")
             return nil
         } else {

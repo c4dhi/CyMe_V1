@@ -35,7 +35,7 @@ struct KnowledgeBaseView: View {
         ScrollView{
             VStack {
                 // Title
-                Text("Knowledge Base")
+                Text("Knowledge base")
                     .font(.title)
                     .fontWeight(.bold)
                 
@@ -48,7 +48,7 @@ struct KnowledgeBaseView: View {
                 
                 // Accordion-style round boxes
                 VStack(spacing: 10) {
-                    DisclosureGroup("General Knowledge", isExpanded: $isGeneralKnowledgeSectionOpen) {
+                    DisclosureGroup("General knowledge", isExpanded: $isGeneralKnowledgeSectionOpen) {
                         ForEach(generalKnowledge.keys.filter { self.searchQuery.isEmpty ? true : $0.localizedCaseInsensitiveContains(self.searchQuery) }, id: \.self) { key in
                             VStack(alignment: .leading) {
                                 Text(key).font(.headline)
@@ -74,7 +74,7 @@ struct KnowledgeBaseView: View {
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 10).fill(themeManager.theme.primaryColor.toColor()))
                     
-                    DisclosureGroup("Cycle Sync", isExpanded: $isCycleSyncSectionOpen) {
+                    DisclosureGroup("Cycle sync", isExpanded: $isCycleSyncSectionOpen) {
                         ForEach(cycleSync.keys.filter { self.searchQuery.isEmpty ? true : $0.localizedCaseInsensitiveContains(self.searchQuery) }, id: \.self) { key in
                             VStack(alignment: .leading) {
                                 Text(key).font(.headline)
