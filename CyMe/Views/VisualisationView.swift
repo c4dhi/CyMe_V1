@@ -67,12 +67,17 @@ struct VisualisationView: View {
             SymptomFilterView(symptoms: viewModel.symptoms, selectedSymptoms: $selectedSymptoms, showingFilterSheet: $showingFilterSheet)
         }
         .onChange(of: selectedCycleOption){ newValue in
-            let rememberSelectedSymptoms = selectedSymptoms
+            let rememberSelectedSymptomNames = selectedSymptoms.map{$0.title}
             Task{
-                await viewModel.updateChoice(currentCycle: (selectedCycleOption == 1))
-                selectedSymptoms = Set(rememberSelectedSymptoms)
+                viewModel.updateChoice(currentCycle: (selectedCycleOption == 1))
+ 
+                selectedSymptoms = []
+                for symptom in viewModel.symptoms{
+                    if rememberSelectedSymptomNames.contains(symptom.title){
+                        selectedSymptoms.insert(symptom)
+                    }
+                }
             }
-            
         }
         .background(themeManager.theme.backgroundColor.toColor())
     }

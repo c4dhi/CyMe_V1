@@ -31,15 +31,14 @@ class DiscoverViewModel: ObservableObject {
         menstruationRanges = MenstruationRanges()
     }
     
-    func updateChoice (currentCycle : Bool = true) async {
-        DispatchQueue.main.async {
-            if currentCycle{
-                self.symptoms = self.symptomsDict[.current]!
-            }
-            else { // Display the last full cycle
-                self.symptoms = self.symptomsDict[.last]!
-            }
+    func updateChoice (currentCycle : Bool = true) {
+        if currentCycle{
+            self.symptoms = self.symptomsDict[.current]!
         }
+        else { // Display the last full cycle
+            self.symptoms = self.symptomsDict[.last]!
+        }
+        
         
     }
     
