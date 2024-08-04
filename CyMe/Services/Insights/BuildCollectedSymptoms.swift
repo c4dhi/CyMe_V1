@@ -15,7 +15,7 @@ class BuildCollectedSymptoms{
     var availableCycles : Int
     var menstruationRanges : MenstruationRanges
     
-    let healthMetricToTitle : [availableHealthMetrics : String] = [.sleepLength : "Sleep Length", .exerciseTime : "Exercise Time", .stepCount : "Step Count"]
+    let healthMetricToTitle : [availableHealthMetrics : String] = [.sleepLength : "Sleep length", .exerciseTime : "Exercise time", .stepCount : "Step count"]
     let healthMetricToQuestionType : [availableHealthMetrics : QuestionType] =  [.sleepLength : .amountOfhour, .exerciseTime : .amountOfMin, .stepCount : .amountOfSteps]
     
     

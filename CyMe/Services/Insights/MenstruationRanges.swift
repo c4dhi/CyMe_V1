@@ -86,13 +86,14 @@ class MenstruationRanges : ObservableObject {
         var dateRangeToReturn : [Date] = []
        
         var iterator = getAppropriateStartDate(firstEntry: startDate)
-        while iterator <= getAppropriateEndDate(lastEntry: endDate) {
+        while iterator < endDate {
             dateRangeToReturn.append(iterator)
             guard let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: iterator) else {
                 break
             }
             iterator = nextDate
         }
+        print(dateRangeToReturn)
         return dateRangeToReturn
     }
     
@@ -135,7 +136,7 @@ class MenstruationRanges : ObservableObject {
         }
     
         DispatchQueue.main.async {
-            self.cycleDay = self.currentDateRange.count - 1
+            self.cycleDay = self.currentDateRange.count 
         }
     }
     

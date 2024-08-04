@@ -15,7 +15,7 @@ class BuildAHSelfReportedSymptoms{
     var availableCycles : Int
     var menstruationRanges : MenstruationRanges
     
-    let healthMetricToTitle : [availableHealthMetrics : String] = [.headache : "Headache", .abdominalCramps : "Abdominal Cramps", .lowerBackPain : "Lower Back Pain", .pelvicPain : "Pelvic Pain", .acne : "Acne", .chestTightnessOrPain : "Chest Tightness or Pain", .appetiteChange : "Appetite Change"]
+    let healthMetricToTitle : [availableHealthMetrics : String] = [.headache : "Headache", .abdominalCramps : "Abdominal cramps", .lowerBackPain : "Lower back pain", .pelvicPain : "Pelvic pain", .acne : "Acne", .chestTightnessOrPain : "Chest tightness or pain", .appetiteChange : "Appetite change"]
     let healthMetricToQuestionType : [availableHealthMetrics : QuestionType] = [.headache : .painEmoticonRating, .abdominalCramps : .painEmoticonRating, .lowerBackPain : .painEmoticonRating, .pelvicPain : .painEmoticonRating, .acne : .painEmoticonRating, .chestTightnessOrPain : .painEmoticonRating, .appetiteChange : .changeEmoticonRating]
     
     

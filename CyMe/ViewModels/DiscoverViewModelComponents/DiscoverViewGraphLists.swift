@@ -16,25 +16,19 @@ func buildcollectedDataGraphArray(symptomList: [Date: Int], dateRange: [Date], s
         return []
     }
     
-    if !sleepLength{
-        let firstDate = Calendar.current.date(byAdding: .hour, value: -12, to: dateRange[0])!
-        dataGraphArray.append(symptomList[firstDate] ?? nil)
-    }
-    
     for date in dateRange.sorted(){
-        // daterange entries are at 10:00 +0000 and symptom list entries are at 22:00 +0000
-        // except for sleep length
         var dateToCheck : Date
-        
         if sleepLength {
-            dateToCheck = Calendar.current.date(byAdding: .hour, value: 12, to: date)!
+            // daterange entries are at 22:00 +0000 and symptom dict entries are at 22:00 +0000
+            // except for sleep length entrys are at n-1 10:00 +0000
+            dateToCheck = Calendar.current.date(byAdding: .hour, value: -12, to: date)!
         }
         else {
             dateToCheck = date
         }
+        
         var toAppend : Int?
         
-    
         if symptomList[dateToCheck] != 0 {
             if !sleepLength{
                 toAppend = symptomList[dateToCheck] ?? nil
@@ -49,9 +43,8 @@ func buildcollectedDataGraphArray(symptomList: [Date: Int], dateRange: [Date], s
         
         dataGraphArray.append(toAppend)
         }
-    if !sleepLength {
-        dataGraphArray.removeLast() // Ignore the last 0 entry since it belongs to the next day
-    }
+    print(dataGraphArray)
+    
     return dataGraphArray
 }
 

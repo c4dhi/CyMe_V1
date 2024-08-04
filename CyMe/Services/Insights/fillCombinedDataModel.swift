@@ -56,7 +56,7 @@ class fillCombinedDataModel {
         var combinedDataModelToReturn = CombinedDataModel()
         
         let startDate = dateRange[0]
-        var endDate = dateRange[dateRange.count-1]
+        var endDate = Calendar.current.date(byAdding: .hour, value: 24, to: dateRange[dateRange.count-1])! 
         
         if endDate > Date(){
             endDate = Date()
@@ -105,7 +105,7 @@ class fillCombinedDataModel {
             
             print("\n Sleep Length")
             for date in combinedDataModel.sleepLengthDataList.keys.sorted() {
-                print(DateFormatter.localizedString(from: date, dateStyle: .short, timeStyle: .none), SleepDataModel.formatDuration(duration: Double(combinedDataModel.sleepLengthDataList[date]!))) }
+                print(DateFormatter.localizedString(from: date, dateStyle: .short, timeStyle: .short), SleepDataModel.formatDuration(duration: Double(combinedDataModel.sleepLengthDataList[date]!))) }
             
             print("\n Exercise Time")
             displayDateDictionary(dict: combinedDataModel.exerciseTimeDataList)
@@ -195,7 +195,6 @@ class fillCombinedDataModel {
         return await withCheckedContinuation { continuation in
             DispatchQueue.global(qos: .background).async {
                 let reports = self.reportingDatabaseService.getReports(from: startDate, to: endDate)
-                print("Internal", reports)
                 continuation.resume(returning: reports)
             }
         }

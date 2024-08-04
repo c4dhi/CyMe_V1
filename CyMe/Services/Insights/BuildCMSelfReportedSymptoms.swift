@@ -16,7 +16,7 @@ class BuildCMSelfReportedSymptoms{
     var availableCycles : Int
     var menstruationRanges : MenstruationRanges
     
-    let healthMetricToTitle : [availableHealthMetrics : String] = [.stress : "Stress", .sleepQuality : "Sleep Quality", .mood : "Mood", .menstrualBleeding : "Menstruation"]
+    let healthMetricToTitle : [availableHealthMetrics : String] = [.stress : "Stress", .sleepQuality : "Sleep quality", .mood : "Mood", .menstrualBleeding : "Menstruation"]
     let healthMetricToQuestionType : [availableHealthMetrics : QuestionType] =  [.stress : .emoticonRating, .sleepQuality : .emoticonRating, .mood : .emoticonRating, .menstrualBleeding : .menstruationEmoticonRating]
     
     

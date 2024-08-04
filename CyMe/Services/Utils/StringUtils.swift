@@ -9,7 +9,7 @@ import Foundation
 
 func displayDateDictionary(dict: [Date : Any]){
     for consideredDate in dict.keys.sorted(){
-        print(DateFormatter.localizedString(from: consideredDate, dateStyle: .short, timeStyle: .none), terminator: "")
+        print(DateFormatter.localizedString(from: consideredDate, dateStyle: .short, timeStyle: .short), terminator: "")
         if let value = dict[consideredDate]{
             print(": \(value) ")}
         else {print("There is a problem with displaying dict objects")}

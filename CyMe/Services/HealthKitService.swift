@@ -290,6 +290,7 @@ class HealthKitService {
              return []
          }
         let startDate = Calendar.current.date(byAdding: .hour, value: -12, to: startDate)!
+        let endDate = Calendar.current.date(byAdding: .hour, value: 12, to: endDate)!
             
         return try await withCheckedThrowingContinuation { continuation in
             let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: [.strictStartDate, .strictEndDate])
@@ -310,49 +311,50 @@ class HealthKitService {
         }
     
     func simplifySleepDataToSleepLength(sleepDataModel: [SleepDataModel]) -> [Date: Int] {
-        var sleepLengthDict : [Date : Double] = [:]
-        let datesDuration = sleepDataModel.map {($0.startDate, $0.duration, $0.label)}
-        if datesDuration.count == 0 {
+        var asleepLengthDict : [Date : Double] = [:]
+        var inBedLengthDict : [Date : Double] = [:]
+        
+        let datesDurationLabel = sleepDataModel.map {($0.startDate, $0.duration, $0.label)}
+        if datesDurationLabel.count == 0 {
             return [:]
         }
-        let firstDate = datesDuration[0].0
-        let previousDateComponent = Calendar.current.dateComponents([.day, .month, .year], from: firstDate)
-        var cutOff = Calendar.current.date(from: DateComponents(year: previousDateComponent.year, month: previousDateComponent.month, day: previousDateComponent.day, hour: 12, minute: 00, second: 00))! // Cut of when one sleep cycle can be is at noon
-        sleepLengthDict[cutOff] = 0
+        
+        let firstDate = datesDurationLabel[0].0
+        let firstDateComponent = Calendar.current.dateComponents([.day, .month, .year], from: firstDate)
+        
+        var consideredStart = Calendar.current.date(from: DateComponents(year: firstDateComponent.year, month: firstDateComponent.month, day: firstDateComponent.day, hour: 12, minute: 00, second: 00))! // Cut of when one sleep cycle can be is at noon, we start the computation of day n at day n-1 at noon, goes until n at noon
+        var consideredCutOff = Calendar.current.date(byAdding: .hour, value: 24, to: consideredStart)!
+        
+        
+        asleepLengthDict[consideredStart] = 0 // We always have dicts with the startdate as the key, so 12.1 at noon belongs to 13.1 from midnight
+        inBedLengthDict[consideredStart] = 0
 
-        for tuples in datesDuration{
-            // Check detailed sleep data
-            while cutOff < tuples.0 {
-                cutOff = Calendar.current.date(byAdding: .hour, value: 24, to: cutOff)!
-                sleepLengthDict[cutOff] = 0
+        for tuples in datesDurationLabel{
+            while consideredCutOff < tuples.0 {
+                consideredStart = Calendar.current.date(byAdding: .hour, value: 24, to: consideredStart)!
+                consideredCutOff = Calendar.current.date(byAdding: .hour, value: 24, to: consideredCutOff)!
+                asleepLengthDict[consideredStart] = 0
+                inBedLengthDict[consideredStart] = 0
             }
-            if tuples.2.contains("asleep"){
-                sleepLengthDict[cutOff] = sleepLengthDict[cutOff]! + tuples.1
+            if tuples.2.contains("asleep"){ // If we have the proper labels choose them
+                asleepLengthDict[consideredStart] = asleepLengthDict[consideredStart]! + tuples.1
+            }
+            else{ // otherwise use the in bed option
+                inBedLengthDict[consideredStart] = inBedLengthDict[consideredStart]! + tuples.1
             }
         }
         
-        cutOff = Calendar.current.date(from: DateComponents(year: previousDateComponent.year, month: previousDateComponent.month, day: previousDateComponent.day, hour: 12, minute: 00, second: 00))!
-        // Only "in bed" available
-        var considerThisDay = (sleepLengthDict[cutOff] == 0)
-        for tuples in datesDuration{
-            while cutOff < tuples.0 {
-                cutOff = Calendar.current.date(byAdding: .hour, value: 24, to: cutOff)!
-                considerThisDay = (sleepLengthDict[cutOff] == 0)
-            }
-            if considerThisDay {
-                sleepLengthDict[cutOff] = sleepLengthDict[cutOff]! + tuples.1
-            }
-        }
+        var sleepLengthDict : [Date : Int] = [:]
 
-        var sleepLengthDictInt : [Date:Int] = [:]
-        for key in sleepLengthDict.keys{
-            sleepLengthDictInt[key] = Int(sleepLengthDict[key]!)
+        for key in asleepLengthDict.keys{ // Both dictionaries have the same key
+            if asleepLengthDict[key] != 0{
+                sleepLengthDict[key] = Int(asleepLengthDict[key]!)
+            }
+            else{
+                sleepLengthDict[key] = Int(inBedLengthDict[key]!)
+            }
         }
-    
-        sleepLengthDictInt.removeValue(forKey: sleepLengthDictInt.keys.sorted()[0])
-        sleepLengthDictInt.removeValue(forKey: sleepLengthDictInt.keys.sorted()[sleepLengthDictInt.keys.count - 1])
-        
-        return sleepLengthDictInt
+        return sleepLengthDict
     }
         
     
