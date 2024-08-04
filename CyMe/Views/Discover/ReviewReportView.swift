@@ -7,7 +7,7 @@ struct ReviewReportView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Start Time:")
+                    Text("Start time:")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     Text("\(report.startTime, formatter: DateFormatter.shortTime)")
@@ -15,7 +15,7 @@ struct ReviewReportView: View {
                 }
                 Spacer()
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("End Time:")
+                    Text("End time:")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     Text("\(report.endTime, formatter: DateFormatter.shortTime)")
@@ -24,19 +24,19 @@ struct ReviewReportView: View {
             }
             Divider()
             VStack(alignment: .leading, spacing: 8) {
-                ReportDetailRow(label: "CyMe Self Report:", value: report.isCyMeSelfReport ? "Yes" : "No")
-                ReportDetailRow(label: "Self Report Medium:", value: report.selfReportMedium.rawValue)
+                ReportDetailRow(label: "CyMe self report:", value: report.isCyMeSelfReport ? "Yes" : "No")
+                ReportDetailRow(label: "Self report medium:", value: report.selfReportMedium.rawValue)
                 if let menstruationDate = report.menstruationDate {
-                    ReportDetailRow(label: "Menstruation Date:", value: menstruationDate)
+                    ReportDetailRow(label: "Menstruation date:", value: menstruationDate)
                 }
                 if let menstruationStart = report.menstruationStart {
-                    ReportDetailRow(label: "Menstruation Start:", value: menstruationStart)
+                    ReportDetailRow(label: "Menstruation start:", value: menstruationStart)
                 }
                 if let sleepQuality = report.sleepQuality {
-                    ReportDetailRow(label: "Sleep Quality:", value: sleepQuality)
+                    ReportDetailRow(label: "Sleep quality:", value: sleepQuality)
                 }
                 if let sleepLength = report.sleepLenght {
-                    ReportDetailRow(label: "Sleep Length:", value: sleepLength)
+                    ReportDetailRow(label: "Sleep length:", value: sleepLength)
                 }
                 if let headache = report.headache {
                     ReportDetailRow(label: "Headache:", value: headache)
@@ -45,25 +45,25 @@ struct ReviewReportView: View {
                     ReportDetailRow(label: "Stress:", value: stress)
                 }
                 if let abdominalCramps = report.abdominalCramps {
-                    ReportDetailRow(label: "Abdominal Cramps:", value: abdominalCramps)
+                    ReportDetailRow(label: "Abdominal cramps:", value: abdominalCramps)
                 }
                 if let lowerBackPain = report.lowerBackPain {
-                    ReportDetailRow(label: "Lower Back Pain:", value: lowerBackPain)
+                    ReportDetailRow(label: "Lower back pain:", value: lowerBackPain)
                 }
                 if let pelvicPain = report.pelvicPain {
-                    ReportDetailRow(label: "Pelvic Pain:", value: pelvicPain)
+                    ReportDetailRow(label: "Pelvic pain:", value: pelvicPain)
                 }
                 if let acne = report.acne {
                     ReportDetailRow(label: "Acne:", value: acne)
                 }
                 if let appetiteChanges = report.appetiteChanges {
-                    ReportDetailRow(label: "Appetite Changes:", value: appetiteChanges)
+                    ReportDetailRow(label: "Appetite changes:", value: appetiteChanges)
                 }
                 if let chestPain = report.chestPain {
-                    ReportDetailRow(label: "Chest Pain:", value: chestPain)
+                    ReportDetailRow(label: "Chest pain:", value: chestPain)
                 }
                 if let stepData = report.stepData {
-                    ReportDetailRow(label: "Step Data:", value: stepData)
+                    ReportDetailRow(label: "Step data:", value: stepData)
                 }
                 if let mood = report.mood {
                     ReportDetailRow(label: "Mood:", value: mood)

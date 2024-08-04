@@ -94,6 +94,7 @@ struct KnowledgeBaseView: View {
                 }
                 
             }
+            .padding(.top, 20)
         }
         .background(themeManager.theme.backgroundColor.toColor())
     }

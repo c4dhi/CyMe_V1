@@ -21,8 +21,8 @@ struct VisualisationView: View {
             VStack {
                 HStack {
                     Picker(selection: $selectedCycleOption, label: Text("")) {
-                        Text("Last Cycle").tag(0)
-                        Text("This Cycle").tag(1)
+                        Text("Last cycle").tag(0)
+                        Text("This cycle").tag(1)
                         
                     }
                     .pickerStyle(SegmentedPickerStyle())
@@ -71,13 +71,13 @@ struct VisualisationView: View {
             Task{
                 await viewModel.updateChoice(currentCycle: (selectedCycleOption == 1))
                 selectedSymptoms = Set(rememberSelectedSymptoms)
-                }
             }
             
         }
         .background(themeManager.theme.backgroundColor.toColor())
     }
 }
+
 
 struct VisualisationView_Previews: PreviewProvider {
     static var previews: some View {

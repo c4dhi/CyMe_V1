@@ -86,6 +86,7 @@ struct SelfReportWatchView: View {
                         Button(action: {
                             if currentQuestionIndex > 0 {
                                 currentQuestionIndex -= 1
+                                selectedOption = selfReports.popLast()
                             }
                         }) {
                             Image(systemName: "arrow.backward.circle")
@@ -150,8 +151,20 @@ struct SelfReportWatchView: View {
     }
     
     func shouldJumpOver() -> Bool {
-        guard let lastReport = selectedOption else { return false }
-        return lastReport.questionType == .menstruationEmoticonRating && (lastReport.reportedValue == "No" || lastReport.reportedValue == nil)
+        let currentQuestion = filteredHealthData[currentQuestionIndex]
+        let lastReport = selectedOption
+        
+        // handle skip
+        if currentQuestion.questionType == .menstruationEmoticonRating && (lastReport == nil)  {
+            return true
+            
+        }
+                                                                           
+         // handle next and skip
+        if currentQuestion.questionType == .menstruationEmoticonRating && lastReport?.questionType == .menstruationEmoticonRating && (lastReport?.reportedValue == "No" || lastReport?.reportedValue == nil) {
+            return true
+        }
+        return false
     }
 
     func onNext() {
