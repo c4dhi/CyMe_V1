@@ -19,10 +19,6 @@ class SelfReportViewModel: ObservableObject {
             self.settingsViewModel = settingsViewModel
             self.reportingDatabaseService = ReportingDatabaseService()
             loadQuestions()
-            Task{
-                await healthKit.updateSyncList()
-            }
-       
     }
         
     private func loadQuestions() {
@@ -32,7 +28,7 @@ class SelfReportViewModel: ObservableObject {
     }
     
     func saveReport(selfReports: [SymptomSelfReportModel], startTime: Date) async -> Bool {
-        healthKit.writeSamplesToAppleHealth(selfReports: selfReports, startTime: startTime)
+        healthKit.writeSamplesToAppleHealth(selfReports: selfReports, startTime: startTime, settingsViewModel : settingsViewModel)
         let selfReportModel = createSelfReportModel(selfReports: selfReports, startTime: startTime)
         return await withCheckedContinuation { continuation in
             DispatchQueue.main.async {

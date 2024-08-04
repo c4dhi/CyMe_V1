@@ -18,10 +18,6 @@ class HealthKitService {
     let sortDescriptorChronological = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
     
     
-    let relevantDataObject = RelevantData()
-    
-    
-    
     private let typesToRead: Set<HKSampleType> = [
         // Must - Read Access - CategoryType
         HKObjectType.categoryType(forIdentifier: .menstrualFlow)!,
@@ -69,12 +65,11 @@ class HealthKitService {
             }
         }
     }
-    
-    func updateSyncList() async {
-        await relevantDataObject.getRelevantDataLists()
-    }
    
-    func writeSamplesToAppleHealth(selfReports: [SymptomSelfReportModel], startTime : Date){
+    func writeSamplesToAppleHealth(selfReports: [SymptomSelfReportModel], startTime : Date, settingsViewModel : SettingsViewModel){
+        let relevantDataObject = RelevantData(settingsViewModel: settingsViewModel)
+        relevantDataObject.getRelevantDataLists()
+        
         Task{
             let syncList = relevantDataObject.relevantForAppleHealth
             let symptomCyMeLabelToAppleLabel = ["No": 1, "Mild": 2, "Moderate": 3 , "Severe": 4]

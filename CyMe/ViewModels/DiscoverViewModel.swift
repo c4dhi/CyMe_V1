@@ -22,16 +22,25 @@ class DiscoverViewModel: ObservableObject {
     var availableCycles : Int = 0
     var selfReports: [ReviewReportModel] = []
      
-    var symptomsDict : [cycleTimeOptions : SymptomModel] = [:]
+    var symptomsDict : [cycleTimeOptions : [SymptomModel]] = [:]
+ 
     
 
     init() {
         reportingDatabaseService =  ReportingDatabaseService()
         menstruationRanges = MenstruationRanges()
-        /*
-        Task{
-            await updateSymptoms()
-        }*/
+    }
+    
+    func updateChoice (currentCycle : Bool = true) async {
+        DispatchQueue.main.async {
+            if currentCycle{
+                self.symptoms = self.symptomsDict[.current]!
+            }
+            else { // Display the last full cycle
+                self.symptoms = self.symptomsDict[.last]!
+            }
+        }
+        
     }
     
     
@@ -53,15 +62,15 @@ class DiscoverViewModel: ObservableObject {
         let symptomDictCollected = buildCollectedSymptomsClass.buildCollectedSymptoms()
         let symptomDictCMSelfReported = buildCMSelfreportedSymptomsClass.buildSelfReportedSymptoms()
         
-        let symptomDict : [cycleTimeOptions : [SymptomModel]] = [.current : (symptomDictCMSelfReported[.current]! + symptomDictSelfReported[.current]! + symptomDictCollected[.current]!), .last : (symptomDictCMSelfReported[.last]! + symptomDictSelfReported[.last]! + symptomDictCollected[.last]!) , .secondToLast : (symptomDictCMSelfReported[.secondToLast]! + symptomDictSelfReported[.secondToLast]! + symptomDictCollected[.secondToLast]! )]
+        symptomsDict = [.current : (symptomDictCMSelfReported[.current]! + symptomDictSelfReported[.current]! + symptomDictCollected[.current]!), .last : (symptomDictCMSelfReported[.last]! + symptomDictSelfReported[.last]! + symptomDictCollected[.last]!) , .secondToLast : (symptomDictCMSelfReported[.secondToLast]! + symptomDictSelfReported[.secondToLast]! + symptomDictCollected[.secondToLast]! )]
 
     
         DispatchQueue.main.async {
             if currentCycle{
-                self.symptoms = symptomDict[.current]!
+                self.symptoms = self.symptomsDict[.current]!
             }
             else { // Display the last full cycle
-                self.symptoms = symptomDict[.last]!
+                self.symptoms = self.symptomsDict[.last]!
             }
         }
     }

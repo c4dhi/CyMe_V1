@@ -12,8 +12,7 @@ class RelevantData {
     var relevantForAppleHealth : [availableHealthMetrics] = []
     var relevantForCyMeSelfReport : [availableHealthMetrics] = []
     
-    var settingsDatabaseService : SettingsDatabaseService? = nil
-    var settingsViewModel : SettingsViewModel?
+    var settingsViewModel : SettingsViewModel
     
     let dBtoAvailableHealthMetrics : [String : availableHealthMetrics] =
                                     ["menstruationDate" : .menstrualBleeding,
@@ -32,25 +31,16 @@ class RelevantData {
                                     "exerciseTime" : .exerciseTime,
                                     "menstruationStart" : .menstrualStart]
 
-    init(settingsViewModel: SettingsViewModel? = nil) {
+    init(settingsViewModel: SettingsViewModel) {
         self.settingsViewModel = settingsViewModel
     }
     
-    func getRelevantDataLists() async {
+    func getRelevantDataLists(){
         relevantForDisplay  = []
         relevantForAppleHealth  = []
         relevantForCyMeSelfReport = []
         
-        var healthDataSettings : [HealthDataSettingsModel]
-        
-        if settingsViewModel == nil{
-            settingsDatabaseService = SettingsDatabaseService()
-            healthDataSettings = await getSettingLists()
-        }
-        else {
-            healthDataSettings = settingsViewModel!.settings.healthDataSettings
-        }
-       
+        var healthDataSettings = settingsViewModel.settings.healthDataSettings
         
         for setting in healthDataSettings {
             if(setting.enableDataSync){
@@ -61,15 +51,6 @@ class RelevantData {
             }
             if(setting.enableSelfReportingCyMe) || (setting.enableDataSync){
                 self.relevantForDisplay.append(self.dBtoAvailableHealthMetrics[setting.name]!)
-            }
-        }
-    }
-    
-    func getSettingLists() async -> [HealthDataSettingsModel]  {
-        return await withCheckedContinuation { continuation in
-            DispatchQueue.main.async {
-                let healthDataSettings = self.settingsDatabaseService!.getSettings()?.healthDataSettings
-                continuation.resume(returning: healthDataSettings!)
             }
         }
     }

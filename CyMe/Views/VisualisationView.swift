@@ -72,7 +72,7 @@ struct VisualisationView: View {
         }
         .onChange(of: selectedCycleOption){ newValue in
             Task{
-                await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1), settingsViewModel: settingsViewModel)
+                await viewModel.updateChoice(currentCycle: (selectedCycleOption == 1))
                 selectedSymptoms = Set(viewModel.symptoms)
                 }
         }
