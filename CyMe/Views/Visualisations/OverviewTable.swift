@@ -194,7 +194,7 @@ struct OverviewTable_Previews: PreviewProvider {
                 min: "0",
                 max: "3",
                 average: "1",
-                covariance: 2.5,
+                correlation: 2.5,
                 correlationOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
                 questionType: .painEmoticonRating
             ),
@@ -206,7 +206,7 @@ struct OverviewTable_Previews: PreviewProvider {
                 min: "1",
                 max: "4",
                 average: "2",
-                covariance: 1.8,
+                correlation: 1.8,
                 correlationOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .painEmoticonRating
             ),
@@ -218,7 +218,7 @@ struct OverviewTable_Previews: PreviewProvider {
                 min: "1",
                 max: "4",
                 average: "2",
-                covariance: 1.8,
+                correlation: 1.8,
                 correlationOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .menstruationEmoticonRating
             ),
@@ -230,7 +230,7 @@ struct OverviewTable_Previews: PreviewProvider {
                 min: "1",
                 max: "4",
                 average: "2",
-                covariance: 1.8,
+                correlation: 1.8,
                 correlationOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .emoticonRating
             ),
@@ -242,7 +242,7 @@ struct OverviewTable_Previews: PreviewProvider {
                 min: "1",
                 max: "4",
                 average: "2",
-                covariance: 1.8,
+                correlation: 1.8,
                 correlationOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
                 questionType: .amountOfhour
             )

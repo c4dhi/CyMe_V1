@@ -114,7 +114,7 @@ class BuildSymptoms{
                     min: statistics[0],
                     max: statistics[1],
                     average: statistics[2],
-                    covariance: correlationAndList.0,
+                    correlation: correlationAndList.0,
                     correlationOverview: correlationAndList.1,
                     questionType: questionType)
                 
@@ -141,7 +141,7 @@ class BuildSymptoms{
                     min: statistics[0],
                     max: statistics[1],
                     average: statistics[2],
-                    covariance: correlationAndList.0,
+                    correlation: correlationAndList.0,
                     correlationOverview: correlationAndList.1,
                     questionType: questionType)
                 
@@ -169,7 +169,7 @@ class BuildSymptoms{
                     min: statistics[0],
                     max: statistics[1],
                     average: statistics[2],
-                    covariance: correlationAndList.0,
+                    correlation: correlationAndList.0,
                     correlationOverview: correlationAndList.1,
                     questionType: questionType)
                 

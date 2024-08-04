@@ -162,7 +162,7 @@ struct DiscoverView_Previews: PreviewProvider {
             min: "1",
             max: "3",
             average: "1.5",
-            covariance: 0.7,
+            correlation: 0.7,
             correlationOverview: [],
             questionType: .painEmoticonRating
         )
@@ -175,7 +175,7 @@ struct DiscoverView_Previews: PreviewProvider {
             min: "1",
             max: "3",
             average: "2",
-            covariance: 0.6,
+            correlation: 0.6,
             correlationOverview: [],
             questionType: .painEmoticonRating
         )
@@ -188,7 +188,7 @@ struct DiscoverView_Previews: PreviewProvider {
             min: "1",
             max: "2",
             average: "1.25",
-            covariance: 0.5,
+            correlation: 0.5,
             correlationOverview: [],
             questionType: .changeEmoticonRating
         )

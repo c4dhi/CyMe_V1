@@ -27,8 +27,8 @@ struct SymptomStatisticsView: View {
             Text("\(symptom.average)")
                 .frame(maxWidth: .infinity, alignment: .leading)
             HStack {
-                let symptomCovariance = symptom.covariance == nil ? "" : String(format: "%.2f", symptom.covariance!)
-                Text("Correlation: \(symptomCovariance)")
+                let symptomCorrelation = symptom.correlation == nil ? "" : String(format: "%.2f", symptom.correlation!)
+                Text("Correlation: \(symptomCorrelation)")
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Button(action: {
                     showingPopover.toggle()
@@ -61,7 +61,7 @@ struct SymptomStatisticsView_Previews: PreviewProvider {
             min: "2",
             max: "10",
             average: "5",
-            covariance: 2.5,
+            correlation: 2.5,
             correlationOverview: [
                 [2, 3, 4, 6, 5],
                 [1, 2, 3, 4, 5]

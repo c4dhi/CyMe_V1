@@ -71,7 +71,7 @@ struct SymptomGraph_Previews: PreviewProvider {
             min: "1",
             max: "4",
             average: "2",
-            covariance: 1.8,
+            correlation: 1.8,
             correlationOverview: [[1, 2, 3, 4, 3], [2, 3, 4, 3, 2]],
             questionType: .amountOfhour
         ))

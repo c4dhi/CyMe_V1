@@ -60,7 +60,7 @@ struct SymptomFilterView_Previews: PreviewProvider {
                 min: "0",
                 max: "3",
                 average: "1",
-                covariance: 2.5,
+                correlation: 2.5,
                 correlationOverview: [[2, 3, 4, 6, 5], [1, 2, 3, 4, 5]],
                 questionType: .painEmoticonRating
             )
