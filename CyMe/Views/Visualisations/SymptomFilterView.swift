@@ -20,7 +20,7 @@ struct SymptomFilterView: View {
                     HStack {
                         Text(symptom.title)
                         Spacer()
-                        if selectedSymptoms.contains(symptom) {
+                        if selectedSymptoms.contains(where: { $0.title == symptom.title }) {
                             Image(systemName: "checkmark")
                                 .foregroundColor(themeManager.theme.primaryColor.toColor())
                         }
@@ -35,12 +35,13 @@ struct SymptomFilterView: View {
                     }
                 }
             }
-            .navigationTitle("Select Symptoms")
+            .navigationTitle("Select symptoms")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Done") {
                         showingFilterSheet = false
                     }
+                    .foregroundColor(themeManager.theme.primaryColor.toColor())
                 }
             }
         }

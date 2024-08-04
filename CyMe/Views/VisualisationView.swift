@@ -63,19 +63,17 @@ struct VisualisationView: View {
                 selectedSymptoms = Set(viewModel.symptoms)
             }
         }
-        .onReceive([selectedCycleOption].publisher.first()) { _ in
-            // Logic to handle selection change (this cycle or last cycle)
-            // You can update your data or perform any necessary actions here
-            // For example, you might want to fetch different data based on the selectedCycleOption
-        }
         .sheet(isPresented: $showingFilterSheet) {
             SymptomFilterView(symptoms: viewModel.symptoms, selectedSymptoms: $selectedSymptoms, showingFilterSheet: $showingFilterSheet)
         }
         .onChange(of: selectedCycleOption){ newValue in
+            let rememberSelectedSymptoms = selectedSymptoms
             Task{
                 await viewModel.updateChoice(currentCycle: (selectedCycleOption == 1))
-                selectedSymptoms = Set(viewModel.symptoms)
+                selectedSymptoms = Set(rememberSelectedSymptoms)
                 }
+            }
+            
         }
         .background(themeManager.theme.backgroundColor.toColor())
     }
