@@ -24,7 +24,8 @@ struct SymptomStatisticsView: View {
             Text("\(symptom.max)")
             Text("\(symptom.average)")
             HStack {
-                Text("Correlation: \(String(format: "%.2f", symptom.covariance))")
+                let symptomCovariance = symptom.covariance == nil ? "" : String(format: "%.2f", symptom.covariance!)
+                Text("Correlation: \(symptomCovariance)")
                 Button(action: {
                     showingPopover.toggle()
                 }) {

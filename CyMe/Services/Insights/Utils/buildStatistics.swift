@@ -8,8 +8,7 @@
 import Foundation
 
 /// Symptoms
-
-func buildSymptomMinMaxAverage(symptomListCurrent: [DataProtocoll], symptomListLast : [DataProtocoll], symptomListSecondToLast : [DataProtocoll], title : String, availableCycles : Int) -> [String]{
+func buildMinMaxAverage(symptomListCurrent: [DataProtocoll], symptomListLast : [DataProtocoll], symptomListSecondToLast : [DataProtocoll], title : String, availableCycles : Int) -> [String]{
     
     if availableCycles < 2 {
         return ["You need at least two cycles to compare them.", "", ""]
@@ -44,29 +43,24 @@ func buildSymptomMinMaxAverage(symptomListCurrent: [DataProtocoll], symptomListL
         if countSecondToLast == min { minList.append("second to last") }
     }
     
-    //let maxText = "You have reported the maximal amount of \(title) in your \(oxfordComma(list: maxList)) menstrual cycle, with \(String(max!)) reports in these cycles."
     let maxText = "Maximum over cycles: \(oxfordComma(list: maxList)) cycle \nWith \(String(max!)) reports \n"
-    //let minText = "You have reported the minimal amount of \(title) in your \(oxfordComma(list: minList)) menstrual cycle, with \( String(min!)) reports in these cycles."
     let minText = "Minimum over cycles: \(oxfordComma(list: minList)) cycle \nWith \( String(min!)) reports \n"
     
-    if availableCycles == 2{
+    var averageText = ""
+    if availableCycles == 2 {
         let average = Double(countCurrent + countLast)/2
-        //let averageText = "You have reported \(title) on average \(String(format: "%.2f", average)) times per cycle (in your last two cycles)."
-        let averageText = "Average: \(String(format: "%.2f", average)) reports per cycle"
-        return [minText, maxText, averageText]
+        averageText = "Average: \(String(format: "%.2f", average)) reports per cycle"
     }
     else {
         let average = Double(countCurrent + countLast + countSecondToLast)/3
-        //let averageText = "You have reported \(title) on average \(String(format: "%.2f", average)) times per cycle (in your last three cycles)."
-        let averageText = "Average: \(String(format: "%.2f", average)) reports per cycle"
-        return [minText, maxText, averageText]
+        averageText = "Average: \(String(format: "%.2f", average)) reports per cycle"
     }
+    return [minText, maxText, averageText]
 }
 
 
 /// Collected Quantities
-
-func buildCollectedQuantityMinMaxAverage(cycleOverviewCurrent: [Int?], cycleOverviewLast : [Int?], cycleOverviewSecondToLast : [Int?], availableCycles : Int, title: String, type: availableHealthMetrics ) -> [String]{
+func buildMinMaxAverage(cycleOverviewCurrent: [Int?], cycleOverviewLast : [Int?], cycleOverviewSecondToLast : [Int?], title: String, availableCycles : Int,  type: availableHealthMetrics ) -> [String]{
     
     if availableCycles < 2 {
         return ["You need at least two cycles to compare them.", "", ""]
@@ -104,70 +98,21 @@ func buildCollectedQuantityMinMaxAverage(cycleOverviewCurrent: [Int?], cycleOver
         if sumSecondToLast == min { minList.append("second to last") }
     }
     
-    var endOfMaxText = ""
-    var endOfMinText = ""
-    
-    if type == .sleepLength {
-        endOfMaxText = "\(SleepDataModel.formatDuration(duration: Double(max!))) of sleep."
-        endOfMinText = "\(SleepDataModel.formatDuration(duration: Double(min!))) of sleep."
-    }
-    if type == .stepCount {
-        endOfMaxText = "\(String(max!)) steps."
-        endOfMinText = "\(String(min!)) steps."
-    }
-    if type == .exerciseTime {
-        endOfMaxText = "\(String(max!)) minutes."
-        endOfMinText = "\(String(min!)) minutes."
-    }
-    
-    //let maxText = "You have reported the maximal sum of \(title) in your \(oxfordComma(list: maxList)) menstrual cycle, with a total of \(endOfMaxText)"
     let maxText = "Maximal sum over cycles: \(oxfordComma(list: maxList)) cycle\n"
-    //let minText = "You have reported the minimal sum of \(title) in your \(oxfordComma(list: minList)) menstrual cycle, with a total of \(endOfMinText)"
     let minText = "Minimal sum over cycles: \(oxfordComma(list: minList)) cycle\n"
-    
-    
-    var average : Double
-    var consideredCycles : String
-    var averageText = ""
-    
-    if availableCycles == 2 {
-        average = Double(sumCurrent + sumLast)/2
-        consideredCycles = "two"
-    }
-    else{
-        average = Double(sumCurrent + sumLast + sumSecondToLast)/3
-        consideredCycles = "three"
-    }
-    
-    
-    if type == .sleepLength {
-        //averageText = "On average you have a sum of \(SleepDataModel.formatDuration(duration: average)) over the last \(consideredCycles) cycles"
-        //averageText = "Average sum over cycles: \(String(format: "%.2f", average))h\n"
-        averageText = ""
-        
-    }
-    if type == .stepCount {
-        //averageText = "On average you have a sum of \(String(format: "%.2f", average)) steps over the last \(consideredCycles) cycles"
-        //averageText = "Average sum over cycles: \(String(format: "%.2f", average)) steps\n"
-        averageText = ""
-    }
-    if type == .exerciseTime {
-        //averageText = "On average you have a sum of \(String(format: "%.2f", average)) exercise minutes over the last \(consideredCycles) cycles"
-        //averageText = "Average sum over cycles: \(String(format: "%.2f", average)) minutes\n"
-        averageText = ""
-    }
+
    
-    return [minText, maxText, averageText]
+    return [minText, maxText, ""]
     
 }
 
 /// BOTH
 
-func buildCorrelation(cycleOverviewCurrent: [Int?], cycleOverviewLast : [Int?], cycleOverviewSecondToLast : [Int?], cyclesAvailable : Int ) -> (Float, [[Int?]]) {
+func buildCorrelation(cycleOverviewCurrent: [Int?], cycleOverviewLast : [Int?], cycleOverviewSecondToLast : [Int?], cyclesAvailable : Int ) -> (Float?, [[Int?]]) {
     
     if cyclesAvailable < 2 {
         print( "You need at least two cycles that are started to compute the covariance.")
-        return (0, [[nil], [nil]])
+        return (nil, [[nil], [nil]])
     }
     
     var list1 : [Int?]
@@ -193,7 +138,7 @@ func buildCorrelation(cycleOverviewCurrent: [Int?], cycleOverviewLast : [Int?], 
             averageSum1 += entry!
         }
     }
-    // TODO if we skip the tail, should we then consider the average only up to the tail?
+    // Possible Choice: if we skip the tail, should we then consider the average only up to the tail?
     for entry in list2{
         if entry != nil {
             averageSum2 += entry!
@@ -206,10 +151,12 @@ func buildCorrelation(cycleOverviewCurrent: [Int?], cycleOverviewLast : [Int?], 
     let largerIndex = max(list1.count, list2.count)
     let smallerIndex = min(list1.count, list2.count)
     
+    // calculation of correlation https://zief0002.github.io/matrix-algebra/statistical-application-vectors.html
+    
     var lxSum  = Float(0)
     var lySum  = Float(0)
     
-    var sum = Float(0)
+    var covarianceSum = Float(0)
     
     for i in (0..<largerIndex){
         if i<smallerIndex{
@@ -221,22 +168,20 @@ func buildCorrelation(cycleOverviewCurrent: [Int?], cycleOverviewLast : [Int?], 
             lySum += entry2*entry2
         
            
-            sum += entry1*entry2 // NIL is mapped onto 0
-            //sum += (list1[i]? - average1)*(list2[i]? - average2) // NIL is skipped
+            covarianceSum += entry1*entry2 // NIL is mapped onto 0
         }
-        // do nothing - Tail is skipped - non-existant differences are 0
-        // implement - Tail is considered as variance - non-existant differences are 1
+        // do nothing - Tail is skipped - non-existant differences are 0 - Possible Choices exist
     }
 
-    let covariance = Float(sum)/Float(smallerIndex)
-    let lx = sqrt(lxSum)/sqrt(Float(smallerIndex))
-    let ly = sqrt(lySum)/sqrt(Float(smallerIndex))
+    let covariance = Float(covarianceSum)/Float(smallerIndex)
+    let sx = sqrt(lxSum)/sqrt(Float(smallerIndex))
+    let sy = sqrt(lySum)/sqrt(Float(smallerIndex))
     
-    if lx*ly == 0{
-        return(Float(0), [Array(list1[0..<smallerIndex]), Array(list2[0..<smallerIndex])])
+    if sx*sy == 0{
+        return(nil, [Array(list1[0..<smallerIndex]), Array(list2[0..<smallerIndex])])
     }
     
-    let correlation = covariance/(lx * ly)
+    let correlation = covariance/(sx * sy)
 
     return (correlation, [Array(list1[0..<smallerIndex]), Array(list2[0..<smallerIndex])])
 }

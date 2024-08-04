@@ -82,7 +82,7 @@ struct ProfileView: View {
                     if userViewModel.user.fertilityGoal != "Pregnancy" {
                         MultipleSelectionPicker(
                             title: "Contraception",
-                            options: ["None", "Pill", "Condom/Diaphram", "IUD", "Implants", "Injections", "Vaginal Rings", "Fertility Awareness based Methods", "Sterilization"],
+                            options: ["None", "Pill", "Condom/Diaphram", "IUD", "Implants", "Injections", "Vaginal rings", "Fertility awareness based methods", "Sterilization"],
                             selectedOptions: $userViewModel.user.contraceptions
                         )
                     }

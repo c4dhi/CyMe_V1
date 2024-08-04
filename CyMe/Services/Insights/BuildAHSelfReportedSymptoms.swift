@@ -51,15 +51,15 @@ class BuildAHSelfReportedSymptoms{
                 }
                 
                 if availableCycles >= 1 {
-                    cycleOverviewCurrent = buildSymptomGraphArray(symptomList: combinedDataDict[.current]!.getDataList(healthMetric: healthMetric), dateRange: dateRangeDict[.current]!, appetiteChange: healthMetric == .appetiteChange)
+                    cycleOverviewCurrent = buildDataGraphArray(symptomList: combinedDataDict[.current]!.getDataList(healthMetric: healthMetric), dateRange: dateRangeDict[.current]!, type: healthMetric)
                 }
                 
                 if availableCycles >= 2 {
-                    cycleOverviewLast = buildSymptomGraphArray(symptomList: combinedDataDict[.last]!.getDataList(healthMetric: healthMetric), dateRange: dateRangeDict[.last]!, appetiteChange: healthMetric == .appetiteChange)
+                    cycleOverviewLast = buildDataGraphArray(symptomList: combinedDataDict[.last]!.getDataList(healthMetric: healthMetric), dateRange: dateRangeDict[.last]!, type: healthMetric )
                 }
                 
                 if availableCycles >= 3 {
-                    cycleOverviewSecondToLast = buildSymptomGraphArray(symptomList: combinedDataDict[.secondToLast]!.getDataList(healthMetric: healthMetric), dateRange: dateRangeDict[.secondToLast]!, appetiteChange: healthMetric == .appetiteChange)
+                    cycleOverviewSecondToLast = buildDataGraphArray(symptomList: combinedDataDict[.secondToLast]!.getDataList(healthMetric: healthMetric), dateRange: dateRangeDict[.secondToLast]!, type: healthMetric)
                 }
                 
                 var statistics : [String]
@@ -67,14 +67,14 @@ class BuildAHSelfReportedSymptoms{
                     statistics = ["You don't have two cycles started to compare :(", "", ""]
                 }
                 else {
-                    statistics = buildSymptomMinMaxAverage(symptomListCurrent: combinedDataDict[.current]!.getDataList(healthMetric: healthMetric), symptomListLast: combinedDataDict[.last]!.getDataList(healthMetric: healthMetric), symptomListSecondToLast: combinedDataDict[.secondToLast]!.getDataList(healthMetric: healthMetric), title: title, availableCycles: availableCycles)
+                    statistics = buildMinMaxAverage(symptomListCurrent: combinedDataDict[.current]!.getDataList(healthMetric: healthMetric), symptomListLast: combinedDataDict[.last]!.getDataList(healthMetric: healthMetric), symptomListSecondToLast: combinedDataDict[.secondToLast]!.getDataList(healthMetric: healthMetric), title: title, availableCycles: availableCycles)
                 }
                 
                 let covarianceAndList =  buildCorrelation(cycleOverviewCurrent: cycleOverviewCurrent, cycleOverviewLast:  cycleOverviewLast, cycleOverviewSecondToLast:  cycleOverviewSecondToLast, cyclesAvailable: availableCycles)
                 
                 
                 if availableCycles >= 1 {
-                    let hints : [String] = buildSymptomHints(cycleOverview: cycleOverviewCurrent, symptomList: combinedDataDict[.current]!.getDataList(healthMetric: healthMetric), dateRange: dateRangeDict[.current]!, title: title, removeMaxMinHint: healthMetric == .appetiteChange)
+                    let hints : [String] = buildHints(cycleOverview: cycleOverviewCurrent, symptomList: combinedDataDict[.current]!.getDataList(healthMetric: healthMetric), dateRange: dateRangeDict[.current]!, title: title, removeMaxMinHint: healthMetric == .appetiteChange)
                     
                     let symptomModel = SymptomModel(
                         title: title,
@@ -94,7 +94,7 @@ class BuildAHSelfReportedSymptoms{
                 }
                 
                 if availableCycles >= 2 {
-                    let hints : [String] = buildSymptomHints(cycleOverview: cycleOverviewLast, symptomList: combinedDataDict[.last]!.getDataList(healthMetric: healthMetric), dateRange: dateRangeDict[.last]!, title: title, removeMaxMinHint: healthMetric == .appetiteChange)
+                    let hints : [String] = buildHints(cycleOverview: cycleOverviewLast, symptomList: combinedDataDict[.last]!.getDataList(healthMetric: healthMetric), dateRange: dateRangeDict[.last]!, title: title, removeMaxMinHint: healthMetric == .appetiteChange)
                     
                     let symptomModel = SymptomModel(
                         title: title,
@@ -115,7 +115,7 @@ class BuildAHSelfReportedSymptoms{
                 }
                 
                 if availableCycles >= 3 {
-                    let hints : [String] = buildSymptomHints(cycleOverview: cycleOverviewSecondToLast, symptomList: combinedDataDict[.secondToLast]!.getDataList(healthMetric: healthMetric), dateRange: dateRangeDict[.secondToLast]!, title: title, removeMaxMinHint: healthMetric == .appetiteChange)
+                    let hints : [String] = buildHints(cycleOverview: cycleOverviewSecondToLast, symptomList: combinedDataDict[.secondToLast]!.getDataList(healthMetric: healthMetric), dateRange: dateRangeDict[.secondToLast]!, title: title, removeMaxMinHint: healthMetric == .appetiteChange)
                     
                     let symptomModel = SymptomModel(
                         title: title,

@@ -53,17 +53,9 @@ class DiscoverViewModel: ObservableObject {
         combinedDataDict = fillCombinedDataModel.combinedDataDict
         selfReports = fillCombinedDataModel.selfReports
         availableCycles = fillCombinedDataModel.availableCycles
-        
-        let buildSelfreportedSymptomsClass = BuildAHSelfReportedSymptoms(relevantDataList: relevantDataClass.relevantForDisplay, combinedDataDict : combinedDataDict, menstruationRanges : menstruationRanges, availableCycles : availableCycles)
-        let buildCollectedSymptomsClass = BuildCollectedSymptoms(relevantDataList: relevantDataClass.relevantForDisplay, combinedDataDict : combinedDataDict, menstruationRanges : menstruationRanges, availableCycles : availableCycles)
-        let buildCMSelfreportedSymptomsClass = BuildCMSelfReportedSymptoms(relevantDataList: relevantDataClass.relevantForDisplay, combinedDataDict : combinedDataDict, menstruationRanges : menstruationRanges, availableCycles : availableCycles)
-        
-        let symptomDictSelfReported = buildSelfreportedSymptomsClass.buildSelfReportedSymptoms()
-        let symptomDictCollected = buildCollectedSymptomsClass.buildCollectedSymptoms()
-        let symptomDictCMSelfReported = buildCMSelfreportedSymptomsClass.buildSelfReportedSymptoms()
-        
-        symptomsDict = [.current : (symptomDictCMSelfReported[.current]! + symptomDictSelfReported[.current]! + symptomDictCollected[.current]!), .last : (symptomDictCMSelfReported[.last]! + symptomDictSelfReported[.last]! + symptomDictCollected[.last]!) , .secondToLast : (symptomDictCMSelfReported[.secondToLast]! + symptomDictSelfReported[.secondToLast]! + symptomDictCollected[.secondToLast]! )]
-
+    
+        let buildSymptomsClass = BuildSymptoms(relevantDataList: relevantDataClass.relevantForDisplay, combinedDataDict : combinedDataDict, menstruationRanges : menstruationRanges, availableCycles : availableCycles)
+        symptomsDict = buildSymptomsClass.buildSymptoms()
     
         DispatchQueue.main.async {
             if currentCycle{

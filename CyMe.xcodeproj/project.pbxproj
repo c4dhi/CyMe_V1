@@ -103,10 +103,9 @@
 		4CFDC3862C0C49ED00DD3295 /* SelfReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */; };
 		4CFDC3892C0C66D000DD3295 /* HealthDataWithoutNilModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */; };
 		500479C52C27293800882265 /* DataProtocoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500479C42C27293800882265 /* DataProtocoll.swift */; };
-		500D9B622C2D5C2300B26D27 /* DiscoverViewGraphLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B612C2D5C2300B26D27 /* DiscoverViewGraphLists.swift */; };
 		500D9B662C2D5CC900B26D27 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B652C2D5CC900B26D27 /* StringUtils.swift */; };
-		500D9B682C2D5DAA00B26D27 /* DiscoverViewHints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B672C2D5DAA00B26D27 /* DiscoverViewHints.swift */; };
-		500D9B6A2C2D943500B26D27 /* DiscoverViewStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B692C2D943500B26D27 /* DiscoverViewStatistics.swift */; };
+		500D9B682C2D5DAA00B26D27 /* buildHints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B672C2D5DAA00B26D27 /* buildHints.swift */; };
+		500D9B6A2C2D943500B26D27 /* buildStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D9B692C2D943500B26D27 /* buildStatistics.swift */; };
 		503481302C36AD7D00A49903 /* MenstruationRanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034812F2C36AD7D00A49903 /* MenstruationRanges.swift */; };
 		503481322C36AE8C00A49903 /* CombinedDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503481312C36AE8C00A49903 /* CombinedDataModel.swift */; };
 		503481342C36B26400A49903 /* RelevantData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503481332C36B26400A49903 /* RelevantData.swift */; };
@@ -115,11 +114,10 @@
 		5065837E2C5B7EB30058E4AD /* RelevantDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5065837D2C5B7EB30058E4AD /* RelevantDataTests.swift */; };
 		506583802C5B88CE0058E4AD /* MenstrualRangesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5065837F2C5B88CE0058E4AD /* MenstrualRangesTests.swift */; };
 		506583822C5BB9E70058E4AD /* fillCombinedDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506583812C5BB9E70058E4AD /* fillCombinedDataModel.swift */; };
-		506583882C5D07BD0058E4AD /* BuildCollectedSymptoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506583872C5D07BD0058E4AD /* BuildCollectedSymptoms.swift */; };
-		5065838A2C5D1E780058E4AD /* BuildAHSelfReportedSymptoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506583892C5D1E780058E4AD /* BuildAHSelfReportedSymptoms.swift */; };
-		5065838C2C5D23E60058E4AD /* BuildCMSelfReportedSymptoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5065838B2C5D23E60058E4AD /* BuildCMSelfReportedSymptoms.swift */; };
+		506583882C5D07BD0058E4AD /* BuildSymptoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506583872C5D07BD0058E4AD /* BuildSymptoms.swift */; };
 		507845402C36F0D900B8D019 /* SigmaSwiftStatistics in Frameworks */ = {isa = PBXBuildFile; productRef = 5078453F2C36F0D900B8D019 /* SigmaSwiftStatistics */; };
 		50966ECF2C342715006BBE84 /* CyMeSelfreportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50966ECE2C342715006BBE84 /* CyMeSelfreportModel.swift */; };
+		50C433562C5F42E30087BB68 /* buildDataGraphArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C433552C5F42E30087BB68 /* buildDataGraphArray.swift */; };
 		50E115312C072ECF002C1333 /* SleepDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E115302C072ECF002C1333 /* SleepDataModel.swift */; };
 		50E26B0D2C046A5700726C5C /* HealthSelfReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B0C2C046A5700726C5C /* HealthSelfReportModel.swift */; };
 		50E26B1A2C04C7FF00726C5C /* PeriodSampleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E26B192C04C7FF00726C5C /* PeriodSampleModel.swift */; };
@@ -313,10 +311,9 @@
 		4CFDC3852C0C49ED00DD3295 /* SelfReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReportViewModel.swift; sourceTree = "<group>"; };
 		4CFDC3882C0C66D000DD3295 /* HealthDataWithoutNilModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataWithoutNilModel.swift; sourceTree = "<group>"; };
 		500479C42C27293800882265 /* DataProtocoll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProtocoll.swift; sourceTree = "<group>"; };
-		500D9B612C2D5C2300B26D27 /* DiscoverViewGraphLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewGraphLists.swift; sourceTree = "<group>"; };
 		500D9B652C2D5CC900B26D27 /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
-		500D9B672C2D5DAA00B26D27 /* DiscoverViewHints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewHints.swift; sourceTree = "<group>"; };
-		500D9B692C2D943500B26D27 /* DiscoverViewStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewStatistics.swift; sourceTree = "<group>"; };
+		500D9B672C2D5DAA00B26D27 /* buildHints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = buildHints.swift; sourceTree = "<group>"; };
+		500D9B692C2D943500B26D27 /* buildStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = buildStatistics.swift; sourceTree = "<group>"; };
 		5034812F2C36AD7D00A49903 /* MenstruationRanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenstruationRanges.swift; sourceTree = "<group>"; };
 		503481312C36AE8C00A49903 /* CombinedDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedDataModel.swift; sourceTree = "<group>"; };
 		503481332C36B26400A49903 /* RelevantData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelevantData.swift; sourceTree = "<group>"; };
@@ -325,10 +322,9 @@
 		5065837D2C5B7EB30058E4AD /* RelevantDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelevantDataTests.swift; sourceTree = "<group>"; };
 		5065837F2C5B88CE0058E4AD /* MenstrualRangesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenstrualRangesTests.swift; sourceTree = "<group>"; };
 		506583812C5BB9E70058E4AD /* fillCombinedDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = fillCombinedDataModel.swift; path = CyMe/Services/Insights/fillCombinedDataModel.swift; sourceTree = SOURCE_ROOT; };
-		506583872C5D07BD0058E4AD /* BuildCollectedSymptoms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildCollectedSymptoms.swift; sourceTree = "<group>"; };
-		506583892C5D1E780058E4AD /* BuildAHSelfReportedSymptoms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildAHSelfReportedSymptoms.swift; sourceTree = "<group>"; };
-		5065838B2C5D23E60058E4AD /* BuildCMSelfReportedSymptoms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildCMSelfReportedSymptoms.swift; sourceTree = "<group>"; };
+		506583872C5D07BD0058E4AD /* BuildSymptoms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildSymptoms.swift; sourceTree = "<group>"; };
 		50966ECE2C342715006BBE84 /* CyMeSelfreportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyMeSelfreportModel.swift; sourceTree = "<group>"; };
+		50C433552C5F42E30087BB68 /* buildDataGraphArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = buildDataGraphArray.swift; sourceTree = "<group>"; };
 		50D4A8CE2BFE2E2F008FDE58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		50D4A8CF2BFE3060008FDE58 /* CyMe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CyMe.entitlements; sourceTree = "<group>"; };
 		50E115302C072ECF002C1333 /* SleepDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepDataModel.swift; sourceTree = "<group>"; };
@@ -587,7 +583,6 @@
 		4C1354F22BCFD6730078A84B /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				500D9B602C2D5BEA00B26D27 /* DiscoverViewModelComponents */,
 				4C1354F02BCFD6560078A84B /* DiscoverViewModel.swift */,
 				4C5A49B32BFDEFF6008253FD /* SettingsViewModel.swift */,
 				4C5A49B92BFFD07C008253FD /* ProfileViewModel.swift */,
@@ -729,26 +724,15 @@
 			path = SelfReportingModel;
 			sourceTree = "<group>";
 		};
-		500D9B602C2D5BEA00B26D27 /* DiscoverViewModelComponents */ = {
-			isa = PBXGroup;
-			children = (
-				500D9B612C2D5C2300B26D27 /* DiscoverViewGraphLists.swift */,
-				500D9B672C2D5DAA00B26D27 /* DiscoverViewHints.swift */,
-				500D9B692C2D943500B26D27 /* DiscoverViewStatistics.swift */,
-			);
-			path = DiscoverViewModelComponents;
-			sourceTree = "<group>";
-		};
 		506583742C5B6F780058E4AD /* Insights */ = {
 			isa = PBXGroup;
 			children = (
+				50C433542C5F42C90087BB68 /* Utils */,
 				506583762C5B70270058E4AD /* Enums_Protocolls */,
 				503481332C36B26400A49903 /* RelevantData.swift */,
 				506583812C5BB9E70058E4AD /* fillCombinedDataModel.swift */,
 				5034812F2C36AD7D00A49903 /* MenstruationRanges.swift */,
-				506583872C5D07BD0058E4AD /* BuildCollectedSymptoms.swift */,
-				506583892C5D1E780058E4AD /* BuildAHSelfReportedSymptoms.swift */,
-				5065838B2C5D23E60058E4AD /* BuildCMSelfReportedSymptoms.swift */,
+				506583872C5D07BD0058E4AD /* BuildSymptoms.swift */,
 			);
 			path = Insights;
 			sourceTree = "<group>";
@@ -760,6 +744,16 @@
 				506583792C5B70A40058E4AD /* cycleTimeOptions.swift */,
 			);
 			path = Enums_Protocolls;
+			sourceTree = "<group>";
+		};
+		50C433542C5F42C90087BB68 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				500D9B672C2D5DAA00B26D27 /* buildHints.swift */,
+				500D9B692C2D943500B26D27 /* buildStatistics.swift */,
+				50C433552C5F42E30087BB68 /* buildDataGraphArray.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1083,7 +1077,7 @@
 				4CF16ACC2C567FD100DB1263 /* ReportsByDayView.swift in Sources */,
 				4CDD2FD22BECAAA5005995B5 /* WelcomeView.swift in Sources */,
 				4CF16ACA2C567C6C00DB1263 /* ReviewReportView.swift in Sources */,
-				500D9B6A2C2D943500B26D27 /* DiscoverViewStatistics.swift in Sources */,
+				500D9B6A2C2D943500B26D27 /* buildStatistics.swift in Sources */,
 				4CFDC3812C072D6400DD3295 /* HealthDataSettingsModel.swift in Sources */,
 				4C5A49B82BFE1A79008253FD /* ThemeModel.swift in Sources */,
 				4CDD2FE12BF4F2B9005995B5 /* SelfReportView.swift in Sources */,
@@ -1100,7 +1094,6 @@
 				4CF015542BE955B300BE8DF0 /* WatchConnector.swift in Sources */,
 				4C5A49B62BFDF4A9008253FD /* ReminderModel.swift in Sources */,
 				4C5A49B22BFDEF49008253FD /* SettingsModel.swift in Sources */,
-				5065838A2C5D1E780058E4AD /* BuildAHSelfReportedSymptoms.swift in Sources */,
 				4C0897202C0E01E90042A6D1 /* SymptomGraph.swift in Sources */,
 				4C5A49BC2BFFD184008253FD /* UserModel.swift in Sources */,
 				4CC462082C44E64A006B5933 /* Logger.swift in Sources */,
@@ -1109,18 +1102,17 @@
 				4C5605292C01D29500B9114D /* ReportingDatabaseService.swift in Sources */,
 				4C0897222C0E04670042A6D1 /* SymptomInsightsView.swift in Sources */,
 				4CF16AC62C4EEE0F00DB1263 /* discoverUtils.swift in Sources */,
-				500D9B622C2D5C2300B26D27 /* DiscoverViewGraphLists.swift in Sources */,
-				500D9B682C2D5DAA00B26D27 /* DiscoverViewHints.swift in Sources */,
+				50C433562C5F42E30087BB68 /* buildDataGraphArray.swift in Sources */,
+				500D9B682C2D5DAA00B26D27 /* buildHints.swift in Sources */,
 				4C08971D2C0DBBD20042A6D1 /* SymptomModel.swift in Sources */,
 				4CDD2FD52BECB52E005995B5 /* ProfileView.swift in Sources */,
 				4C3816902C3568960079A48B /* OverviewTable.swift in Sources */,
 				4C1A36EE2C30581B006E50D8 /* HomeViewModel.swift in Sources */,
 				4CDD2FDB2BF25023005995B5 /* OnboardingView.swift in Sources */,
-				506583882C5D07BD0058E4AD /* BuildCollectedSymptoms.swift in Sources */,
+				506583882C5D07BD0058E4AD /* BuildSymptoms.swift in Sources */,
 				4CDD2FC62BEB6B4F005995B5 /* SettingsView.swift in Sources */,
 				4CFDC37F2C04F24500DD3295 /* DatabaseUtils.swift in Sources */,
 				4C1354E32BCFCE320078A84B /* HomeView.swift in Sources */,
-				5065838C2C5D23E60058E4AD /* BuildCMSelfReportedSymptoms.swift in Sources */,
 				4C3816922C3868A10079A48B /* MultiSymptomeGraph.swift in Sources */,
 				500D9B662C2D5CC900B26D27 /* StringUtils.swift in Sources */,
 				4CDF57F22C0CF8D700C7E9F6 /* PopupView.swift in Sources */,

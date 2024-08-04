@@ -1,12 +1,11 @@
 //
-//  DiscoverViewGraphLists.swift
+//  buildDataGraphArray.swift
 //  CyMe
 //
-//  Created by Deborah on 27.06.2024.
+//  Created by Deborah on 04.08.2024.
 //
 
 import Foundation
-
 
 /// Collected Health Data - Dictionaries
 func buildDataGraphArray(symptomList: [Date: Int], dateRange: [Date], type : availableHealthMetrics) -> [Int?]{
@@ -79,7 +78,7 @@ func buildDataGraphArray(symptomList: [DataProtocoll], dateRange : [Date], type 
             symptomGraphArray.append(Int(ceil(average)))
         }
         else{
-            symptomGraphArray.append(nil) 
+            symptomGraphArray.append(nil)
         }
     }
     return symptomGraphArray
