@@ -56,6 +56,7 @@ class DiscoverViewModel: ObservableObject {
         let buildSymptomsClass = BuildSymptoms(relevantDataList: relevantDataClass.relevantForDisplay, combinedDataDict : combinedDataDict, menstruationRanges : menstruationRanges, availableCycles : availableCycles)
         symptomsDict = buildSymptomsClass.buildSymptoms()
     
+        print(symptomsDict)
         DispatchQueue.main.async {
             if currentCycle{
                 self.symptoms = self.symptomsDict[.current]!
