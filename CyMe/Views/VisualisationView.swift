@@ -69,12 +69,14 @@ struct VisualisationView: View {
         .onChange(of: selectedCycleOption){ newValue in
             let rememberSelectedSymptomNames = selectedSymptoms.map{$0.title}
             Task{
-                viewModel.updateChoice(currentCycle: (selectedCycleOption == 1))
- 
-                selectedSymptoms = []
+                await viewModel.updateChoice(currentCycle: (selectedCycleOption == 1))
+                selectedSymptoms = Set(viewModel.symptoms)
                 for symptom in viewModel.symptoms{
-                    if rememberSelectedSymptomNames.contains(symptom.title){
-                        selectedSymptoms.insert(symptom)
+                    if rememberSelectedSymptomNames.count==0{
+                        break // If we have not selected any symptoms we then want all
+                    }
+                    if !rememberSelectedSymptomNames.contains(symptom.title){
+                        selectedSymptoms.remove(symptom)
                     }
                 }
             }

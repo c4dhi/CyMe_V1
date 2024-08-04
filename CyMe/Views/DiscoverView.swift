@@ -107,19 +107,21 @@ struct DiscoverView: View {
         .onChange(of: selectedCycleOption){ newValue in
             let rememberSelectedSymptom = selectedSymptom?.title
             Task{
-                viewModel.updateChoice(currentCycle: (selectedCycleOption == 1))
+                await viewModel.updateChoice(currentCycle: (selectedCycleOption == 1))
+            
                 if (viewModel.symptoms.count == 0){ // If there are no symptoms in the new but the old cycle
                     selectedSymptom = nil
                 }
-                for symptom in viewModel.symptoms{
-                    if symptom.title == rememberSelectedSymptom{
-                        selectedSymptom = symptom
-                        break
+                else{
+                    for symptom in viewModel.symptoms{
+                        if symptom.title == rememberSelectedSymptom{
+                            selectedSymptom = symptom
+                            break
+                        }
                     }
                 }
-                
-                
             }
+           
         }
         .background(themeManager.theme.backgroundColor.toColor())
     }
