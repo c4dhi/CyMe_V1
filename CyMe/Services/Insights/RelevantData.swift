@@ -9,10 +9,10 @@ import Foundation
 
 class RelevantData {
     var relevantForDisplay : [availableHealthMetrics] = []
-    var relevantForAppleHealthFetch : [availableHealthMetrics] = []
-    var relevantForCyMeFetch : [availableHealthMetrics] = []
+    var relevantForAppleHealth : [availableHealthMetrics] = []
+    var relevantForCyMeSelfReport : [availableHealthMetrics] = []
     
-    var settingsDatabaseService = SettingsDatabaseService()
+    var settingsViewModel : SettingsViewModel
     
     let dBtoAvailableHealthMetrics : [String : availableHealthMetrics] =
                                     ["menstruationDate" : .menstrualBleeding,
@@ -30,31 +30,28 @@ class RelevantData {
                                     "mood" : .mood,
                                     "exerciseTime" : .exerciseTime,
                                     "menstruationStart" : .menstrualStart]
+
+    init(settingsViewModel: SettingsViewModel) {
+        self.settingsViewModel = settingsViewModel
+    }
     
-    
-    
-    func getRelevantDataLists() async {
-    
+    func getRelevantDataLists(){
         relevantForDisplay  = []
-        relevantForAppleHealthFetch  = []
-        relevantForCyMeFetch  = []
+        relevantForAppleHealth  = []
+        relevantForCyMeSelfReport = []
         
-        DispatchQueue.main.async {
-            let healthDataSettings = self.settingsDatabaseService.getSettings()?.healthDataSettings
-            
-            for setting in healthDataSettings! {
-                if(setting.enableDataSync){
-                    self.relevantForAppleHealthFetch.append(self.dBtoAvailableHealthMetrics[setting.name]!)
-                }
-                if(setting.enableSelfReportingCyMe){
-                    self.relevantForCyMeFetch.append(self.dBtoAvailableHealthMetrics[setting.name]!)
-                }
-                if(setting.enableSelfReportingCyMe) || (setting.enableDataSync){
-                    self.relevantForDisplay.append(self.dBtoAvailableHealthMetrics[setting.name]!)
-                }
+        var healthDataSettings = settingsViewModel.settings.healthDataSettings
+        
+        for setting in healthDataSettings {
+            if(setting.enableDataSync){
+                self.relevantForAppleHealth.append(self.dBtoAvailableHealthMetrics[setting.name]!)
+            }
+            if(setting.enableSelfReportingCyMe){
+                self.relevantForCyMeSelfReport.append(self.dBtoAvailableHealthMetrics[setting.name]!)
+            }
+            if(setting.enableSelfReportingCyMe) || (setting.enableDataSync){
+                self.relevantForDisplay.append(self.dBtoAvailableHealthMetrics[setting.name]!)
             }
         }
     }
-    
-    
 }

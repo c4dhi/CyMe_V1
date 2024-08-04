@@ -24,7 +24,8 @@ struct SymptomStatisticsView: View {
             Text("\(symptom.max)")
             Text("\(symptom.average)")
             HStack {
-                Text("Correlation: \(String(format: "%.2f", symptom.covariance))")
+                let symptomCovariance = symptom.covariance == nil ? "" : String(format: "%.2f", symptom.covariance!)
+                Text("Correlation: \(symptomCovariance)")
                 Button(action: {
                     showingPopover.toggle()
                 }) {
@@ -35,7 +36,7 @@ struct SymptomStatisticsView: View {
                     VStack {
                         Text("Correlation Explanation")
                             .font(.headline)
-                        Text("The correlation value indicates how strongly the symptoms are related to each other. A value closer to 1 means a strong positive correlation, while a value closer to -1 means a strong negative correlation. A value around 0 indicates no correlation.")
+                        Text("Correlation is a measure that expresses the extent to which your two displayed cycles change together. The closer to +1 your correlation value is, the more similar your health-metric-curves have been over the two displayed cycles.")
                             .padding()
                     }
                     .padding()

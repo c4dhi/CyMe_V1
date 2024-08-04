@@ -14,7 +14,7 @@ class MenstruationRanges : ObservableObject {
     var lastFullCycleDateRange : [Date] = []
     var secondToLastFullCycleDateRange : [Date] = []
     
-    var periodDataListFull : [PeriodSampleModel] = []
+    var periodStartDataList : [PeriodSampleModel] = [] // Has only period start dates
     
     let healthKitService =  HealthKitService()
     let reportingDatabaseService :  ReportingDatabaseService = ReportingDatabaseService()
@@ -28,40 +28,45 @@ class MenstruationRanges : ObservableObject {
     
     let periodLabelToValue = ["Mild" : 2, "Moderate" : 3, "Severe" : 4, "No" : 5 ]
     
+    
+    
+    func getCyMePeriodReports(startDate : Date) async -> [ReviewReportModel]  {
+        return await withCheckedContinuation { continuation in
+            DispatchQueue.main.async {
+                let reports = self.reportingDatabaseService.getReports(from: startDate, to: Date())
+                continuation.resume(returning: reports)
+            }
+        }
+    }
+        
     func updateData() async {
-        periodDataListFull  = []
+        
+        var periodDataListFull :[PeriodSampleModel]  = []
         
         let aYearAgo = Calendar.current.date(byAdding: .year, value: -1, to: Date())! // This is a choice
         
         do { periodDataListFull = try await healthKitService.fetchPeriodData(startDate: aYearAgo, endDate: Date()) }
         catch { print("Error: \(error)") }
         
-        let startDate = Calendar.current.date(byAdding: .year, value: -1, to: Date())! //At first we go a year back, just an arbitrary choice
-        DispatchQueue.main.async {
-            let reports = self.reportingDatabaseService.getReports(from: startDate, to: Date())
+        periodStartDataList = periodDataListFull.filterByPeriodStart(isStart: true)
         
-            for report in reports {
-                let startDate : Date = report.startTime
+        let reports = await getCyMePeriodReports(startDate: aYearAgo)
+        
+        for report in reports {
+            let startDate : Date = report.startTime
+            
+            if let menstruationDate = report.menstruationDate{
                 
+                let menstruationStart = report.menstruationStart
                 
-                if let menstruationDate = report.menstruationDate{
+                if menstruationStart == "true" {
+                    self.periodStartDataList.append(PeriodSampleModel(startdate: startDate, value: self.periodLabelToValue[menstruationDate]!, startofPeriod: 1))
                     
-                    let menstruationStart = report.menstruationStart
-                    
-                    var startOfPeriod : Int
-                    
-                    if menstruationStart == "true" {
-                        startOfPeriod = 1
-                    }
-                    else {
-                        startOfPeriod = 0
-                    }
-                    
-                    self.periodDataListFull.append(PeriodSampleModel(startdate: startDate, value: self.periodLabelToValue[menstruationDate]!, startofPeriod: startOfPeriod))
                 }
             }
         }
     }
+
     
     func cleanDuplicates(dates: [Date]) -> [Date] {
         var uniqueDays = Set<DateComponents>()
@@ -80,8 +85,8 @@ class MenstruationRanges : ObservableObject {
     func extractDateRange(startDate: Date , endDate: Date) -> [Date]{
         var dateRangeToReturn : [Date] = []
        
-        var iterator = startDate
-        while iterator <= getAppropriateEndDate(lastEntry: endDate) {
+        var iterator = getAppropriateStartDate(firstEntry: startDate)
+        while iterator < endDate {
             dateRangeToReturn.append(iterator)
             guard let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: iterator) else {
                 break
@@ -98,8 +103,7 @@ class MenstruationRanges : ObservableObject {
         
         await updateData()
         
-        let periodStartObjects = periodDataListFull.filterByPeriodStart(isStart: true)
-        let periodStartDates = periodStartObjects.map { $0.startdate }
+        let periodStartDates = periodStartDataList.map { $0.startdate }
         let periodStarts = cleanDuplicates(dates: periodStartDates)
       
         if periodStarts.count == 0 {
@@ -129,10 +133,9 @@ class MenstruationRanges : ObservableObject {
             
             secondToLastFullCycleDateRange = extractDateRange(startDate: secondToLastFullCycleStartDate , endDate: secondToLastFullCycleEndDate)
         }
-        
     
         DispatchQueue.main.async {
-            self.cycleDay = self.currentDateRange.count
+            self.cycleDay = self.currentDateRange.count 
         }
     }
     

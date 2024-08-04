@@ -10,15 +10,19 @@ import SwiftUI
 struct MultiGraphLegend: View {
     @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     let customColor = Color(red: 211 / 255.0, green: 231 / 255.0, blue: 255 / 255.0)
-
+    var availableCycles : Int
     
     var body: some View {
+        
+        let label1 = availableCycles > 2 ? "Last cycle" : "Current cycle"
+        let label2 = availableCycles > 2 ? "Second to last cycle" : "Last cycle"
+        
         HStack {
             HStack {
                 Circle()
                     .fill(customColor)
                     .frame(width: 10, height: 10)
-                Text("Last cycle")
+                Text(label1)
                     .font(.subheadline)
                     .foregroundColor(.black)
             }
@@ -28,7 +32,7 @@ struct MultiGraphLegend: View {
                 Circle()
                     .fill(.blue)
                     .frame(width: 10, height: 10)
-                Text("Current cycle")
+                Text(label2)
                     .font(.subheadline)
                     .foregroundColor(.black)
             }
@@ -38,5 +42,5 @@ struct MultiGraphLegend: View {
 }
 
 #Preview {
-    MultiGraphLegend()
+    MultiGraphLegend(availableCycles: 2)
 }

@@ -7,6 +7,7 @@ struct ContentView: View {
     @State private var isSettingsPresented = false
     @State private var isSelfReportPresented = false
     @State var discoverViewModel = DiscoverViewModel()
+                
     @StateObject var themeManager = ThemeManager()
         
     var body: some View {
@@ -17,12 +18,12 @@ struct ContentView: View {
                         Image(systemName: "house")
                         Text("Home")
                     }
-                DiscoverView(viewModel: discoverViewModel)
+                DiscoverView(viewModel: discoverViewModel, settingsViewModel : settingsViewModel)
                     .tabItem {
                         Image(systemName: "magnifyingglass")
                         Text("Discover")
                     }
-                VisualisationView(viewModel: discoverViewModel)
+                VisualisationView(viewModel: discoverViewModel, settingsViewModel : settingsViewModel)
                     .tabItem {
                         Image(systemName: "chart.bar")
                         Text("Visualisation")

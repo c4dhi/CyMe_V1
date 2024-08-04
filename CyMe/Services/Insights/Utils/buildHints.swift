@@ -9,12 +9,10 @@ import Foundation
 
 
 /// Symptoms
-
-func buildSymptomHints(cycleOverview : [Int?], symptomList : [DataProtocoll], dateRange: [Date], title: String, removeMaxMinHint: Bool = false) -> [String]{
+func buildHints(cycleOverview : [Int?], symptomList : [DataProtocoll], dateRange: [Date], title: String, removeMaxMinHint: Bool = false) -> [String]{
     
     // Count Hint
     let count = buildSymptomCountHint(symptomList: symptomList)
-    //let countHint = "You have reported \(title) on \(count) days of your chosen menstrual cycle."
     let countHint = "Report-Count: \(count)"
     
     if count == 0 { // If there are no symptoms reported we don't want many empty hints
@@ -29,12 +27,9 @@ func buildSymptomHints(cycleOverview : [Int?], symptomList : [DataProtocoll], da
     
     if quarter.1 == -1 { quarterAnalysisHint = ""}
     else {
-        //quarterAnalysisHint = "You reported \(title) most often in your \(quarter.0) quarter of your chosen menstrual cycle with  \(quarter.1) reports in total."
         quarterAnalysisHint = "Most frequently reported in: \n\(quarter.0) quarter with \(quarter.1) reports "
     }
     
-
-    // Appetite Change does not get Max, Min hints, since there is no range - either it happens or it doesn't
     if removeMaxMinHint{
         return [countHint, quarterAnalysisHint]
     }
@@ -134,7 +129,6 @@ func buildMinMaxHints(cycleOverview : [Int?], title: String) -> [String] { // re
     }
     
     let severityLabels = [1: "mild", 2: "moderate", 3: "severe"]
-    //maxText = "The maximal severity of \(title) you reported is \(severityLabels[maxValue]!) which you reported on cycle days \(oxfordComma(list:daysWithMaxValue)). "
     maxText = "Maximal severity: \(severityLabels[maxValue]!) \nReported on days:  \(oxfordComma(list:daysWithMaxValue)) "
 
     
@@ -153,16 +147,78 @@ func buildMinMaxHints(cycleOverview : [Int?], title: String) -> [String] { // re
             daysWithMinValue.append(index + 1)
         }
     }
-    //minText = "The minimal severity of \(title) you reported is \(severityLabels[minValue]!) which you reported on cycle days \(oxfordComma(list:daysWithMinValue)). "
     minText = "Minimal severity: \(severityLabels[minValue]!) \nReported on days: \(oxfordComma(list:daysWithMinValue)) "
     
     return [maxText, minText]
 }
 
 
-
-
 /// Collected Quantities
+func buildHints(cycleOverview : [Int?], title: String, type: availableHealthMetrics) -> [String] {
+    
+    var anyNonNilValues = false
+    for entry in cycleOverview {
+        if entry != nil{
+            anyNonNilValues = true
+        }
+    }
+    if !anyNonNilValues { return ["You don't have any \(title) data reported."]}
+    
+    
+    // Quarter Frequency Analysis
+    let quarter = buildCollectedQuantityQuarterAnalysis(cycleOverview: cycleOverview)
+
+    var quarterAnalysisHint = "Highest amount of \(title): \(quarter.0) quarter"
+
+    
+    // Max, Min over this cycle hints
+    let maxValue = cycleOverview.compactMap({ $0 }).max()
+    var daysWithMaxValue : [Int] = []
+    for index in 0..<cycleOverview.count{
+        if cycleOverview[index] == maxValue{
+            daysWithMaxValue.append(index + 1)
+        }
+    }
+    
+    let endingDict : [availableHealthMetrics : String] = [.stepCount : "", .sleepLength : "h", .exerciseTime : "min"]
+    let ending = endingDict[type]!
+    
+    let maxText = "Maximum: \(maxValue ?? -1)\(ending) \nReported on day: \(oxfordComma(list:daysWithMaxValue))"
+    
+    
+    
+    
+    var uniqueValues = Array(Set(cycleOverview))
+    uniqueValues.removeAll { $0 == 0 }
+    
+    let minValue = uniqueValues.compactMap({ $0 }).min()
+    var daysWithMinValue : [Int] = []
+    for index in 0..<cycleOverview.count{
+        if cycleOverview[index] == minValue{
+            daysWithMinValue.append(index + 1)
+        }
+    }
+    
+    let minText = "Minimum: \(minValue ?? -1)\(ending) \nReported on day: \(oxfordComma(list:daysWithMinValue))"
+    
+    
+    var sum = Float(0)
+    var valuesCount = Float(0)
+    
+    for entry in cycleOverview{
+        if entry != nil{
+            sum += Float(entry ?? 0)
+            valuesCount += 1
+        }
+    }
+    
+    let average = sum/valuesCount
+    let averageText = "Average: \(String(format: "%.2f", average))\(ending)"
+
+    return [quarterAnalysisHint, maxText, minText, averageText]
+    
+}
+
 
 func buildCollectedQuantityQuarterAnalysis (cycleOverview: [Int?]) -> (String, Int){
     let cycleLength = cycleOverview.count
@@ -206,116 +262,5 @@ func buildCollectedQuantityQuarterAnalysis (cycleOverview: [Int?]) -> (String, I
     
 }
 
-func buildCollectedQuantityHint(cycleOverview : [Int?], title: String, type: availableHealthMetrics) -> [String] {
-    
-    var anyNonNilValues = false
-    for entry in cycleOverview {
-        if entry != nil{
-            anyNonNilValues = true
-        }
-    }
-    if !anyNonNilValues { return ["You don't have any \(title) data reported."]}
-    
-    
-    // Quarter Frequency Analysis
-    let quarter = buildCollectedQuantityQuarterAnalysis(cycleOverview: cycleOverview)
-
-    var quarterAnalysisHint = ""
-    if type == .sleepLength {
-        //quarterAnalysisHint = "You report the highest amount of \(title) in your \(quarter.0) quarter of this menstrual cycle with a total of \(SleepDataModel.formatDuration(duration : Double(quarter.1)))."
-        quarterAnalysisHint = "Highest amount of \(title): \(quarter.0) quarter"
-    }
-    if type == .stepCount {
-        //quarterAnalysisHint = "You report the highest amount of \(title) in your \(quarter.0) quarter of this menstrual cycle with a total of \(quarter.1)."
-        quarterAnalysisHint = "Highest amount of \(title): \(quarter.0) quarter"
-    }
-    if type == .exerciseTime {
-        //quarterAnalysisHint = "You report the highest amount of \(title) in your \(quarter.0) quarter of this menstrual cycle with a total of \(quarter.1) minutes."
-        quarterAnalysisHint = "Highest amount of \(title):  \(quarter.0) quarter"
-    }
-    
-    
-    
-    // Max, Min over this cycle hints
-    let maxValue = cycleOverview.compactMap({ $0 }).max()
-    var daysWithMaxValue : [Int] = []
-    for index in 0..<cycleOverview.count{
-        if cycleOverview[index] == maxValue{
-            daysWithMaxValue.append(index + 1)
-        }
-    }
-    
-    var maxText = ""
-    if type == .sleepLength {
-        //maxText = "The maximal amount of \(title) you reported is \(SleepDataModel.formatDuration(duration: Double(maxValue  ?? -1))) which you reported on cycle day \(oxfordComma(list:daysWithMaxValue)). "
-        maxText = "Maximum: \(SleepDataModel.formatDuration(duration: Double(maxValue  ?? -1))) \nReported on day: \(oxfordComma(list:daysWithMaxValue))"
-    }
-    if type == .stepCount {
-        //maxText = "The maximal amount of \(title) you reported is \(maxValue ?? -1) which you reported on cycle day \(oxfordComma(list:daysWithMaxValue)). "
-        maxText = "Maximum:  \(maxValue ?? -1) \nReported on day: \(oxfordComma(list:daysWithMaxValue)) "
-    }
-    if type == .exerciseTime {
-        //maxText = "The maximal amount of \(title) you reported is \(maxValue ?? -1) minutes which you reported on cycle day \(oxfordComma(list:daysWithMaxValue)). "
-        maxText = "Maxiumum: \(maxValue ?? -1) minutes \nReported on day: \(oxfordComma(list:daysWithMaxValue)) "
-    }
-    
-    
-    
-    var uniqueValues = Array(Set(cycleOverview))
-    uniqueValues.removeAll { $0 == 0 }
-    
-    let minValue = uniqueValues.compactMap({ $0 }).min()
-    var daysWithMinValue : [Int] = []
-    for index in 0..<cycleOverview.count{
-        if cycleOverview[index] == minValue{
-            daysWithMinValue.append(index + 1)
-        }
-    }
-    var minText = ""
-    if type == .sleepLength {
-        //minText = "The minimal amount of \(title) you reported is \(SleepDataModel.formatDuration(duration: Double(minValue ?? -1))) which you reported on cycle day \(oxfordComma(list:daysWithMinValue)). "
-        minText = "Minimum: \(SleepDataModel.formatDuration(duration: Double(minValue ?? -1))) \nReported on day: \(oxfordComma(list:daysWithMinValue)) "
-    }
-    if type == .stepCount {
-        //minText = "The minimal amount of \(title) you reported is \(minValue ?? -1) which you reported on cycle day \(oxfordComma(list:daysWithMinValue)). "
-        minText = "Minimum: \(minValue ?? -1) \nReported on day: \(oxfordComma(list:daysWithMinValue)) "
-        
-    }
-    if type == .exerciseTime {
-        //minText = "The minimal amount of \(title) you reported is \(minValue ?? -1) minutes which you reported on cycle day \(oxfordComma(list:daysWithMinValue)). "
-        minText = "Minimum: \(minValue ?? -1) minutes \nReported on day: \(oxfordComma(list:daysWithMinValue)) "
-    }
-    
-    
-    var sum = Float(0)
-    var valuesCount = Float(0)
-    
-    for entry in cycleOverview{
-        if entry != nil{
-            sum += Float(entry ?? 0)
-            valuesCount += 1
-        }
-    }
-    
-    let average = sum/valuesCount
-    var averageText = ""
-    
-    if type == .sleepLength {
-        //averageText = "In this cycle you report on average \(SleepDataModel.formatDuration(duration: Double(average))) of sleep per day. "
-        averageText = "Average: \(SleepDataModel.formatDuration(duration: Double(average)))"
-    }
-    if type == .stepCount {
-        //averageText = "In this cycle you report on average \(String(format: "%.2f", average)) steps per day. "
-        averageText = "Average: \(String(format: "%.2f", average)) steps "
-    }
-    if type == .exerciseTime {
-        //averageText = "In this cycle you report on average \(String(format: "%.2f", average)) minutes of exercise per day. "
-        averageText = "Average: \(String(format: "%.2f", average)) minutes"
-
-    }
-   
-    return [quarterAnalysisHint, maxText, minText, averageText]
-    
-}
 
 

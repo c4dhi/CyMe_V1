@@ -13,15 +13,15 @@ func intensityToString(intensity: Double, questionType: QuestionType) -> String 
         return "\(intensity) hours"
     case .emoticonRating:
         switch intensity {
-        case -2.0:
-            return "😭"
-        case -1.0:
-            return "😣"
         case 0.0:
-            return "🤔"
+            return "😭"
         case 1.0:
-            return "😌"
+            return "😣"
         case 2.0:
+            return "🤔"
+        case 3.0:
+            return "😌"
+        case 4.0:
             return "🤩"
         default:
             return ""
@@ -71,13 +71,17 @@ func intensityToString(intensity: Double, questionType: QuestionType) -> String 
 func getAxisValues( questionType: QuestionType) -> [Int] {
     switch questionType {
     case .emoticonRating:
-        return [ -3, -2, -1, 0, 1, 2] // todo can not switch axis emoticon :(
+        return [0, 1, 2, 3, 4, 5] // todo can not switch axis emoticon :(
     case .menstruationEmoticonRating:
         return [0, 1, 2, 3, 4]
     case .changeEmoticonRating:
         return [0, 1, 2, 3]
     case .amountOfhour:
         return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    case .amountOfMin:
+        return [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
+    case .amountOfSteps:
+        return [0, 2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000]
     default:
         return [0, 1, 2, 3, 4]
     }

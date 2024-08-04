@@ -9,6 +9,7 @@ import SigmaSwiftStatistics
 
 struct DiscoverView: View {
     @ObservedObject var viewModel: DiscoverViewModel
+    @ObservedObject var settingsViewModel: SettingsViewModel
     @State private var selectedSymptom: SymptomModel?
     @State private var theme: ThemeModel = UserDefaults.standard.themeModel(forKey: "theme") ?? ThemeModel(name: "Default", backgroundColor: .white, primaryColor: lightBlue, accentColor: .blue)
     @State private var selectedCycleOption = 1 // 1 for "This Cycle", 0 for "Last Cycle"
@@ -75,7 +76,7 @@ struct DiscoverView: View {
                                 .padding()
                                 .background(theme.backgroundColor.toColor())
                                 .cornerRadius(10)
-                            MultiGraphLegend()
+                            MultiGraphLegend(availableCycles: viewModel.availableCycles)
                             Text("CyMe insights across cycles")
                                 .font(.headline)
                                 .padding(.bottom, 8)
@@ -101,8 +102,7 @@ struct DiscoverView: View {
         .onAppear {
             Logger.shared.log("Discover view is shown")
             Task{
-                viewModel.selfReports.removeAll()
-                await viewModel.updateSymptoms()
+                await viewModel.updateSymptoms(settingsViewModel: settingsViewModel)
                 selectedSymptom = viewModel.symptoms.first
             }
             selectedCycleOption = 1
@@ -110,15 +110,18 @@ struct DiscoverView: View {
         .onChange(of: selectedCycleOption){ newValue in
             let rememberSelectedSymptom = selectedSymptom?.title
             Task{
-                viewModel.selfReports.removeAll()
-                await viewModel.updateSymptoms(currentCycle: (selectedCycleOption == 1))
-                
+                await viewModel.updateChoice(currentCycle: (selectedCycleOption == 1))
+                if (viewModel.symptoms.count == 0){ // If there are no symptoms in the new but the old cycle
+                    selectedSymptom = nil
+                }
                 for symptom in viewModel.symptoms{
                     if symptom.title == rememberSelectedSymptom{
                         selectedSymptom = symptom
                         break
                     }
                 }
+                
+                
             }
         }
     }
@@ -148,7 +151,7 @@ struct DiscoverView_Previews: PreviewProvider {
         let mockViewModel = DiscoverViewModel()
         mockViewModel.symptoms = generateMockSymptoms()
         
-        return DiscoverView(viewModel: mockViewModel)
+        return DiscoverView(viewModel: mockViewModel, settingsViewModel: SettingsViewModel(connector: WatchConnector()))
     }
     
     static func generateMockSymptoms() -> [SymptomModel] {

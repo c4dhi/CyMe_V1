@@ -161,7 +161,7 @@ class SettingsDatabaseService {
                 enableSelfReportingCyMe: false,
                 dataLocation: .onlyAppleHealth,
                 question: nil,
-                questionType: .amountOfhour
+                questionType: .amountOfMin
             )
         ]
         return defaultValues

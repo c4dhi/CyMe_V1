@@ -12,14 +12,10 @@ class HealthKitService {
     
     
     // General Objects
-    private let healthStore = HKHealthStore()
+    let healthStore = HKHealthStore()
     
     // Create a sort descriptor for a chronological sort
     let sortDescriptorChronological = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
-    
-    
-    let relevantDataObject = RelevantData()
-    
     
     
     private let typesToRead: Set<HKSampleType> = [
@@ -69,21 +65,20 @@ class HealthKitService {
             }
         }
     }
-    
-    func updateSyncList() async{
-        await relevantDataObject.getRelevantDataLists()
-    }
    
-    func writeSamplesToAppleHealth(selfReports: [SymptomSelfReportModel]){
+    func writeSamplesToAppleHealth(selfReports: [SymptomSelfReportModel], startTime : Date, settingsViewModel : SettingsViewModel){
+        let relevantDataObject = RelevantData(settingsViewModel: settingsViewModel)
+        relevantDataObject.getRelevantDataLists()
+        
         Task{
-            let syncList = relevantDataObject.relevantForAppleHealthFetch
+            let syncList = relevantDataObject.relevantForAppleHealth
             let symptomCyMeLabelToAppleLabel = ["No": 1, "Mild": 2, "Moderate": 3 , "Severe": 4]
             let appetiteChangeCyMeToAppleLabel = ["No": 1, "Less": 2, "More": 3]
             let menstruationCyMeToAppleLabel = ["No": 5, "Mild": 2, "Moderate": 3 , "Severe": 4]
             
             
             for selfReport in selfReports {
-                
+            
                 if selfReport.healthDataName == "menstruationDate"{
                     if selfReport.reportedValue != nil{
                         if syncList.contains(.menstrualBleeding){
@@ -109,8 +104,8 @@ class HealthKitService {
                             let menstrualFlowSample = HKCategorySample(
                                 type: dataType,
                                 value: value,
-                                start: Date(),
-                                end: Date(),
+                                start: startTime,
+                                end: startTime,
                                 metadata: metadata
                             )
                             
@@ -129,7 +124,7 @@ class HealthKitService {
                         if syncList.contains(.headache){
                             let dataNameIdentifier : HKCategoryTypeIdentifier = .headache
                             let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
-                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value, startTime: startTime)
                         }
                     }
                 }
@@ -139,7 +134,7 @@ class HealthKitService {
                         if syncList.contains(.abdominalCramps){
                             let dataNameIdentifier : HKCategoryTypeIdentifier = .abdominalCramps
                             let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
-                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value, startTime: startTime)
                         }
                     }
                 }
@@ -149,7 +144,7 @@ class HealthKitService {
                         if syncList.contains(.lowerBackPain){
                             let dataNameIdentifier : HKCategoryTypeIdentifier = .lowerBackPain
                             let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
-                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value, startTime: startTime)
                         }
                     }
                 }
@@ -159,7 +154,7 @@ class HealthKitService {
                         if syncList.contains(.pelvicPain){
                             let dataNameIdentifier : HKCategoryTypeIdentifier = .pelvicPain
                             let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
-                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value, startTime: startTime)
                         }
                     }
                 }
@@ -169,7 +164,7 @@ class HealthKitService {
                         if syncList.contains(.acne){
                             let dataNameIdentifier : HKCategoryTypeIdentifier = .acne
                             let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
-                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value, startTime: startTime)
                         }
                     }
                 }
@@ -179,7 +174,7 @@ class HealthKitService {
                         if syncList.contains(.appetiteChange){
                             let dataNameIdentifier : HKCategoryTypeIdentifier = .appetiteChanges
                             let value =  appetiteChangeCyMeToAppleLabel[selfReport.reportedValue!]!
-                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value, startTime: startTime)
                         }
                     }
                 }
@@ -189,7 +184,7 @@ class HealthKitService {
                         if syncList.contains(.chestTightnessOrPain){
                             let dataNameIdentifier : HKCategoryTypeIdentifier = .chestTightnessOrPain
                             let value =  symptomCyMeLabelToAppleLabel[selfReport.reportedValue!]!
-                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value)
+                            writeSelfreportedSample(dataName: dataNameIdentifier, value: value, startTime: startTime)
                         }
                     }
                 }
@@ -199,12 +194,12 @@ class HealthKitService {
     
     
     
-    func writeSelfreportedSample(dataName: HKCategoryTypeIdentifier, value : Int){
+    func writeSelfreportedSample(dataName: HKCategoryTypeIdentifier, value : Int, startTime : Date){
         guard let dataType = HKObjectType.categoryType(forIdentifier: dataName) else {
             print("Data type of name (\(dataName) not available")
             return
         }
-        let selfreportedSample = HKCategorySample(type: dataType, value: value, start: Date(), end: Date())
+        let selfreportedSample = HKCategorySample(type: dataType, value: value, start: startTime, end: startTime)
         
         
         healthStore.save(selfreportedSample) { (success, error) in
@@ -294,6 +289,8 @@ class HealthKitService {
              print("Sleep Analysis type not available")
              return []
          }
+        let startDate = Calendar.current.date(byAdding: .hour, value: -12, to: startDate)!
+        let endDate = Calendar.current.date(byAdding: .hour, value: 12, to: endDate)!
             
         return try await withCheckedThrowingContinuation { continuation in
             let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: [.strictStartDate, .strictEndDate])
@@ -314,45 +311,50 @@ class HealthKitService {
         }
     
     func simplifySleepDataToSleepLength(sleepDataModel: [SleepDataModel]) -> [Date: Int] {
-        var sleepLengthDict : [Date : Double] = [:]
-        let datesDuration = sleepDataModel.map {($0.startDate, $0.duration, $0.label)}
-        if datesDuration.count == 0 {
+        var asleepLengthDict : [Date : Double] = [:]
+        var inBedLengthDict : [Date : Double] = [:]
+        
+        let datesDurationLabel = sleepDataModel.map {($0.startDate, $0.duration, $0.label)}
+        if datesDurationLabel.count == 0 {
             return [:]
         }
-        let firstDate = datesDuration[0].0
-        let previousDateComponent = Calendar.current.dateComponents([.day, .month, .year], from: firstDate)
-        var cutOff = Calendar.current.date(from: DateComponents(year: previousDateComponent.year, month: previousDateComponent.month, day: previousDateComponent.day, hour: 12, minute: 00, second: 00))! // Cut of when one sleep cycle can be is at noon
-        sleepLengthDict[cutOff] = 0
+        
+        let firstDate = datesDurationLabel[0].0
+        let firstDateComponent = Calendar.current.dateComponents([.day, .month, .year], from: firstDate)
+        
+        var consideredStart = Calendar.current.date(from: DateComponents(year: firstDateComponent.year, month: firstDateComponent.month, day: firstDateComponent.day, hour: 12, minute: 00, second: 00))! // Cut of when one sleep cycle can be is at noon, we start the computation of day n at day n-1 at noon, goes until n at noon
+        var consideredCutOff = Calendar.current.date(byAdding: .hour, value: 24, to: consideredStart)!
+        
+        
+        asleepLengthDict[consideredStart] = 0 // We always have dicts with the startdate as the key, so 12.1 at noon belongs to 13.1 from midnight
+        inBedLengthDict[consideredStart] = 0
 
-        for tuples in datesDuration{
-            // Check detailed sleep data
-            while cutOff < tuples.0 {
-                cutOff = Calendar.current.date(byAdding: .hour, value: 24, to: cutOff)!
-                sleepLengthDict[cutOff] = 0
+        for tuples in datesDurationLabel{
+            while consideredCutOff < tuples.0 {
+                consideredStart = Calendar.current.date(byAdding: .hour, value: 24, to: consideredStart)!
+                consideredCutOff = Calendar.current.date(byAdding: .hour, value: 24, to: consideredCutOff)!
+                asleepLengthDict[consideredStart] = 0
+                inBedLengthDict[consideredStart] = 0
             }
-            if tuples.2.contains("asleep"){
-                sleepLengthDict[cutOff] = sleepLengthDict[cutOff]! + tuples.1
+            if tuples.2.contains("asleep"){ // If we have the proper labels choose them
+                asleepLengthDict[consideredStart] = asleepLengthDict[consideredStart]! + tuples.1
+            }
+            else{ // otherwise use the in bed option
+                inBedLengthDict[consideredStart] = inBedLengthDict[consideredStart]! + tuples.1
             }
         }
         
-        cutOff = Calendar.current.date(from: DateComponents(year: previousDateComponent.year, month: previousDateComponent.month, day: previousDateComponent.day, hour: 12, minute: 00, second: 00))!
-        // Only "in bed" available
-        var considerThisDay = (sleepLengthDict[cutOff] == 0)
-        for tuples in datesDuration{
-            while cutOff < tuples.0 {
-                cutOff = Calendar.current.date(byAdding: .hour, value: 24, to: cutOff)!
-                considerThisDay = (sleepLengthDict[cutOff] == 0)
-            }
-            if considerThisDay {
-                sleepLengthDict[cutOff] = sleepLengthDict[cutOff]! + tuples.1
-            }
-        }
+        var sleepLengthDict : [Date : Int] = [:]
 
-        var sleepLengthDictInt : [Date:Int] = [:]
-        for key in sleepLengthDict.keys{
-            sleepLengthDictInt[key] = Int(sleepLengthDict[key]!)
+        for key in asleepLengthDict.keys{ // Both dictionaries have the same key
+            if asleepLengthDict[key] != 0{
+                sleepLengthDict[key] = Int(asleepLengthDict[key]!)
+            }
+            else{
+                sleepLengthDict[key] = Int(inBedLengthDict[key]!)
+            }
         }
-        return sleepLengthDictInt
+        return sleepLengthDict
     }
         
     
