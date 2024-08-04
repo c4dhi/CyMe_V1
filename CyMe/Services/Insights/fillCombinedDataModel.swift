@@ -21,10 +21,8 @@ class fillCombinedDataModel {
     var availableCycles = 0
     var selfReports : [ReviewReportModel] = []
     
-    var verbose = true
+    var verbose = false
 
-    
-    
     
     init(menstruationRanges : MenstruationRanges, relevantData : RelevantData ) async {
         
@@ -56,7 +54,7 @@ class fillCombinedDataModel {
         var combinedDataModelToReturn = CombinedDataModel()
         
         let startDate = dateRange[0]
-        var endDate = Calendar.current.date(byAdding: .hour, value: 24, to: dateRange[dateRange.count-1])! 
+        var endDate = Calendar.current.date(byAdding: .hour, value: 24, to: dateRange[dateRange.count-1])!
         
         if endDate > Date(){
             endDate = Date()

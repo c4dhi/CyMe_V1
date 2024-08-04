@@ -43,7 +43,6 @@ func buildcollectedDataGraphArray(symptomList: [Date: Int], dateRange: [Date], s
         
         dataGraphArray.append(toAppend)
         }
-    print(dataGraphArray)
     
     return dataGraphArray
 }

@@ -93,7 +93,6 @@ class MenstruationRanges : ObservableObject {
             }
             iterator = nextDate
         }
-        print(dateRangeToReturn)
         return dateRangeToReturn
     }
     
