@@ -67,12 +67,19 @@ struct VisualisationView: View {
             SymptomFilterView(symptoms: viewModel.symptoms, selectedSymptoms: $selectedSymptoms, showingFilterSheet: $showingFilterSheet)
         }
         .onChange(of: selectedCycleOption){ newValue in
-            let rememberSelectedSymptoms = selectedSymptoms
+            let rememberSelectedSymptomNames = selectedSymptoms.map{$0.title}
             Task{
                 await viewModel.updateChoice(currentCycle: (selectedCycleOption == 1))
-                selectedSymptoms = Set(rememberSelectedSymptoms)
+                selectedSymptoms = Set(viewModel.symptoms)
+                for symptom in viewModel.symptoms{
+                    if rememberSelectedSymptomNames.count==0{
+                        break // If we have not selected any symptoms we then want all
+                    }
+                    if !rememberSelectedSymptomNames.contains(symptom.title){
+                        selectedSymptoms.remove(symptom)
+                    }
+                }
             }
-            
         }
         .background(themeManager.theme.backgroundColor.toColor())
     }

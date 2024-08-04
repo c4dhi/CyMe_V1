@@ -97,12 +97,32 @@ struct OverviewTable: View {
                     .font(.system(size: 10))
                     .foregroundColor(.blue)
             )
+        case .changeEmoticonRating:
+            switch intensity {
+            case 0:
+                return AnyView(Text("No"))
+            case 1:
+                return AnyView(Text("⬇"))
+            case 2:
+                return AnyView(Text("⬆"))
+            default:
+                return AnyView(Text(""))
+        }
+            
         case .menstruationEmoticonRating:
-            return AnyView(
-                Circle()
-                    .fill(color(for: intensity, color: Color.red))
-                    .frame(width: circleSize(for: intensity), height: circleSize(for: intensity))
-            )
+            if intensity == 0{
+                return AnyView(
+                    Text("No")
+                )
+            }
+            else{
+                return AnyView(
+                    Circle()
+                        .fill(color(for: intensity, color: Color.red))
+                        .frame(width: circleSize(for: intensity), height: circleSize(for: intensity))
+                )
+            }
+                
         default:
             return AnyView(
                 Circle()

@@ -36,15 +36,24 @@ class fillCombinedDataModel {
             await fillSingleCombinedDataModel(dateRange: menstruationRanges.currentDateRange, label: .current)
             availableCycles = 1
         }
+        else{
+            combinedDataDict[.current] = CombinedDataModel()
+        }
         
         if(menstruationRanges.lastFullCycleDateRange.count > 0){
             await fillSingleCombinedDataModel(dateRange: menstruationRanges.lastFullCycleDateRange, label: .last)
             availableCycles = 2
         }
+        else{
+            combinedDataDict[.last] = CombinedDataModel()
+        }
         
         if(menstruationRanges.secondToLastFullCycleDateRange.count > 0){
             await fillSingleCombinedDataModel(dateRange: menstruationRanges.secondToLastFullCycleDateRange, label: .secondToLast)
             availableCycles = 3
+        }
+        else{
+            combinedDataDict[.secondToLast] = CombinedDataModel()
         }
         
     }
