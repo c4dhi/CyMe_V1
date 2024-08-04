@@ -87,11 +87,6 @@ struct PersonalizationThemeView: View {
                     }
                     .padding(.horizontal)
                 }
-
-                Section(header: Text("Extend user experience")) {
-                    Toggle("Enable self-reporting widget on iPhone", isOn: $settingsViewModel.settings.enableWidget)
-                        .padding(.horizontal)
-                }
             }
             .background(themeManager.theme.backgroundColor.toColor())
             .onChange(of: selectedThemeIndex) { newValue in

@@ -27,7 +27,7 @@ struct PersonalizationSelfReportView: View {
        .background(themeManager.theme.primaryColor.toColor())
         Form {
             Section(header: Text("Self-Reporting Settings")) {
-                Toggle("Enable self-reporting on Apple Watch", isOn: $settingsViewModel.settings.selfReportWithWatch)
+                Text("CyMe allows you to connect your Apple Watch and conveniently self-report directly from your wrist")
             }
             
             Section(header: Text("Reminders")) {
