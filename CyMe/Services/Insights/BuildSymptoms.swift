@@ -80,7 +80,7 @@ class BuildSymptoms{
             
             
             var statistics : [String]
-            if availableCycles <= 2 {
+            if availableCycles < 2 {
                 statistics = ["You don't have two cycles started to compare :(", "", ""]
             }
             else {
