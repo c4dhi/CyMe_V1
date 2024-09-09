@@ -1,8 +1,10 @@
 //
-//  DiscoveryService.swift
+//  HealthKitService.swift
 //  CyMe
 //
 //  Created by Marinja Principe on 17.04.24.
+
+// Handles connection to apple health (fetch and write requests)
 
 import HealthKit
 import Foundation

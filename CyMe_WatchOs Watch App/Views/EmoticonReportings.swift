@@ -1,11 +1,4 @@
-//
-//  emotionalRatings.swift
-//  CyMe_WatchOs Watch App
-//
-//  Created by Marinja Principe on 17.06.24.
-//
 
-//
 //  emoticonReportings.swift
 //  CyMe
 //

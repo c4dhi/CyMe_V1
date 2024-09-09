@@ -24,7 +24,9 @@ The CyMe app is developed with the following minimal OS Versions in mind:
 With the project installed, you can run your project either in the Simulator or on a real device utilizing Xcode. Find more information [here](https://developer.apple.com/documentation/xcode/running-your-app-in-simulator-or-on-a-device).
 
 #### Without the installation of the project:
-Until the 4th of November, it is possible to run the app directly on a real device through TestFlight. To do so, access this [link](https://testflight.apple.com/join/tbgXeJFm).
+You can **test the app without installing the code** by using the public TestFlight link. It is possible to run the app directly on on your device by accessing this [link](https://testflight.apple.com/join/tbgXeJFm).
+
+The link is active until the 4th of November. Please reach out to the development team for an active link after this date.
 
 ## License
 

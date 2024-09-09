@@ -1,3 +1,5 @@
+// Responsible for the display of the visulatization page 
+
 import SwiftUI
 
 struct VisualisationView: View {

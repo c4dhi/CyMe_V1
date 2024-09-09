@@ -1,9 +1,3 @@
-//
-//  symptomStatisticsView.swift
-//  CyMe
-//
-//  Created by Marinja Principe on 03.06.24.
-//
 
 // SymptomStatisticsView.swift
 // CyMe

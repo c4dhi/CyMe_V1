@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SettingsViewModel.swift
 //  CyMe
 //
 //  Created by Marinja Principe on 22.05.24.

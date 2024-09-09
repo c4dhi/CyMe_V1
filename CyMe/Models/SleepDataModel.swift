@@ -4,6 +4,7 @@
 //
 //  Created by Deborah on 29.05.2024.
 //
+// Holds automatically gathered sleep information from Apple health
 
 import Foundation
 import HealthKit

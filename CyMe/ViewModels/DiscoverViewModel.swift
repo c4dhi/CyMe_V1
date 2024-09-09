@@ -4,6 +4,7 @@
 //
 //  Created by Marinja Principe on 17.04.24.
 
+// Used in the discover and visualization page 
 import Foundation
 import SigmaSwiftStatistics
 import HealthKit

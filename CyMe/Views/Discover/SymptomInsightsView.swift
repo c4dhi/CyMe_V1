@@ -1,10 +1,3 @@
-//
-//  SymptomInsightsView.swift
-//  CyMe
-//
-//  Created by Marinja Principe on 03.06.24.
-//
-
 // SymptomInsightsView.swift
 // CyMe
 //

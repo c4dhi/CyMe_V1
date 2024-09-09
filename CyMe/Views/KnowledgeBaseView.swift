@@ -1,3 +1,5 @@
+// Responsible for the display of the knowledge base page
+
 import SwiftUI
 
 struct KnowledgeBaseView: View {

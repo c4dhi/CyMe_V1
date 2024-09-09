@@ -4,6 +4,7 @@
 //
 //  Created by Deborah on 04.07.2024.
 //
+// Holds all considered data of a given period time intervall
 
 import Foundation
 

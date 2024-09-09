@@ -3,6 +3,7 @@
 //
 // Created by Marinja Principe on 17.04.24.
 //
+// Responsible for the display of the discover page
 
 import SwiftUI
 import SigmaSwiftStatistics

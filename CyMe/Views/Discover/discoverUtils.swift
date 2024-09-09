@@ -71,7 +71,7 @@ func intensityToString(intensity: Double, questionType: QuestionType) -> String 
 func getAxisValues( questionType: QuestionType) -> [Int] {
     switch questionType {
     case .emoticonRating:
-        return [0, 1, 2, 3, 4, 5] // todo can not switch axis emoticon :(
+        return [0, 1, 2, 3, 4, 5] 
     case .menstruationEmoticonRating:
         return [0, 1, 2, 3, 4]
     case .changeEmoticonRating:

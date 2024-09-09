@@ -1,9 +1,11 @@
 //
-//  ViewController.swift
+//  WatchConnector.swift
 //  CyMe
 //
 //  Created by Marinja Principe on 06.05.24.
 //
+// Responsible for the connection to the watch companion app
+
 import Foundation
 import WatchConnectivity
 
