@@ -95,7 +95,7 @@ struct ContentView: View {
                     HStack {
                         Spacer()
                         Button(action: {
-                            // TODO add action which shows random facts about menstrual health
+                            // here one could add an action which shows random facts about menstrual health
                             connector.sendSettings(settings: settingsViewModel.settings)
                         }) {
                             Image("shortIcon")

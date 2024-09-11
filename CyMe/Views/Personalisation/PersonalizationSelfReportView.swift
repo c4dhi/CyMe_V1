@@ -1,10 +1,3 @@
-//
-//  PersonalizationSelfReportView.swift
-//  CyMe
-//
-//  Created by Marinja Principe on 13.05.24.
-//
-//
 //  PersonalizationSelfReportView.swift
 //  CyMe
 //
@@ -129,7 +122,7 @@ struct TimePickerWithRemoveButton: View {
         HStack {
             TimePicker(title: title, time: $time)
             if index > 0 {
-                // TODO add here the remove button
+                // If the need arises, here one could add a remove button
             } else {
                 Spacer()
             }

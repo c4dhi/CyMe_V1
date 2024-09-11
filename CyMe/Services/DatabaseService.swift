@@ -1,5 +1,5 @@
 //
-//  DbService.swift
+//  DatabaseService.swift
 //  CyMe
 //
 //  Created by Marinja Principe on 22.04.24.

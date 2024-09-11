@@ -4,6 +4,7 @@
 //
 //  Created by Deborah on 17.06.2024.
 //
+// Holds appetite change from apple health
 
 import Foundation
 import HealthKit

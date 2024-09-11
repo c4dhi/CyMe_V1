@@ -4,7 +4,7 @@
 //
 //  Created by Marinja Principe on 17.04.24.
 //
-
+// Responsible for the display of the home page 
 import SwiftUI
 
 struct HomeView: View {

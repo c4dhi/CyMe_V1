@@ -4,13 +4,7 @@
 //
 //  Created by Marinja Principe on 17.04.24.
 //
-
-//
-//  CyMeApp.swift
-//  CyMe
-//
-//  Created by Marinja Principe on 17.04.24.
-//
+// App Start - Entry point
 
 import SwiftUI
 

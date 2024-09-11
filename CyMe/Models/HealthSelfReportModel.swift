@@ -4,6 +4,7 @@
 //
 //  Created by Deborah on 27.05.2024.
 //
+// Datatypes gathered from Apple Health that are based on a selfreport
 
 import Foundation
 import HealthKit

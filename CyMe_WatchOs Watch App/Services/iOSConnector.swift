@@ -1,9 +1,10 @@
 //
-//  InterfaceController.swift
+//  iOSConnector.swift
 //  CyMe_WatchOs Watch App
 //
 //  Created by Marinja Principe on 06.05.24.
 //
+// Responsible for the connection to the iOS app
 
 import WatchConnectivity
 import SwiftUI

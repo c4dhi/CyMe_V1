@@ -31,7 +31,7 @@ extension SymptomModel {
             let data = PointChartData(title: title, day: index + 1, intensity: intensity ?? 0, questionType: self.questionType)
             pointChartData.append(data)
         }
-        return pointChartData // TODO
+        return pointChartData
     }
     func toLineChartData() -> [LineChartData] {
         var lineChartData: [LineChartData] = []
@@ -39,7 +39,7 @@ extension SymptomModel {
                 let data = LineChartData(title: title, day: index + 1, hours: hour ?? 0, questionType: self.questionType)
                 lineChartData.append(data)
         }
-        return lineChartData // TODO
+        return lineChartData
     }
 }
 
