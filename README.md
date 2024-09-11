@@ -26,7 +26,19 @@ With the project installed, you can run your project either in the Simulator or 
 #### Without the installation of the project:
 You can **test the app without installing the code** by using the public TestFlight link. It is possible to run the app directly on on your device by accessing this [link](https://testflight.apple.com/join/tbgXeJFm).
 
-The link is active until the 4th of November. Please reach out to the development team for an active link after this date.
+The link is active until the 10th of December. Please reach out to the development team for an active link after this date.
+
+Make sure to have the TestFlight App installed on your iOS Device and then open the link above.
+
+### Simulated Period Starts
+To see the full functionality of the app, it is necessary that CyMe has acess to 2-3 period start dates. You can mock some period start dates by following these steps:
+
+1. In your Apple Health app navigate to the rubric 'Menstruation' (Notice this is different form the rubric 'Cycle Tracking'). You can use the search functionality in the 'Browse' tab.
+2. Tap 'Add Data' on the top right corner.
+3. Specify (mocked) Flow intensity and startdate. Make sure 'Start of Cycle' is set to 'yes', then add the datapoint.
+4. Repeat steps 2 and 3 for a total of 2-3 datapoints. Make sure the startdates you simulate lie a few days apart.
+5. In 'CyMe settings' make sure you have 'Menstruation date' - 'Sync with Apple Health' enabled.
+
 
 ## License
 
